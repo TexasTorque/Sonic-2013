@@ -1,0 +1,3 @@
+[submodule "src/org/TexasTorque/TorqueLib"]
+	path = src/org/TexasTorque/TorqueLib
+	url = https://github.com/TexasTorque/TorqueLib.git
