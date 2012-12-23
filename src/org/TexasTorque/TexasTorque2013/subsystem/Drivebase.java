@@ -8,6 +8,9 @@ public class Drivebase
     private RobotOutput robotOutput;
     private DriverInput driverInput;
     private SensorInput sensorInput;
+    
+    private double leftDriveSpeed;
+    private double rightDriveSpeed;
             
     public Drivebase()
     {
@@ -17,6 +20,12 @@ public class Drivebase
     }
     
     public void run()
+    {
+        robotOutput.setLeftDriveMotors(leftDriveSpeed);
+        robotOutput.setRightDriveMotors(rightDriveSpeed);
+    }
+    
+    public void mixChannels(double speed, double turn)
     {
         
     }

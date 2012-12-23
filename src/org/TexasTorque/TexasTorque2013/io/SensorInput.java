@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.io;
 
+import edu.wpi.first.wpilibj.Encoder;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
 
 public class SensorInput
@@ -8,10 +9,9 @@ public class SensorInput
     
     public SensorInput()
     {
-        
     }
     
-    public static SensorInput getInstance()
+    public synchronized static SensorInput getInstance()
     {
         return (instance == null) ? instance = new SensorInput() : instance;
     }
