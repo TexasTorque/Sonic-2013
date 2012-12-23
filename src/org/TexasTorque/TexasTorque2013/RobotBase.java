@@ -24,7 +24,7 @@ public class RobotBase extends IterativeRobot
 
     public void autonomousInit()
     {
-        
+        sensorInput.resetEncoders();
     }
 
     public void autonomousPeriodic()
@@ -39,7 +39,7 @@ public class RobotBase extends IterativeRobot
 
     public void teleopInit()
     {
-        
+        sensorInput.resetEncoders();
     }
 
     public void teleopPeriodic()

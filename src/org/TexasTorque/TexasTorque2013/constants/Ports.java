@@ -24,6 +24,10 @@ public class Ports
     
     //----- Digital Inputs -----
     public static int PRESSURE_SWITCH_PORT = 1;
+    public static int LEFT_DRIVE_ENCODER_A_PORT = 2;
+    public static int LEFT_DRIVE_ENCODER_B_PORT = 3;
+    public static int RIGHT_DRIVE_ENCODER_A_PORT = 4;
+    public static int RIGHT_DRIVE_ENCODER_B_PORT = 5;
     
     //----- Analog Inputs -----
     
