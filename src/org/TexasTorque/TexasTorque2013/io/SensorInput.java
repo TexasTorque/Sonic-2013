@@ -1,5 +1,7 @@
 package org.TexasTorque.TexasTorque2013.io;
 
+import org.TexasTorque.TexasTorque2013.constants.Ports;
+
 public class SensorInput
 {
     private static SensorInput instance;
