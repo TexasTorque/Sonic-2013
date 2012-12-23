@@ -2,7 +2,7 @@ package org.TexasTorque.TexasTorque2013.io;
 
 public class RobotOutput
 {
-    public static RobotOutput instance;
+    private static RobotOutput instance;
     
     public RobotOutput()
     {

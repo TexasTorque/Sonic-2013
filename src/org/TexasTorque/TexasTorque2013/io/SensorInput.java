@@ -2,7 +2,7 @@ package org.TexasTorque.TexasTorque2013.io;
 
 public class SensorInput
 {
-    public static SensorInput instance;
+    private static SensorInput instance;
     
     public SensorInput()
     {
