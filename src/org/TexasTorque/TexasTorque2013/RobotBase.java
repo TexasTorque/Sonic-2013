@@ -32,10 +32,6 @@ public class RobotBase extends IterativeRobot
         dashboardManager.updateLCD();
     }
     
-    public void autonomousContinuous()
-    {
-        
-    }
 
     public void teleopInit()
     {
@@ -45,12 +41,9 @@ public class RobotBase extends IterativeRobot
     public void teleopPeriodic()
     {
         dashboardManager.updateLCD();
-    }
-    
-    public void teleopContinuous()
-    {
         drivebase.run();
     }
+    
     
     public void disabledInit()
     {
@@ -62,8 +55,4 @@ public class RobotBase extends IterativeRobot
         dashboardManager.updateLCD();
     }
     
-    public void disabledContinuous()
-    {
-        
-    }
 }
