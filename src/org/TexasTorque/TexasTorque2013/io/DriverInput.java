@@ -6,7 +6,7 @@ import org.TexasTorque.TorqueLib.controller.*;
 public class DriverInput
 {
     private static DriverInput instance;
-    
+        
     public DriverInput()
     {
         
