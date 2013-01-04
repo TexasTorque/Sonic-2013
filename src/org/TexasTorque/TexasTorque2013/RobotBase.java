@@ -1,6 +1,7 @@
 package org.TexasTorque.TexasTorque2013;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TexasTorque2013.subsystem.*;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
@@ -20,6 +21,7 @@ public class RobotBase extends IterativeRobot
         sensorInput = SensorInput.getInstance();
         robotOutput = RobotOutput.getInstance();
         drivebase = new Drivebase();
+        SmartDashboard.putDouble("TeamNumber", 1477);
     }
 
     public void autonomousInit()
