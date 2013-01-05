@@ -9,11 +9,18 @@ import javax.microedition.io.*;
 
 public class Parameters
 {
+    
+    private static Parameters instance;
     private Hashtable map;
     private String fileName;
     private String filePath;
     private FileConnection fileConnection = null;
     private BufferedReader fileIO = null;
+    
+    public static Parameters getInstance()
+    {
+        return (instance == null) ? instance = new Parameters("params.txt") : instance;
+    }
   
     public Parameters(String fileNm)
     {
