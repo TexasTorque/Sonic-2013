@@ -11,8 +11,8 @@ public class SensorInput
     
     public SensorInput()
     {
-        leftDriveEncoder = new Encoder(Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.LEFT_DRIVE_ENCODER_B_PORT, true);
-        rightDriveEncoder = new Encoder(Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
+        leftDriveEncoder = new Encoder(Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_B_PORT, true);
+        rightDriveEncoder = new Encoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
         leftDriveEncoder.start();
         rightDriveEncoder.start();
     }

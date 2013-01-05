@@ -20,7 +20,7 @@ public class RobotOutput
     
     public RobotOutput()
     {
-        compressor = new Compressor(Ports.PRESSURE_SWITCH_PORT, Ports.COMPRESSOR_RELAY_PORT);
+        compressor = new Compressor(Ports.SIDECAR_ONE, Ports.PRESSURE_SWITCH_PORT, Ports.SIDECAR_ONE, Ports.COMPRESSOR_RELAY_PORT);
         shifters = new DoubleSolenoid(Ports.SHIFTERS_FORWARD_PORT, Ports.SHIFTERS_REVERSE_PORT);
         frontLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_LEFT_MOTOR_PORT), true, false);
         middleLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.MIDDLE_LEFT_MOTOR_PORT), true, false);
