@@ -21,7 +21,6 @@ public class RobotBase extends IterativeRobot
         sensorInput = SensorInput.getInstance();
         robotOutput = RobotOutput.getInstance();
         drivebase = new Drivebase();
-        SmartDashboard.putDouble("TeamNumber", 1477);
     }
 
     public void autonomousInit()
