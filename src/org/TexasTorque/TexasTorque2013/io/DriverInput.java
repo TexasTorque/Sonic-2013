@@ -28,4 +28,14 @@ public class DriverInput
             return axisValue;
         }
     }
+    
+    public synchronized boolean getHighGear()
+    {
+        return false;
+    }
+    
+    public synchronized boolean getLowGear()
+    {
+        return true;
+    }
 }

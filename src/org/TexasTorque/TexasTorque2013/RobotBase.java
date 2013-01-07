@@ -2,6 +2,7 @@ package org.TexasTorque.TexasTorque2013;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Watchdog;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousManager;
 import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TexasTorque2013.subsystem.*;
@@ -27,6 +28,7 @@ public class RobotBase extends IterativeRobot
         robotOutput = RobotOutput.getInstance();
         autoManager = new AutonomousManager();
         drivebase = new Drivebase();
+        SmartDashboard.putNumber("TEST", 1477);
     }
 
     public void autonomousInit()
