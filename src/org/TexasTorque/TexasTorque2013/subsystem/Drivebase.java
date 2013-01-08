@@ -94,7 +94,7 @@ public class Drivebase
             power += (-1.0 - trueSpeed);
             trueSpeed = -1.0;
         }
-        if((throttle == 0) && (turn < -0.52 || (turn > 0.52)))
+        if(throttle == 0 && Math.abs(turn) > 0.5)
         {
             power = turn;
             leftDriveSpeed = power;
