@@ -27,6 +27,15 @@ public class Drivebase
     
     public void run()
     {
+        if(driverInput.getHighGear())
+        {
+            robotOutput.setShifters(true);
+        }
+        else if(driverInput.getLowGear())
+        {
+            robotOutput.setShifters(false);
+        }
+        mixChannels(driverInput.driveController.getThrottle(), driverInput.driveController.getWheel());
         robotOutput.setLeftDriveMotors(leftDriveSpeed);
         robotOutput.setRightDriveMotors(rightDriveSpeed);
     }
