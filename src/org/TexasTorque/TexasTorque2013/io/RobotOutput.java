@@ -11,6 +11,7 @@ public class RobotOutput
     private static RobotOutput instance;
     private Compressor compressor;
     private DoubleSolenoid shifters;
+    //----- Drive Motors -----
     private Motor frontLeftDriveMotor;
     private Motor middleLeftDriveMotor;
     private Motor rearLeftDriveMotor;
