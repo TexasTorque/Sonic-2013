@@ -17,6 +17,8 @@ public class Ports
     public static int FRONT_RIGHT_MOTOR_PORT = 4;
     public static int MIDDLE_RIGHT_MOTOR_PORT = 5;
     public static int REAR_RIGHT_MOTOR_PORT = 6;
+    public static int FRONT_SHOOTER_MOTOR_PORT = 1;
+    public static int REAR_SHOOTER_MOTOR_PORT = 2;
     
     //----- Solenoids -----
     public static int SHIFTERS_FORWARD_PORT = 1;

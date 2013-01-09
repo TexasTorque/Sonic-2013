@@ -18,6 +18,9 @@ public class RobotOutput
     private Motor frontRightDriveMotor;
     private Motor middleRightDriveMotor;
     private Motor rearRightDriveMotor;
+    //----- Shooter Motors -----
+    private Motor frontShooterMotor;
+    private Motor rearShooterMotor;
     
     public RobotOutput()
     {
@@ -30,6 +33,9 @@ public class RobotOutput
         frontRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_RIGHT_MOTOR_PORT), false, false);
         middleRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.MIDDLE_RIGHT_MOTOR_PORT), false, false);
         rearRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.REAR_RIGHT_MOTOR_PORT), false, false);
+        //----- Shooter Motors-----
+        frontShooterMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_MOTOR_PORT), false, false);
+        rearShooterMotor= new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_MOTOR_PORT), false, false);
         
         compressor.start();
     }
