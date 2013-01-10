@@ -2,6 +2,10 @@ package org.TexasTorque.TorqueLib.util;
 
 import com.sun.squawk.io.BufferedWriter;
 import com.sun.squawk.microedition.io.*;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Watchdog;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Hashtable;
@@ -16,10 +20,10 @@ public class TorqueLogging extends Thread
     private static String fileName = "TorqueLog.txt";
     private String filePath = "file:///ni-rt/startup/";
     private static boolean logToDashboard = false;
+    private static long threadLoopTime = 2;
     private Hashtable table;
     private String keys;
     private String values;
-    private int numValues;
     
     public static void setFileName(String fileNm)
     {
@@ -29,6 +33,11 @@ public class TorqueLogging extends Thread
     public static void setDashboardLogging(boolean log)
     {
         logToDashboard = log;
+    }
+    
+    public static void setLoopTime(int loopTime)
+    {
+        threadLoopTime = loopTime;
     }
     
     public synchronized static TorqueLogging getInstance()
@@ -45,17 +54,48 @@ public class TorqueLogging extends Thread
         }
         catch(IOException e){}
         table = new Hashtable();
-        numValues = 0;
     }
     
     public void init()
     {
-        
+        if(logToDashboard)
+        {
+            SmartDashboard.putString("TorqueLog", keys);
+        }
+        else
+        {
+             writeKeysToFile();
+        }
     }
     
     public void run()
     {
         init();
+        DriverStation ds = DriverStation.getInstance();
+        Watchdog dog = Watchdog.getInstance();
+        while(true)
+        {
+            while(ds.isDisabled())
+            {
+                dog.feed();
+            }
+            
+            calculateValueString();
+            if(logToDashboard)
+            {
+                SmartDashboard.putString("TorqueLog", values);
+            }
+            else
+            {
+                writeValuesToFile();
+            }
+            
+            try
+            {
+                Thread.sleep(threadLoopTime);
+            }
+            catch (InterruptedException ex){}
+        }
     }
     
     public synchronized void logValue(String name, int value)
@@ -63,7 +103,6 @@ public class TorqueLogging extends Thread
         if(table.get(name) == null)
         {
             keys += name + ",";
-            numValues++;
         }
         table.put(name, "" + value);
     }
@@ -73,7 +112,6 @@ public class TorqueLogging extends Thread
         if(table.get(name) == null)
         {
             keys += name + ",";
-            numValues++;
         }
         table.put(name, "" + value);
     }
@@ -83,7 +121,6 @@ public class TorqueLogging extends Thread
         if(table.get(name) == null)
         {
             keys += name + ",";
-            numValues++;
         }
         table.put(name, "" + value);
     }
@@ -93,7 +130,6 @@ public class TorqueLogging extends Thread
         if(table.get(name) == null)
         {
             keys += name + ",";
-            numValues++;
         }
         table.put(name, value);
     }
@@ -131,11 +167,5 @@ public class TorqueLogging extends Thread
         }
         catch(IOException e){} 
     }
-    
-    public void writeToDashboard()
-    {
-        
-    }
-    
-    
+  
 }
