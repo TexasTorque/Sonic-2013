@@ -1,16 +1,17 @@
 package org.TexasTorque.TorqueLib.util;
 
-import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class TorqueLogging extends Thread
 {
     
     private static TorqueLogging instance;
-    private Hashtable logTable;
     private static String fileName = "TorqueLog.txt";
     private static boolean logToDashboard = false;
-    private static boolean writeNow = false;
+    private Hashtable table;
+    private String keys;
+    private String values;
+    private int numValues;
     
     public static void setFileName(String fileNm)
     {
@@ -22,15 +23,15 @@ public class TorqueLogging extends Thread
         logToDashboard = log;
     }
     
-    public static TorqueLogging getInstance()
+    public synchronized static TorqueLogging getInstance()
     {
         return (instance == null) ? instance = new TorqueLogging() : instance;
     }
     
     public TorqueLogging()
     {
-        logTable = new Hashtable();
-        
+        table = new Hashtable();
+        numValues = 0;
     }
     
     public void start()
@@ -43,34 +44,58 @@ public class TorqueLogging extends Thread
         
     }
     
-    public void writeKeys()
+    public synchronized void logValue(String name, int value)
     {
-        if(!logTable.isEmpty())
+        if(table.get(name) == null)
         {
-            String logLine = "";
-            Enumeration keys = logTable.keys();
-            while(keys.hasMoreElements())
-            {
-                String key = (String)keys.nextElement();
-                Object value = logTable.get(key);
-                
-            }
+            keys += name;
+            numValues++;
         }
+        table.put(name, "" + value);
     }
     
-    public void writeValues()
+    public synchronized void logValue(String name, boolean value)
     {
-        if(!logTable.isEmpty())
+        if(table.get(name) == null)
         {
-            String logLine = "";
-            Enumeration keys = logTable.keys();
-            while(keys.hasMoreElements())
-            {
-                String key = (String)keys.nextElement();
-                Object value = logTable.get(key);
-                
-            }
+            keys += name;
+            numValues++;
         }
+        table.put(name, "" + value);
+    }
+    
+    public synchronized void logValue(String name, double value)
+    {
+        if(table.get(name) == null)
+        {
+            keys += name;
+            numValues++;
+        }
+        table.put(name, "" + value);
+    }
+    
+    public synchronized void logValue(String name, String value)
+    {
+        if(table.get(name) == null)
+        {
+            keys += name;
+            numValues++;
+        }
+        table.put(name, value);
+    }
+    
+    public void writeKeysToFile()
+    {
+        
+    }
+    
+    public void calculateValueString()
+    {
+    }
+    
+    public void writeValuesToFile()
+    {
+        
     }
     
     public void writeToDashboard()
