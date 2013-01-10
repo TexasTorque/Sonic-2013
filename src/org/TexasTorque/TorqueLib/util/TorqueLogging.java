@@ -3,7 +3,6 @@ package org.TexasTorque.TorqueLib.util;
 import com.sun.squawk.io.BufferedWriter;
 import com.sun.squawk.microedition.io.*;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.IOException;
