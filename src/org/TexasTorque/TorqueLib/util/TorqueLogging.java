@@ -56,6 +56,11 @@ public class TorqueLogging extends Thread
         table = new Hashtable();
     }
     
+    public void startLogging()
+    {
+        this.start();
+    }
+    
     public void init()
     {
         if(logToDashboard)
