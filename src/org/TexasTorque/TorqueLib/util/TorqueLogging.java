@@ -48,14 +48,14 @@ public class TorqueLogging extends Thread
         numValues = 0;
     }
     
-    public void start()
+    public void init()
     {
         
     }
     
     public void run()
     {
-        
+        init();
     }
     
     public synchronized void logValue(String name, int value)
