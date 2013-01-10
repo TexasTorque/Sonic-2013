@@ -11,23 +11,32 @@ public class RobotOutput
     private static RobotOutput instance;
     private Compressor compressor;
     private DoubleSolenoid shifters;
+    //----- Drive Motors -----
     private Motor frontLeftDriveMotor;
     private Motor middleLeftDriveMotor;
     private Motor rearLeftDriveMotor;
     private Motor frontRightDriveMotor;
     private Motor middleRightDriveMotor;
     private Motor rearRightDriveMotor;
+    //----- Shooter Motors -----
+    private Motor frontShooterMotor;
+    private Motor rearShooterMotor;
     
     public RobotOutput()
     {
         compressor = new Compressor(Ports.SIDECAR_ONE, Ports.PRESSURE_SWITCH_PORT, Ports.SIDECAR_ONE, Ports.COMPRESSOR_RELAY_PORT);
         shifters = new DoubleSolenoid(Ports.SHIFTERS_FORWARD_PORT, Ports.SHIFTERS_REVERSE_PORT);
+        //----- Drive Motors -----
         frontLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_LEFT_MOTOR_PORT), true, false);
         middleLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.MIDDLE_LEFT_MOTOR_PORT), true, false);
         rearLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.REAR_LEFT_MOTOR_PORT), true, false);
         frontRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_RIGHT_MOTOR_PORT), false, false);
         middleRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.MIDDLE_RIGHT_MOTOR_PORT), false, false);
         rearRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.REAR_RIGHT_MOTOR_PORT), false, false);
+        //----- Shooter Motors-----
+        frontShooterMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_MOTOR_PORT), false, false);
+        rearShooterMotor= new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_MOTOR_PORT), false, false);
+        
         compressor.start();
     }
  

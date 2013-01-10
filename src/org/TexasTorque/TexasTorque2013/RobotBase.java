@@ -28,7 +28,7 @@ public class RobotBase extends IterativeRobot
         robotOutput = RobotOutput.getInstance();
         autoManager = new AutonomousManager();
         drivebase = new Drivebase();
-        SmartDashboard.putNumber("TEST", 1477);
+        SmartDashboard.putNumber("Test", 1477);
     }
 
     public void autonomousInit()

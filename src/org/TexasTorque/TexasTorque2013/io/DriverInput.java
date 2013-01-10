@@ -6,10 +6,11 @@ import org.TexasTorque.TorqueLib.controller.*;
 public class DriverInput
 {
     private static DriverInput instance;
+    public TraxxasTQ3 driveController;
         
     public DriverInput()
     {
-        
+        driveController = new TraxxasTQ3(Ports.DRIVE_CONTROLLER_PORT);
     }
     
     public synchronized static DriverInput getInstance()
@@ -31,11 +32,11 @@ public class DriverInput
     
     public synchronized boolean getHighGear()
     {
-        return false;
+        return driveController.getSwitch();
     }
     
     public synchronized boolean getLowGear()
     {
-        return true;
+        return !driveController.getSwitch();
     }
 }
