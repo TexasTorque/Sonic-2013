@@ -29,11 +29,13 @@ public class RobotBase extends IterativeRobot
         autoManager = new AutonomousManager();
         drivebase = new Drivebase();
         SmartDashboard.putNumber("Test", 1477);
+        SmartDashboard.putNumber("Autonomous Delay", 0.0);
     }
 
     public void autonomousInit()
     {
         watchdog.setEnabled(true);
+        autoManager.setAutonomousDelay(SmartDashboard.getNumber("Autonomous Delay", 0.0));
         sensorInput.resetEncoders();
     }
 

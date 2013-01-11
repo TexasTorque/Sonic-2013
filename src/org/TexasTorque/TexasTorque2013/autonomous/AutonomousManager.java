@@ -8,11 +8,18 @@ public class AutonomousManager
     
     private String queuedAutoMode;
     private Hashtable autoMapping;
+    private double autoDelay;
     
     public AutonomousManager()
     {
+        autoDelay = 0.0;
         autoMapping = new Hashtable();
         autoMapping.put(Integer.toString(Constants.DO_NOTHING_AUTO), new DoNothingAutonomous());
+    }
+    
+    public void setAutonomousDelay(double delay)
+    {
+        autoDelay = delay;
     }
     
     public void setAutoMode(int mode)
