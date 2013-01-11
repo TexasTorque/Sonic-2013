@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.autonomous;
 
+import edu.wpi.first.wpilibj.Timer;
 import java.util.Hashtable;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 
@@ -30,6 +31,7 @@ public class AutonomousManager
     public void initAutonomous()
     {
         ((AutonomousBase)autoMapping.get(queuedAutoMode)).init();
+        Timer.delay(autoDelay * 1000);
     }
     
     public void runAutonomous()
