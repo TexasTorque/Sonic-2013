@@ -1,4 +1,4 @@
-package org.TexasTorque.TexasTorque2013.subsystem;
+package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
