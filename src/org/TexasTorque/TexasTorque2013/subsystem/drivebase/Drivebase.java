@@ -7,6 +7,7 @@ import org.TexasTorque.TorqueLib.util.Parameters;
 public class Drivebase 
 {
     
+    private static Drivebase instance;
     private RobotOutput robotOutput;
     private DriverInput driverInput;
     private SensorInput sensorInput;
@@ -14,6 +15,11 @@ public class Drivebase
     
     private double leftDriveSpeed;
     private double rightDriveSpeed;
+    
+    public static Drivebase getInstance()
+    {
+        return (instance == null) ? instance = new Drivebase() : instance;
+    }
             
     public Drivebase()
     {

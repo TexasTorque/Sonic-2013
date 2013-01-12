@@ -6,12 +6,19 @@ import org.TexasTorque.TexasTorque2013.io.SensorInput;
 
 public class Shooter
 {
+    
+    private static Shooter instance;
     private RobotOutput robotOutput;
     private DriverInput driverInput;
     private SensorInput sensorInput;
     
     private double frontSpeed;
     private double rearSpeed;
+    
+    public static Shooter getInstance()
+    {
+        return (instance == null) ? instance = new Shooter() : instance;
+    }
     
     public Shooter()
     {

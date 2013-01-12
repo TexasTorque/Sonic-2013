@@ -29,8 +29,8 @@ public class RobotBase extends IterativeRobot
         sensorInput = SensorInput.getInstance();
         robotOutput = RobotOutput.getInstance();
         autoManager = new AutonomousManager();
-        drivebase = new Drivebase();
-        manipulator = new Manipulator();
+        drivebase = Drivebase.getInstance();
+        manipulator = Manipulator.getInstance();
         SmartDashboard.putNumber("Test", 1477);
         SmartDashboard.putNumber("Autonomous Delay", 0.0);
     }

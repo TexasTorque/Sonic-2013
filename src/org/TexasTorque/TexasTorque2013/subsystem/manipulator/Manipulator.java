@@ -7,17 +7,23 @@ import org.TexasTorque.TexasTorque2013.io.SensorInput;
 public class Manipulator
 {
     
+    private static Manipulator instance;
     private RobotOutput robotOutput;
     private SensorInput sensorInput;
     private DriverInput driverInput;
-    public Shooter shooter;
+    private Shooter shooter;
+    
+    public static Manipulator getInstance()
+    {
+        return (instance == null) ? instance = new Manipulator() : instance;
+    }
     
     public Manipulator()
     {
         robotOutput = RobotOutput.getInstance();
         sensorInput = SensorInput.getInstance();
         driverInput = DriverInput.getInstance();
-        shooter = new Shooter();
+        shooter = Shooter.getInstance();
     }
     
     public void run()
