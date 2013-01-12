@@ -53,6 +53,8 @@ public class TorqueLogging extends Thread
         }
         catch(IOException e){}
         table = new Hashtable();
+        keys = "";
+        values = "";
     }
     
     public void startLogging()
@@ -149,6 +151,7 @@ public class TorqueLogging extends Thread
     
     public void calculateValueString()
     {
+        values = "";
         int start = 0;
         int index = 0;
         while(index != -1)
