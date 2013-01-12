@@ -81,6 +81,7 @@ public class TorqueLogging extends Thread
         Watchdog dog = Watchdog.getInstance();
         while(true)
         {
+            dog.feed();
             while(ds.isDisabled())
             {
                 dog.feed();
