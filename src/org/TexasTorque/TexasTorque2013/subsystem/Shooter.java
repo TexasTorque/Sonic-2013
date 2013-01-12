@@ -10,6 +10,9 @@ public class Shooter
     private DriverInput driverInput;
     private SensorInput sensorInput;
     
+    private double frontSpeed;
+    private double rearSpeed;
+    
     public Shooter()
     {
         robotOutput = RobotOutput.getInstance();
@@ -19,7 +22,7 @@ public class Shooter
     
     public void run()
     {
-        
+        robotOutput.setShooterMotors(frontSpeed, rearSpeed);
     }
     
 }

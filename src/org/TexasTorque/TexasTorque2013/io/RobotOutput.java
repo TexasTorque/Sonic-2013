@@ -71,4 +71,10 @@ public class RobotOutput
         rearRightDriveMotor.Set(rightSpeed);
     }
     
+    public synchronized void setShooterMotors(double frontSpeed, double rearSpeed)
+    {
+        frontShooterMotor.Set(frontSpeed);
+        rearShooterMotor.Set(rearSpeed);
+    }
+    
 }
