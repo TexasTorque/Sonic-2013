@@ -160,7 +160,7 @@ public class TorqueLogging extends Thread
             if(index != -1)
             {
                 String keyName = keys.substring(start, index);
-                values += (String)table.get(keyName);
+                values += (String)table.get(keyName) + ",";
                 start = index + 1;
             }
         }
