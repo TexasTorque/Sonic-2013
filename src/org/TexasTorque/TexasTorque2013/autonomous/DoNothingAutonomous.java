@@ -7,10 +7,6 @@ import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 public class DoNothingAutonomous extends AutonomousBase
 {
     
-    private RobotOutput robotOutput;
-    private DriverStation ds;
-    private Watchdog watchdog;
-    
     public DoNothingAutonomous()
     {          
     }
@@ -20,7 +16,6 @@ public class DoNothingAutonomous extends AutonomousBase
         watchdog = Watchdog.getInstance();
         watchdog.setEnabled(true);
         robotOutput = RobotOutput.getInstance();
-        ds = DriverStation.getInstance();
     }
     
     public void run()
