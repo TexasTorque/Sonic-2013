@@ -37,7 +37,6 @@ public class RobotBase extends IterativeRobot
 
     public void autonomousInit()
     {
-        watchdog.setEnabled(true);
         autoManager.setAutonomousDelay(SmartDashboard.getNumber("Autonomous Delay", 0.0));
         sensorInput.resetEncoders();
     }
@@ -51,7 +50,6 @@ public class RobotBase extends IterativeRobot
 
     public void teleopInit()
     {
-        watchdog.setEnabled(true);
         sensorInput.resetEncoders();
     }
 
@@ -65,7 +63,6 @@ public class RobotBase extends IterativeRobot
     
     public void disabledInit()
     {
-        watchdog.setEnabled(true);
     }
     
     public void disabledPeriodic()
