@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousManager;
 import org.TexasTorque.TexasTorque2013.io.*;
-import org.TexasTorque.TexasTorque2013.subsystem.*;
+import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Manipulator;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
 
 public class RobotBase extends IterativeRobot
@@ -17,6 +18,7 @@ public class RobotBase extends IterativeRobot
     RobotOutput robotOutput;
     AutonomousManager autoManager;
     Drivebase drivebase;
+    Manipulator  manipulator;
     
     public void robotInit()
     {
@@ -27,7 +29,8 @@ public class RobotBase extends IterativeRobot
         sensorInput = SensorInput.getInstance();
         robotOutput = RobotOutput.getInstance();
         autoManager = new AutonomousManager();
-        drivebase = new Drivebase();
+        drivebase = Drivebase.getInstance();
+        manipulator = Manipulator.getInstance();
         SmartDashboard.putNumber("Test", 1477);
         SmartDashboard.putNumber("Autonomous Delay", 0.0);
     }
@@ -57,6 +60,7 @@ public class RobotBase extends IterativeRobot
         watchdog.feed();
         dashboardManager.updateLCD();
         drivebase.run();
+        manipulator.run();
     }
     
     public void disabledInit()

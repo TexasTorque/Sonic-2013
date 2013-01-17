@@ -1,19 +1,23 @@
-package org.TexasTorque.TexasTorque2013.subsystem;
+package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
 
-public class Shooter
+public class Elevator
 {
+    
+    private static Elevator instance;
     private RobotOutput robotOutput;
     private DriverInput driverInput;
     private SensorInput sensorInput;
     
-    private double frontSpeed;
-    private double rearSpeed;
+    public static Elevator getInstance()
+    {
+        return (instance == null) ? instance = new Elevator() : instance;
+    }
     
-    public Shooter()
+    public Elevator()
     {
         robotOutput = RobotOutput.getInstance();
         driverInput = DriverInput.getInstance();
@@ -22,7 +26,6 @@ public class Shooter
     
     public void run()
     {
-        robotOutput.setShooterMotors(frontSpeed, rearSpeed);
+        
     }
-    
 }
