@@ -23,6 +23,7 @@ public class TorqueLogging extends Thread
     private Hashtable table;
     private String keys;
     private String values;
+    private int numLines;
     
     public static void setFileName(String fileNm)
     {
@@ -53,8 +54,10 @@ public class TorqueLogging extends Thread
         }
         catch(IOException e){}
         table = new Hashtable();
-        keys = "";
+        keys = "FrameNumber,";
         values = "";
+        numLines = 1;
+        table.put("FrameNumber", "" + numLines);
     }
     
     public void startLogging()
@@ -96,7 +99,7 @@ public class TorqueLogging extends Thread
             {
                 writeValuesToFile();
             }
-            
+            numLines++;
             try
             {
                 Thread.sleep(threadLoopTime);
