@@ -8,6 +8,7 @@ import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Manipulator;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
+import org.TexasTorque.TorqueLib.util.TorqueLogging;
 
 public class RobotBase extends IterativeRobot
 {
@@ -17,6 +18,7 @@ public class RobotBase extends IterativeRobot
     SensorInput sensorInput;
     RobotOutput robotOutput;
     AutonomousManager autoManager;
+    TorqueLogging logging;
     Drivebase drivebase;
     Manipulator  manipulator;
     
@@ -33,6 +35,11 @@ public class RobotBase extends IterativeRobot
         manipulator = Manipulator.getInstance();
         SmartDashboard.putNumber("Test", 1477);
         SmartDashboard.putNumber("Autonomous Delay", 0.0);
+        TorqueLogging.setDashboardLogging(true);
+        TorqueLogging.setLoopTime(20);
+        logging = TorqueLogging.getInstance();
+        logging.setKeyMapping("FrameNumber");
+        logging.startLogging();
     }
 
     public void autonomousInit()
