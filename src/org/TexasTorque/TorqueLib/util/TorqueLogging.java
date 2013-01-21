@@ -50,9 +50,20 @@ public class TorqueLogging extends Thread
         try
         {
             fileConnection = (FileConnection) Connector.open(filePath + fileName);
-            fileIO = new BufferedWriter(new OutputStreamWriter(fileConnection.openOutputStream()));
+            if(!fileConnection.exists())
+            {
+               fileConnection.create();
+               fileIO = new BufferedWriter(new OutputStreamWriter(fileConnection.openOutputStream()));
+            }
+            else
+            {
+                fileIO = new BufferedWriter(new OutputStreamWriter(fileConnection.openOutputStream()));
+            }
         }
-        catch(IOException e){}
+        catch(IOException e)
+        {
+            System.err.println("Error creating file in TorqueLogging.");
+        }
         table = new Hashtable();
         keys = "FrameNumber,";
         values = "";
@@ -99,12 +110,40 @@ public class TorqueLogging extends Thread
             {
                 writeValuesToFile();
             }
-            numLines++;
+            this.logValue("FrameNumber", numLines++);
             try
             {
                 Thread.sleep(threadLoopTime);
+                try
+                {
+                    fileIO.flush();
+                }
+                catch (IOException ex){}
             }
             catch (InterruptedException ex){}
+        }
+    }
+    
+    public synchronized void setKeyMapping(String mapping)
+    {
+        table.clear();
+        if(mapping.charAt(mapping.length() - 1) != ',')
+        {
+            mapping += ",";
+        }
+        keys = mapping;
+        int start = 0;
+        int index = 0;
+        while(index != -1)
+        {
+            Watchdog.getInstance().feed();
+            index = keys.indexOf(",", start);
+            if(index != -1)
+            {
+                String keyName = keys.substring(start, index);
+                table.put(keyName, "0");
+                start = index + 1;
+            }
         }
     }
     
@@ -144,36 +183,46 @@ public class TorqueLogging extends Thread
         table.put(name, value);
     }
     
-    public void writeKeysToFile()
+    private void writeKeysToFile()
     {
         try
         {
-            fileIO.write(keys);
+            fileIO.write(keys.substring(0, keys.length() - 1));
         }
         catch(IOException e){} 
     }
     
-    public void calculateValueString()
+    private void calculateValueString()
     {
         values = "";
         int start = 0;
         int index = 0;
+        boolean first = true;
         while(index != -1)
         {
             index = keys.indexOf(",", start);
             if(index != -1)
             {
                 String keyName = keys.substring(start, index);
-                values += table.get(keyName) + ",";
+                if(first)
+                {
+                    values += table.get(keyName);
+                    first = false;
+                }
+                else
+                {
+                    values += "," + table.get(keyName);
+                }
                 start = index + 1;
             }
         }
     }
     
-    public void writeValuesToFile()
+    private void writeValuesToFile()
     {
         try
         {
+            fileIO.newLine();
             fileIO.write(values);
         }
         catch(IOException e){} 
