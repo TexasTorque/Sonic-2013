@@ -13,10 +13,8 @@ public class RobotOutput
     private DoubleSolenoid shifters;
     //----- Drive Motors -----
     private Motor frontLeftDriveMotor;
-    private Motor middleLeftDriveMotor;
     private Motor rearLeftDriveMotor;
     private Motor frontRightDriveMotor;
-    private Motor middleRightDriveMotor;
     private Motor rearRightDriveMotor;
     //----- Shooter Motors -----
     private Motor frontShooterMotor;
@@ -28,10 +26,8 @@ public class RobotOutput
         shifters = new DoubleSolenoid(Ports.SHIFTERS_FORWARD_PORT, Ports.SHIFTERS_REVERSE_PORT);
         //----- Drive Motors -----
         frontLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_LEFT_MOTOR_PORT), true, false);
-        middleLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.MIDDLE_LEFT_MOTOR_PORT), true, false);
         rearLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.REAR_LEFT_MOTOR_PORT), true, false);
         frontRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_RIGHT_MOTOR_PORT), false, false);
-        middleRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.MIDDLE_RIGHT_MOTOR_PORT), false, false);
         rearRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.REAR_RIGHT_MOTOR_PORT), false, false);
         //----- Shooter Motors-----
         frontShooterMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_MOTOR_PORT), false, false);
@@ -60,14 +56,12 @@ public class RobotOutput
     public synchronized void setLeftDriveMotors(double leftSpeed)
     {
         frontLeftDriveMotor.Set(leftSpeed);
-        middleLeftDriveMotor.Set(leftSpeed);
         rearLeftDriveMotor.Set(leftSpeed);
     }
     
     public synchronized void setRightDriveMotors(double rightSpeed)
     {
         frontRightDriveMotor.Set(rightSpeed);
-        middleRightDriveMotor.Set(rightSpeed);
         rearRightDriveMotor.Set(rightSpeed);
     }
     
