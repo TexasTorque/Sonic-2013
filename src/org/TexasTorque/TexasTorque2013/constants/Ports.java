@@ -17,8 +17,10 @@ public class Ports
         public static int FRONT_RIGHT_MOTOR_PORT = 4;
         public static int REAR_RIGHT_MOTOR_PORT = 6;
         //----- Sidecar 2 -----
-        public static int FRONT_SHOOTER_MOTOR_PORT = 1;
-        public static int REAR_SHOOTER_MOTOR_PORT = 2;
+        public static int FRONT_SHOOTER_MOTOR_A_PORT = 1;
+        public static int FRONT_SHOOTER_MOTOR_B_PORT = 2;
+        public static int REAR_SHOOTER_MOTOR_A_PORT = 3;
+        public static int REAR_SHOOTER_MOTOR_B_PORT = 4;
     
     //----- Solenoids -----
     public static int SHIFTERS_FORWARD_PORT = 1;
