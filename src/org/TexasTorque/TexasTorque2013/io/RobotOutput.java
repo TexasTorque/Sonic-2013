@@ -21,6 +21,8 @@ public class RobotOutput
     private Motor frontShooterMotorB;
     private Motor rearShooterMotorA;
     private Motor rearShooterMotorB;
+    //----- Misc Motors -----
+    private Motor intakeMotor;
     
     public RobotOutput()
     {
@@ -36,6 +38,8 @@ public class RobotOutput
         frontShooterMotorB = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_MOTOR_B_PORT), false, false);
         rearShooterMotorA = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_MOTOR_A_PORT), false, false);
         rearShooterMotorB = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_MOTOR_B_PORT), false, false);
+        //----- Misc Motors -----
+        intakeMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.INTAKE_MOTOR_PORT), false, false);
         
         compressor.start();
     }
@@ -75,6 +79,11 @@ public class RobotOutput
         frontShooterMotorB.Set(frontSpeed);
         rearShooterMotorA.Set(rearSpeed);
         rearShooterMotorB.Set(rearSpeed);
+    }
+    
+    public synchronized void setIntakeMotor(double speed)
+    {
+        intakeMotor.Set(speed);
     }
     
 }

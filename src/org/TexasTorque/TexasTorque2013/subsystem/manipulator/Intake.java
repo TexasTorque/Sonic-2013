@@ -11,6 +11,7 @@ public class Intake
     private RobotOutput robotOutput;
     private DriverInput driverInput;
     private SensorInput sensorInput;
+    private double intakeMotorSpeed;
     
     public static Intake getInstance()
     {
@@ -22,6 +23,7 @@ public class Intake
         robotOutput = RobotOutput.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
+        intakeMotorSpeed = 0.0;
     }
     
     public void run()
