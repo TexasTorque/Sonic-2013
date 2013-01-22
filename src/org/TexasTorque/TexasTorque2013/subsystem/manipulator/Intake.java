@@ -28,6 +28,6 @@ public class Intake
     
     public void run()
     {
-        
+        robotOutput.setIntakeMotor(intakeMotorSpeed);
     }
 }
