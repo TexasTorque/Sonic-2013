@@ -1,6 +1,8 @@
 package org.TexasTorque.TexasTorque2013.io;
 
+import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Gyro;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
 
 public class SensorInput
@@ -8,11 +10,15 @@ public class SensorInput
     private static SensorInput instance;
     private Encoder leftDriveEncoder;
     private Encoder rightDriveEncoder;
+    private AnalogChannel gyroChannel;
+    private Gyro gyro;
     
     public SensorInput()
     {
         leftDriveEncoder = new Encoder(Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_B_PORT, true);
         rightDriveEncoder = new Encoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
+        gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
+        gyro = new Gyro(gyroChannel);
         leftDriveEncoder.start();
         rightDriveEncoder.start();
     }
