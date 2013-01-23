@@ -1,7 +1,6 @@
 package org.TexasTorque.TexasTorque2013;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousManager;
@@ -57,7 +56,6 @@ public class RobotBase extends IterativeRobot
         watchdog.feed();
         dashboardManager.updateLCD();
     }
-    
 
     public void teleopInit()
     {
