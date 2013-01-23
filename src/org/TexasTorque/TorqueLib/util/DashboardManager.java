@@ -54,4 +54,15 @@ public class DashboardManager
     {
         dslcd.updateLCD();
     }
+    
+    public synchronized DriverStation getDS()
+    {
+        return ds;
+    }
+    
+    public synchronized DriverStationLCD getDSCLD()
+    {
+        return dslcd;
+    }
+    
 }

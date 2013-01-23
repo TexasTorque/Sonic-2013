@@ -17,7 +17,7 @@ public class Parameters
     private FileConnection fileConnection = null;
     private BufferedReader fileIO = null;
     
-    public static Parameters getInstance()
+    public synchronized static Parameters getInstance()
     {
         return (instance == null) ? instance = new Parameters("params.txt") : instance;
     }
@@ -29,41 +29,48 @@ public class Parameters
         fileName = fileNm;
     }
     
-    public void load() throws IOException
+    public void load()
     {
-        clearList();
-        fileConnection = (FileConnection)Connector.open(filePath + fileName);
-        if(fileConnection.exists())
+        try
         {
-             fileIO = new BufferedReader(new InputStreamReader(fileConnection.openInputStream()));
-             String line;
-             int index;
-             while((line = fileIO.readLine()) != null)
-             {
-                 map.put(line.substring(0, index=line.indexOf(" ")), line.substring(index + 1));
-             }
-             System.err.println("Parameters file: " + fileName + " sucsessfully loaded.");
-             fileConnection.close();
+            clearList();
+            fileConnection = (FileConnection)Connector.open(filePath + fileName);
+            if(fileConnection.exists())
+            {
+                 fileIO = new BufferedReader(new InputStreamReader(fileConnection.openInputStream()));
+                 String line;
+                 int index;
+                 while((line = fileIO.readLine()) != null)
+                 {
+                     map.put(line.substring(0, index=line.indexOf(" ")), line.substring(index + 1));
+                 }
+                 System.err.println("Parameters file: " + fileName + " sucsessfully loaded.");
+                 fileConnection.close();
+            }
+            else
+            {
+                System.err.println("Could not load parameters file: " + fileName);
+            }
         }
-        else
+        catch(IOException e)
         {
-            System.err.println("Could not load parameters file: " + fileName);
+            System.err.println("IOException caught trying to read in parameters file.");
         }
     }
     
-    public int getAsInt(String name, int dflt)
+    public synchronized int getAsInt(String name, int dflt)
     {
         String value = (String)map.get(name);
         return (value == null) ? dflt : Integer.parseInt(value);
     }
     
-    public double getAsDouble(String name, double dflt)
+    public synchronized double getAsDouble(String name, double dflt)
     {
         String value = (String)map.get(name);
          return (value == null) ? dflt : Double.parseDouble(value);
     }
     
-    public boolean getAsBoolean(String name, boolean dflt)
+    public synchronized boolean getAsBoolean(String name, boolean dflt)
     {
         String value = (String)map.get(name);
         return (value==null)?dflt:Integer.parseInt(value)!=0;

@@ -1,6 +1,7 @@
 package org.TexasTorque.TexasTorque2013;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousManager;
@@ -8,6 +9,7 @@ import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Manipulator;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
+import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
 
 public class RobotBase extends IterativeRobot
@@ -18,6 +20,7 @@ public class RobotBase extends IterativeRobot
     SensorInput sensorInput;
     RobotOutput robotOutput;
     AutonomousManager autoManager;
+    Parameters params;
     TorqueLogging logging;
     Drivebase drivebase;
     Manipulator  manipulator;
@@ -26,6 +29,7 @@ public class RobotBase extends IterativeRobot
     {
         watchdog = Watchdog.getInstance();
         watchdog.setEnabled(true);
+        params.load();
         dashboardManager = DashboardManager.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
@@ -38,7 +42,7 @@ public class RobotBase extends IterativeRobot
         TorqueLogging.setDashboardLogging(true);
         TorqueLogging.setLoopTime(20);
         logging = TorqueLogging.getInstance();
-        logging.setKeyMapping("FrameNumber");
+        logging.setKeyMapping("FrameNumber,FrameTime");
         logging.startLogging();
     }
 
@@ -63,6 +67,7 @@ public class RobotBase extends IterativeRobot
     public void teleopPeriodic()
     {
         watchdog.feed();
+        logging.logValue("FrameTime", dashboardManager.getDS().getMatchTime());
         dashboardManager.updateLCD();
         drivebase.run();
         manipulator.run();
