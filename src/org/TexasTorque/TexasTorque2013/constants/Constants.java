@@ -12,5 +12,9 @@ public class Constants
     //----- Drivebase -----
     public static double MAX_DIAMETER = 1.5;
     public static double ROBOT_WIDTH = 1.0;
+    
+    //----- Gyro -----
+    public static int GYRO_ACCUMULATOR_DEADBAND = 75;
+    public static double GYRO_SENSITIVITY = 0.0065;
 
 }
