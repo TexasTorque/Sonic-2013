@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousManager;
+import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Manipulator;
@@ -39,7 +40,7 @@ public class RobotBase extends IterativeRobot
         SmartDashboard.putNumber("Test", 1477);
         SmartDashboard.putNumber("Autonomous Delay", 0.0);
         TorqueLogging.setDashboardLogging(true);
-        TorqueLogging.setLoopTime(20);
+        TorqueLogging.setLoopTime(Constants.TORQUE_LOGGING_LOOP_TIME);
         logging = TorqueLogging.getInstance();
         logging.setKeyMapping("FrameNumber,FrameTime");
         logging.startLogging();
