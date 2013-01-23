@@ -39,6 +39,7 @@ public class Ports
     public static int RIGHT_DRIVE_ENCODER_B_PORT = 5;
     
     //----- Analog Inputs -----
+    public static int GYRO_PORT = 1;
     
     //----- Relays -----
     public static int COMPRESSOR_RELAY_PORT = 1;
