@@ -2,6 +2,7 @@ package org.TexasTorque.TexasTorque2013.io;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
 import org.TexasTorque.TorqueLib.util.Motor;
@@ -9,8 +10,10 @@ import org.TexasTorque.TorqueLib.util.Motor;
 public class RobotOutput
 {
     private static RobotOutput instance;
+    //----- Pneumatics -----
     private Compressor compressor;
     private DoubleSolenoid shifters;
+    private Solenoid loader;
     //----- Drive Motors -----
     private Motor frontLeftDriveMotor;
     private Motor rearLeftDriveMotor;
@@ -26,8 +29,10 @@ public class RobotOutput
     
     public RobotOutput()
     {
+        //----- Pneumatics -----
         compressor = new Compressor(Ports.SIDECAR_ONE, Ports.PRESSURE_SWITCH_PORT, Ports.SIDECAR_ONE, Ports.COMPRESSOR_RELAY_PORT);
         shifters = new DoubleSolenoid(Ports.SHIFTERS_FORWARD_PORT, Ports.SHIFTERS_REVERSE_PORT);
+        loader = new Solenoid(Ports.LOADER_SOLENOID_PORT);
         //----- Drive Motors -----
         frontLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_LEFT_MOTOR_PORT), true, false);
         rearLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.REAR_LEFT_MOTOR_PORT), true, false);
@@ -84,6 +89,11 @@ public class RobotOutput
     public synchronized void setIntakeMotor(double speed)
     {
         intakeMotor.Set(speed);
+    }
+    
+    public synchronized void setLoaderSolenoid(boolean extend)
+    {
+        loader.set(extend);
     }
     
 }

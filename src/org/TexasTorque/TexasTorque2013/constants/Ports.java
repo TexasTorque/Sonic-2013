@@ -30,6 +30,7 @@ public class Ports
     //----- Solenoids -----
     public static int SHIFTERS_FORWARD_PORT = 1;
     public static int SHIFTERS_REVERSE_PORT = 2;
+    public static int LOADER_SOLENOID_PORT = 3;
     
     //----- Digital Inputs -----
     public static int PRESSURE_SWITCH_PORT = 1;
