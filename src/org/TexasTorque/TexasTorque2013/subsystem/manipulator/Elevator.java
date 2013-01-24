@@ -11,6 +11,7 @@ public class Elevator
     private RobotOutput robotOutput;
     private DriverInput driverInput;
     private SensorInput sensorInput;
+    private double elevatorMotorSpeed;
     
     public static Elevator getInstance()
     {
@@ -22,10 +23,11 @@ public class Elevator
         robotOutput = RobotOutput.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
+        elevatorMotorSpeed = 0;
     }
     
     public void run()
     {
-        
+        robotOutput.setElevatorMotor(elevatorMotorSpeed);
     }
 }
