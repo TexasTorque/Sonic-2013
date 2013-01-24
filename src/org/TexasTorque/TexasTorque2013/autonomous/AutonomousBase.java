@@ -9,14 +9,19 @@ import org.TexasTorque.TorqueLib.util.DashboardManager;
 public abstract class AutonomousBase
 {
     
-    public DriverStation ds = DriverStation.getInstance();
-    public Watchdog watchdog = Watchdog.getInstance();
-    public RobotOutput robotOutput = RobotOutput.getInstance();
-    public SensorInput sensorInput = SensorInput.getInstance();
-    public DashboardManager dashboardManager = DashboardManager.getInstance();
+    protected DriverStation ds;
+    protected Watchdog watchdog;
+    protected RobotOutput robotOutput;
+    protected SensorInput sensorInput;
+    protected DashboardManager dashboardManager;
     
     public AutonomousBase()
     {
+        ds = DriverStation.getInstance();
+        watchdog = Watchdog.getInstance();
+        robotOutput = RobotOutput.getInstance();
+        sensorInput = SensorInput.getInstance();
+        dashboardManager = DashboardManager.getInstance();
     }
     
     public abstract void init();

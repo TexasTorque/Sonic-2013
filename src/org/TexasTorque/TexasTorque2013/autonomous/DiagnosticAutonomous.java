@@ -1,10 +1,9 @@
 package org.TexasTorque.TexasTorque2013.autonomous;
 
-public class DoNothingAutonomous extends AutonomousBase
+public class DiagnosticAutonomous extends AutonomousBase
 {
-    
-    public DoNothingAutonomous()
-    {          
+    public DiagnosticAutonomous()
+    {
         super();
     }
     
@@ -18,8 +17,6 @@ public class DoNothingAutonomous extends AutonomousBase
         while(ds.isAutonomous())
         {
             watchdog.feed();
-            robotOutput.setLeftDriveMotors(0.0);
-            robotOutput.setRightDriveMotors(0.0);
         }
     }
     
@@ -27,5 +24,4 @@ public class DoNothingAutonomous extends AutonomousBase
     {
         
     }
-    
 }
