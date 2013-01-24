@@ -11,6 +11,7 @@ public class SensorInput
     private static SensorInput instance;
     private Encoder leftDriveEncoder;
     private Encoder rightDriveEncoder;
+    private AnalogChannel pressureSensor;
     private AnalogChannel gyroChannel;
     private Gyro gyro;
     
@@ -18,6 +19,7 @@ public class SensorInput
     {
         leftDriveEncoder = new Encoder(Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_B_PORT, true);
         rightDriveEncoder = new Encoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
+        pressureSensor = new AnalogChannel(Ports.PRESSURE_SENSOR_PORT);
         gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
         gyroChannel.setAccumulatorDeadband(Constants.GYRO_ACCUMULATOR_DEADBAND);
         gyro = new Gyro(gyroChannel);
@@ -50,6 +52,11 @@ public class SensorInput
     public synchronized double getGyroAngle()
     {
         return gyro.getAngle();
+    }
+    
+    public synchronized double getPressure()
+    {
+        return pressureSensor.getVoltage();
     }
     
 }
