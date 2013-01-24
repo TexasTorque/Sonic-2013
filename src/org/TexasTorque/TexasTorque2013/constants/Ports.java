@@ -18,14 +18,15 @@ public class Ports
         public static int REAR_RIGHT_MOTOR_PORT = 4;
         public static int INTAKE_MOTOR_PORT = 5;
         public static int ELEVATOR_MOTOR_PORT = 6;
-        public static int CLIMBING_MOTOR_A_PORT = 7;
-        public static int CLIMBING_MOTOR_B_PORT = 8;
+        public static int ROBOT_LIFT_MOTOR_A_PORT = 7;
+        public static int ROBOT_LIFT_MOTOR_B_PORT = 8;
+        
         //----- Sidecar 2 -----
         public static int FRONT_SHOOTER_MOTOR_A_PORT = 1;
         public static int FRONT_SHOOTER_MOTOR_B_PORT = 2;
         public static int REAR_SHOOTER_MOTOR_A_PORT = 3;
         public static int REAR_SHOOTER_MOTOR_B_PORT = 4;
-        public static int SHOOTER_ANGLE_MOTOR_PORT = 5;
+        public static int SHOOTER_TILT_MOTOR_PORT = 5;
     
     //----- Solenoids -----
     public static int SHIFTERS_FORWARD_PORT = 1;

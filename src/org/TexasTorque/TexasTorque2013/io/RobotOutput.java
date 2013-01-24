@@ -24,8 +24,12 @@ public class RobotOutput
     private Motor frontShooterMotorB;
     private Motor rearShooterMotorA;
     private Motor rearShooterMotorB;
+    private Motor shooterTiltMotor;
     //----- Misc Motors -----
     private Motor intakeMotor;
+    private Motor elevatorMotor;
+    private Motor robotLiftMotorA;
+    private Motor robotLiftMotorB;
     
     public RobotOutput()
     {
@@ -43,9 +47,12 @@ public class RobotOutput
         frontShooterMotorB = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_MOTOR_B_PORT), false, false);
         rearShooterMotorA = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_MOTOR_A_PORT), false, false);
         rearShooterMotorB = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_MOTOR_B_PORT), false, false);
+        shooterTiltMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.SHOOTER_TILT_MOTOR_PORT),false,false);
         //----- Misc Motors -----
         intakeMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.INTAKE_MOTOR_PORT), false, false);
-        
+        elevatorMotor = new Motor(new Victor(Ports.SIDECAR_ONE,Ports.ELEVATOR_MOTOR_PORT),false,false);
+        robotLiftMotorA = new Motor(new Victor(Ports.SIDECAR_ONE,Ports.ROBOT_LIFT_MOTOR_A_PORT),false,false);
+        robotLiftMotorB = new Motor(new Victor(Ports.SIDECAR_ONE,Ports.ROBOT_LIFT_MOTOR_B_PORT),false,false);
         compressor.start();
     }
  
@@ -89,6 +96,22 @@ public class RobotOutput
     public synchronized void setIntakeMotor(double speed)
     {
         intakeMotor.Set(speed);
+    }
+    
+    public synchronized void setRobotLiftMotors(double motorASpeed, double motorBSpeed)
+    {
+        robotLiftMotorA.Set(motorASpeed);
+        robotLiftMotorB.Set(motorBSpeed);
+    }
+    
+    public synchronized void setElevatorMotor(double speed)
+    {
+        elevatorMotor.Set(speed);
+    }
+    
+    public synchronized void setShooterTiltMotor(double speed)
+    {
+        shooterTiltMotor.Set(speed);
     }
     
     public synchronized void setLoaderSolenoid(boolean extend)
