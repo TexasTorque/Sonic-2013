@@ -12,6 +12,8 @@ public class Manipulator
     private SensorInput sensorInput;
     private DriverInput driverInput;
     private Shooter shooter;
+    private Elevator elevator;
+    private Intake intake;
     
     public static Manipulator getInstance()
     {
@@ -24,11 +26,15 @@ public class Manipulator
         sensorInput = SensorInput.getInstance();
         driverInput = DriverInput.getInstance();
         shooter = Shooter.getInstance();
+        elevator = Elevator.getInstance();
+        intake = Intake.getInstance();
     }
     
     public void run()
     {
         shooter.run();
+        elevator.run();
+        intake.run();
     }
     
 }
