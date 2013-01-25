@@ -43,6 +43,7 @@ public class Ports
     //----- Analog Inputs -----
     public static int GYRO_PORT = 1;
     public static int PRESSURE_SENSOR_PORT = 2;
+    public static int TILT_POTENTIOMETER_PORT = 3;
     
     //----- Relays -----
     public static int COMPRESSOR_RELAY_PORT = 1;

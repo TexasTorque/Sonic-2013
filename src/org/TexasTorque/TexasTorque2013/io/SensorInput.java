@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
+import org.TexasTorque.TorqueLib.sensor.TorquePotentiometer;
 
 public class SensorInput
 {
@@ -14,6 +15,7 @@ public class SensorInput
     private AnalogChannel pressureSensor;
     private AnalogChannel gyroChannel;
     private Gyro gyro;
+    private TorquePotentiometer tiltPotentiometer;
     
     public SensorInput()
     {
@@ -24,6 +26,7 @@ public class SensorInput
         gyroChannel.setAccumulatorDeadband(Constants.GYRO_ACCUMULATOR_DEADBAND);
         gyro = new Gyro(gyroChannel);
         gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
+        tiltPotentiometer = new TorquePotentiometer(Ports.TILT_POTENTIOMETER_PORT);
         leftDriveEncoder.start();
         rightDriveEncoder.start();
     }
@@ -57,6 +60,11 @@ public class SensorInput
     public synchronized double getPressure()
     {
         return pressureSensor.getVoltage();
+    }
+    
+    public synchronized double getTiltPotentiometer()
+    {
+        return tiltPotentiometer.get();
     }
     
 }
