@@ -56,7 +56,7 @@ public class SensorInput
     
     public synchronized double getGyroAngle()
     {
-        return gyro.getAngle();
+        return gyro.getAngle() * 2;
     }
     
     public synchronized double getPressure()

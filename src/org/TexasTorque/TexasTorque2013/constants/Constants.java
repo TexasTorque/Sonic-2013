@@ -15,7 +15,7 @@ public class Constants
     
     //----- Gyro -----
     public static int GYRO_ACCUMULATOR_DEADBAND = 75;
-    public static double GYRO_SENSITIVITY = 0.0065;
+    public static double GYRO_SENSITIVITY = 0.0136;
     
     //----- Misc -----
     public static int TORQUE_LOGGING_LOOP_TIME = 20;
