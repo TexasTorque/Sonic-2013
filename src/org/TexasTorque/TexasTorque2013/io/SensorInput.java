@@ -25,10 +25,12 @@ public class SensorInput
         gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
         gyroChannel.setAccumulatorDeadband(Constants.GYRO_ACCUMULATOR_DEADBAND);
         gyro = new Gyro(gyroChannel);
+        gyro.reset();
         gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
         tiltPotentiometer = new TorquePotentiometer(Ports.TILT_POTENTIOMETER_PORT);
         leftDriveEncoder.start();
         rightDriveEncoder.start();
+        
     }
     
     public synchronized static SensorInput getInstance()
