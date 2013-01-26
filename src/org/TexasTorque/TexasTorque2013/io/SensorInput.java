@@ -28,6 +28,7 @@ public class SensorInput
         gyro.reset();
         gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
         tiltPotentiometer = new TorquePotentiometer(Ports.TILT_POTENTIOMETER_PORT);
+        tiltPotentiometer.setRange(0.0, 5.0);
         leftDriveEncoder.start();
         rightDriveEncoder.start();
         

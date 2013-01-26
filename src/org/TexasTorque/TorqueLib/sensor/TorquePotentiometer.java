@@ -26,12 +26,28 @@ public class TorquePotentiometer
     
     public double get()
     {
-        return (pot.getVoltage() - minVoltage) / (maxVoltage - minVoltage);
+        return limitValue((pot.getVoltage() - minVoltage) / (maxVoltage - minVoltage));
     }
     
     public double getRaw()
     {
         return pot.getVoltage();
+    }
+    
+    private double limitValue(double value)
+    {
+        if(value > 1.0)
+        {
+            return 1.0;
+        }
+        else if(value < 0.0)
+        {
+            return 0.0;
+        }
+        else
+        {
+            return value;
+        }
     }
     
 }

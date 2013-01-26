@@ -29,6 +29,7 @@ public class RobotBase extends IterativeRobot
     {
         watchdog = Watchdog.getInstance();
         watchdog.setEnabled(true);
+        params = Parameters.getInstance();
         params.load();
         dashboardManager = DashboardManager.getInstance();
         driverInput = DriverInput.getInstance();
