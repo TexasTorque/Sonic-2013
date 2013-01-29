@@ -23,7 +23,7 @@ public class Elevator
         robotOutput = RobotOutput.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
-        elevatorMotorSpeed = 0;
+        elevatorMotorSpeed = 0.0;
     }
     
     public void run()
