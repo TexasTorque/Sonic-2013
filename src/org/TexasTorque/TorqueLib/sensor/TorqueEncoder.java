@@ -34,6 +34,13 @@ public class TorqueEncoder extends Thread
         initEncoder();
     }
     
+    public void setOptions(double period, int clicks, boolean reset)
+    {
+        setThreadPeriod(period);
+        setClicksPerRev(clicks);
+        setResetData(reset);
+    }
+    
     public void setThreadPeriod(double period)
     {
         threadPeriod = period;

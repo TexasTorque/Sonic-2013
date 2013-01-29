@@ -1,19 +1,19 @@
 package org.TexasTorque.TexasTorque2013.io;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
+import org.TexasTorque.TorqueLib.sensor.TorqueEncoder;
 import org.TexasTorque.TorqueLib.sensor.TorquePotentiometer;
 
 public class SensorInput
 {
     private static SensorInput instance;
-    private Encoder leftDriveEncoder;
-    private Encoder rightDriveEncoder;
-    private Encoder frontShooterEncoder;
-    private Encoder rearShooterEncoder;
+    private TorqueEncoder leftDriveEncoder;
+    private TorqueEncoder rightDriveEncoder;
+    private TorqueEncoder frontShooterEncoder;
+    private TorqueEncoder rearShooterEncoder;
     private AnalogChannel pressureSensor;
     private AnalogChannel gyroChannel;
     private Gyro gyro;
@@ -21,10 +21,10 @@ public class SensorInput
     
     public SensorInput()
     {
-        leftDriveEncoder = new Encoder(Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_B_PORT, true);
-        rightDriveEncoder = new Encoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
-        frontShooterEncoder = new Encoder(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_B_PORT, false);
-        rearShooterEncoder = new Encoder(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_B_PORT, false);
+        leftDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_B_PORT, true);
+        rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
+        frontShooterEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_B_PORT, false);
+        rearShooterEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_B_PORT, false);
         pressureSensor = new AnalogChannel(Ports.PRESSURE_SENSOR_PORT);
         gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
         gyroChannel.setAccumulatorDeadband(Constants.GYRO_ACCUMULATOR_DEADBAND);
@@ -43,18 +43,22 @@ public class SensorInput
     
     private void startEncoders()
     {
+        leftDriveEncoder.setOptions(20, 250, false);
+        rightDriveEncoder.setOptions(20, 250, false);
+        frontShooterEncoder.setOptions(20, 250, true);
+        rearShooterEncoder.setOptions(20, 250, true);
         leftDriveEncoder.start();
-        rightDriveEncoder.start();
+        rightDriveEncoder.start();        
         frontShooterEncoder.start();
         rearShooterEncoder.start();
     }
     
     public synchronized void resetEncoders()
     {
-        leftDriveEncoder.reset();
-        rightDriveEncoder.reset();
-        frontShooterEncoder.reset();
-        rearShooterEncoder.reset();
+        leftDriveEncoder.resetEncoder();
+        rightDriveEncoder.resetEncoder();
+        frontShooterEncoder.resetEncoder();
+        rearShooterEncoder.resetEncoder();
     }
     
     public synchronized int getLeftDriveEncoder()
