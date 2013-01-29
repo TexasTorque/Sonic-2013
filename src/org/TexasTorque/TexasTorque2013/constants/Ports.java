@@ -34,11 +34,17 @@ public class Ports
     public static int LOADER_SOLENOID_PORT = 3;
     
     //----- Digital Inputs -----
-    public static int PRESSURE_SWITCH_PORT = 1;
-    public static int LEFT_DRIVE_ENCODER_A_PORT = 2;
-    public static int LEFT_DRIVE_ENCODER_B_PORT = 3;
-    public static int RIGHT_DRIVE_ENCODER_A_PORT = 4;
-    public static int RIGHT_DRIVE_ENCODER_B_PORT = 5;
+        //----- Sidecar 1 -----
+        public static int PRESSURE_SWITCH_PORT = 1;
+        public static int LEFT_DRIVE_ENCODER_A_PORT = 2;
+        public static int LEFT_DRIVE_ENCODER_B_PORT = 3;
+        public static int RIGHT_DRIVE_ENCODER_A_PORT = 4;
+        public static int RIGHT_DRIVE_ENCODER_B_PORT = 5;
+        public static int FRONT_SHOOTER_ENCODER_A_PORT = 6;
+        public static int FRONT_SHOOTER_ENCODER_B_PORT = 7;
+        public static int REAR_SHOOTER_ENCODER_A_PORT = 8;
+        public static int REAR_SHOOTER_ENCODER_B_PORT = 9;
+        //----- Sidecar 2 -----
     
     //----- Analog Inputs -----
     public static int GYRO_PORT = 1;
