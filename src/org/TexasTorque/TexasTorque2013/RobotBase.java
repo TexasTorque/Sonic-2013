@@ -38,13 +38,8 @@ public class RobotBase extends IterativeRobot
         autoManager = new AutonomousManager();
         drivebase = Drivebase.getInstance();
         manipulator = Manipulator.getInstance();
-        SmartDashboard.putNumber("Test", 1477);
-        SmartDashboard.putNumber("Autonomous Delay", 0.0);
-        TorqueLogging.setDashboardLogging(true);
-        TorqueLogging.setLoopTime(Constants.TORQUE_LOGGING_LOOP_TIME);
-        logging = TorqueLogging.getInstance();
-        logging.setKeyMapping("FrameNumber,FrameTime");
-        logging.startLogging();
+        initSmartDashboard();
+        initLogging();
     }
 
     public void autonomousInit()
@@ -81,6 +76,21 @@ public class RobotBase extends IterativeRobot
     {
         watchdog.feed();
         dashboardManager.updateLCD();
+    }
+    
+    public void initSmartDashboard()
+    {
+        SmartDashboard.putNumber("Test", 1477);
+        SmartDashboard.putNumber("Autonomous Delay", 0.0);
+    }
+    
+    public void initLogging()
+    {
+        TorqueLogging.setDashboardLogging(true);
+        TorqueLogging.setLoopTime(Constants.TORQUE_LOGGING_LOOP_TIME);
+        logging = TorqueLogging.getInstance();
+        logging.setKeyMapping("FrameNumber,FrameTime");
+        logging.startLogging();
     }
     
 }

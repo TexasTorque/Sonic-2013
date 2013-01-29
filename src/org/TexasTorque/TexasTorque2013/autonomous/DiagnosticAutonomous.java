@@ -24,4 +24,5 @@ public class DiagnosticAutonomous extends AutonomousBase
     {
         
     }
+    
 }
