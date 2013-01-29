@@ -8,6 +8,7 @@ public class Constants
     
     //----- Autonomous -----
     public static int DO_NOTHING_AUTO = 1;
+    public static int DIAGNOSTIC_AUTO = 2;
     
     //----- Drivebase -----
     public static double MAX_DIAMETER = 1.5;
