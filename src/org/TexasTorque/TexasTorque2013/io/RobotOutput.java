@@ -14,6 +14,7 @@ public class RobotOutput
     private Compressor compressor;
     private DoubleSolenoid shifters;
     private Solenoid loader;
+    private Solenoid frisbeeLifter;
     //----- Drive Motors -----
     private Motor frontLeftDriveMotor;
     private Motor rearLeftDriveMotor;
@@ -37,6 +38,7 @@ public class RobotOutput
         compressor = new Compressor(Ports.SIDECAR_ONE, Ports.PRESSURE_SWITCH_PORT, Ports.SIDECAR_ONE, Ports.COMPRESSOR_RELAY_PORT);
         shifters = new DoubleSolenoid(Ports.SHIFTERS_FORWARD_PORT, Ports.SHIFTERS_REVERSE_PORT);
         loader = new Solenoid(Ports.LOADER_SOLENOID_PORT);
+        frisbeeLifter = new Solenoid(Ports.FRISBEE_LIFTER_SOLENOID_PORT);
         //----- Drive Motors -----
         frontLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_LEFT_MOTOR_PORT), true, false);
         rearLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.REAR_LEFT_MOTOR_PORT), true, false);
@@ -117,6 +119,11 @@ public class RobotOutput
     public synchronized void setLoaderSolenoid(boolean extend)
     {
         loader.set(extend);
+    }
+    
+    public synchronized void setFrisbeeLifter(boolean extend)
+    {
+        frisbeeLifter.set(extend);
     }
     
 }
