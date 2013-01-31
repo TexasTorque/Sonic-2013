@@ -66,6 +66,10 @@ public class Drivebase
     
     public void cheesyDrive(double throttle, double turn)
     {
+        int ySign = (throttle > 0) ? 1 : -1;
+        int xSign = (turn > 0) ? 1 : -1;
+        throttle = Math.sqrt(Math.abs(throttle)) * ySign;
+        turn = Math.sqrt(Math.abs(turn)) * xSign;
         double power;
         double trueSpeed;
         double RadiusOutter = Constants.MAX_DIAMETER / 2;
