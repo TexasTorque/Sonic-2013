@@ -77,11 +77,11 @@ public class Drivebase
         double SpeedInner = 0.0;
         if(driverInput.getLowGear())
         {
-            turn = turn * params.getAsDouble("LowSensitivity", 1.25);
+            turn = turn * params.getAsDouble("LowSensitivity", Constants.DEFAULT_LOW_SENSITIVITY);
         }
         else if(driverInput.getHighGear())
         {
-            turn = turn * params.getAsDouble("HighSensitivity", 0.7);
+            turn = turn * params.getAsDouble("HighSensitivity", Constants.DEFAULT_HIGH_SENSITIVITY);
         }
         if(turn == 0.0)
         {

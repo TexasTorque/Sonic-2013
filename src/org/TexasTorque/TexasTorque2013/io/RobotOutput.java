@@ -28,9 +28,8 @@ public class RobotOutput
     private Motor shooterTiltMotor;
     //----- Misc Motors -----
     private Motor intakeMotor;
-    private Motor elevatorMotor;
-    private Motor robotLiftMotorA;
-    private Motor robotLiftMotorB;
+    private Motor elevatorMotorLeft;
+    private Motor elevatorMotorRight;
     
     public RobotOutput()
     {
@@ -52,9 +51,8 @@ public class RobotOutput
         shooterTiltMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.SHOOTER_TILT_MOTOR_PORT),false,false);
         //----- Misc Motors -----
         intakeMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.INTAKE_MOTOR_PORT), false, false);
-        elevatorMotor = new Motor(new Victor(Ports.SIDECAR_ONE,Ports.ELEVATOR_MOTOR_PORT),false,false);
-        robotLiftMotorA = new Motor(new Victor(Ports.SIDECAR_ONE,Ports.ROBOT_LIFT_MOTOR_A_PORT),false,false);
-        robotLiftMotorB = new Motor(new Victor(Ports.SIDECAR_ONE,Ports.ROBOT_LIFT_MOTOR_B_PORT),false,false);
+        elevatorMotorLeft = new Motor(new Victor(Ports.SIDECAR_ONE,Ports.ELEVATOR_MOTOR_PORT_LEFT),false,false);
+        elevatorMotorRight = new Motor(new Victor(Ports.SIDECAR_ONE,Ports.ELEVATOR_MOTOR_PORT_RIGHT),false,false);
         compressor.start();
     }
  
@@ -100,15 +98,10 @@ public class RobotOutput
         intakeMotor.Set(speed);
     }
     
-    public synchronized void setRobotLiftMotors(double motorASpeed, double motorBSpeed)
+    public synchronized void setElevatorMotors(double speed)
     {
-        robotLiftMotorA.Set(motorASpeed);
-        robotLiftMotorB.Set(motorBSpeed);
-    }
-    
-    public synchronized void setElevatorMotor(double speed)
-    {
-        elevatorMotor.Set(speed);
+        elevatorMotorLeft.Set(speed);
+        elevatorMotorRight.Set(speed);
     }
     
     public synchronized void setShooterTiltMotor(double speed)
