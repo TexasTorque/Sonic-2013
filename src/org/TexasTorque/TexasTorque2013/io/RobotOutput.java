@@ -12,9 +12,9 @@ public class RobotOutput
     private static RobotOutput instance;
     //----- Pneumatics -----
     private Compressor compressor;
-    private DoubleSolenoid frisbeeLifter;
-    private DoubleSolenoid shifters;
+    private Solenoid driveShifter;
     private Solenoid loader;
+    private DoubleSolenoid frisbeeLifter;
     //----- Drive Motors -----
     private Motor frontLeftDriveMotor;
     private Motor rearLeftDriveMotor;
@@ -35,7 +35,7 @@ public class RobotOutput
     {
         //----- Pneumatics -----
         compressor = new Compressor(Ports.SIDECAR_ONE, Ports.PRESSURE_SWITCH_PORT, Ports.SIDECAR_ONE, Ports.COMPRESSOR_RELAY_PORT);
-        shifters = new DoubleSolenoid(Ports.SHIFTERS_FORWARD_PORT, Ports.SHIFTERS_REVERSE_PORT);
+        driveShifter = new Solenoid(Ports.DRIVE_SHIFTER_PORT);
         loader = new Solenoid(Ports.LOADER_SOLENOID_PORT);
         frisbeeLifter = new DoubleSolenoid(Ports.FRISBEE_LIFTER_SOLENOID_A_PORT, Ports.FRISBEE_LIFTER_SOLENOID_B_PORT);
         //----- Drive Motors -----
@@ -63,14 +63,7 @@ public class RobotOutput
     
     public synchronized void setShifters(boolean highGear)
     {
-        if(highGear)
-        {
-            shifters.set(DoubleSolenoid.Value.kForward);
-        }
-        else
-        {
-            shifters.set(DoubleSolenoid.Value.kReverse);
-        }
+        driveShifter.set(highGear);
     }
     
     public synchronized void setLeftDriveMotors(double leftSpeed)
