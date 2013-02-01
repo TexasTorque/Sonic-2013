@@ -7,8 +7,15 @@ public class Constants
     public static double TURN_AXIS_DEADBAND = 0.07;
     
     //----- Autonomous -----
-    public static int DO_NOTHING_AUTO = 1;
-    public static int DIAGNOSTIC_AUTO = 2;
+    public static int DO_NOTHING_AUTO = 0;
+    public static int DIAGNOSTIC_AUTO = 1;
+    public static int FRONT_SHOOT_AUTO = 2;
+    public static int FRONT_DRIVE_AUTO = 3;
+    public static int REAR_SHOOT_AUTO = 4;
+    public static int REAR_DRIVE_FORWARD_AUTO = 5;
+    public static int REAR_DRIVE_FORWARD_DOUBLE_AUTO = 6;
+    public static int REAR_DRIVE_REVERSE_AUTO = 7;
+    public static int REAR_DRIVE_REVERSE_SHOOT_AUTO = 8;
     
     //----- Drivebase -----
     public static double MAX_DIAMETER = 1.5;
