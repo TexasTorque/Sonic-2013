@@ -41,4 +41,9 @@ public class DriverInput
     {
         return !driveController.getSwitch();
     }
+    
+    public synchronized boolean getRunIntake()
+    {
+        return operatorController.getRightBumper();
+    }
 }
