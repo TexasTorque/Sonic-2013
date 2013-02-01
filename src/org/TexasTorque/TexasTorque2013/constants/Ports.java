@@ -31,7 +31,8 @@ public class Ports
     public static int SHIFTERS_FORWARD_PORT = 1;
     public static int SHIFTERS_REVERSE_PORT = 2;
     public static int LOADER_SOLENOID_PORT = 3;
-    public static int FRISBEE_LIFTER_SOLENOID_PORT = 4;
+    public static int FRISBEE_LIFTER_SOLENOID_A_PORT = 4;
+    public static int FRISBEE_LIFTER_SOLENOID_B_PORT = 5;
     
     //----- Digital Inputs -----
         //----- Sidecar 1 -----
