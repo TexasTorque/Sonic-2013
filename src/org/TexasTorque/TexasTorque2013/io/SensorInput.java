@@ -71,6 +71,16 @@ public class SensorInput
         return rightDriveEncoder.get();
     }
     
+    public synchronized double getLeftDriveEncoderRate()
+    {
+        return leftDriveEncoder.getRate();
+    }
+    
+    public synchronized double getRightDriveEncoderRate()
+    {
+        return rightDriveEncoder.getRate();
+    }
+    
     public synchronized double getGyroAngle()
     {
         return gyro.getAngle() * 2;
