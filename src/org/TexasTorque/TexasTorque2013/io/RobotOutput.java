@@ -61,19 +61,10 @@ public class RobotOutput
         return (instance == null) ? instance = new RobotOutput() : instance;
     }
     
-    public synchronized void setShifters(boolean highGear)
-    {
-        driveShifter.set(highGear);
-    }
-    
-    public synchronized void setLeftDriveMotors(double leftSpeed)
+    public synchronized void setDriveMotors(double leftSpeed, double rightSpeed)
     {
         frontLeftDriveMotor.Set(leftSpeed);
         rearLeftDriveMotor.Set(leftSpeed);
-    }
-    
-    public synchronized void setRightDriveMotors(double rightSpeed)
-    {
         frontRightDriveMotor.Set(rightSpeed);
         rearRightDriveMotor.Set(rightSpeed);
     }
@@ -105,6 +96,11 @@ public class RobotOutput
     public synchronized void setLoaderSolenoid(boolean extend)
     {
         loader.set(extend);
+    }
+    
+    public synchronized void setShifters(boolean highGear)
+    {
+        driveShifter.set(highGear);
     }
     
     public synchronized void setFrisbeeLifter(boolean extend)

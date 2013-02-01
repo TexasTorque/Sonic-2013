@@ -42,8 +42,7 @@ public class Drivebase
             robotOutput.setShifters(false);
         }
         mixChannels(driverInput.driveController.getThrottle(), driverInput.driveController.getWheel());
-        robotOutput.setLeftDriveMotors(leftDriveSpeed);
-        robotOutput.setRightDriveMotors(rightDriveSpeed);
+        robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
     
     public void mixChannels(double yAxis, double xAxis)

@@ -18,8 +18,7 @@ public class DoNothingAutonomous extends AutonomousBase
         while(ds.isAutonomous())
         {
             watchdog.feed();
-            robotOutput.setLeftDriveMotors(0.0);
-            robotOutput.setRightDriveMotors(0.0);
+            robotOutput.setDriveMotors(0.0, 0.0);
         }
     }
     
