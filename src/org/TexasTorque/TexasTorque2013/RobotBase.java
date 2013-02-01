@@ -15,15 +15,15 @@ import org.TexasTorque.TorqueLib.util.TorqueLogging;
 public class RobotBase extends IterativeRobot
 {
     Watchdog watchdog;
+    Parameters params;
+    TorqueLogging logging;
     DashboardManager dashboardManager;
     DriverInput driverInput;
     SensorInput sensorInput;
     RobotOutput robotOutput;
-    AutonomousManager autoManager;
-    Parameters params;
-    TorqueLogging logging;
     Drivebase drivebase;
     Manipulator  manipulator;
+    AutonomousManager autoManager;
     
     public void robotInit()
     {
@@ -31,20 +31,20 @@ public class RobotBase extends IterativeRobot
         watchdog.setEnabled(true);
         params = Parameters.getInstance();
         params.load();
+        initSmartDashboard();
+        initLogging();
         dashboardManager = DashboardManager.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
         robotOutput = RobotOutput.getInstance();
-        autoManager = new AutonomousManager();
         drivebase = Drivebase.getInstance();
         manipulator = Manipulator.getInstance();
-        initSmartDashboard();
-        initLogging();
+        autoManager = new AutonomousManager();
     }
 
     public void autonomousInit()
     {
-        autoManager.setAutonomousDelay(SmartDashboard.getNumber("Autonomous Delay", 0.0));
+        autoManager.setAutonomousDelay(driverInput.getAutonomousDelay());
         sensorInput.resetEncoders();
     }
 
@@ -63,9 +63,9 @@ public class RobotBase extends IterativeRobot
     {
         watchdog.feed();
         logging.logValue("FrameTime", dashboardManager.getDS().getMatchTime());
-        dashboardManager.updateLCD();
         drivebase.run();
         manipulator.run();
+        dashboardManager.updateLCD();
     }
     
     public void disabledInit()
@@ -80,7 +80,6 @@ public class RobotBase extends IterativeRobot
     
     public void initSmartDashboard()
     {
-        SmartDashboard.putNumber("Test", 1477);
         SmartDashboard.putNumber("Autonomous Delay", 0.0);
     }
     

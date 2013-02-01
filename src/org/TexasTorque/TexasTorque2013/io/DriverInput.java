@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.io;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
 import org.TexasTorque.TorqueLib.controller.*;
 
@@ -30,6 +31,11 @@ public class DriverInput
         {
             return axisValue;
         }
+    }
+    
+    public synchronized double getAutonomousDelay()
+    {
+        return SmartDashboard.getNumber("Autonomous Delay", 0.0);
     }
     
     public synchronized boolean getHighGear()
