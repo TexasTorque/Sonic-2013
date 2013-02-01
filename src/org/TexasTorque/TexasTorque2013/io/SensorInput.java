@@ -11,36 +11,39 @@ import org.TexasTorque.TorqueLib.sensor.TorquePotentiometer;
 public class SensorInput
 {
     private static SensorInput instance;
+    //----- Encoder -----
     private TorqueEncoder leftDriveEncoder;
     private TorqueEncoder rightDriveEncoder;
     private TorqueEncoder frontShooterEncoder;
     private TorqueEncoder rearShooterEncoder;
     private TorqueEncoder elevatorEncoder;
+    //----- Analog -----
     private AnalogChannel pressureSensor;
     private AnalogChannel gyroChannel;
     private Gyro gyro;
     private TorquePotentiometer tiltPotentiometer;
+    //----- Other Digital -----
     private DigitalInput wheelyBarSwitch;
     
     public SensorInput()
     {
         //----- Encoders -----
-            leftDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_B_PORT, true);
-            rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
-            frontShooterEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_B_PORT, false);
-            rearShooterEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_B_PORT, false);
-            elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_B_PORT, true);
+        leftDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.LEFT_DRIVE_ENCODER_B_PORT, true);
+        rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
+        frontShooterEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_B_PORT, false);
+        rearShooterEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_B_PORT, false);
+        elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_B_PORT, true);
         //----- Gyro -----
-            gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
-            gyroChannel.setAccumulatorDeadband(Constants.GYRO_ACCUMULATOR_DEADBAND);
-            gyro = new Gyro(gyroChannel);
-            gyro.reset();
-            gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
+        gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
+        gyroChannel.setAccumulatorDeadband(Constants.GYRO_ACCUMULATOR_DEADBAND);
+        gyro = new Gyro(gyroChannel);
+        gyro.reset();
+        gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
         //----- Misc -----
-            pressureSensor = new AnalogChannel(Ports.PRESSURE_SENSOR_PORT);
-            wheelyBarSwitch = new DigitalInput(Ports.SIDECAR_ONE, Ports.WHEELY_BAR_SWITCH_PORT);
-            tiltPotentiometer = new TorquePotentiometer(Ports.TILT_POTENTIOMETER_PORT);
-            tiltPotentiometer.setRange(0.0, 5.0);
+        pressureSensor = new AnalogChannel(Ports.PRESSURE_SENSOR_PORT);
+        wheelyBarSwitch = new DigitalInput(Ports.SIDECAR_ONE, Ports.WHEELY_BAR_SWITCH_PORT);
+        tiltPotentiometer = new TorquePotentiometer(Ports.TILT_POTENTIOMETER_PORT);
+        tiltPotentiometer.setRange(0.0, 5.0);
         startEncoders();
     }
     
