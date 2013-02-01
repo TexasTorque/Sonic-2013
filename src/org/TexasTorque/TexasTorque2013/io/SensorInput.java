@@ -45,8 +45,8 @@ public class SensorInput
     {
         leftDriveEncoder.setOptions(20, 250, false);
         rightDriveEncoder.setOptions(20, 250, false);
-        frontShooterEncoder.setOptions(20, 250, true);
-        rearShooterEncoder.setOptions(20, 250, true);
+        frontShooterEncoder.setOptions(20, 100, true);
+        rearShooterEncoder.setOptions(20, 100, true);
         leftDriveEncoder.start();
         rightDriveEncoder.start();        
         frontShooterEncoder.start();
