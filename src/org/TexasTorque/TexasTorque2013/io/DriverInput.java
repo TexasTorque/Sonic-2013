@@ -7,12 +7,12 @@ public class DriverInput
 {
     private static DriverInput instance;
     public TraxxasTQ3 driveController;
-    public XBox360Controller opperatorController;
+    public XBox360Controller operatorController;
         
     public DriverInput()
     {
         driveController = new TraxxasTQ3(Ports.DRIVE_CONTROLLER_PORT);
-        opperatorController = new XBox360Controller(Ports.OPERATOR_CONTROLLER_PORT);
+        operatorController = new XBox360Controller(Ports.OPERATOR_CONTROLLER_PORT);
     }
     
     public synchronized static DriverInput getInstance()

@@ -28,6 +28,6 @@ public class Elevator
     
     public void run()
     {
-        robotOutput.setElevatorMotor(elevatorMotorSpeed);
+        robotOutput.setElevatorMotors(elevatorMotorSpeed);
     }
 }
