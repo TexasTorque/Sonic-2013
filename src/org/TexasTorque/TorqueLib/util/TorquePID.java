@@ -161,7 +161,7 @@ public/* abstract*/ class TorquePID extends Thread
             while(waiting){}
             //setCurrentPosition();
             output = calcPID();
-            System.err.println("Position " + currentPosition + "\tOutput: " + output + "\tIE: " + instantaneousError);
+            //System.err.println("Position " + currentPosition + "\tOutput: " + output + "\tIE: " + instantaneousError);
             try{super.sleep(threadInterval);}catch(InterruptedException e){}
         }
         isRunning = false;
