@@ -46,6 +46,8 @@ public class Ports
         public static int REAR_SHOOTER_ENCODER_B_PORT = 9;
         public static int WHEELY_BAR_SWITCH_PORT = 10;
         //----- Sidecar 2 -----
+        public static int ELEVATOR_ENCODER_A_PORT = 1;
+        public static int ELEVATOR_ENCODER_B_PORT = 2;
     
     //----- Analog Inputs -----
     public static int GYRO_PORT = 1;
