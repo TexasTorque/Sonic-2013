@@ -29,9 +29,9 @@ public class Shooter
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
         params = Parameters.getInstance();
+        frontMotorSpeed = 0.0;
         rearMotorSpeed = 0.0;
         tiltMotorSpeed = 0.0;
-        frontMotorSpeed = 0.0;
     }
     
     public void run()
