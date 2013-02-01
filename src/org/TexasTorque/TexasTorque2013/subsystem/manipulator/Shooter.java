@@ -44,6 +44,7 @@ public class Shooter
     
     public void run()
     {
+        tiltPID.setCurrentPosition(sensorInput.getTiltPotentiometer());
         robotOutput.setShooterMotors(frontMotorSpeed, rearMotorSpeed);
         robotOutput.setShooterTiltMotor(tiltMotorSpeed);
     }
