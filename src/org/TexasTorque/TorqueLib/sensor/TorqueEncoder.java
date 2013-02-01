@@ -87,7 +87,7 @@ public class TorqueEncoder extends Thread
             previousVel = currentRate;
             Timer.delay(threadPeriod / 1000);
             current = encoder.get();
-            rateArray[arrayIndex] = (current - previous) / ((threadPeriod / 1000) * clicksPerRev);
+            rateArray[arrayIndex] = ((current - previous) * 60) / ((threadPeriod / 1000) * clicksPerRev);
             calcRate();
             currentVel = currentRate;
             accArray[arrayIndex] = (currentVel - previousVel) / (threadPeriod / 1000);
