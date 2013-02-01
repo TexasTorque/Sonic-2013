@@ -44,6 +44,7 @@ public class Ports
         public static int FRONT_SHOOTER_ENCODER_B_PORT = 7;
         public static int REAR_SHOOTER_ENCODER_A_PORT = 8;
         public static int REAR_SHOOTER_ENCODER_B_PORT = 9;
+        public static int WHEELY_BAR_SWITCH_PORT = 10;
         //----- Sidecar 2 -----
     
     //----- Analog Inputs -----
