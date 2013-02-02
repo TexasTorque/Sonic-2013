@@ -31,10 +31,13 @@ public class Elevator
         sensorInput = SensorInput.getInstance();
         params = Parameters.getInstance();
         
-        elevatorPID = new SimPID(params.getAsDouble("ElevatorP", 0.0)
-                , params.getAsDouble("ElevatorI", 0.0)
-                , params.getAsDouble("ElevatorD", 0.0)
-                , params.getAsInt("ElevatorEpsilon", 0));
+        double p = params.getAsDouble("ElevatorP", 0.0);
+        double i = params.getAsDouble("ElevatorI", 0.0);
+        double d = params.getAsDouble("ElevatorD", 0.0);
+        int e = params.getAsInt("ElevatorEpsilon", 0);
+        
+        elevatorPID = new SimPID(p, i, d, e);
+        
         elevatorMotorSpeed = 0.0;
         desiredElevatorPosition = Constants.ELEVATOR_BOTTOM_POSITION;
     }
@@ -54,11 +57,14 @@ public class Elevator
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
     }
     
-    public synchronized void setElevatorPID()
+    public synchronized void loadElevatorPID()
     {
-        elevatorPID.setConstants(params.getAsDouble("ElevatorP", 0.0)
-                , params.getAsDouble("ElevatorI", 0.0)
-                , params.getAsDouble("ElevatorD", 0.0));
+        double p = params.getAsDouble("ElevatorP", 0.0);
+        double i = params.getAsDouble("ElevatorI", 0.0);
+        double d = params.getAsDouble("ElevatorD", 0.0);
+        
+        elevatorPID.setConstants(p, i, d);
+        
         elevatorPID.setErrorEpsilon(params.getAsInt("ElevatorEpsilon", 0));
     }
     

@@ -59,7 +59,7 @@ public class Drivebase
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
     
-    public synchronized void setGyroPID()
+    public synchronized void loadGyroPID()
     {
         double p = params.getAsDouble("GyroP", 0.0);
         double i = params.getAsDouble("GyroI", 0.0);

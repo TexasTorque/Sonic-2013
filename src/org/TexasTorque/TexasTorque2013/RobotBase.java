@@ -103,11 +103,11 @@ public class RobotBase extends IterativeRobot
     
     public void pullNewPIDGains()
     {
-        Elevator.getInstance().setElevatorPID();
-        Shooter.getInstance().setFrontShooterPID();
-        Shooter.getInstance().setRearShooterPID();
-        Shooter.getInstance().setTiltPID();
-        drivebase.setGyroPID();
+        Elevator.getInstance().loadElevatorPID();
+        Shooter.getInstance().loadFrontShooterPID();
+        Shooter.getInstance().loadRearShooterPID();
+        Shooter.getInstance().loadTiltPID();
+        drivebase.loadGyroPID();
     }
     
 }

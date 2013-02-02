@@ -34,18 +34,28 @@ public class Shooter
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
         params = Parameters.getInstance();
-        frontShooterPID = new SimPID(params.getAsDouble("FrontShooterP", 0.0)
-                , params.getAsDouble("FrontShooterI", 0.0)
-                , params.getAsDouble("FrontShooterD", 0.0)
-                , params.getAsInt("FrontShooterEpsilon", 0));
-        rearShooterPID = new SimPID(params.getAsDouble("RearShooterP", 0.0)
-                , params.getAsDouble("RearShooterI", 0.0)
-                , params.getAsDouble("RearShooterD", 0.0)
-                , params.getAsInt("RearShooterEpsilon", 0));
-        tiltPID = new SimPID(params.getAsDouble("TiltP", 0.0)
-                , params.getAsDouble("TiltI", 0.0)
-                , params.getAsDouble("TiltD", 0.0)
-                , params.getAsInt("TiltEpsilon", 0));
+        
+        double p = params.getAsDouble("FrontShooterP", 0.0);
+        double i = params.getAsDouble("FrontShooterI", 0.0);
+        double d = params.getAsDouble("FrontShooterD", 0.0);
+        int e = params.getAsInt("FrontShooterEpsilon", 0);
+        
+        frontShooterPID = new SimPID(p, i, d, e);
+        
+        p = params.getAsDouble("RearShooterP", 0.0);
+        i = params.getAsDouble("RearShooterI", 0.0);
+        d = params.getAsDouble("RearShooterD", 0.0);
+        e = params.getAsInt("RearShooterEpsilon", 0);
+        
+        rearShooterPID = new SimPID(p, i, d, e);
+        
+        p = params.getAsDouble("TiltP", 0.0);
+        i = params.getAsDouble("TiltI", 0.0);
+        d = params.getAsDouble("TiltD", 0.0);
+        e = params.getAsInt("TiltEpsilon", 0);
+        
+        tiltPID = new SimPID(p, i, d, e);
+        
         frontMotorSpeed = 0.0;
         rearMotorSpeed = 0.0;
         tiltMotorSpeed = 0.0;
@@ -66,27 +76,36 @@ public class Shooter
         robotOutput.setShooterTiltMotor(tiltMotorSpeed);
     }
     
-    public synchronized void setFrontShooterPID()
+    public synchronized void loadFrontShooterPID()
     {
-        frontShooterPID.setConstants(params.getAsDouble("FrontShooterP", 0.0)
-                , params.getAsDouble("FrontShooterI", 0.0)
-                , params.getAsDouble("FrontShooterD", 0.0));
+        double p = params.getAsDouble("FrontShooterP", 0.0);
+        double i = params.getAsDouble("FrontShooterI", 0.0);
+        double d = params.getAsDouble("FrontShooterD", 0.0);
+        
+        frontShooterPID.setConstants(p, i, d);
+        
         frontShooterPID.setErrorEpsilon(params.getAsInt("FrontShooterEpsilon", 0));
     }
     
-    public synchronized void setRearShooterPID()
+    public synchronized void loadRearShooterPID()
     {
-        rearShooterPID.setConstants(params.getAsDouble("RearShooterP", 0.0)
-                , params.getAsDouble("RearShooterI", 0.0)
-                , params.getAsDouble("RearShooterD", 0.0));
+        double p = params.getAsDouble("RearShooterP", 0.0);
+        double i = params.getAsDouble("RearShooterI", 0.0);
+        double d = params.getAsDouble("RearShooterD", 0.0);
+        
+        rearShooterPID.setConstants(p, i, d);
+        
         rearShooterPID.setErrorEpsilon(params.getAsInt("RearShooterEpsilon", 0));
     }
     
-    public synchronized void setTiltPID()
+    public synchronized void loadTiltPID()
     {
-        tiltPID.setConstants(params.getAsDouble("TiltP", 0.0)
-                , params.getAsDouble("TiltI", 0.0)
-                , params.getAsDouble("TiltD", 0.0));
+        double p = params.getAsDouble("TiltP", 0.0);
+        double i = params.getAsDouble("TiltI", 0.0);
+        double d = params.getAsDouble("TiltD", 0.0);
+        
+        tiltPID.setConstants(p, i, d);
+        
         tiltPID.setErrorEpsilon(params.getAsInt("TiltEpsilon", 0));
     }
     
