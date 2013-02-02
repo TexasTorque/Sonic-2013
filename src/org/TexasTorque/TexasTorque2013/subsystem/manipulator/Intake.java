@@ -28,9 +28,13 @@ public class Intake
     
     public void run()
     {
-        if(driverInput.runIntake())
+        if(driverInput.runIntake() && Elevator.getInstance().elevatorAtBottom())
         {
             
+        }
+        else
+        {
+            intakeMotorSpeed = 0.0;
         }
         robotOutput.setIntakeMotor(intakeMotorSpeed);
     }
