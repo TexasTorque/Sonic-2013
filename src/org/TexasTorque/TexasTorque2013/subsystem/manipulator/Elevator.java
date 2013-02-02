@@ -44,11 +44,11 @@ public class Elevator
     
     public void run()
     {
-        if((driverInput.runIntake() || driverInput.sendElevatorBottom()) && Shooter.getInstance().isParallel())
+        if(driverInput.runIntake() && Shooter.getInstance().isParallel())
         {
             desiredElevatorPosition = Constants.ELEVATOR_BOTTOM_POSITION;
         }
-        else if(driverInput.sendElevatorTop())
+        else if(driverInput.shootHigh())
         {
             desiredElevatorPosition = Constants.ELEVATOR_TOP_POSITION;
         }

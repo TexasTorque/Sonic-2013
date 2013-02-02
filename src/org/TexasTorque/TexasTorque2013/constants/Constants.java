@@ -29,6 +29,10 @@ public class Constants
     
     //----- Shooter -----
     public static double TILT_PARALLEL_POSITION = 0.5;
+    public static double POTENTIOMETER_LOW_VOLTAGE = 2.5;
+    public static double POTENTIOMETER_HIGH_VOLTAGE = 5.0;
+    public static int FRONT_SHOOTER_DEFAULT_RATE = 3000;
+    public static int REAR_SHOOTER_DEFAULT_RATE = 2000;
     
     //----- Elevator -----
     public static int ELEVATOR_BOTTOM_POSITION = 0;
@@ -36,5 +40,5 @@ public class Constants
     
     //----- Misc -----
     public static int TORQUE_LOGGING_LOOP_TIME = 20;
-
+    
 }

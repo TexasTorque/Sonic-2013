@@ -66,13 +66,9 @@ public class DriverInput
         return false;
     }
     
-    public synchronized boolean sendElevatorTop()
+    public synchronized boolean shootHigh()
     {
-        return (operatorController.getLeftStickY() < -0.8);
+        return false;
     }
     
-    public synchronized boolean sendElevatorBottom()
-    {
-        return (operatorController.getLeftStickY() > 0.8);
-    }
 }

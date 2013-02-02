@@ -64,14 +64,20 @@ public class Shooter
     
     public void run()
     {
-        if(driverInput.getTrackTarget())
+        if(driverInput.shootHigh() && Elevator.getInstance().elevatorAtTop())
         {
-            
+            frontShooterPID.setDesiredValue(params.getAsInt("FrontShooterSpeed", Constants.FRONT_SHOOTER_DEFAULT_RATE));
+            rearShooterPID.setDesiredValue(params.getAsInt("RearShooterSpeed", Constants.REAR_SHOOTER_DEFAULT_RATE));
+            // Code to make the tilt do its stuff
         }
         else
         {
             desiredTiltPosition = Constants.TILT_PARALLEL_POSITION;
+            frontShooterPID.setDesiredValue(0);
+            rearShooterPID.setDesiredValue(0);
         }
+        frontMotorSpeed = limitShooterSpeed(frontShooterPID.calcPID(sensorInput.getFrontShooterRate()));
+        rearMotorSpeed = limitShooterSpeed(rearShooterPID.calcPID(sensorInput.getRearShooterRate()));
         robotOutput.setShooterMotors(frontMotorSpeed, rearMotorSpeed);
         robotOutput.setShooterTiltMotor(tiltMotorSpeed);
     }
@@ -117,6 +123,23 @@ public class Shooter
     public synchronized boolean isParallel()
     {
         return (isVerticallyLocked() && desiredTiltPosition == Constants.TILT_PARALLEL_POSITION);
+    }
+    
+    public synchronized boolean isReadyToFire()
+    {
+        return (isVerticallyLocked() && frontShooterPID.isDone() && rearShooterPID.isDone());
+    }
+    
+    private double limitShooterSpeed(double shooterSpeed)
+    {
+        if(shooterSpeed > 0.0)
+        {
+            return 0.0;
+        }
+        else
+        {
+            return shooterSpeed;
+        }
     }
     
 }

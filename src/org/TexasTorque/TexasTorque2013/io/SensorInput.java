@@ -43,7 +43,7 @@ public class SensorInput
         pressureSensor = new AnalogChannel(Ports.PRESSURE_SENSOR_PORT);
         wheelyBarSwitch = new DigitalInput(Ports.SIDECAR_ONE, Ports.WHEELY_BAR_SWITCH_PORT);
         tiltPotentiometer = new TorquePotentiometer(Ports.TILT_POTENTIOMETER_PORT);
-        tiltPotentiometer.setRange(0.0, 5.0);
+        tiltPotentiometer.setRange(Constants.POTENTIOMETER_LOW_VOLTAGE, Constants.POTENTIOMETER_HIGH_VOLTAGE);
         startEncoders();
     }
     
@@ -95,6 +95,16 @@ public class SensorInput
         return rightDriveEncoder.getRate();
     }
     
+    public synchronized int getFrontShooterRate()
+    {
+        return (int)frontShooterEncoder.getRate();
+    }
+    
+    public synchronized int getRearShooterRate()
+    {
+        return (int)rearShooterEncoder.getRate();
+    }
+    
     public synchronized int getElevatorEncoder()
     {
         return elevatorEncoder.get();
@@ -130,6 +140,11 @@ public class SensorInput
     public synchronized double getTiltPotentiometer()
     {
         return tiltPotentiometer.get();
+    }
+    
+    public synchronized double getTiltAngle()
+    {
+        return getTiltPotentiometer() * 90;
     }
     
     public synchronized boolean getWheelyBarSwitch()
