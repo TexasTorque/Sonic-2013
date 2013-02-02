@@ -27,6 +27,10 @@ public class Constants
     public static int GYRO_ACCUMULATOR_DEADBAND = 75;
     public static double GYRO_SENSITIVITY = 0.0136;
     
+    //----- Elevator -----
+    public static int ELEVATOR_BOTTOM_POSITION = 0;
+    public static int ELEVATOR_TOP_POSITION = 500;
+    
     //----- Misc -----
     public static int TORQUE_LOGGING_LOOP_TIME = 20;
 

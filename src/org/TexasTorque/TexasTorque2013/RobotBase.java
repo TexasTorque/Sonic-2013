@@ -56,6 +56,7 @@ public class RobotBase extends IterativeRobot
 
     public void teleopInit()
     {
+        params.load();
         sensorInput.resetEncoders();
     }
 

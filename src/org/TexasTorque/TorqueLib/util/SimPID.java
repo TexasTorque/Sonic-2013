@@ -15,7 +15,7 @@ public class SimPID
     private int cycleCount;
     private int previousValue;
     
-    public SimPID(float pValue, float iValue, float dValue, int epsilon)
+    public SimPID(double pValue, double iValue, double dValue, int epsilon)
     {
         p = pValue;
         i = iValue;
@@ -29,7 +29,7 @@ public class SimPID
         minCycleCount = 10;
     }
     
-    public void setConstants(float pValue, float iValue, float dValue)
+    public void setConstants(double pValue, double iValue, double dValue)
     {
         p = pValue;
         i = iValue;
