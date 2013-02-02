@@ -51,6 +51,11 @@ public class DriverInput
         return false;
     }
     
+    public synchronized boolean reverseIntake()
+    {
+        return false;
+    }
+    
     public synchronized boolean extendWheelyBar()
     {
         return false;

@@ -102,7 +102,20 @@ public class SensorInput
     
     public synchronized double getGyroAngle()
     {
-        return gyro.getAngle() * 2;
+        return limitGyroAngle(-gyro.getAngle() * 2);
+    }
+    
+    private synchronized double limitGyroAngle(double angle)
+    {
+        while(angle >= 360.0)
+        {
+            angle -= 360.0;
+        }
+        while(angle < 0.0)
+        {
+            angle += 360.0;
+        }
+        return angle;
     }
     
     public synchronized double getPressure()

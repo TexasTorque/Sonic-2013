@@ -3,6 +3,7 @@ package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
+import org.TexasTorque.TorqueLib.util.Parameters;
 
 public class Intake
 {
@@ -11,6 +12,7 @@ public class Intake
     private RobotOutput robotOutput;
     private DriverInput driverInput;
     private SensorInput sensorInput;
+    private Parameters params;
     private double intakeMotorSpeed;
     
     public static Intake getInstance()
@@ -23,6 +25,7 @@ public class Intake
         robotOutput = RobotOutput.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
+        params = Parameters.getInstance();
         intakeMotorSpeed = 0.0;
     }
     
