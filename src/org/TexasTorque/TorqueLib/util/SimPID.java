@@ -26,7 +26,7 @@ public class SimPID
         maxOutput = 1.0;
         errorIncrement = 1;
         cycleCount = 0;
-        minCycleCount = 10;
+        minCycleCount = 0;
     }
     
     public void setConstants(double pValue, double iValue, double dValue)

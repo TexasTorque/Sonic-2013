@@ -48,11 +48,26 @@ public class DriverInput
     
     public synchronized boolean getRunIntake()
     {
-        return operatorController.getRightBumper();
+        return false;
     }
     
     public synchronized boolean extendWheelyBar()
     {
         return false;
+    }
+    
+    public synchronized boolean getTrackTarget()
+    {
+        return false;
+    }
+    
+    public synchronized boolean sendElevatorTop()
+    {
+        return (operatorController.getLeftStickY() < -0.8);
+    }
+    
+    public synchronized boolean sendElevatorBottom()
+    {
+        return (operatorController.getLeftStickY() > 0.8);
     }
 }
