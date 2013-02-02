@@ -16,6 +16,7 @@ public class Shooter
     private Parameters params;
     private SimPID frontShooterPID;
     private SimPID rearShooterPID;
+    private SimPID tiltPID;
     private double frontMotorSpeed;
     private double rearMotorSpeed;
     private double tiltMotorSpeed;
@@ -39,6 +40,10 @@ public class Shooter
                 , params.getAsDouble("RearShooterI", 0.0)
                 , params.getAsDouble("RearShooterD", 0.0)
                 , params.getAsInt("RearShooterEpsilon", 0));
+        tiltPID = new SimPID(params.getAsDouble("TiltP", 0.0)
+                , params.getAsDouble("TiltI", 0.0)
+                , params.getAsDouble("TiltD", 0.0)
+                , params.getAsInt("TiltEpsilon", 0));
         frontMotorSpeed = 0.0;
         rearMotorSpeed = 0.0;
         tiltMotorSpeed = 0.0;
@@ -64,6 +69,14 @@ public class Shooter
                 , params.getAsDouble("RearShooterI", 0.0)
                 , params.getAsDouble("RearShooterD", 0.0));
         rearShooterPID.setErrorEpsilon(params.getAsInt("RearShooterEpsilon", 0));
+    }
+    
+    public synchronized void setTiltPID()
+    {
+        tiltPID.setConstants(params.getAsDouble("TiltP", 0.0)
+                , params.getAsDouble("TiltI", 0.0)
+                , params.getAsDouble("TiltD", 0.0));
+        tiltPID.setErrorEpsilon(params.getAsInt("TiltEpsilon", 0));
     }
     
 }

@@ -39,13 +39,13 @@ public class Drivebase
     
     public void run()
     {
-        if(driverInput.getHighGear())
+        if(driverInput.shiftHighGear())
         {
             robotOutput.setShifters(true);
         }
-        else if(driverInput.getLowGear())
+        if(driverInput.extendWheelyBar())
         {
-            robotOutput.setShifters(false);
+            robotOutput.setWheelyBar(true);
         }
         mixChannels(driverInput.driveController.getThrottle(), driverInput.driveController.getWheel());
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
@@ -88,11 +88,11 @@ public class Drivebase
         double RadiusOutter = Constants.MAX_DIAMETER / 2;
         double RadiusInner = (Constants.MAX_DIAMETER - Constants.ROBOT_WIDTH) / 2;
         double SpeedInner = 0.0;
-        if(driverInput.getLowGear())
+        if(!driverInput.shiftHighGear())
         {
             turn = turn * params.getAsDouble("LowSensitivity", Constants.DEFAULT_LOW_SENSITIVITY);
         }
-        else if(driverInput.getHighGear())
+        else
         {
             turn = turn * params.getAsDouble("HighSensitivity", Constants.DEFAULT_HIGH_SENSITIVITY);
         }

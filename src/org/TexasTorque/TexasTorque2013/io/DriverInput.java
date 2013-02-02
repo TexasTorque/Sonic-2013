@@ -41,18 +41,18 @@ public class DriverInput
         return SmartDashboard.getNumber("Autonomous Delay", params.getAsDouble("AutonomousDelay", 0.0));
     }
     
-    public synchronized boolean getHighGear()
+    public synchronized boolean shiftHighGear()
     {
         return driveController.getSwitch();
-    }
-    
-    public synchronized boolean getLowGear()
-    {
-        return !driveController.getSwitch();
     }
     
     public synchronized boolean getRunIntake()
     {
         return operatorController.getRightBumper();
+    }
+    
+    public synchronized boolean extendWheelyBar()
+    {
+        return false;
     }
 }

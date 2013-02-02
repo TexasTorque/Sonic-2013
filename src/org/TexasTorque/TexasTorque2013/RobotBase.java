@@ -102,6 +102,7 @@ public class RobotBase extends IterativeRobot
         Elevator.getInstance().setElevatorPID();
         Shooter.getInstance().setFrontShooterPID();
         Shooter.getInstance().setRearShooterPID();
+        Shooter.getInstance().setTiltPID();
         drivebase.setGyroPID();
     }
     
