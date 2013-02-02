@@ -15,7 +15,7 @@ public class RobotOutput
     private Solenoid driveShifter;
     private Solenoid loader;
     private DoubleSolenoid frisbeeLifter;
-    private DoubleSolenoid ptoDoubleSolenoid;
+    private DoubleSolenoid ptoShifter;
     private Solenoid wheelyBar;
     //----- Drive Motors -----
     private Motor frontLeftDriveMotor;
@@ -40,7 +40,7 @@ public class RobotOutput
         driveShifter = new Solenoid(Ports.DRIVE_SHIFTER_PORT);
         loader = new Solenoid(Ports.LOADER_SOLENOID_PORT);
         frisbeeLifter = new DoubleSolenoid(Ports.FRISBEE_LIFTER_SOLENOID_A_PORT, Ports.FRISBEE_LIFTER_SOLENOID_B_PORT);
-        ptoDoubleSolenoid = new DoubleSolenoid(Ports.PTO_SOLENOID_A_PORT,Ports.PTO_SOLENOID_B_PORT);
+        ptoShifter = new DoubleSolenoid(Ports.PTO_SOLENOID_A_PORT, Ports.PTO_SOLENOID_B_PORT);
         wheelyBar = new Solenoid(Ports.WHEELY_BAR_SOLENOID_PORT);
         //----- Drive Motors -----
         frontLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_LEFT_MOTOR_PORT), true, true);
@@ -123,11 +123,11 @@ public class RobotOutput
     {
         if(extend)
         {
-            ptoDoubleSolenoid.set(DoubleSolenoid.Value.kForward);
+            ptoShifter.set(DoubleSolenoid.Value.kForward);
         }
         else
         {
-            ptoDoubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+            ptoShifter.set(DoubleSolenoid.Value.kReverse);
         }
     }
     
