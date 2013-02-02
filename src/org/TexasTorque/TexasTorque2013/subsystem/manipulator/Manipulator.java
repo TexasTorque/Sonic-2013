@@ -14,6 +14,7 @@ public class Manipulator
     private Shooter shooter;
     private Elevator elevator;
     private Intake intake;
+    private Magazine magazine;
     
     public static Manipulator getInstance()
     {
@@ -28,6 +29,7 @@ public class Manipulator
         shooter = Shooter.getInstance();
         elevator = Elevator.getInstance();
         intake = Intake.getInstance();
+        magazine = Magazine.getInstance();
     }
     
     public void run()
@@ -35,6 +37,7 @@ public class Manipulator
         shooter.run();
         elevator.run();
         intake.run();
+        magazine.run();
     }
     
 }
