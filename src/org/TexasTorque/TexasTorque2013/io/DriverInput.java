@@ -46,7 +46,7 @@ public class DriverInput
         return driveController.getSwitch();
     }
     
-    public synchronized boolean getRunIntake()
+    public synchronized boolean runIntake()
     {
         return false;
     }

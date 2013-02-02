@@ -27,6 +27,9 @@ public class Constants
     public static int GYRO_ACCUMULATOR_DEADBAND = 75;
     public static double GYRO_SENSITIVITY = 0.0136;
     
+    //----- Shooter -----
+    public static double TILT_PARALLEL_POSITION = 0.5;
+    
     //----- Elevator -----
     public static int ELEVATOR_BOTTOM_POSITION = 0;
     public static int ELEVATOR_TOP_POSITION = 500;

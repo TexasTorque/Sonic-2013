@@ -47,6 +47,10 @@ public class Drivebase
         {
             robotOutput.setWheelyBar(true);
         }
+        if(driverInput.getTrackTarget())
+        {
+            
+        }
         mixChannels(driverInput.driveController.getThrottle(), driverInput.driveController.getWheel());
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
@@ -57,6 +61,11 @@ public class Drivebase
                 , params.getAsDouble("GyroI", 0.0)
                 , params.getAsDouble("GyroD", 0.0));
         gyroPID.setErrorEpsilon(params.getAsInt("GyroEpsilon", 0));
+    }
+    
+    public synchronized boolean isHorizontallyLocked()
+    {
+        return gyroPID.isDone();
     }
     
     public void mixChannels(double yAxis, double xAxis)

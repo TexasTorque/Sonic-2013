@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
@@ -20,6 +21,7 @@ public class Shooter
     private double frontMotorSpeed;
     private double rearMotorSpeed;
     private double tiltMotorSpeed;
+    private double desiredTiltPosition;
     
     public static Shooter getInstance()
     {
@@ -47,10 +49,19 @@ public class Shooter
         frontMotorSpeed = 0.0;
         rearMotorSpeed = 0.0;
         tiltMotorSpeed = 0.0;
+        desiredTiltPosition = Constants.TILT_PARALLEL_POSITION;
     }
     
     public void run()
     {
+        if(driverInput.getTrackTarget())
+        {
+            
+        }
+        else
+        {
+            desiredTiltPosition = Constants.TILT_PARALLEL_POSITION;
+        }
         robotOutput.setShooterMotors(frontMotorSpeed, rearMotorSpeed);
         robotOutput.setShooterTiltMotor(tiltMotorSpeed);
     }
@@ -77,6 +88,16 @@ public class Shooter
                 , params.getAsDouble("TiltI", 0.0)
                 , params.getAsDouble("TiltD", 0.0));
         tiltPID.setErrorEpsilon(params.getAsInt("TiltEpsilon", 0));
+    }
+    
+    public synchronized boolean isVerticallyLocked()
+    {
+        return tiltPID.isDone();
+    }
+    
+    public synchronized boolean isParallel()
+    {
+        return (isVerticallyLocked() && desiredTiltPosition == Constants.TILT_PARALLEL_POSITION);
     }
     
 }

@@ -40,7 +40,7 @@ public class Elevator
     
     public void run()
     {
-        if(driverInput.getRunIntake())
+        if(driverInput.runIntake())
         {
             desiredElevatorPosition = Constants.ELEVATOR_BOTTOM_POSITION;
         }
