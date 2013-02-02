@@ -119,7 +119,7 @@ public class RobotOutput
         }
     }
     
-    public synchronized void setPTO(boolean extend)
+    public synchronized void setPTOShifters(boolean extend)
     {
         if(extend)
         {

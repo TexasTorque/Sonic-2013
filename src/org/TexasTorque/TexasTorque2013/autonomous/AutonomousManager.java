@@ -14,6 +14,7 @@ public class AutonomousManager
     public AutonomousManager()
     {
         autoDelay = 0.0;
+        queuedAutoMode = "0";
         autoMapping = new Hashtable();
         autoMapping.put(Integer.toString(Constants.DO_NOTHING_AUTO), new DoNothingAutonomous());
     }
