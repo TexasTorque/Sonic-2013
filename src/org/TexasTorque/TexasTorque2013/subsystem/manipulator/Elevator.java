@@ -30,6 +30,7 @@ public class Elevator
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
         params = Parameters.getInstance();
+        
         elevatorPID = new SimPID(params.getAsDouble("ElevatorP", 0.0)
                 , params.getAsDouble("ElevatorI", 0.0)
                 , params.getAsDouble("ElevatorD", 0.0)

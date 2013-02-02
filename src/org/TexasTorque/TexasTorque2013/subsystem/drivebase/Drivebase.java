@@ -29,10 +29,14 @@ public class Drivebase
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
         params = Parameters.getInstance();
-        gyroPID = new SimPID(params.getAsDouble("GyroP", 0.0)
-                , params.getAsDouble("GyroI", 0.0)
-                , params.getAsDouble("GyroD", 0.0)
-                , params.getAsInt("GyroEpsilon", 0));
+        
+        double p = params.getAsDouble("GyroP", 0.0);
+        double i = params.getAsDouble("GyroI", 0.0);
+        double d =  params.getAsDouble("GyroD", 0.0);
+        int e =  params.getAsInt("GyroEpsilon", 0);
+        
+        gyroPID = new SimPID(p, i, d, e);
+        
         leftDriveSpeed = 0.0;
         rightDriveSpeed = 0.0;
     }
@@ -57,9 +61,12 @@ public class Drivebase
     
     public synchronized void setGyroPID()
     {
-        gyroPID.setConstants(params.getAsDouble("GyroP", 0.0)
-                , params.getAsDouble("GyroI", 0.0)
-                , params.getAsDouble("GyroD", 0.0));
+        double p = params.getAsDouble("GyroP", 0.0);
+        double i = params.getAsDouble("GyroI", 0.0);
+        double d =  params.getAsDouble("GyroD", 0.0);
+        
+        gyroPID.setConstants(p, i, d);
+        
         gyroPID.setErrorEpsilon(params.getAsInt("GyroEpsilon", 0));
     }
     
@@ -72,6 +79,7 @@ public class Drivebase
     {
         yAxis = driverInput.applyDeadband(yAxis, Constants.SPEED_AXIS_DEADBAND);
         xAxis = driverInput.applyDeadband(xAxis, Constants.TURN_AXIS_DEADBAND);
+        
         //simpleDrive(yAxis, xAxis);
         cheesyDrive(yAxis, xAxis);
     }
@@ -80,8 +88,10 @@ public class Drivebase
     {
         int ySign = (yAxis > 0) ? 1 : -1;
         int xSign = (xAxis > 0) ? 1 : -1;
+        
         yAxis = Math.sqrt(Math.abs(yAxis)) * ySign;
         xAxis = Math.sqrt(Math.abs(xAxis)) * xSign;
+        
         leftDriveSpeed = yAxis + xAxis;
         rightDriveSpeed = yAxis - xAxis;
     }

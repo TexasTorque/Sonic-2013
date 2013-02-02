@@ -31,16 +31,20 @@ public class RobotBase extends IterativeRobot
     {
         watchdog = Watchdog.getInstance();
         watchdog.setEnabled(true);
+        
         params = Parameters.getInstance();
         params.load();
+        
         initSmartDashboard();
         initLogging();
+        
         dashboardManager = DashboardManager.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
         robotOutput = RobotOutput.getInstance();
         drivebase = Drivebase.getInstance();
         manipulator = Manipulator.getInstance();
+        
         autoManager = new AutonomousManager();
     }
 
