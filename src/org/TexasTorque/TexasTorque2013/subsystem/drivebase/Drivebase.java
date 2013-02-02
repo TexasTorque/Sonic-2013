@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.subsystem.drivebase;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TorqueLib.util.Parameters;
@@ -17,6 +18,7 @@ public class Drivebase
     
     private double leftDriveSpeed;
     private double rightDriveSpeed;
+    private int desiredGyroAngle;
     
     public static Drivebase getInstance()
     {
@@ -39,10 +41,15 @@ public class Drivebase
         
         leftDriveSpeed = 0.0;
         rightDriveSpeed = 0.0;
+        desiredGyroAngle = 0;
     }
     
     public void run()
     {
+        mixChannels(driverInput.driveController.getThrottle(), driverInput.driveController.getWheel());
+        if(driverInput.getTrackTarget())
+        {   
+        }
         if(driverInput.shiftHighGear())
         {
             robotOutput.setShifters(true);
@@ -51,11 +58,6 @@ public class Drivebase
         {
             robotOutput.setWheelyBar(true);
         }
-        if(driverInput.getTrackTarget())
-        {
-            
-        }
-        mixChannels(driverInput.driveController.getThrottle(), driverInput.driveController.getWheel());
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
     

@@ -115,6 +115,10 @@ public class SensorInput
         {
             angle += 360.0;
         }
+        if(angle > 180)
+        {
+            angle -= 360;
+        }
         return angle;
     }
     
