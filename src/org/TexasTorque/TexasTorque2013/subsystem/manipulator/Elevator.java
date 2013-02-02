@@ -43,9 +43,11 @@ public class Elevator
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
     }
     
-    public synchronized void setElevatorPID(double p, double i, double d, int e)
+    public synchronized void setElevatorPID()
     {
-        elevatorPID.setConstants(p, i, d);
-        elevatorPID.setErrorEpsilon(e);
+        elevatorPID.setConstants(params.getAsDouble("ElevatorP", 0.0)
+                , params.getAsDouble("ElevatorI", 0.0)
+                , params.getAsDouble("ElevatorD", 0.0));
+        elevatorPID.setErrorEpsilon(params.getAsInt("ElevatorEpsilon", 0));
     }
 }

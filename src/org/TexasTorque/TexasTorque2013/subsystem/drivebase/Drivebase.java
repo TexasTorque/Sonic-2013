@@ -3,6 +3,7 @@ package org.TexasTorque.TexasTorque2013.subsystem.drivebase;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TorqueLib.util.Parameters;
+import org.TexasTorque.TorqueLib.util.SimPID;
 
 public class Drivebase 
 {
@@ -12,6 +13,7 @@ public class Drivebase
     private DriverInput driverInput;
     private SensorInput sensorInput;
     private Parameters params;
+    private SimPID gyroPID;
     
     private double leftDriveSpeed;
     private double rightDriveSpeed;
@@ -27,6 +29,10 @@ public class Drivebase
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
         params = Parameters.getInstance();
+        gyroPID = new SimPID(params.getAsDouble("GyroP", 0.0)
+                , params.getAsDouble("GyroI", 0.0)
+                , params.getAsDouble("GyroD", 0.0)
+                , params.getAsInt("GyroEpsilon", 0));
         leftDriveSpeed = 0.0;
         rightDriveSpeed = 0.0;
     }
@@ -43,6 +49,14 @@ public class Drivebase
         }
         mixChannels(driverInput.driveController.getThrottle(), driverInput.driveController.getWheel());
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
+    }
+    
+    public synchronized void setGyroPID()
+    {
+        gyroPID.setConstants(params.getAsDouble("GyroP", 0.0)
+                , params.getAsDouble("GyroI", 0.0)
+                , params.getAsDouble("GyroD", 0.0));
+        gyroPID.setErrorEpsilon(params.getAsInt("GyroEpsilon", 0));
     }
     
     public void mixChannels(double yAxis, double xAxis)

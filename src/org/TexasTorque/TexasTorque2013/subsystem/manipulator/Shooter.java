@@ -50,8 +50,20 @@ public class Shooter
         robotOutput.setShooterTiltMotor(tiltMotorSpeed);
     }
     
-    public synchronized void setFrontShooterPID(double p, double i, double d, int e)
+    public synchronized void setFrontShooterPID()
     {
+        frontShooterPID.setConstants(params.getAsDouble("FrontShooterP", 0.0)
+                , params.getAsDouble("FrontShooterI", 0.0)
+                , params.getAsDouble("FrontShooterD", 0.0));
+        frontShooterPID.setErrorEpsilon(params.getAsInt("FrontShooterEpsilon", 0));
+    }
+    
+    public synchronized void setRearShooterPID()
+    {
+        rearShooterPID.setConstants(params.getAsDouble("RearShooterP", 0.0)
+                , params.getAsDouble("RearShooterI", 0.0)
+                , params.getAsDouble("RearShooterD", 0.0));
+        rearShooterPID.setErrorEpsilon(params.getAsInt("RearShooterEpsilon", 0));
     }
     
 }

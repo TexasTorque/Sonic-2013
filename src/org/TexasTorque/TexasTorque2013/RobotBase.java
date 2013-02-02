@@ -7,7 +7,9 @@ import org.TexasTorque.TexasTorque2013.autonomous.AutonomousManager;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Elevator;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Manipulator;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Shooter;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
@@ -44,6 +46,7 @@ public class RobotBase extends IterativeRobot
 
     public void autonomousInit()
     {
+        pullNewPIDGains();
         autoManager.setAutonomousDelay(driverInput.getAutonomousDelay());
         sensorInput.resetEncoders();
     }
@@ -57,6 +60,7 @@ public class RobotBase extends IterativeRobot
     public void teleopInit()
     {
         params.load();
+        pullNewPIDGains();
         sensorInput.resetEncoders();
     }
 
@@ -91,6 +95,14 @@ public class RobotBase extends IterativeRobot
         logging = TorqueLogging.getInstance();
         logging.setKeyMapping("FrameNumber,FrameTime");
         logging.startLogging();
+    }
+    
+    public void pullNewPIDGains()
+    {
+        Elevator.getInstance().setElevatorPID();
+        Shooter.getInstance().setFrontShooterPID();
+        Shooter.getInstance().setRearShooterPID();
+        drivebase.setGyroPID();
     }
     
 }
