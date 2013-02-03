@@ -107,9 +107,9 @@ public class RobotOutput
         driveShifter.set(highGear);
     }
     
-    public synchronized void setFrisbeeLifter(boolean extend)
+    public synchronized void setFrisbeeLifter(boolean retracted)
     {
-        if(extend)
+        if(!retracted)
         {
             frisbeeLifter.set(DoubleSolenoid.Value.kForward);
         }
