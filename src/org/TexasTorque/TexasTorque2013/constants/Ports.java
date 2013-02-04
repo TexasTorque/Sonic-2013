@@ -39,19 +39,19 @@ public class Ports
     
     //----- Digital Inputs -----
         //----- Sidecar 1 -----
-        public static int PRESSURE_SWITCH_PORT = 1;
-        public static int LEFT_DRIVE_ENCODER_A_PORT = 2;
-        public static int LEFT_DRIVE_ENCODER_B_PORT = 3;
-        public static int RIGHT_DRIVE_ENCODER_A_PORT = 4;
-        public static int RIGHT_DRIVE_ENCODER_B_PORT = 5;
+        public static int PRESSURE_SWITCH_PORT = 13;
+        public static int RIGHT_DRIVE_ENCODER_A_PORT = 1;
+        public static int RIGHT_DRIVE_ENCODER_B_PORT = 2;
         public static int FRONT_SHOOTER_ENCODER_A_PORT = 6;
         public static int FRONT_SHOOTER_ENCODER_B_PORT = 7;
         public static int REAR_SHOOTER_ENCODER_A_PORT = 8;
         public static int REAR_SHOOTER_ENCODER_B_PORT = 9;
         public static int WHEELY_BAR_SWITCH_PORT = 10;
+        public static int ELEVATOR_ENCODER_A_PORT = 11;
+        public static int ELEVATOR_ENCODER_B_PORT = 12;
         //----- Sidecar 2 -----
-        public static int ELEVATOR_ENCODER_A_PORT = 1;
-        public static int ELEVATOR_ENCODER_B_PORT = 2;
+        public static int LEFT_DRIVE_ENCODER_A_PORT = 1;
+        public static int LEFT_DRIVE_ENCODER_B_PORT = 2;
     
     //----- Analog Inputs -----
     public static int GYRO_PORT = 1;
