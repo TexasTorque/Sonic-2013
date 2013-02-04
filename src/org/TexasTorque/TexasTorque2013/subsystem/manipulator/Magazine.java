@@ -15,11 +15,9 @@ public class Magazine
     private DriverInput driverInput;
     private Parameters params;
     
-    private Timer resetTimer;
     private boolean magazineClosed;
     private boolean loaderReady;
     private int numFrisbees;
-    private int magazineState;
     
     public Magazine()
     {
@@ -27,12 +25,9 @@ public class Magazine
         sensorInput = SensorInput.getInstance();
         driverInput = DriverInput.getInstance();
         params = Parameters.getInstance();
-        
-        resetTimer = new Timer();
         magazineClosed = false;
         loaderReady = true;
         numFrisbees = 0;
-        magazineState = Constants.MAGAZINE_RESET_STATE;
     }
     
     public static Magazine getInstance()
@@ -42,55 +37,7 @@ public class Magazine
     
     public void run()
     {
-        if(driverInput.shootHigh())
-        {
-            magazineClosed = true;
-            if(magazineState == Constants.MAGAZINE_RESET_STATE)
-            {
-                if(!timerStarted())
-                {
-                    resetTimer.reset();
-                    resetTimer.start();
-                }
-                else if(resetTimer.get() >= 0.5)
-                {
-                    loaderReady = false;
-                    resetTimer.stop();
-                    resetTimer.reset();
-                    magazineState = Constants.MAGAZINE_SHOT_STATE;
-                }
-            }
-            else if(magazineState == Constants.MAGAZINE_SHOT_STATE)
-            {
-                if(!timerStarted())
-                {
-                    resetTimer.reset();
-                    resetTimer.start();
-                }
-                else if(resetTimer.get() >= 0.5)
-                {
-                    loaderReady = true;
-                    resetTimer.stop();
-                    resetTimer.reset();
-                    magazineState = Constants.MAGAZINE_RESET_STATE;
-                }
-            }
-        }
-        else
-        {
-            magazineClosed = false;
-            loaderReady = true;
-            magazineState = Constants.MAGAZINE_RESET_STATE;
-            resetTimer.stop();
-            resetTimer.reset();
-        }
         robotOutput.setFrisbeeLifter(magazineClosed);
         robotOutput.setLoaderSolenoid(loaderReady);
     }
-    
-    private boolean timerStarted()
-    {
-        return (resetTimer.get() >= 0.0001);
-    }
-    
 }
