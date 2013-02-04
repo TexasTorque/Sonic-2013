@@ -132,7 +132,7 @@ public class Shooter
     
     private double limitShooterSpeed(double shooterSpeed)
     {
-        if(shooterSpeed > 0.0)
+        if(shooterSpeed < 0.0)
         {
             return 0.0;
         }
