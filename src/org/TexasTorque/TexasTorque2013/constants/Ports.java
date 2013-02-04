@@ -12,20 +12,21 @@ public class Ports
     
     //----- Motors -----
         //----- Sidecar 1 -----
-        public static int FRONT_LEFT_MOTOR_PORT = 1;
-        public static int REAR_LEFT_MOTOR_PORT = 2;
-        public static int FRONT_RIGHT_MOTOR_PORT = 3;
-        public static int REAR_RIGHT_MOTOR_PORT = 4;
+
+        public static int FRONT_RIGHT_MOTOR_PORT = 2;
+        public static int REAR_RIGHT_MOTOR_PORT = 3;
+        public static int ELEVATOR_MOTOR_PORT_LEFT = 4;
         public static int INTAKE_MOTOR_PORT = 5;
-        public static int ELEVATOR_MOTOR_PORT_LEFT = 6;
-        public static int ELEVATOR_MOTOR_PORT_RIGHT = 7;
         
         //----- Sidecar 2 -----
-        public static int FRONT_SHOOTER_MOTOR_A_PORT = 1;
-        public static int FRONT_SHOOTER_MOTOR_B_PORT = 2;
-        public static int REAR_SHOOTER_MOTOR_A_PORT = 3;
-        public static int REAR_SHOOTER_MOTOR_B_PORT = 4;
-        public static int SHOOTER_TILT_MOTOR_PORT = 5;
+        public static int REAR_SHOOTER_MOTOR_A_PORT = 1;
+        public static int REAR_SHOOTER_MOTOR_B_PORT = 2;
+        public static int FRONT_SHOOTER_MOTOR_A_PORT = 3;
+        public static int FRONT_SHOOTER_MOTOR_B_PORT = 4;
+        public static int FRONT_LEFT_MOTOR_PORT = 5;
+        public static int REAR_LEFT_MOTOR_PORT = 6;
+        public static int ELEVATOR_MOTOR_PORT_RIGHT = 7;
+        public static int SHOOTER_TILT_MOTOR_PORT = 8;
     
     //----- Solenoids -----
     public static int DRIVE_SHIFTER_PORT = 1;
