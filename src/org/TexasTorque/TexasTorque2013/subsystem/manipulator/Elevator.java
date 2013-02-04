@@ -52,6 +52,10 @@ public class Elevator
         {
             desiredElevatorPosition = Constants.ELEVATOR_TOP_POSITION;
         }
+        else
+        {
+            desiredElevatorPosition = Constants.ELEVATOR_BOTTOM_POSITION;
+        }
         elevatorPID.setDesiredValue(desiredElevatorPosition);
         elevatorMotorSpeed = elevatorPID.calcPID(sensorInput.getElevatorEncoder());
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
