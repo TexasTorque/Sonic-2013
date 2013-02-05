@@ -88,6 +88,11 @@ public class Shooter
         rearShooterPID.setDesiredValue(rearRate);
     }
     
+    public synchronized void setTiltAngle(int degrees)
+    {
+        tiltPID.setDesiredValue(degrees);
+    }
+    
     public synchronized void loadFrontShooterPID()
     {
         double p = params.getAsDouble("FrontShooterP", 0.0);
