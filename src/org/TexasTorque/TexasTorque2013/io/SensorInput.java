@@ -29,7 +29,7 @@ public class SensorInput
     {
         //----- Encoders -----
         leftDriveEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_B_PORT, true);
-        rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
+        rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, true);
         frontShooterEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_B_PORT, false);
         rearShooterEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_B_PORT, false);
         elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.ELEVATOR_ENCODER_B_PORT, true);
