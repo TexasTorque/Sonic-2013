@@ -41,5 +41,6 @@ public class Constants
     
     //----- Misc -----
     public static int TORQUE_LOGGING_LOOP_TIME = 20;
+    public static double MOTOR_STOPPED = 0.0;
     
 }

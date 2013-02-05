@@ -47,7 +47,7 @@ public class Drivebase
     public void run()
     {
         mixChannels(driverInput.driveController.getThrottle(), driverInput.driveController.getWheel());
-        if(driverInput.shootHigh())
+        if(driverInput.shootVisionHigh())
         {
             desiredGyroAngle = (int)(sensorInput.getGyroAngle() + SmartDashboard.getNumber("azimuth", 0.0));
             gyroPID.setDesiredValue(desiredGyroAngle);

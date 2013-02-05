@@ -66,7 +66,7 @@ public class DriverInput
         return false;
     }
     
-    public synchronized boolean shootHigh()
+    public synchronized boolean shootVisionHigh()
     {
         return false;
     }
