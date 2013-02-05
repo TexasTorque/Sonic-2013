@@ -32,10 +32,10 @@ public class Drivebase
         sensorInput = SensorInput.getInstance();
         params = Parameters.getInstance();
         
-        double p = params.getAsDouble("GyroP", 0.0);
-        double i = params.getAsDouble("GyroI", 0.0);
-        double d =  params.getAsDouble("GyroD", 0.0);
-        int e =  params.getAsInt("GyroEpsilon", 0);
+        double p = params.getAsDouble("D_GyroP", 0.0);
+        double i = params.getAsDouble("D_GyroI", 0.0);
+        double d =  params.getAsDouble("D_GyroD", 0.0);
+        int e =  params.getAsInt("D_GyroEpsilon", 0);
         
         gyroPID = new SimPID(p, i, d, e);
         
@@ -68,13 +68,13 @@ public class Drivebase
     
     public synchronized void loadGyroPID()
     {
-        double p = params.getAsDouble("GyroP", 0.0);
-        double i = params.getAsDouble("GyroI", 0.0);
-        double d =  params.getAsDouble("GyroD", 0.0);
+        double p = params.getAsDouble("D_GyroP", 0.0);
+        double i = params.getAsDouble("D_GyroI", 0.0);
+        double d =  params.getAsDouble("D_GyroD", 0.0);
         
         gyroPID.setConstants(p, i, d);
         
-        gyroPID.setErrorEpsilon(params.getAsInt("GyroEpsilon", 0));
+        gyroPID.setErrorEpsilon(params.getAsInt("D_GyroEpsilon", 0));
     }
     
     public synchronized boolean isHorizontallyLocked()
@@ -116,11 +116,11 @@ public class Drivebase
         double SpeedInner = 0.0;
         if(!driverInput.shiftHighGear())
         {
-            turn = turn * params.getAsDouble("LowSensitivity", Constants.DEFAULT_LOW_SENSITIVITY);
+            turn = turn * params.getAsDouble("D_LowSensitivity", Constants.DEFAULT_LOW_SENSITIVITY);
         }
         else
         {
-            turn = turn * params.getAsDouble("HighSensitivity", Constants.DEFAULT_HIGH_SENSITIVITY);
+            turn = turn * params.getAsDouble("D_HighSensitivity", Constants.DEFAULT_HIGH_SENSITIVITY);
         }
         if(turn == 0.0)
         {

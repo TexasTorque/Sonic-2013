@@ -31,18 +31,6 @@ public class Intake
     
     public void run(boolean auto)
     {
-        /*if(driverInput.runIntake() && Elevator.getInstance().elevatorAtBottom())
-        {
-            intakeMotorSpeed = params.getAsDouble("IntakeSpeed", 0.0);
-        }
-        else if(driverInput.reverseIntake())
-        {
-            intakeMotorSpeed = params.getAsDouble("IntakeReverseSpeed", -1.0);
-        }
-        else
-        {
-            intakeMotorSpeed = 0.0;
-        }*/
         robotOutput.setIntakeMotor(intakeMotorSpeed);
     }
     

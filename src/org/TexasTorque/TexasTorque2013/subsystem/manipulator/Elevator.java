@@ -31,10 +31,10 @@ public class Elevator
         sensorInput = SensorInput.getInstance();
         params = Parameters.getInstance();
         
-        double p = params.getAsDouble("ElevatorP", 0.0);
-        double i = params.getAsDouble("ElevatorI", 0.0);
-        double d = params.getAsDouble("ElevatorD", 0.0);
-        int e = params.getAsInt("ElevatorEpsilon", 0);
+        double p = params.getAsDouble("E_ElevatorP", 0.0);
+        double i = params.getAsDouble("E_ElevatorI", 0.0);
+        double d = params.getAsDouble("E_ElevatorD", 0.0);
+        int e = params.getAsInt("E_ElevatorEpsilon", 0);
         
         elevatorPID = new SimPID(p, i, d, e);
         
@@ -44,18 +44,6 @@ public class Elevator
     
     public void run(boolean auto)
     {
-        /*if(driverInput.runIntake() && Shooter.getInstance().isParallel())
-        {
-            desiredElevatorPosition = Constants.ELEVATOR_BOTTOM_POSITION;
-        }
-        else if(driverInput.shootHigh())
-        {
-            desiredElevatorPosition = Constants.ELEVATOR_TOP_POSITION;
-        }
-        else
-        {
-            desiredElevatorPosition = Constants.ELEVATOR_BOTTOM_POSITION;
-        }*/
         elevatorPID.setDesiredValue(desiredElevatorPosition);
         elevatorMotorSpeed = elevatorPID.calcPID(sensorInput.getElevatorEncoder());
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
@@ -68,13 +56,13 @@ public class Elevator
     
     public synchronized void loadElevatorPID()
     {
-        double p = params.getAsDouble("ElevatorP", 0.0);
-        double i = params.getAsDouble("ElevatorI", 0.0);
-        double d = params.getAsDouble("ElevatorD", 0.0);
+        double p = params.getAsDouble("E_ElevatorP", 0.0);
+        double i = params.getAsDouble("E_ElevatorI", 0.0);
+        double d = params.getAsDouble("E_ElevatorD", 0.0);
         
         elevatorPID.setConstants(p, i, d);
         
-        elevatorPID.setErrorEpsilon(params.getAsInt("ElevatorEpsilon", 0));
+        elevatorPID.setErrorEpsilon(params.getAsInt("E_ElevatorEpsilon", 0));
     }
     
     public synchronized boolean elevatorAtTop()

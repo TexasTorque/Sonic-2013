@@ -28,11 +28,12 @@ public class Constants
     public static double GYRO_SENSITIVITY = 0.0136;
     
     //----- Shooter -----
-    public static double TILT_PARALLEL_POSITION = 0.5;
+    public static int TILT_PARALLEL_POSITION = 5;
     public static double POTENTIOMETER_LOW_VOLTAGE = 2.5;
     public static double POTENTIOMETER_HIGH_VOLTAGE = 5.0;
     public static int FRONT_SHOOTER_DEFAULT_RATE = 3000;
     public static int REAR_SHOOTER_DEFAULT_RATE = 2000;
+    public static int SHOOTER_STOPPED_RATE = 0;
     
     //----- Elevator -----
     public static int ELEVATOR_BOTTOM_POSITION = 0;
