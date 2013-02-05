@@ -62,7 +62,7 @@ public class Shooter
         desiredTiltPosition = Constants.TILT_PARALLEL_POSITION;
     }
     
-    public void run(boolean auto)
+    public void run()
     {
         frontMotorSpeed = limitShooterSpeed(frontShooterPID.calcPID(sensorInput.getFrontShooterRate()));
         rearMotorSpeed = limitShooterSpeed(rearShooterPID.calcPID(sensorInput.getRearShooterRate()));

@@ -42,7 +42,7 @@ public class Elevator
         desiredElevatorPosition = Constants.ELEVATOR_BOTTOM_POSITION;
     }
     
-    public void run(boolean auto)
+    public void run()
     {
         elevatorPID.setDesiredValue(desiredElevatorPosition);
         elevatorMotorSpeed = elevatorPID.calcPID(sensorInput.getElevatorEncoder());

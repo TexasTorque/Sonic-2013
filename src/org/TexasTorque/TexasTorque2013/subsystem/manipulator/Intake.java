@@ -29,7 +29,7 @@ public class Intake
         intakeMotorSpeed = 0.0;
     }
     
-    public void run(boolean auto)
+    public void run()
     {
         robotOutput.setIntakeMotor(intakeMotorSpeed);
     }

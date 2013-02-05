@@ -42,10 +42,14 @@ public class Manipulator
         {
             calcReverseIntake();
         }
-        shooter.run(false);
-        elevator.run(false);
-        intake.run(false);
-        magazine.run(false);
+        else if(driverInput.runIntake())
+        {
+            calcIntake();
+        }
+        shooter.run();
+        elevator.run();
+        intake.run();
+        magazine.run();
     }
     
     public void calcReverseIntake()
@@ -58,6 +62,20 @@ public class Manipulator
             if(elevator.elevatorAtBottom())
             {
                 intake.setIntakeSpeed(params.getAsDouble("I_OuttakeSpeed", -1.0));
+            }
+        }
+    }
+    
+    public void calcIntake()
+    {
+        shooter.setTiltAngle(Constants.TILT_PARALLEL_POSITION);
+        shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE,Constants.SHOOTER_STOPPED_RATE);
+        if(shooter.isParallel())
+        {
+            elevator.setDesiredPosition(Constants.ELEVATOR_BOTTOM_POSITION);
+            if(elevator.elevatorAtBottom())
+            {
+                intake.setIntakeSpeed(params.getAsDouble("I_IntakeSpeed", 0.0));
             }
         }
     }
