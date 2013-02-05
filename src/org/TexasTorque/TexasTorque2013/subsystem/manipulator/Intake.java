@@ -31,7 +31,7 @@ public class Intake
     
     public void run()
     {
-        if(driverInput.runIntake() && Elevator.getInstance().elevatorAtBottom())
+        /*if(driverInput.runIntake() && Elevator.getInstance().elevatorAtBottom())
         {
             intakeMotorSpeed = params.getAsDouble("IntakeSpeed", 0.0);
         }
@@ -42,7 +42,12 @@ public class Intake
         else
         {
             intakeMotorSpeed = 0.0;
-        }
+        }*/
         robotOutput.setIntakeMotor(intakeMotorSpeed);
+    }
+    
+    public synchronized void setIntakeSpeed(double speed)
+    {
+        intakeMotorSpeed = speed;
     }
 }
