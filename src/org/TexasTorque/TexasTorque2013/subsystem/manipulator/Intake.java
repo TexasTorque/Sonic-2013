@@ -29,7 +29,7 @@ public class Intake
         intakeMotorSpeed = 0.0;
     }
     
-    public void run()
+    public void run(boolean auto)
     {
         /*if(driverInput.runIntake() && Elevator.getInstance().elevatorAtBottom())
         {

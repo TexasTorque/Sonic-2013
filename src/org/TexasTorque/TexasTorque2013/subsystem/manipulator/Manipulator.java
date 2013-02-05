@@ -34,10 +34,10 @@ public class Manipulator
     
     public void run()
     {
-        shooter.run();
+        shooter.run(false);
         elevator.run(false);
-        intake.run();
-        magazine.run();
+        intake.run(false);
+        magazine.run(false);
     }
     
 }

@@ -35,7 +35,7 @@ public class Magazine
         return (instance == null) ? instance = new Magazine() : instance;
     }
     
-    public void run()
+    public void run(boolean auto)
     {
         robotOutput.setFrisbeeLifter(magazineClosed);
         robotOutput.setLoaderSolenoid(loaderReady);

@@ -62,7 +62,7 @@ public class Shooter
         desiredTiltPosition = Constants.TILT_PARALLEL_POSITION;
     }
     
-    public void run()
+    public void run(boolean auto)
     {
         if(driverInput.shootHigh() && Elevator.getInstance().elevatorAtTop())
         {
