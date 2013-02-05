@@ -43,8 +43,8 @@ public class RobotOutput
         ptoShifter = new DoubleSolenoid(Ports.PTO_SOLENOID_A_PORT, Ports.PTO_SOLENOID_B_PORT);
         wheelyBar = new Solenoid(Ports.WHEELY_BAR_SOLENOID_PORT);
         //----- Drive Motors -----
-        frontLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_LEFT_MOTOR_PORT), true, true);
-        rearLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.REAR_LEFT_MOTOR_PORT), true, true);
+        frontLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_LEFT_MOTOR_PORT), true, true);
+        rearLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_LEFT_MOTOR_PORT), true, true);
         frontRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_RIGHT_MOTOR_PORT), false, true);
         rearRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.REAR_RIGHT_MOTOR_PORT), false, true);
         //----- Shooter Subsystem Motors-----
@@ -56,7 +56,7 @@ public class RobotOutput
         //----- Misc Motors -----
         intakeMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.INTAKE_MOTOR_PORT), false, true);
         elevatorMotorLeft = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.ELEVATOR_MOTOR_PORT_LEFT), false, true);
-        elevatorMotorRight = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.ELEVATOR_MOTOR_PORT_RIGHT), false, true);
+        elevatorMotorRight = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.ELEVATOR_MOTOR_PORT_RIGHT), false, true);
         compressor.start();
     }
  
