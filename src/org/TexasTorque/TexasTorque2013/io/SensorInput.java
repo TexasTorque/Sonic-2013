@@ -1,10 +1,13 @@
 package org.TexasTorque.TexasTorque2013.io;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
+import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.Gyro;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
+import org.TexasTorque.TorqueLib.sensor.TorqueCounter;
 import org.TexasTorque.TorqueLib.sensor.TorqueEncoder;
 import org.TexasTorque.TorqueLib.sensor.TorquePotentiometer;
 
@@ -14,8 +17,10 @@ public class SensorInput
     //----- Encoder -----
     private TorqueEncoder leftDriveEncoder;
     private TorqueEncoder rightDriveEncoder;
-    private TorqueEncoder frontShooterEncoder;
-    private TorqueEncoder rearShooterEncoder;
+    //private TorqueEncoder frontShooterEncoder;
+    //private TorqueEncoder rearShooterEncoder;
+    private TorqueCounter frontShooterCounter;
+    private TorqueCounter rearShooterCounter;
     private TorqueEncoder elevatorEncoder;
     //----- Analog -----
     private AnalogChannel pressureSensor;
@@ -30,8 +35,12 @@ public class SensorInput
         //----- Encoders -----
         leftDriveEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_B_PORT, true);
         rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, true);
-        frontShooterEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_B_PORT, false);
-        rearShooterEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_B_PORT, false);
+        //frontShooterEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_ENCODER_B_PORT, false);
+        //rearShooterEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_ENCODER_B_PORT, false);
+        frontShooterCounter = new TorqueCounter(CounterBase.EncodingType.k4X, new DigitalInput(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_COUNTER_A_PORT)
+                , new DigitalInput(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_COUNTER_B_PORT), true);
+        rearShooterCounter = new TorqueCounter(CounterBase.EncodingType.k4X, new DigitalInput(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_COUNTER_A_PORT)
+                , new DigitalInput(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_COUNTER_B_PORT), true);
         elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.ELEVATOR_ENCODER_B_PORT, true);
         //----- Gyro -----
         gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
@@ -56,13 +65,13 @@ public class SensorInput
     {
         leftDriveEncoder.setOptions(20, 250, false);
         rightDriveEncoder.setOptions(20, 250, false);
-        frontShooterEncoder.setOptions(20, 100, true);
-        rearShooterEncoder.setOptions(20, 100, true);
+        frontShooterCounter.setOptions(20, 100, true);
+        rearShooterCounter.setOptions(20, 100, true);
         elevatorEncoder.setOptions(20, 250, false);
         leftDriveEncoder.start();
         rightDriveEncoder.start();        
-        frontShooterEncoder.start();
-        rearShooterEncoder.start();
+        frontShooterCounter.start();
+        rearShooterCounter.start();
         elevatorEncoder.start();
     }
     
@@ -70,8 +79,8 @@ public class SensorInput
     {
         leftDriveEncoder.resetEncoder();
         rightDriveEncoder.resetEncoder();
-        frontShooterEncoder.resetEncoder();
-        rearShooterEncoder.resetEncoder();
+        frontShooterCounter.resetCounter();
+        rearShooterCounter.resetCounter();
         elevatorEncoder.resetEncoder();
     }
     
@@ -97,12 +106,12 @@ public class SensorInput
     
     public synchronized int getFrontShooterRate()
     {
-        return (int)frontShooterEncoder.getRate();
+        return (int)frontShooterCounter.getRate();
     }
     
     public synchronized int getRearShooterRate()
     {
-        return (int)rearShooterEncoder.getRate();
+        return (int)rearShooterCounter.getRate();
     }
     
     public synchronized int getElevatorEncoder()
