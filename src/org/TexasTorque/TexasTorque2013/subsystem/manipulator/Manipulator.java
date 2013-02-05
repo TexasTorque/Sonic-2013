@@ -35,7 +35,7 @@ public class Manipulator
     public void run()
     {
         shooter.run();
-        elevator.run();
+        elevator.run(false);
         intake.run();
         magazine.run();
     }

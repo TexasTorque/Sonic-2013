@@ -42,9 +42,9 @@ public class Elevator
         desiredElevatorPosition = Constants.ELEVATOR_BOTTOM_POSITION;
     }
     
-    public void run()
+    public void run(boolean auto)
     {
-        if(driverInput.runIntake() && Shooter.getInstance().isParallel())
+        /*if(driverInput.runIntake() && Shooter.getInstance().isParallel())
         {
             desiredElevatorPosition = Constants.ELEVATOR_BOTTOM_POSITION;
         }
@@ -55,10 +55,15 @@ public class Elevator
         else
         {
             desiredElevatorPosition = Constants.ELEVATOR_BOTTOM_POSITION;
-        }
+        }*/
         elevatorPID.setDesiredValue(desiredElevatorPosition);
         elevatorMotorSpeed = elevatorPID.calcPID(sensorInput.getElevatorEncoder());
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
+    }
+    
+    public synchronized void setDesiredPosition(int position)
+    {
+        desiredElevatorPosition = position;
     }
     
     public synchronized void loadElevatorPID()
