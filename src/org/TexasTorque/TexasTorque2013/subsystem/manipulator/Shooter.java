@@ -82,6 +82,12 @@ public class Shooter
         robotOutput.setShooterTiltMotor(tiltMotorSpeed);
     }
     
+    public synchronized void setShooterRates(int frontRate, int rearRate)
+    {
+        frontShooterPID.setDesiredValue(frontRate);
+        rearShooterPID.setDesiredValue(rearRate);
+    }
+    
     public synchronized void loadFrontShooterPID()
     {
         double p = params.getAsDouble("FrontShooterP", 0.0);
