@@ -1,7 +1,5 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
-import edu.wpi.first.wpilibj.Timer;
-import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;

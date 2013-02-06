@@ -31,13 +31,13 @@ public class Constants
     public static int TILT_PARALLEL_POSITION = 5;
     public static double POTENTIOMETER_LOW_VOLTAGE = 2.5;
     public static double POTENTIOMETER_HIGH_VOLTAGE = 5.0;
-    public static int FRONT_SHOOTER_DEFAULT_RATE = 3000;
-    public static int REAR_SHOOTER_DEFAULT_RATE = 2000;
+    public static int DEFAULT_FRONT_SHOOTER_RATE = 3000;
+    public static int DEFAULT_REAR_SHOOTER_RATE = 2000;
     public static int SHOOTER_STOPPED_RATE = 0;
     
     //----- Elevator -----
-    public static int ELEVATOR_BOTTOM_POSITION = 0;
-    public static int ELEVATOR_TOP_POSITION = 500;
+    public static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;
+    public static int DEFAULT_ELEVATOR_TOP_POSITION = 1;
     
     //----- Misc -----
     public static int TORQUE_LOGGING_LOOP_TIME = 20;

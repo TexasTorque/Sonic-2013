@@ -76,11 +76,11 @@ public class Manipulator
         //----- Elevator -----
         if(driverInput.elevatorTopOverride())
         {
-            elevator.setDesiredPosition(Constants.ELEVATOR_TOP_POSITION);
+            elevator.setDesiredPosition(Constants.DEFAULT_ELEVATOR_TOP_POSITION);
         }
         else if(driverInput.elevatorBottomOverride())
         {
-            elevator.setDesiredPosition(Constants.ELEVATOR_BOTTOM_POSITION);
+            elevator.setDesiredPosition(Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
         }
         //----- Tilt -----
         //----- Shooter -----
@@ -94,7 +94,7 @@ public class Manipulator
         // stuff for the magazine
         if(shooter.isParallel())
         {
-            elevator.setDesiredPosition(Constants.ELEVATOR_BOTTOM_POSITION);
+            elevator.setDesiredPosition(Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
             if(elevator.elevatorAtBottom())
             {
                 intake.setIntakeSpeed(params.getAsDouble("I_OuttakeSpeed", -1.0));
@@ -109,7 +109,7 @@ public class Manipulator
         // stuff for the magazine
         if(shooter.isParallel())
         {
-            elevator.setDesiredPosition(Constants.ELEVATOR_BOTTOM_POSITION);
+            elevator.setDesiredPosition(Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
             if(elevator.elevatorAtBottom())
             {
                 intake.setIntakeSpeed(params.getAsDouble("I_IntakeSpeed", 0.0));
@@ -119,11 +119,12 @@ public class Manipulator
     
     public void shootHighWithVision()
     {
-        elevator.setDesiredPosition(Constants.ELEVATOR_TOP_POSITION);
+        elevator.setDesiredPosition(Constants.DEFAULT_ELEVATOR_TOP_POSITION);
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         if(elevator.elevatorAtTop())
         {
-            shooter.setShooterRates(params.getAsInt("S_FrontShooterRate", 0), params.getAsInt("S_RearShooterRate", 0));
+            shooter.setShooterRates(params.getAsInt("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE)
+                    , params.getAsInt("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE));
             // stuff with the tilt
             if(shooter.isReadyToFire() && Drivebase.getInstance().isHorizontallyLocked())
             {
@@ -139,7 +140,7 @@ public class Manipulator
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         if(shooter.isParallel())
         {
-            elevator.setDesiredPosition(Constants.ELEVATOR_BOTTOM_POSITION);
+            elevator.setDesiredPosition(Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
             if(elevator.elevatorAtBottom())
             {
                 // stuff for the magazine
