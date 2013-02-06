@@ -39,7 +39,7 @@ public class Elevator
         elevatorPID = new SimPID(p, i, d, e);
         
         elevatorMotorSpeed = 0.0;
-        desiredElevatorPosition = Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION;
+        desiredElevatorPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
     }
     
     public void run()
@@ -67,11 +67,11 @@ public class Elevator
     
     public synchronized boolean elevatorAtTop()
     {
-        return (desiredElevatorPosition == Constants.DEFAULT_ELEVATOR_TOP_POSITION && elevatorPID.isDone());
+        return (desiredElevatorPosition == params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION) && elevatorPID.isDone());
     }
     
     public synchronized boolean elevatorAtBottom()
     {
-        return (desiredElevatorPosition == Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION && elevatorPID.isDone());
+        return (desiredElevatorPosition == params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION) && elevatorPID.isDone());
     }
 }

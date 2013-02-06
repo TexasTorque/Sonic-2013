@@ -76,11 +76,11 @@ public class Manipulator
         //----- Elevator -----
         if(driverInput.elevatorTopOverride())
         {
-            elevator.setDesiredPosition(Constants.DEFAULT_ELEVATOR_TOP_POSITION);
+            elevator.setDesiredPosition(params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION));
         }
         else if(driverInput.elevatorBottomOverride())
         {
-            elevator.setDesiredPosition(Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+            elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
         }
         //----- Tilt -----
         //----- Shooter -----
@@ -94,7 +94,7 @@ public class Manipulator
         // stuff for the magazine
         if(shooter.isParallel())
         {
-            elevator.setDesiredPosition(Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+            elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
             if(elevator.elevatorAtBottom())
             {
                 intake.setIntakeSpeed(params.getAsDouble("I_OuttakeSpeed", -1.0));
@@ -109,7 +109,7 @@ public class Manipulator
         // stuff for the magazine
         if(shooter.isParallel())
         {
-            elevator.setDesiredPosition(Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+            elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
             if(elevator.elevatorAtBottom())
             {
                 intake.setIntakeSpeed(params.getAsDouble("I_IntakeSpeed", 0.0));
@@ -119,7 +119,7 @@ public class Manipulator
     
     public void shootHighWithVision()
     {
-        elevator.setDesiredPosition(Constants.DEFAULT_ELEVATOR_TOP_POSITION);
+        elevator.setDesiredPosition(params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION));
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         if(elevator.elevatorAtTop())
         {
@@ -140,7 +140,7 @@ public class Manipulator
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         if(shooter.isParallel())
         {
-            elevator.setDesiredPosition(Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+            elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
             if(elevator.elevatorAtBottom())
             {
                 // stuff for the magazine
