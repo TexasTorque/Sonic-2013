@@ -9,8 +9,8 @@ public class DriverInput
 {
     private static DriverInput instance;
     private Parameters params;
-    public TraxxasTQ3 driveController;
-    public XBox360Controller operatorController;
+    private TraxxasTQ3 driveController;
+    private XBox360Controller operatorController;
         
     public DriverInput()
     {
@@ -39,6 +39,16 @@ public class DriverInput
     public synchronized double getAutonomousDelay()
     {
         return SmartDashboard.getNumber("Autonomous Delay", params.getAsDouble("Misc_AutonomousDelay", 0.0));
+    }
+    
+    public synchronized double getThrottle()
+    {
+        return driveController.getThrottle();
+    }
+    
+    public synchronized double getTurn()
+    {
+        return driveController.getWheel();
     }
     
     public synchronized boolean shiftHighGear()
