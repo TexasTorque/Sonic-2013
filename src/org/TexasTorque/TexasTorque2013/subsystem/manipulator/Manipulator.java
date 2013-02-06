@@ -98,7 +98,7 @@ public class Manipulator
         {
             shooter.setShooterRates(params.getAsInt("S_FrontShooterRate", 0), params.getAsInt("S_RearShooterRate", 0));
             // stuff with the tilt
-            if(shooter.isVerticallyLocked() && shooter.isReadyToFire() && Drivebase.getInstance().isHorizontallyLocked())
+            if(shooter.isReadyToFire() && Drivebase.getInstance().isHorizontallyLocked())
             {
                 // some stuff for the magazine
             }
