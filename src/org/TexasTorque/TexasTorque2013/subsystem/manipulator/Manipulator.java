@@ -55,6 +55,7 @@ public class Manipulator
         {
             restoreDefaultPositions();
         }
+        calcOverrides();
         shooter.run();
         elevator.run();
         intake.run();
@@ -72,6 +73,18 @@ public class Manipulator
         {
             intake.setIntakeSpeed(params.getAsDouble("I_OuttakeSpeed", -1.0));
         }
+        //----- Elevator -----
+        if(driverInput.elevatorTopOverride())
+        {
+            elevator.setDesiredPosition(Constants.ELEVATOR_TOP_POSITION);
+        }
+        else if(driverInput.elevatorBottomOverride())
+        {
+            elevator.setDesiredPosition(Constants.ELEVATOR_BOTTOM_POSITION);
+        }
+        //----- Tilt -----
+        //----- Shooter -----
+        //----- Magazine -----
     }
     
     public void calcReverseIntake()

@@ -86,4 +86,14 @@ public class DriverInput
         return false;
     }
     
+    public synchronized boolean elevatorTopOverride()
+    {
+        return false;
+    }
+    
+    public synchronized boolean elevatorBottomOverride()
+    {
+        return false;
+    }
+    
 }
