@@ -30,6 +30,7 @@ public class Manipulator
         robotOutput = RobotOutput.getInstance();
         sensorInput = SensorInput.getInstance();
         driverInput = DriverInput.getInstance();
+        params = Parameters.getInstance();
         shooter = Shooter.getInstance();
         elevator = Elevator.getInstance();
         intake = Intake.getInstance();
