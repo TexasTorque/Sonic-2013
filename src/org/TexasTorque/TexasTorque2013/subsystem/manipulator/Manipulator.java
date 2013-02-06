@@ -61,6 +61,19 @@ public class Manipulator
         magazine.run();
     }
     
+    public void calcOverrides()
+    {
+        //----- Intake -----
+        if(driverInput.intakeOverride())
+        {
+            intake.setIntakeSpeed(params.getAsDouble("I_IntakeSpeed", 0.0));
+        }
+        else if(driverInput.outtakeOverride())
+        {
+            intake.setIntakeSpeed(params.getAsDouble("I_OuttakeSpeed", -1.0));
+        }
+    }
+    
     public void calcReverseIntake()
     {
         shooter.setTiltAngle(Constants.TILT_PARALLEL_POSITION);

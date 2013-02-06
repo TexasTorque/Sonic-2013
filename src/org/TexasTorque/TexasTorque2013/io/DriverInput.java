@@ -66,4 +66,14 @@ public class DriverInput
         return false;
     }
     
+    public synchronized boolean intakeOverride()
+    {
+        return false;
+    }
+    
+    public synchronized boolean outtakeOverride()
+    {
+        return false;
+    }
+    
 }
