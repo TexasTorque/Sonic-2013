@@ -124,4 +124,12 @@ public class Manipulator
         }
     }
     
+    public void pullNewPIDGains()
+    {
+        shooter.loadFrontShooterPID();
+        shooter.loadRearShooterPID();
+        shooter.loadTiltPID();
+        elevator.loadElevatorPID();
+    }
+    
 }

@@ -38,7 +38,7 @@ public class DriverInput
     
     public synchronized double getAutonomousDelay()
     {
-        return SmartDashboard.getNumber("Autonomous Delay", params.getAsDouble("AutonomousDelay", 0.0));
+        return SmartDashboard.getNumber("Autonomous Delay", params.getAsDouble("Misc_AutonomousDelay", 0.0));
     }
     
     public synchronized boolean shiftHighGear()
@@ -57,11 +57,6 @@ public class DriverInput
     }
     
     public synchronized boolean extendWheelyBar()
-    {
-        return false;
-    }
-    
-    public synchronized boolean getTrackTarget()
     {
         return false;
     }
