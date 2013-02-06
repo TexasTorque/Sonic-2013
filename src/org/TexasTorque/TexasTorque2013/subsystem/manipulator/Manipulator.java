@@ -91,7 +91,7 @@ public class Manipulator
     {
         shooter.setTiltAngle(Constants.TILT_PARALLEL_POSITION);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
-        // stuff for the magazine
+        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         if(shooter.isParallel())
         {
             elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
@@ -106,7 +106,7 @@ public class Manipulator
     {
         shooter.setTiltAngle(Constants.TILT_PARALLEL_POSITION);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
-        // stuff for the magazine
+        magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
         if(shooter.isParallel())
         {
             elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
@@ -121,6 +121,7 @@ public class Manipulator
     {
         elevator.setDesiredPosition(params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION));
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         if(elevator.elevatorAtTop())
         {
             shooter.setShooterRates(params.getAsInt("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE)
@@ -128,7 +129,7 @@ public class Manipulator
             // stuff with the tilt
             if(shooter.isReadyToFire() && Drivebase.getInstance().isHorizontallyLocked())
             {
-                // some stuff for the magazine
+                magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
             }
         }
     }
@@ -138,17 +139,10 @@ public class Manipulator
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
         shooter.setTiltAngle(Constants.TILT_PARALLEL_POSITION);
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         if(shooter.isParallel())
         {
             elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
-            if(elevator.elevatorAtBottom())
-            {
-                // stuff for the magazine
-            }
-            else
-            {
-                // stuff for the magazine
-            }
         }
     }
     

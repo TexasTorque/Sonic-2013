@@ -39,6 +39,12 @@ public class Constants
     public static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;
     public static int DEFAULT_ELEVATOR_TOP_POSITION = 1;
     
+    //----- Magazine -----
+    public final static int MAGAZINE_READY_STATE = 0;
+    public final static int MAGAZINE_LOADING_STATE = 1;
+    public final static int MAGAZINE_SHOOTING_STATE = 2;
+    public final static int MAGAZINE_RESETTING_STATE = 3;
+    
     //----- Misc -----
     public static int TORQUE_LOGGING_LOOP_TIME = 20;
     public static double MOTOR_STOPPED = 0.0;
