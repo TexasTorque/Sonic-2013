@@ -84,7 +84,7 @@ public class DriverInput
     
     public synchronized boolean override()
     {
-        return (intakeOverride() || outtakeOverride() || elevatorTopOverride() || elevatorBottomOverride() || shooterOverride());
+        return (intakeOverride() || outtakeOverride() || elevatorTopOverride() || elevatorBottomOverride() || shooterOverride() || magazineShootOverride());
     }
     
     public synchronized boolean intakeOverride()
@@ -108,6 +108,11 @@ public class DriverInput
     }
     
     public synchronized boolean shooterOverride()
+    {
+        return false;
+    }
+    
+    public synchronized boolean magazineShootOverride()
     {
         return false;
     }

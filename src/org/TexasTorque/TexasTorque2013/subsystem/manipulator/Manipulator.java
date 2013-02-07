@@ -71,6 +71,7 @@ public class Manipulator
         if(driverInput.intakeOverride())
         {
             intake.setIntakeSpeed(params.getAsDouble("I_IntakeSpeed", 0.0));
+              magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
         }
         else if(driverInput.outtakeOverride())
         {
@@ -93,6 +94,10 @@ public class Manipulator
                     , params.getAsInt("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE));
         }
         //----- Magazine -----
+        if(driverInput.magazineShootOverride())
+        {
+            magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+        }
     }
     
     public void calcReverseIntake()
