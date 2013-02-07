@@ -51,11 +51,14 @@ public class Manipulator
         {
             shootHighWithVision();
         }
+        else if(driverInput.override())
+        {
+            calcOverrides();
+        }
         else
         {
             restoreDefaultPositions();
         }
-        calcOverrides();
         shooter.run();
         elevator.run();
         intake.run();
@@ -84,6 +87,11 @@ public class Manipulator
         }
         //----- Tilt -----
         //----- Shooter -----
+        if(driverInput.shooterOverride())
+        {
+            shooter.setShooterRates(params.getAsInt("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE)
+                    , params.getAsInt("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE));
+        }
         //----- Magazine -----
     }
     
