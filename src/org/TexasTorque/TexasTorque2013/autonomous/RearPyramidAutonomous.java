@@ -1,13 +1,12 @@
 package org.TexasTorque.TexasTorque2013.autonomous;
 
 import edu.wpi.first.wpilibj.Timer;
-import org.TexasTorque.TexasTorque2013.constants.Constants;
 
-public class FrontPyramidAutonomous extends AutonomousBase {
+public class RearPyramidAutonomous extends AutonomousBase {
 
     Timer autonomousTimer;
     
-    public FrontPyramidAutonomous()
+    public RearPyramidAutonomous()
     {
         super();
         autonomousTimer = new Timer();
