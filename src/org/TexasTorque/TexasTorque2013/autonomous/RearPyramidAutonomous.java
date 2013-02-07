@@ -1,6 +1,7 @@
 package org.TexasTorque.TexasTorque2013.autonomous;
 
 import edu.wpi.first.wpilibj.Timer;
+import org.TexasTorque.TexasTorque2013.constants.Constants;
 
 public class RearPyramidAutonomous extends AutonomousBase {
 
@@ -14,17 +15,18 @@ public class RearPyramidAutonomous extends AutonomousBase {
     
     public void init() 
     {
-        robotOutput.setDriveMotors(0.0, 0.0);
-        robotOutput.setIntakeMotor(0.0);
     }
 
     public void run() 
     {
         autonomousTimer.reset();
         autonomousTimer.start();
+     
         while(ds.isAutonomous())
         {
             watchdog.feed();
+            robotOutput.setDriveMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
+            robotOutput.setIntakeMotor(Constants.MOTOR_STOPPED);
             manipulator.shootHighWithVision();
             if(autonomousTimer.get() > 7.0)
             {
@@ -34,13 +36,11 @@ public class RearPyramidAutonomous extends AutonomousBase {
             shooter.run();
             elevator.run();
             magazine.run();
-            drivebase.run();
         }
     }
 
     public void end() 
     {
-    
     }
     
 }
