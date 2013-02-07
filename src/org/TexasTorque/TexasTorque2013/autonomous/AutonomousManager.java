@@ -10,13 +10,16 @@ public class AutonomousManager
     private String queuedAutoMode;
     private Hashtable autoMapping;
     private double autoDelay;
+    private boolean firstCycle;
     
     public AutonomousManager()
     {
+        firstCycle = true;
         autoDelay = 0.0;
         queuedAutoMode = "0";
         autoMapping = new Hashtable();
         autoMapping.put(Integer.toString(Constants.DO_NOTHING_AUTO), new DoNothingAutonomous());
+        autoMapping.put(Integer.toString(Constants.FRONT_SHOOT_AUTO), new FrontPyramidAutonomous());
     }
     
     public void setAutonomousDelay(double delay)
@@ -37,8 +40,12 @@ public class AutonomousManager
     
     public void runAutonomous()
     {
-        ((AutonomousBase)autoMapping.get(queuedAutoMode)).run();
-        ((AutonomousBase)autoMapping.get(queuedAutoMode)).end();
+        if(firstCycle)
+        {
+            ((AutonomousBase)autoMapping.get(queuedAutoMode)).run();
+            ((AutonomousBase)autoMapping.get(queuedAutoMode)).end();
+            firstCycle = false;
+        }
     }
     
 }

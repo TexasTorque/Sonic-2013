@@ -12,9 +12,6 @@ public class FrontPyramidAutonomous extends AutonomousBase {
     
     public void init() 
     {
-        robotOutput.setDriveMotors(0.0, 0.0);
-        robotOutput.setIntakeMotor(0.0);
-        
     }
 
     public void run() 
@@ -22,29 +19,24 @@ public class FrontPyramidAutonomous extends AutonomousBase {
         Timer time = new Timer();
         time.start();
         
-        
         while(ds.isAutonomous())
         {
-            
+            robotOutput.setDriveMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
+            robotOutput.setIntakeMotor(Constants.MOTOR_STOPPED);
             manipulator.shootHighWithVision();
             if(time.get() > 7.0)
             {
                 manipulator.restoreDefaultPositions();
             }
-            //manipulator.run();
             intake.run();
             shooter.run();
             elevator.run();
             magazine.run();
-            drivebase.run();
-            
         }
-        
     }
 
     public void end() 
     {
-    
     }
     
 }
