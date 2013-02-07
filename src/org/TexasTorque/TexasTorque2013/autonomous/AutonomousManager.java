@@ -1,3 +1,4 @@
+
 package org.TexasTorque.TexasTorque2013.autonomous;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -20,6 +21,7 @@ public class AutonomousManager
         autoMapping = new Hashtable();
         autoMapping.put(Integer.toString(Constants.DO_NOTHING_AUTO), new DoNothingAutonomous());
         autoMapping.put(Integer.toString(Constants.FRONT_SHOOT_AUTO), new FrontPyramidAutonomous());
+        autoMapping.put(Integer.toString(Constants.REAR_SHOOT_AUTO), new RearPyramidAutonomous());
     }
     
     public void setAutonomousDelay(double delay)
