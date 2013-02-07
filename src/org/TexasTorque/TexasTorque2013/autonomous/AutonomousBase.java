@@ -25,6 +25,7 @@ public abstract class AutonomousBase
     protected Shooter shooter;
     protected Elevator elevator;
     protected Magazine magazine;
+    protected Manipulator manipulator;
     protected DashboardManager dashboardManager;
     protected Parameters params;
     
@@ -41,6 +42,7 @@ public abstract class AutonomousBase
         elevator = Elevator.getInstance();
         magazine = Magazine.getInstance();
         params = Parameters.getInstance();
+        manipulator = Manipulator.getInstance();
     }
     
     public abstract void init();
