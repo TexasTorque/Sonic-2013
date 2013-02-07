@@ -41,6 +41,8 @@ public class DriverInput
         return SmartDashboard.getNumber("Autonomous Delay", params.getAsDouble("Misc_AutonomousDelay", 0.0));
     }
     
+//---------- Drivebase ----------
+    
     public synchronized double getThrottle()
     {
         return driveController.getThrottle();
@@ -55,6 +57,8 @@ public class DriverInput
     {
         return driveController.getSwitch();
     }
+    
+//---------- Manipulator ----------    
     
     public synchronized boolean runIntake()
     {
@@ -75,6 +79,8 @@ public class DriverInput
     {
         return false;
     }
+    
+//---------- Overrides ----------
     
     public synchronized boolean intakeOverride()
     {
