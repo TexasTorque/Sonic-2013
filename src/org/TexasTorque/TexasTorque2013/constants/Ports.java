@@ -34,7 +34,6 @@ public class Ports
     public final static int LOADER_SOLENOID_PORT = 4;
     public final static int FRISBEE_LIFTER_SOLENOID_A_PORT = 5;
     public final static int FRISBEE_LIFTER_SOLENOID_B_PORT = 6;
-    public final static int WHEELY_BAR_SOLENOID_PORT = 7;
     
     //----- Digital Inputs -----
         //----- Sidecar 1 -----
@@ -45,7 +44,6 @@ public class Ports
         public final static int FRONT_SHOOTER_COUNTER_B_PORT = 7;
         public final static int REAR_SHOOTER_COUNTER_A_PORT = 8;
         public final static int REAR_SHOOTER_COUNTER_B_PORT = 9;
-        public final static int WHEELY_BAR_SWITCH_PORT = 10;
         public final static int ELEVATOR_ENCODER_A_PORT = 11;
         public final static int ELEVATOR_ENCODER_B_PORT = 12;
         //----- Sidecar 2 -----
