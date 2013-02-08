@@ -9,13 +9,13 @@ public class DriverInput
 {
     private static DriverInput instance;
     private Parameters params;
-    private TraxxasTQ3 driveController;
+    private SpektrumDX2E driveController;
     private XBox360Controller operatorController;
         
     public DriverInput()
     {
         params = Parameters.getInstance();
-        driveController = new TraxxasTQ3(Ports.DRIVE_CONTROLLER_PORT);
+        driveController = new SpektrumDX2E(Ports.DRIVE_CONTROLLER_PORT);
         operatorController = new XBox360Controller(Ports.OPERATOR_CONTROLLER_PORT);
     }
     
