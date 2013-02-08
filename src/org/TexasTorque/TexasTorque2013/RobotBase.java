@@ -25,6 +25,8 @@ public class RobotBase extends IterativeRobot
     Manipulator  manipulator;
     AutonomousManager autoManager;
     
+    double loopTime;
+    
     public void robotInit()
     {
         watchdog = Watchdog.getInstance();
