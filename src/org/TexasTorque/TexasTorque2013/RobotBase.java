@@ -46,6 +46,8 @@ public class RobotBase extends IterativeRobot
         manipulator = Manipulator.getInstance();
         
         autoManager = new AutonomousManager();
+        
+        loopTime = 0.0;
     }
 
     public void autonomousInit()
@@ -62,6 +64,7 @@ public class RobotBase extends IterativeRobot
         watchdog.feed();
         dashboardManager.updateLCD();
         autoManager.runAutonomous();
+        logLoopTime();
     }
 
     public void teleopInit()
@@ -78,6 +81,7 @@ public class RobotBase extends IterativeRobot
         drivebase.run();
         manipulator.run();
         dashboardManager.updateLCD();
+        logLoopTime();
     }
     
     public void disabledInit()
@@ -100,7 +104,7 @@ public class RobotBase extends IterativeRobot
         TorqueLogging.setDashboardLogging(true);
         TorqueLogging.setLoopTime(params.getAsInt("LoggingLoopTime", Constants.TORQUE_LOGGING_LOOP_TIME));
         logging = TorqueLogging.getInstance();
-        logging.setKeyMapping("FrameNumber,FrameTime");
+        logging.setKeyMapping("FrameNumber,FrameTime,LoopTime");
         logging.startLogging();
     }
     
@@ -108,6 +112,13 @@ public class RobotBase extends IterativeRobot
     {
         manipulator.pullNewPIDGains();
         drivebase.loadGyroPID();
+    }
+    
+    public void logLoopTime()
+    {
+        double previous = loopTime;
+        loopTime = dashboardManager.getDS().getMatchTime();
+        logging.logValue("LoopTime", loopTime);
     }
     
 }
