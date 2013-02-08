@@ -49,14 +49,17 @@ public class RobotBase extends IterativeRobot
     public void autonomousInit()
     {
         pullNewPIDGains();
-        autoManager.setAutonomousDelay(driverInput.getAutonomousDelay());
         sensorInput.resetEncoders();
+        autoManager.setAutonomousDelay(driverInput.getAutonomousDelay());
+        autoManager.setAutoMode(Constants.DO_NOTHING_AUTO);
+        autoManager.initAutonomous();
     }
 
     public void autonomousPeriodic()
     {
         watchdog.feed();
         dashboardManager.updateLCD();
+        autoManager.runAutonomous();
     }
 
     public void teleopInit()
