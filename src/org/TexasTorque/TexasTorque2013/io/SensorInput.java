@@ -3,7 +3,6 @@ package org.TexasTorque.TexasTorque2013.io;
 import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.Gyro;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
@@ -27,9 +26,7 @@ public class SensorInput
     private AnalogChannel gyroChannel;
     private Gyro gyro;
     private TorquePotentiometer tiltPotentiometer;
-    //----- Other Digital -----
-    private DigitalInput wheelyBarSwitch;
-    
+
     public SensorInput()
     {
         //----- Encoders/Counters -----
@@ -48,7 +45,6 @@ public class SensorInput
         gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
         //----- Misc -----
         pressureSensor = new AnalogChannel(Ports.PRESSURE_SENSOR_PORT);
-        wheelyBarSwitch = new DigitalInput(Ports.SIDECAR_ONE, Ports.WHEELY_BAR_SWITCH_PORT);
         tiltPotentiometer = new TorquePotentiometer(Ports.TILT_POTENTIOMETER_PORT);
         tiltPotentiometer.setRange(Constants.POTENTIOMETER_LOW_VOLTAGE, Constants.POTENTIOMETER_HIGH_VOLTAGE);
         startEncoders();
@@ -152,11 +148,6 @@ public class SensorInput
     public synchronized double getTiltAngle()
     {
         return getTiltPotentiometer() * 90;
-    }
-    
-    public synchronized boolean getWheelyBarSwitch()
-    {
-        return wheelyBarSwitch.get();
     }
     
 }

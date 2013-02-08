@@ -16,7 +16,6 @@ public class RobotOutput
     private Solenoid loader;
     private DoubleSolenoid frisbeeLifter;
     private DoubleSolenoid ptoShifter;
-    private Solenoid wheelyBar;
     //----- Drive Motors -----
     private Motor frontLeftDriveMotor;
     private Motor rearLeftDriveMotor;
@@ -41,7 +40,6 @@ public class RobotOutput
         loader = new Solenoid(Ports.LOADER_SOLENOID_PORT);
         frisbeeLifter = new DoubleSolenoid(Ports.FRISBEE_LIFTER_SOLENOID_A_PORT, Ports.FRISBEE_LIFTER_SOLENOID_B_PORT);
         ptoShifter = new DoubleSolenoid(Ports.PTO_SOLENOID_A_PORT, Ports.PTO_SOLENOID_B_PORT);
-        wheelyBar = new Solenoid(Ports.WHEELY_BAR_SOLENOID_PORT);
         //----- Drive Motors -----
         frontLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_LEFT_MOTOR_PORT), true, true);
         rearLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_LEFT_MOTOR_PORT), true, true);
@@ -130,11 +128,4 @@ public class RobotOutput
             ptoShifter.set(DoubleSolenoid.Value.kReverse);
         }
     }
-    
-    public synchronized void setWheelyBar(boolean extend)
-    {
-        wheelyBar.set(extend);
-    }
-    
-    
 }

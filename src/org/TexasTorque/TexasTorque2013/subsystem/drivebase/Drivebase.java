@@ -59,10 +59,6 @@ public class Drivebase
         {
             robotOutput.setShifters(true);
         }
-        if(driverInput.extendWheelyBar())
-        {
-            robotOutput.setWheelyBar(true);
-        }
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
     

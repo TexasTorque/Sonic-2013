@@ -70,11 +70,6 @@ public class DriverInput
         return false;
     }
     
-    public synchronized boolean extendWheelyBar()
-    {
-        return false;
-    }
-    
     public synchronized boolean shootVisionHigh()
     {
         return false;
