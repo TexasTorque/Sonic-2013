@@ -96,14 +96,14 @@ public class SensorInput
         return rightDriveEncoder.getRate();
     }
     
-    public synchronized int getFrontShooterRate()
+    public synchronized double getFrontShooterRate()
     {
-        return (int)frontShooterCounter.getRate();
+        return frontShooterCounter.getRate();
     }
     
-    public synchronized int getRearShooterRate()
+    public synchronized double getRearShooterRate()
     {
-        return (int)rearShooterCounter.getRate();
+        return rearShooterCounter.getRate();
     }
     
     public synchronized int getElevatorEncoder()

@@ -21,9 +21,9 @@ public class Shooter
     private double frontMotorSpeed;
     private double rearMotorSpeed;
     private double tiltMotorSpeed;
-    private int desiredTiltPosition;
-    private int desiredFrontShooterRate;
-    private int desiredRearShooterRate;
+    private double desiredTiltPosition;
+    private double desiredFrontShooterRate;
+    private double desiredRearShooterRate;
     
     public static Shooter getInstance()
     {
@@ -68,27 +68,27 @@ public class Shooter
     
     public void run()
     {
-        double frontSpeed = frontShooterPID.calcPID(sensorInput.getFrontShooterRate());
-        double rearSpeed = rearShooterPID.calcPID(sensorInput.getRearShooterRate());
+        frontShooterPID.setDesiredValue((int)desiredFrontShooterRate);
+        rearShooterPID.setDesiredValue((int)desiredRearShooterRate);
+        double frontSpeed = frontShooterPID.calcPID((int)sensorInput.getFrontShooterRate());
+        double rearSpeed = rearShooterPID.calcPID((int)sensorInput.getRearShooterRate());
         frontMotorSpeed = limitShooterSpeed(frontSpeed);
         rearMotorSpeed = limitShooterSpeed(rearSpeed);
         robotOutput.setShooterMotors(frontMotorSpeed, rearMotorSpeed);
+        tiltPID.setDesiredValue((int)desiredTiltPosition);
         tiltMotorSpeed = tiltPID.calcPID((int)sensorInput.getTiltAngle());
         robotOutput.setShooterTiltMotor(tiltMotorSpeed);
     }
     
-    public synchronized void setShooterRates(int frontRate, int rearRate)
+    public synchronized void setShooterRates(double frontRate, double rearRate)
     {
         desiredFrontShooterRate = frontRate;
         desiredRearShooterRate = rearRate;
-        frontShooterPID.setDesiredValue(desiredFrontShooterRate);
-        rearShooterPID.setDesiredValue(desiredRearShooterRate);
     }
     
-    public synchronized void setTiltAngle(int degrees)
+    public synchronized void setTiltAngle(double degrees)
     {
         desiredTiltPosition = degrees;
-        tiltPID.setDesiredValue(desiredTiltPosition);
     }
     
     public synchronized void loadFrontShooterPID()

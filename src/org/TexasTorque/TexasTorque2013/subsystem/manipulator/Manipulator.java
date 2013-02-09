@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
@@ -87,11 +88,15 @@ public class Manipulator
             elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
         }
         //----- Tilt -----
+        if(driverInput.tiltOverride())
+        {
+            
+        }
         //----- Shooter -----
         if(driverInput.shooterOverride())
         {
-            int frontRate = params.getAsInt("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
-            int rearRate = params.getAsInt("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
+            double frontRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
+            double rearRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
             shooter.setShooterRates(frontRate, rearRate);
         }
         //----- Magazine -----
@@ -138,10 +143,11 @@ public class Manipulator
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         if(elevator.elevatorAtTop())
         {
-            int frontRate = params.getAsInt("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
-            int rearRate = params.getAsInt("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
+            double frontRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
+            double rearRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
             shooter.setShooterRates(frontRate, rearRate);
-            // stuff with the tilt
+            double elevation = SmartDashboard.getNumber("elevation", Constants.TILT_PARALLEL_POSITION);
+            shooter.setTiltAngle(elevation);
             if(shooter.isReadyToFire() && Drivebase.getInstance().isHorizontallyLocked())
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
