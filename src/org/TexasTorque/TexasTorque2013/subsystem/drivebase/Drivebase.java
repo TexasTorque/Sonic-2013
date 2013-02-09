@@ -107,7 +107,7 @@ public class Drivebase
         turn = Math.sqrt(Math.abs(turn)) * xSign;
         double power;
         double trueSpeed;
-        double RadiusOutter = Constants.MAX_DIAMETER / 2;
+        double RadiusOuter = Constants.MAX_DIAMETER / 2;
         double RadiusInner = (Constants.MAX_DIAMETER - Constants.ROBOT_WIDTH) / 2;
         double SpeedInner = 0.0;
         if(!driverInput.shiftHighGear())
@@ -124,7 +124,7 @@ public class Drivebase
         }
         else
         {
-            SpeedInner = throttle * (RadiusInner / RadiusOutter);
+            SpeedInner = throttle * (RadiusInner / RadiusOuter);
         }
         power = SpeedInner;
         trueSpeed = throttle;
