@@ -20,7 +20,7 @@ public class Drivebase
     
     private double leftDriveSpeed;
     private double rightDriveSpeed;
-    private int desiredGyroAngle;
+    private double desiredGyroAngle;
     
     public static Drivebase getInstance()
     {
@@ -42,9 +42,9 @@ public class Drivebase
         
         gyroPID = new SimPID(p, i, d, e);
         
-        leftDriveSpeed = 0.0;
-        rightDriveSpeed = 0.0;
-        desiredGyroAngle = 0;
+        leftDriveSpeed = Constants.MOTOR_STOPPED;
+        rightDriveSpeed = Constants.MOTOR_STOPPED;
+        desiredGyroAngle = 0.0;
     }
     
     public void run()
@@ -52,8 +52,8 @@ public class Drivebase
         mixChannels(driverInput.getThrottle(), driverInput.getTurn());
         if(driverInput.shootVisionHigh())
         {
-            desiredGyroAngle = (int)(sensorInput.getGyroAngle() + SmartDashboard.getNumber("azimuth", 0.0));
-            gyroPID.setDesiredValue(desiredGyroAngle);
+            desiredGyroAngle = (sensorInput.getGyroAngle() + SmartDashboard.getNumber("azimuth", 0.0));
+            gyroPID.setDesiredValue((int)desiredGyroAngle);
             double motorOutput = gyroPID.calcPID((int)sensorInput.getGyroAngle());
             leftDriveSpeed = motorOutput;
             rightDriveSpeed = -motorOutput;
@@ -81,6 +81,13 @@ public class Drivebase
         return gyroPID.isDone();
     }
     
+    private double applySqrtCurve(double axisValue)
+    {
+        int sign = (axisValue > 0) ? 1 : -1;
+        axisValue = Math.sqrt(Math.abs(axisValue)) * sign;
+        return axisValue;
+    }
+    
     public void mixChannels(double yAxis, double xAxis)
     {
         yAxis = driverInput.applyDeadband(yAxis, Constants.SPEED_AXIS_DEADBAND);
@@ -92,11 +99,14 @@ public class Drivebase
     
     public void simpleDrive(double yAxis, double xAxis)
     {
-        int ySign = (yAxis > 0) ? 1 : -1;
-        int xSign = (xAxis > 0) ? 1 : -1;
+        //int ySign = (yAxis > 0) ? 1 : -1;
+        //int xSign = (xAxis > 0) ? 1 : -1;
         
-        yAxis = Math.sqrt(Math.abs(yAxis)) * ySign;
-        xAxis = Math.sqrt(Math.abs(xAxis)) * xSign;
+        //yAxis = Math.sqrt(Math.abs(yAxis)) * ySign;
+        //xAxis = Math.sqrt(Math.abs(xAxis)) * xSign;
+        
+        yAxis = applySqrtCurve(yAxis);
+        xAxis = applySqrtCurve(yAxis);
         
         leftDriveSpeed = yAxis + xAxis;
         rightDriveSpeed = yAxis - xAxis;
@@ -104,10 +114,13 @@ public class Drivebase
     
     public void cheesyDrive(double throttle, double turn)
     {
-        int ySign = (throttle > 0) ? 1 : -1;
-        int xSign = (turn > 0) ? 1 : -1;
-        throttle = Math.sqrt(Math.abs(throttle)) * ySign;
-        turn = Math.sqrt(Math.abs(turn)) * xSign;
+        //int ySign = (throttle > 0) ? 1 : -1;
+        //int xSign = (turn > 0) ? 1 : -1;
+        //throttle = Math.sqrt(Math.abs(throttle)) * ySign;
+        //turn = Math.sqrt(Math.abs(turn)) * xSign;
+        throttle = applySqrtCurve(throttle);
+        turn = applySqrtCurve(turn);
+        
         double power;
         double trueSpeed;
         double RadiusOuter = Constants.MAX_DIAMETER / 2;
