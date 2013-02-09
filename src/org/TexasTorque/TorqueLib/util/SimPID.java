@@ -31,14 +31,14 @@ public class SimPID
     
     public void setConstants(double pValue, double iValue, double dValue)
     {
-        p = pValue;
-        i = iValue;
-        d = dValue;
+        p = limitValue(pValue);
+        i = limitValue(iValue);
+        d = limitValue(dValue);
     }
     
     public void setErrorEpsilon(int epsilon)
     {
-        errorEpsilon = epsilon;
+        errorEpsilon = (int)limitValue(epsilon);
     }
     
     public void setErrorIncrement(int inc)
@@ -147,6 +147,15 @@ public class SimPID
     public void setMinDoneCycles(int n)
     {
         minCycleCount = n;
+    }
+    
+    private double limitValue(double value)
+    {
+        if(value < 0.0)
+        {
+            return 0.0;
+        }
+        return value;
     }
  
 }
