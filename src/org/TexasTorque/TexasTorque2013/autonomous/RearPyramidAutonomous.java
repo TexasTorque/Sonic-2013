@@ -36,6 +36,7 @@ public class RearPyramidAutonomous extends AutonomousBase {
             shooter.run();
             elevator.run();
             magazine.run();
+            drivebase.run();
         }
     }
 

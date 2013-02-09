@@ -37,6 +37,7 @@ public class FrontPyramidAutonomous extends AutonomousBase {
             shooter.run();
             elevator.run();
             magazine.run();
+            drivebase.run();
         }
     }
 
