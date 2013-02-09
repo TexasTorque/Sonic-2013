@@ -99,12 +99,6 @@ public class Drivebase
     
     public void simpleDrive(double yAxis, double xAxis)
     {
-        //int ySign = (yAxis > 0) ? 1 : -1;
-        //int xSign = (xAxis > 0) ? 1 : -1;
-        
-        //yAxis = Math.sqrt(Math.abs(yAxis)) * ySign;
-        //xAxis = Math.sqrt(Math.abs(xAxis)) * xSign;
-        
         yAxis = applySqrtCurve(yAxis);
         xAxis = applySqrtCurve(yAxis);
         
@@ -114,10 +108,6 @@ public class Drivebase
     
     public void cheesyDrive(double throttle, double turn)
     {
-        //int ySign = (throttle > 0) ? 1 : -1;
-        //int xSign = (turn > 0) ? 1 : -1;
-        //throttle = Math.sqrt(Math.abs(throttle)) * ySign;
-        //turn = Math.sqrt(Math.abs(turn)) * xSign;
         throttle = applySqrtCurve(throttle);
         turn = applySqrtCurve(turn);
         
