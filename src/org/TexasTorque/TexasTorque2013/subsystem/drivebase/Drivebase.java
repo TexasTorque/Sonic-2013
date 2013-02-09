@@ -68,17 +68,31 @@ public class Drivebase
         mixChannels(driverInput.getThrottle(), driverInput.getTurn());
         if(driverInput.shootVisionHigh())
         {
-            desiredGyroAngle = (sensorInput.getGyroAngle() + SmartDashboard.getNumber("azimuth", 0.0));
-            gyroPID.setDesiredValue((int)desiredGyroAngle);
-            double motorOutput = gyroPID.calcPID((int)sensorInput.getGyroAngle());
-            leftDriveSpeed = motorOutput;
-            rightDriveSpeed = -motorOutput;
+            calcGyroPID();
+            if(isHorizontallyLocked())
+            {
+                
+            }
         }
         if(driverInput.shiftHighGear())
         {
             robotOutput.setShifters(true);
         }
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
+    }
+    
+    public synchronized void calcGyroPID()
+    {
+        desiredGyroAngle = (sensorInput.getGyroAngle() + SmartDashboard.getNumber("azimuth", 0.0));
+        gyroPID.setDesiredValue((int)desiredGyroAngle);
+        double motorOutput = gyroPID.calcPID((int)sensorInput.getGyroAngle());
+        leftDriveSpeed = motorOutput;
+        rightDriveSpeed = -motorOutput;
+    }
+    
+    public synchronized void calcBaseLockPID()
+    {
+        
     }
     
     public synchronized void loadGyroPID()
