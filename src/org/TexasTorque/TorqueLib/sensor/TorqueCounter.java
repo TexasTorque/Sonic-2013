@@ -21,6 +21,7 @@ public class TorqueCounter extends Thread
     private double currentAcceleration;
     private double currentVel;
     private double previousVel;
+    private final int filterSize = 10;
     
     public TorqueCounter(int sidecar, int port)
     {
@@ -67,8 +68,8 @@ public class TorqueCounter extends Thread
         currentAcceleration = 0.0;
         currentVel = 0.0;
         previousVel = 0.0;
-        rateArray = new double[10];
-        accArray = new double[10];
+        rateArray = new double[filterSize];
+        accArray = new double[filterSize];
         counter.reset();
         counter.start();
     }
@@ -93,7 +94,7 @@ public class TorqueCounter extends Thread
             accArray[arrayIndex] = (currentVel - previousVel) / (threadPeriod / 1000);
             calcAcceleration();
             arrayIndex++;
-            if(arrayIndex == 10)
+            if(arrayIndex == filterSize)
             {
                 arrayIndex = 0;
             }
@@ -103,21 +104,21 @@ public class TorqueCounter extends Thread
     private void calcAcceleration()
     {
         double rateSum = 0.0;
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < filterSize; i++)
         {
             rateSum += accArray[i];
         }
-        currentAcceleration = rateSum / 10;
+        currentAcceleration = rateSum / filterSize;
     }
     
     private void calcRate()
     {
         double rateSum = 0.0;
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < filterSize; i++)
         {
             rateSum += rateArray[i];
         }
-        currentRate = rateSum / 10;
+        currentRate = rateSum / filterSize;
     }
     
     public int get()
