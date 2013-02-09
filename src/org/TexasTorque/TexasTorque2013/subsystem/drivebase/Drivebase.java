@@ -70,10 +70,10 @@ public class Drivebase
         double p = params.getAsDouble("D_GyroP", 0.0);
         double i = params.getAsDouble("D_GyroI", 0.0);
         double d =  params.getAsDouble("D_GyroD", 0.0);
+        int e = params.getAsInt("D_GyroEpsilon", 0);
         
         gyroPID.setConstants(p, i, d);
-        
-        gyroPID.setErrorEpsilon(params.getAsInt("D_GyroEpsilon", 0));
+        gyroPID.setErrorEpsilon(e);
     }
     
     public synchronized boolean isHorizontallyLocked()

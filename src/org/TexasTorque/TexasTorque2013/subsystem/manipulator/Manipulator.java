@@ -70,8 +70,8 @@ public class Manipulator
         //----- Intake -----
         if(driverInput.intakeOverride())
         {
-            intake.setIntakeSpeed(params.getAsDouble("I_IntakeSpeed", 0.0));
-              magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
+            intake.setIntakeSpeed(params.getAsDouble("I_IntakeSpeed", Constants.MOTOR_STOPPED));
+            magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
         }
         else if(driverInput.outtakeOverride())
         {
@@ -126,7 +126,7 @@ public class Manipulator
             elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
             if(elevator.elevatorAtBottom())
             {
-                intake.setIntakeSpeed(params.getAsDouble("I_IntakeSpeed", 0.0));
+                intake.setIntakeSpeed(params.getAsDouble("I_IntakeSpeed", Constants.MOTOR_STOPPED));
             }
         }
     }

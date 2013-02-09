@@ -59,10 +59,10 @@ public class Elevator
         double p = params.getAsDouble("E_ElevatorP", 0.0);
         double i = params.getAsDouble("E_ElevatorI", 0.0);
         double d = params.getAsDouble("E_ElevatorD", 0.0);
+        int e = params.getAsInt("E_ElevatorEpsilon", 0);
         
         elevatorPID.setConstants(p, i, d);
-        
-        elevatorPID.setErrorEpsilon(params.getAsInt("E_ElevatorEpsilon", 0));
+        elevatorPID.setErrorEpsilon(e);
     }
     
     public synchronized boolean elevatorAtTop()

@@ -1,6 +1,5 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
-import javax.microedition.io.Connection;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
@@ -93,10 +92,10 @@ public class Shooter
         double p = params.getAsDouble("S_FrontShooterP", 0.0);
         double i = params.getAsDouble("S_FrontShooterI", 0.0);
         double d = params.getAsDouble("S_FrontShooterD", 0.0);
+        int e = params.getAsInt("S_FrontShooterEpsilon", 0);
         
         frontShooterPID.setConstants(p, i, d);
-        
-        frontShooterPID.setErrorEpsilon(params.getAsInt("S_FrontShooterEpsilon", 0));
+        frontShooterPID.setErrorEpsilon(e);
     }
     
     public synchronized void loadRearShooterPID()
@@ -104,10 +103,10 @@ public class Shooter
         double p = params.getAsDouble("S_RearShooterP", 0.0);
         double i = params.getAsDouble("S_RearShooterI", 0.0);
         double d = params.getAsDouble("S_RearShooterD", 0.0);
+        int e = params.getAsInt("S_RearShooterEpsilon", 0);
         
         rearShooterPID.setConstants(p, i, d);
-        
-        rearShooterPID.setErrorEpsilon(params.getAsInt("S_RearShooterEpsilon", 0));
+        rearShooterPID.setErrorEpsilon(e);
     }
     
     public synchronized void loadTiltPID()
@@ -115,10 +114,10 @@ public class Shooter
         double p = params.getAsDouble("S_TiltP", 0.0);
         double i = params.getAsDouble("S_TiltI", 0.0);
         double d = params.getAsDouble("S_TiltD", 0.0);
+        int e = params.getAsInt("S_TiltEpsilon", 0);
         
         tiltPID.setConstants(p, i, d);
-        
-        tiltPID.setErrorEpsilon(params.getAsInt("S_TiltEpsilon", 0));
+        tiltPID.setErrorEpsilon(e);
     }
     
     public synchronized boolean isVerticallyLocked()
@@ -140,7 +139,7 @@ public class Shooter
     {
         if(shooterSpeed < 0.0)
         {
-            return 0.0;
+            return Constants.MOTOR_STOPPED;
         }
         else
         {
