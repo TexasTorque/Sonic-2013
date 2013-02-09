@@ -23,6 +23,9 @@ public class Drivebase
     private double leftDriveSpeed;
     private double rightDriveSpeed;
     private double desiredGyroAngle;
+    private boolean baseLockSaved;
+    private int baseLockLeftPosition;
+    private int baseLockRightPosition;
     
     public static Drivebase getInstance()
     {
@@ -61,6 +64,9 @@ public class Drivebase
         leftDriveSpeed = Constants.MOTOR_STOPPED;
         rightDriveSpeed = Constants.MOTOR_STOPPED;
         desiredGyroAngle = 0.0;
+        baseLockSaved = false;
+        baseLockLeftPosition = 0;
+        baseLockRightPosition = 0;
     }
     
     public void run()
@@ -68,11 +74,11 @@ public class Drivebase
         mixChannels(driverInput.getThrottle(), driverInput.getTurn());
         if(driverInput.shootVisionHigh())
         {
-            calcGyroPID();
-            if(isHorizontallyLocked())
-            {
-                
-            }
+            horizontallyTrack();
+        }
+        else
+        {
+            baseLockSaved = false;
         }
         if(driverInput.shiftHighGear())
         {
@@ -81,7 +87,7 @@ public class Drivebase
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
     
-    public synchronized void calcGyroPID()
+    private synchronized void calcGyroPID()
     {
         desiredGyroAngle = (sensorInput.getGyroAngle() + SmartDashboard.getNumber("azimuth", 0.0));
         gyroPID.setDesiredValue((int)desiredGyroAngle);
@@ -90,9 +96,31 @@ public class Drivebase
         rightDriveSpeed = -motorOutput;
     }
     
-    public synchronized void calcBaseLockPID()
+    private synchronized void calcBaseLockPID()
     {
-        
+        if(!baseLockSaved)
+        {
+            baseLockSaved = true;
+            baseLockLeftPosition = sensorInput.getLeftDriveEncoder();
+            baseLockRightPosition = sensorInput.getRightDriveEncoder();
+            leftLockPID.setDesiredValue(baseLockLeftPosition);
+            rightLockPID.setDesiredValue(baseLockRightPosition);
+        }
+        leftDriveSpeed = leftLockPID.calcPID(sensorInput.getLeftDriveEncoder());
+        rightDriveSpeed = rightLockPID.calcPID(sensorInput.getRightDriveEncoder());
+    }
+    
+    public synchronized void horizontallyTrack()
+    {
+        if(isHorizontallyLocked())
+        {
+            calcBaseLockPID();
+        }
+        else
+        {
+            baseLockSaved = false;
+            calcGyroPID();
+        }
     }
     
     public synchronized void loadGyroPID()
