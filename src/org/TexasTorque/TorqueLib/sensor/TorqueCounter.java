@@ -70,13 +70,13 @@ public class TorqueCounter extends Thread
         previousVel = 0.0;
         rateArray = new double[filterSize];
         accArray = new double[filterSize];
-        counter.reset();
-        counter.start();
     }
     
     public void run()
     {
         Watchdog watchdog = Watchdog.getInstance();
+        counter.reset();
+        counter.start();
         while(true)
         {
             watchdog.feed();

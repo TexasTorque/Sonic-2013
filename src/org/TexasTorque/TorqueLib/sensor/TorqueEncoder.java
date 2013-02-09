@@ -70,13 +70,13 @@ public class TorqueEncoder extends Thread
         previousVel = 0.0;
         rateArray = new double[filterSize];
         accArray = new double[filterSize];
-        encoder.reset();
-        encoder.start();
     }
     
     public void run()
     {
         Watchdog watchdog = Watchdog.getInstance();
+        encoder.reset();
+        encoder.start();
         while(true)
         {
             watchdog.feed();
