@@ -68,9 +68,12 @@ public class Shooter
     
     public void run()
     {
-        frontMotorSpeed = limitShooterSpeed(frontShooterPID.calcPID(sensorInput.getFrontShooterRate()));
-        rearMotorSpeed = limitShooterSpeed(rearShooterPID.calcPID(sensorInput.getRearShooterRate()));
+        double frontSpeed = frontShooterPID.calcPID(sensorInput.getFrontShooterRate());
+        double rearSpeed = rearShooterPID.calcPID(sensorInput.getRearShooterRate());
+        frontMotorSpeed = limitShooterSpeed(frontSpeed);
+        rearMotorSpeed = limitShooterSpeed(rearSpeed);
         robotOutput.setShooterMotors(frontMotorSpeed, rearMotorSpeed);
+        tiltMotorSpeed = tiltPID.calcPID((int)sensorInput.getTiltAngle());
         robotOutput.setShooterTiltMotor(tiltMotorSpeed);
     }
     
@@ -84,7 +87,8 @@ public class Shooter
     
     public synchronized void setTiltAngle(int degrees)
     {
-        tiltPID.setDesiredValue(degrees);
+        desiredTiltPosition = degrees;
+        tiltPID.setDesiredValue(desiredTiltPosition);
     }
     
     public synchronized void loadFrontShooterPID()
