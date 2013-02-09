@@ -12,7 +12,7 @@ public class SpektrumDX2E extends Joystick
         port = p;
     }
     
-    public double getWheel(){ return this.getRawAxis(1); }
+    public double getWheel(){ return this.getRawAxis(3); }
     public double getThrottle(){ return this.getRawAxis(2); }
-    public boolean getSwitch(){ return this.getRawButton(2); }
+    public boolean getSwitch(){ return this.getRawButton(5); }
 }
