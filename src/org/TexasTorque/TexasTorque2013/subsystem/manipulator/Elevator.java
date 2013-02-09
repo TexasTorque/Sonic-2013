@@ -38,7 +38,7 @@ public class Elevator
         
         elevatorPID = new SimPID(p, i, d, e);
         
-        elevatorMotorSpeed = 0.0;
+        elevatorMotorSpeed = Constants.MOTOR_STOPPED;
         desiredElevatorPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
     }
     

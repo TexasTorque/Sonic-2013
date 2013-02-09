@@ -90,8 +90,9 @@ public class Manipulator
         //----- Shooter -----
         if(driverInput.shooterOverride())
         {
-            shooter.setShooterRates(params.getAsInt("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE)
-                    , params.getAsInt("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE));
+            int frontRate = params.getAsInt("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
+            int rearRate = params.getAsInt("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
+            shooter.setShooterRates(frontRate, rearRate);
         }
         //----- Magazine -----
         if(driverInput.magazineShootOverride())
@@ -137,8 +138,9 @@ public class Manipulator
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         if(elevator.elevatorAtTop())
         {
-            shooter.setShooterRates(params.getAsInt("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE)
-                    , params.getAsInt("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE));
+            int frontRate = params.getAsInt("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
+            int rearRate = params.getAsInt("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
+            shooter.setShooterRates(frontRate, rearRate);
             // stuff with the tilt
             if(shooter.isReadyToFire() && Drivebase.getInstance().isHorizontallyLocked())
             {

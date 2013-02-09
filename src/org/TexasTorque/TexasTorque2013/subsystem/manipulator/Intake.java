@@ -1,5 +1,7 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import javax.microedition.io.Connection;
+import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
@@ -26,7 +28,7 @@ public class Intake
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
         params = Parameters.getInstance();
-        intakeMotorSpeed = 0.0;
+        intakeMotorSpeed = Constants.MOTOR_STOPPED;
     }
     
     public void run()
