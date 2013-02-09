@@ -72,11 +72,14 @@ public class Manipulator
         if(driverInput.intakeOverride())
         {
             intake.setIntakeSpeed(params.getAsDouble("I_IntakeSpeed", Constants.MOTOR_STOPPED));
-            magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
         }
         else if(driverInput.outtakeOverride())
         {
             intake.setIntakeSpeed(params.getAsDouble("I_OuttakeSpeed", -1.0));
+        }
+        else
+        {
+            intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         }
         //----- Elevator -----
         if(driverInput.elevatorTopOverride())
@@ -99,10 +102,22 @@ public class Manipulator
             double rearRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
             shooter.setShooterRates(frontRate, rearRate);
         }
+        else
+        {
+            shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+        }
         //----- Magazine -----
         if(driverInput.magazineShootOverride())
         {
             magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+        }
+        else if(driverInput.intakeOverride())
+        {
+            magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
+        }
+        else
+        {
+            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         }
     }
     
