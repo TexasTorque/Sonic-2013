@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import javax.microedition.io.Connection;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
@@ -22,6 +23,8 @@ public class Shooter
     private double rearMotorSpeed;
     private double tiltMotorSpeed;
     private int desiredTiltPosition;
+    private int desiredFrontShooterRate;
+    private int desiredRearShooterRate;
     
     public static Shooter getInstance()
     {
@@ -56,10 +59,12 @@ public class Shooter
         
         tiltPID = new SimPID(p, i, d, e);
         
-        frontMotorSpeed = 0.0;
-        rearMotorSpeed = 0.0;
-        tiltMotorSpeed = 0.0;
+        frontMotorSpeed = Constants.MOTOR_STOPPED;
+        rearMotorSpeed = Constants.MOTOR_STOPPED;
+        tiltMotorSpeed = Constants.MOTOR_STOPPED;
         desiredTiltPosition = Constants.TILT_PARALLEL_POSITION;
+        desiredFrontShooterRate = Constants.SHOOTER_STOPPED_RATE;
+        desiredRearShooterRate = Constants.SHOOTER_STOPPED_RATE;
     }
     
     public void run()
@@ -72,8 +77,10 @@ public class Shooter
     
     public synchronized void setShooterRates(int frontRate, int rearRate)
     {
-        frontShooterPID.setDesiredValue(frontRate);
-        rearShooterPID.setDesiredValue(rearRate);
+        desiredFrontShooterRate = frontRate;
+        desiredRearShooterRate = rearRate;
+        frontShooterPID.setDesiredValue(desiredFrontShooterRate);
+        rearShooterPID.setDesiredValue(desiredRearShooterRate);
     }
     
     public synchronized void setTiltAngle(int degrees)

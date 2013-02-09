@@ -28,6 +28,7 @@ public class Magazine
         magazineCompressed = false;
         triggerBack = true;
         magazineState = Constants.MAGAZINE_READY_STATE;
+        desiredState = Constants.MAGAZINE_READY_STATE;
         
     }
     

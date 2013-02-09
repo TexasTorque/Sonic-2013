@@ -5,6 +5,7 @@ import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.SimPID;
+import org.TexasTorque.TorqueLib.util.TorqueLogging;
 
 public class Drivebase 
 {
@@ -14,6 +15,7 @@ public class Drivebase
     private DriverInput driverInput;
     private SensorInput sensorInput;
     private Parameters params;
+    private TorqueLogging logging;
     private SimPID gyroPID;
     
     private double leftDriveSpeed;
@@ -31,6 +33,7 @@ public class Drivebase
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
         params = Parameters.getInstance();
+        logging = TorqueLogging.getInstance();
         
         double p = params.getAsDouble("D_GyroP", 0.0);
         double i = params.getAsDouble("D_GyroI", 0.0);
