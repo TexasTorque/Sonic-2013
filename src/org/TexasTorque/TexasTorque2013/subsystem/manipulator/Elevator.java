@@ -15,7 +15,8 @@ public class Elevator
     private DriverInput driverInput;
     private SensorInput sensorInput;
     private Parameters params;
-    private SimPID elevatorPID;
+    private SimPID elevatorUpPID;
+    private SimPID elevatorDownPID;
     private double elevatorMotorSpeed;
     private int desiredElevatorPosition;
     
@@ -31,12 +32,19 @@ public class Elevator
         sensorInput = SensorInput.getInstance();
         params = Parameters.getInstance();
         
-        double p = params.getAsDouble("E_ElevatorP", 0.0);
-        double i = params.getAsDouble("E_ElevatorI", 0.0);
-        double d = params.getAsDouble("E_ElevatorD", 0.0);
-        int e = params.getAsInt("E_ElevatorEpsilon", 0);
+        double p = params.getAsDouble("E_ElevatorUpP", 0.0);
+        double i = params.getAsDouble("E_ElevatorUpI", 0.0);
+        double d = params.getAsDouble("E_ElevatorUpD", 0.0);
+        int e = params.getAsInt("E_ElevatorUpEpsilon", 0);
         
-        elevatorPID = new SimPID(p, i, d, e);
+        elevatorUpPID = new SimPID(p, i, d, e);
+        
+        p = params.getAsDouble("E_ElevatorDownP", 0.0);
+        i = params.getAsDouble("E_ElevatorDownI", 0.0);
+        d = params.getAsDouble("E_ElevatorDownD", 0.0);
+        e = params.getAsInt("E_ElevatorDownEpsilon", 0);
+        
+        elevatorDownPID = new SimPID(p, i, d, e);
         
         elevatorMotorSpeed = Constants.MOTOR_STOPPED;
         desiredElevatorPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
@@ -44,8 +52,16 @@ public class Elevator
     
     public void run()
     {
-        elevatorPID.setDesiredValue(desiredElevatorPosition);
-        elevatorMotorSpeed = elevatorPID.calcPID(sensorInput.getElevatorEncoder());
+        if(desiredElevatorPosition == params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION))
+        {
+            elevatorUpPID.setDesiredValue(desiredElevatorPosition);
+            elevatorMotorSpeed = elevatorUpPID.calcPID(sensorInput.getElevatorEncoder());
+        }
+        else if(desiredElevatorPosition == params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION))
+        {
+            elevatorDownPID.setDesiredValue(desiredElevatorPosition);
+            elevatorMotorSpeed = elevatorDownPID.calcPID(sensorInput.getElevatorEncoder());
+        }
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
     }
     
@@ -56,22 +72,30 @@ public class Elevator
     
     public synchronized void loadElevatorPID()
     {
-        double p = params.getAsDouble("E_ElevatorP", 0.0);
-        double i = params.getAsDouble("E_ElevatorI", 0.0);
-        double d = params.getAsDouble("E_ElevatorD", 0.0);
-        int e = params.getAsInt("E_ElevatorEpsilon", 0);
+        double p = params.getAsDouble("E_ElevatorUpP", 0.0);
+        double i = params.getAsDouble("E_ElevatorUpI", 0.0);
+        double d = params.getAsDouble("E_ElevatorUpD", 0.0);
+        int e = params.getAsInt("E_ElevatorUpEpsilon", 0);
         
-        elevatorPID.setConstants(p, i, d);
-        elevatorPID.setErrorEpsilon(e);
+        elevatorUpPID.setConstants(p, i, d);
+        elevatorUpPID.setErrorEpsilon(e);
+        
+        p = params.getAsDouble("E_ElevatorDownP", 0.0);
+        i = params.getAsDouble("E_ElevatorDownI", 0.0);
+        d = params.getAsDouble("E_ElevatorDownD", 0.0);
+        e = params.getAsInt("E_ElevatorDownEpsilon", 0);
+        
+        elevatorDownPID.setConstants(p, i, d);
+        elevatorDownPID.setErrorEpsilon(e);
     }
     
     public synchronized boolean elevatorAtTop()
     {
-        return (desiredElevatorPosition == params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION) && elevatorPID.isDone());
+        return (desiredElevatorPosition == params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION) && elevatorUpPID.isDone());
     }
     
     public synchronized boolean elevatorAtBottom()
     {
-        return (desiredElevatorPosition == params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION) && elevatorPID.isDone());
+        return (desiredElevatorPosition == params.getAsInt("E_ElevatorDownPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION) && elevatorDownPID.isDone());
     }
 }
