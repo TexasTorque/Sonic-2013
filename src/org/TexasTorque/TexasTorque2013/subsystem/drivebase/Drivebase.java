@@ -3,6 +3,7 @@ package org.TexasTorque.TexasTorque2013.subsystem.drivebase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.*;
+import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.SimPID;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
@@ -11,6 +12,7 @@ public class Drivebase
 {
     
     private static Drivebase instance;
+    private DashboardManager dashboard;
     private RobotOutput robotOutput;
     private DriverInput driverInput;
     private SensorInput sensorInput;
@@ -34,6 +36,7 @@ public class Drivebase
             
     public Drivebase()
     {
+        dashboard = DashboardManager.getInstance();
         robotOutput = RobotOutput.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
@@ -71,18 +74,21 @@ public class Drivebase
     
     public void run()
     {
-        mixChannels(driverInput.getThrottle(), driverInput.getTurn());
-        if(driverInput.shootVisionHigh())
+        if(!dashboard.getDS().isAutonomous())
         {
-            horizontallyTrack();
-        }
-        else
-        {
-            baseLockSaved = false;
-        }
-        if(driverInput.shiftHighGear())
-        {
-            robotOutput.setShifters(true);
+           mixChannels(driverInput.getThrottle(), driverInput.getTurn());
+           if(driverInput.shootVisionHigh())
+           {
+               horizontallyTrack();
+           }
+           else
+           {
+               baseLockSaved = false;
+           }
+           if(driverInput.shiftHighGear())
+           {
+               robotOutput.setShifters(true);
+           }
         }
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
