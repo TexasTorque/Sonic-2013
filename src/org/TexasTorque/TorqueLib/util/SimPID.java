@@ -29,6 +29,20 @@ public class SimPID
         minCycleCount = 0;
     }
     
+    public SimPID(double pValue, double iValue, double dValue, double epsilon)
+    {
+        p = pValue;
+        i = iValue;
+        d = dValue;
+        errorEpsilon = (int)(epsilon * 1000);
+        desiredValue = 0;
+        firstCycle = true;
+        maxOutput = 1.0;
+        errorIncrement = 1;
+        cycleCount = 0;
+        minCycleCount = 0;
+    }
+    
     public void setConstants(double pValue, double iValue, double dValue)
     {
         p = limitValue(pValue);
@@ -41,13 +55,24 @@ public class SimPID
         errorEpsilon = (int)limitValue(epsilon);
     }
     
+    public void setErrorEpsilon(double epsilon)
+    {
+        errorEpsilon = (int)limitValue(epsilon * 1000);
+    }
+    
     public void setErrorIncrement(int inc)
     {
         errorIncrement = inc;
     }
+    
     public void setDesiredValue(int val)
     {
         desiredValue = val;
+    }
+    
+    public void setDesiredValue(double val)
+    {
+        setDesiredValue((int)(val * 1000));
     }
     
     public void setMaxOutput(float max)
@@ -61,6 +86,11 @@ public class SimPID
     public void resetErrorSum()
     {
         errorSum = 0;
+    }
+    
+    public double calcPID(double currentValue)
+    {
+        return calcPID((int)(currentValue * 1000));
     }
     
     public double calcPID(int currentValue)
