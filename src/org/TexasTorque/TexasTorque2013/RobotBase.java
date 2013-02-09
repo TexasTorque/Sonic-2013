@@ -118,7 +118,7 @@ public class RobotBase extends IterativeRobot
     {
         double previous = loopTime;
         loopTime = dashboardManager.getDS().getMatchTime();
-        logging.logValue("LoopTime", loopTime);
+        logging.logValue("LoopTime", loopTime - previous);
     }
     
 }
