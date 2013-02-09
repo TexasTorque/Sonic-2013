@@ -17,6 +17,8 @@ public class Drivebase
     private Parameters params;
     private TorqueLogging logging;
     private SimPID gyroPID;
+    private SimPID leftLockPID;
+    private SimPID rightLockPID;
     
     private double leftDriveSpeed;
     private double rightDriveSpeed;
@@ -41,6 +43,20 @@ public class Drivebase
         int e = params.getAsInt("D_GyroEpsilon", 0);
         
         gyroPID = new SimPID(p, i, d, e);
+        
+        p = params.getAsDouble("D_LeftLockP", 0.0);
+        i = params.getAsDouble("D_LeftLockI", 0.0);
+        d = params.getAsDouble("D_LeftLockD", 0.0);
+        e = params.getAsInt("D_LeftLockEpsilon", 0);
+        
+        leftLockPID = new SimPID(p, i, d, e);
+        
+        p = params.getAsDouble("D_RightLockP", 0.0);
+        i = params.getAsDouble("D_RightLockI", 0.0);
+        d = params.getAsDouble("D_RightLockD", 0.0);
+        e = params.getAsInt("D_RightLockEpsilon", 0);
+        
+        rightLockPID = new SimPID(p, i, d, e);
         
         leftDriveSpeed = Constants.MOTOR_STOPPED;
         rightDriveSpeed = Constants.MOTOR_STOPPED;
@@ -74,6 +90,25 @@ public class Drivebase
         
         gyroPID.setConstants(p, i, d);
         gyroPID.setErrorEpsilon(e);
+    }
+    
+    public synchronized void loadLockPID()
+    {
+        double p = params.getAsDouble("D_LeftLockP", 0.0);
+        double i = params.getAsDouble("D_LeftLockI", 0.0);
+        double d =  params.getAsDouble("D_LeftLockD", 0.0);
+        int e = params.getAsInt("D_LeftLockEpsilon", 0);
+        
+        leftLockPID.setConstants(p, i, d);
+        leftLockPID.setErrorEpsilon(e);
+        
+        p = params.getAsDouble("D_RightLockP", 0.0);
+        i = params.getAsDouble("D_RightLockI", 0.0);
+        d = params.getAsDouble("D_RightLockD", 0.0);
+        e = params.getAsInt("D_RightLockEpsilon", 0);
+        
+        rightLockPID.setConstants(p, i, d);
+        rightLockPID.setErrorEpsilon(e);
     }
     
     public synchronized boolean isHorizontallyLocked()
