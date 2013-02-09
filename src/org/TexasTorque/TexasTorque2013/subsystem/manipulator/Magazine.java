@@ -84,41 +84,6 @@ public class Magazine
         {
             calcReadyState();
         }
-        
-        /*if(magazineState == Constants.MAGAZINE_LOADING_STATE)
-        {
-            if(desiredState == Constants.MAGAZINE_LOADING_STATE)
-            {
-                calcLoadingState();
-            }
-            else
-            {
-                magazineState = Constants.MAGAZINE_READY_STATE;
-            }
-        }
-        if(magazineState == Constants.MAGAZINE_SHOOTING_STATE)
-        {
-            calcShootingState();
-        }
-        else if(magazineState == Constants.MAGAZINE_RESETTING_STATE)
-        {
-            calcResettingState();
-        }
-        else if(magazineState == Constants.MAGAZINE_READY_STATE)
-        {
-            if(desiredState == Constants.MAGAZINE_LOADING_STATE)
-            {
-                magazineState = Constants.MAGAZINE_LOADING_STATE;
-            }
-            else if(desiredState == Constants.MAGAZINE_SHOOTING_STATE)
-            {
-                magazineState = Constants.MAGAZINE_SHOOTING_STATE;
-            }
-            else
-            {
-                calcReadyState();
-            }
-        }*/
     }
     
     private synchronized void calcReadyState()

@@ -16,8 +16,6 @@ public class SensorInput
     //----- Encoder -----
     private TorqueEncoder leftDriveEncoder;
     private TorqueEncoder rightDriveEncoder;
-    //private TorqueEncoder frontShooterEncoder;
-    //private TorqueEncoder rearShooterEncoder;
     private TorqueCounter frontShooterCounter;
     private TorqueCounter rearShooterCounter;
     private TorqueEncoder elevatorEncoder;

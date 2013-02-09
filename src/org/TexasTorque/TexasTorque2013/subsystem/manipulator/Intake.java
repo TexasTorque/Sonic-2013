@@ -1,6 +1,5 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
-import javax.microedition.io.Connection;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
