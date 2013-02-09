@@ -62,17 +62,17 @@ public class DriverInput
     
     public synchronized boolean runIntake()
     {
-        return false;
+        return operatorController.getBButton();
     }
     
     public synchronized boolean reverseIntake()
     {
-        return false;
+        return operatorController.getXButton();
     }
     
     public synchronized boolean shootVisionHigh()
     {
-        return false;
+        return operatorController.getYButton();
     }
     
 //---------- Overrides ----------
