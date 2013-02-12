@@ -40,30 +40,33 @@ public class Manipulator
     
     public void run()
     {
-        if(driverInput.reverseIntake())
+        if(!driverInput.override())
         {
-            calcReverseIntake();
-        }
-        else if(driverInput.runIntake())
-        {
-            calcIntake();
-        }
-        else if(driverInput.shootVisionHigh())
-        {
-            shootHighWithVision();
-        }
-        else if(driverInput.override())
-        {
-            calcOverrides();
+            if(driverInput.reverseIntake())
+            {
+                calcReverseIntake();
+            }
+            else if(driverInput.runIntake())
+            {
+                calcIntake();
+            }
+            else if(driverInput.shootVisionHigh())
+            {
+                shootHighWithVision();
+            }
+            else
+            {
+                restoreDefaultPositions();
+            }
+            shooter.run();
+            elevator.run();
+            intake.run();
+            magazine.run();
         }
         else
         {
-            restoreDefaultPositions();
+            calcOverrides();
         }
-        shooter.run();
-        elevator.run();
-        intake.run();
-        magazine.run();
     }
     
     public void calcOverrides()
@@ -71,15 +74,15 @@ public class Manipulator
         //----- Intake -----
         if(driverInput.intakeOverride())
         {
-            intake.setIntakeSpeed(params.getAsDouble("I_IntakeSpeed", Constants.MOTOR_STOPPED));
+            robotOutput.setIntakeMotor(params.getAsDouble("I_IntakeSpeed", 1.0));
         }
         else if(driverInput.outtakeOverride())
         {
-            intake.setIntakeSpeed(params.getAsDouble("I_OuttakeSpeed", -1.0));
+            robotOutput.setIntakeMotor(params.getAsDouble("I_OuttakeSpeed", -1.0));
         }
         else
         {
-            intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+            robotOutput.setIntakeMotor(Constants.MOTOR_STOPPED);
         }
         //----- Elevator -----
         if(driverInput.elevatorTopOverride())
