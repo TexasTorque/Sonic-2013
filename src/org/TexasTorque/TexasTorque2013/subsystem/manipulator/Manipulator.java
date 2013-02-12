@@ -120,15 +120,16 @@ public class Manipulator
         //----- Magazine -----
         if(driverInput.magazineShootOverride())
         {
-            magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+            robotOutput.setLoaderSolenoid(false);
         }
         else if(driverInput.intakeOverride())
         {
-            magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
+            robotOutput.setFrisbeeLifter(false);
         }
         else
         {
-            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+            robotOutput.setFrisbeeLifter(true);
+            robotOutput.setLoaderSolenoid(true);
         }
     }
     
