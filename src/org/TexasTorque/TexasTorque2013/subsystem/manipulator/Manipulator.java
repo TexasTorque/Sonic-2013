@@ -92,13 +92,19 @@ public class Manipulator
         }
         else if(driverInput.elevatorBottomOverride())
         {
-            double speed = params.getAsDouble("E_ElevatorOverrideSpeed", 0.5) * 0.8; // Accounts for gravity
+            double speed = -1 * params.getAsDouble("E_ElevatorOverrideSpeed", 0.5) * 0.8; // Accounts for gravity
             robotOutput.setElevatorMotors(speed);
         }
         //----- Tilt -----
-        if(driverInput.tiltOverride())
+        if(driverInput.tiltUpOverride())
         {
-            
+            double speed = params.getAsDouble("S_TiltOverrideSpeed", 0.5);
+            robotOutput.setShooterTiltMotor(speed);
+        }
+        else if(driverInput.tiltDownOverride())
+        {
+            double speed = -1 * params.getAsDouble("S_TiltOverrideSpeed", 0.5);
+            robotOutput.setShooterTiltMotor(speed);
         }
         //----- Shooter -----
         if(driverInput.shooterOverride())
