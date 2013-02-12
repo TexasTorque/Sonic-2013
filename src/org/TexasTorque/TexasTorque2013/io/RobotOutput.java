@@ -33,7 +33,7 @@ public class RobotOutput
     private Motor elevatorMotorRight;
     
     public RobotOutput()
-    {
+    {   
         //----- Pneumatics -----
         compressor = new Compressor(Ports.SIDECAR_ONE, Ports.PRESSURE_SWITCH_PORT, Ports.SIDECAR_ONE, Ports.COMPRESSOR_RELAY_PORT);
         driveShifter = new Solenoid(Ports.DRIVE_SHIFTER_PORT);

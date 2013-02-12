@@ -75,6 +75,11 @@ public class DriverInput
         return operatorController.getYButton();
     }
     
+    public synchronized boolean fireFrisbee()
+    {
+        return (operatorController.getTriggers() < -0.2);
+    }
+    
 //---------- Overrides ----------
     
     public synchronized boolean override()

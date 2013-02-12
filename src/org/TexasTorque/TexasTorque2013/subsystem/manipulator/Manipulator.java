@@ -6,12 +6,14 @@ import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
+import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
 
 public class Manipulator
 {
     
     private static Manipulator instance;
+    private DashboardManager dashboardManager;
     private RobotOutput robotOutput;
     private SensorInput sensorInput;
     private DriverInput driverInput;
@@ -28,6 +30,7 @@ public class Manipulator
     
     public Manipulator()
     {
+        dashboardManager = DashboardManager.getInstance();
         robotOutput = RobotOutput.getInstance();
         sensorInput = SensorInput.getInstance();
         driverInput = DriverInput.getInstance();
@@ -175,7 +178,7 @@ public class Manipulator
             shooter.setShooterRates(frontRate, rearRate);
             double elevation = SmartDashboard.getNumber("elevation", Constants.TILT_PARALLEL_POSITION);
             shooter.setTiltAngle(elevation);
-            if(shooter.isReadyToFire() && Drivebase.getInstance().isHorizontallyLocked())
+            if((driverInput.fireFrisbee() || dashboardManager.getDS().isAutonomous()) && shooter.isReadyToFire() && Drivebase.getInstance().isHorizontallyLocked())
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
             }
