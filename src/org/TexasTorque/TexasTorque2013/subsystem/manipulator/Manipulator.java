@@ -98,6 +98,10 @@ public class Manipulator
             double speed = -1 * params.getAsDouble("E_ElevatorOverrideSpeed", 0.5) * 0.8; // Accounts for gravity
             robotOutput.setElevatorMotors(speed);
         }
+        else
+        {
+            robotOutput.setElevatorMotors(Constants.MOTOR_STOPPED);
+        }
         //----- Tilt -----
         if(driverInput.tiltUpOverride())
         {
@@ -108,6 +112,10 @@ public class Manipulator
         {
             double speed = -1 * params.getAsDouble("S_TiltOverrideSpeed", 0.5);
             robotOutput.setShooterTiltMotor(speed);
+        }
+        else
+        {
+            robotOutput.setShooterTiltMotor(Constants.MOTOR_STOPPED);
         }
         //----- Shooter -----
         if(driverInput.shooterOverride())
