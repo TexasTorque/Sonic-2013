@@ -109,13 +109,13 @@ public class Manipulator
         //----- Shooter -----
         if(driverInput.shooterOverride())
         {
-            double frontRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
-            double rearRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
-            shooter.setShooterRates(frontRate, rearRate);
+            double frontSpeed = params.getAsDouble("S_FrontShooterOverrideSpeed", 0.7);
+            double rearSpeed  = params.getAsDouble("S_RearShooterOverrideSpeed", 0.5);
+            robotOutput.setShooterMotors(frontSpeed, rearSpeed);
         }
         else
         {
-            shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+            robotOutput.setShooterMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
         }
         //----- Magazine -----
         if(driverInput.magazineShootOverride())
