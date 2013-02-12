@@ -87,11 +87,13 @@ public class Manipulator
         //----- Elevator -----
         if(driverInput.elevatorTopOverride())
         {
-            elevator.setDesiredPosition(params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION));
+            double speed = params.getAsDouble("E_ElevatorOverrideSpeed", 0.5);
+            robotOutput.setElevatorMotors(speed);
         }
         else if(driverInput.elevatorBottomOverride())
         {
-            elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
+            double speed = params.getAsDouble("E_ElevatorOverrideSpeed", 0.5) * 0.8; // Accounts for gravity
+            robotOutput.setElevatorMotors(speed);
         }
         //----- Tilt -----
         if(driverInput.tiltOverride())
