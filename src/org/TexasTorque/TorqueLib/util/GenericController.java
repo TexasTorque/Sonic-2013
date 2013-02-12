@@ -67,76 +67,181 @@ public class GenericController extends Joystick
     
     public synchronized double getRightXAxis()
     {
-        return 0.0;
+        if(isLogitechController)
+        {
+            return getRawAxis(3);
+        }
+        else
+        {
+            return 0.0;
+        }
     }
     
     public synchronized boolean getLeftDPAD()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return (getRawAxis(5) < 0.0);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public synchronized boolean getRightDPAD()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return (getRawAxis(5) > 0.0);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public synchronized boolean getLeftStickClick()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return getRawButton(11);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public synchronized boolean getRightStickClick()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return getRawButton(12);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public synchronized boolean getTopLeftBumper()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return getRawButton(5);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public synchronized boolean getTopRightBumper()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return getRawButton(6);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public synchronized boolean getBottomLeftBumper()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return getRawButton(7);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public synchronized boolean getBottomRightBumper()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return getRawButton(8);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public synchronized boolean getLeftCenterButton()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return getRawButton(9);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public synchronized boolean getRightCenterButton()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return getRawButton(10);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public synchronized boolean getLeftActionButton()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return getRawButton(1);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public synchronized boolean getTopActionButton()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return getRawButton(4);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public synchronized boolean getRightActionButton()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return getRawButton(3);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public synchronized boolean getBottomActionButton()
     {
-        return false;
+        if(isLogitechController)
+        {
+            return getRawButton(2);
+        }
+        else
+        {
+            return false;
+        }
     }
 }
