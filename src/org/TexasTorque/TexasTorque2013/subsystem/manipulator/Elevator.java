@@ -6,6 +6,7 @@ import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.SimPID;
+import org.TexasTorque.TorqueLib.util.TorqueLogging;
 
 public class Elevator
 {
@@ -14,7 +15,9 @@ public class Elevator
     private RobotOutput robotOutput;
     private DriverInput driverInput;
     private SensorInput sensorInput;
+    private TorqueLogging logging;
     private Parameters params;
+    
     private SimPID elevatorUpPID;
     private SimPID elevatorDownPID;
     private double elevatorMotorSpeed;
@@ -30,6 +33,7 @@ public class Elevator
         robotOutput = RobotOutput.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
+        logging = TorqueLogging.getInstance();
         params = Parameters.getInstance();
         
         double p = params.getAsDouble("E_ElevatorUpP", 0.0);
@@ -63,6 +67,15 @@ public class Elevator
             elevatorMotorSpeed = elevatorDownPID.calcPID(sensorInput.getElevatorEncoder());
         }
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
+    }
+    
+    public synchronized void logData()
+    {
+        logging.logValue("DesiredElevatorPosition", desiredElevatorPosition);
+        logging.logValue("ElevatorMotorSpeed", elevatorMotorSpeed);
+        logging.logValue("ActualElevatorPosition", sensorInput.getElevatorEncoder());
+        logging.logValue("ElevatorAtTop", elevatorAtTop());
+        logging.logValue("ElevatorAtBottom", elevatorAtBottom());
     }
     
     public synchronized void setDesiredPosition(int position)

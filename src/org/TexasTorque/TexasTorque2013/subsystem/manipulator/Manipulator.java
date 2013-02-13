@@ -76,6 +76,7 @@ public class Manipulator
     {
         intake.logData();
         shooter.logData();
+        elevator.logData();
     }
     
     public void calcOverrides()
