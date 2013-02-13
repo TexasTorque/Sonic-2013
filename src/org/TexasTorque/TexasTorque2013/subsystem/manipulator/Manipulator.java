@@ -8,6 +8,7 @@ import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
+import org.TexasTorque.TorqueLib.util.TorqueLogging;
 
 public class Manipulator
 {
@@ -17,6 +18,7 @@ public class Manipulator
     private RobotOutput robotOutput;
     private SensorInput sensorInput;
     private DriverInput driverInput;
+    private TorqueLogging logging;
     private Parameters params;
     private Shooter shooter;
     private Elevator elevator;
@@ -34,6 +36,7 @@ public class Manipulator
         robotOutput = RobotOutput.getInstance();
         sensorInput = SensorInput.getInstance();
         driverInput = DriverInput.getInstance();
+        logging = TorqueLogging.getInstance();
         params = Parameters.getInstance();
         shooter = Shooter.getInstance();
         elevator = Elevator.getInstance();
@@ -74,6 +77,7 @@ public class Manipulator
     
     public synchronized void logData()
     {
+        logging.logValue("InOverrideState", driverInput.override());
         intake.logData();
         shooter.logData();
         elevator.logData();
