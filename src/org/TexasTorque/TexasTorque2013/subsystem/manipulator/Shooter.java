@@ -85,8 +85,15 @@ public class Shooter
     
     public synchronized void logData()
     {
-        logging.logValue("TiltAngle", desiredTiltPosition);
+        logging.logValue("DesiredTiltAngle", desiredTiltPosition);
         logging.logValue("TiltMotorSpeed", tiltMotorSpeed);
+        logging.logValue("ActualTiltAngle", sensorInput.getTiltAngle());
+        logging.logValue("DesiredFrontShooterRate", desiredFrontShooterRate);
+        logging.logValue("FrontShooterMotorSpeed", frontMotorSpeed);
+        logging.logValue("ActualFrontShooterRate", sensorInput.getFrontShooterRate());
+        logging.logValue("DesiredRearShooterRate", desiredRearShooterRate);
+        logging.logValue("RearShooterMotorSpeed", rearMotorSpeed);
+        logging.logValue("ActualRearShooterRate", sensorInput.getRearShooterRate());
     }
     
     public synchronized void setShooterRates(double frontRate, double rearRate)
