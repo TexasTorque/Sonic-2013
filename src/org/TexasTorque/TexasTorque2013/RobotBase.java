@@ -70,6 +70,7 @@ public class RobotBase extends IterativeRobot
     public void teleopInit()
     {
         params.load();
+        driverInput.pullJoystickTypes();
         pullNewPIDGains();
         sensorInput.resetEncoders();
     }

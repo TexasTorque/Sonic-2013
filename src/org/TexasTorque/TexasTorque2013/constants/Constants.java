@@ -2,9 +2,12 @@ package org.TexasTorque.TexasTorque2013.constants;
 
 public class Constants
 {
-    //----- Deadbands -----
+    //----- Controller -----
     public final static double SPEED_AXIS_DEADBAND = 0.07;
     public final static double TURN_AXIS_DEADBAND = 0.07;
+    
+    public final static boolean DEFAULT_FIRST_CONTROLLER_TYPE = true;
+    public final static boolean DEFAULT_SECOND_CONTROLLER_TYPE = false;
     
     //----- Autonomous -----
     public final static int DO_NOTHING_AUTO = 0;
