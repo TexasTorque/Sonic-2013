@@ -37,7 +37,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return 0.0;
+            return getRawAxis(2);
         }
     }
     
@@ -49,7 +49,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return 0.0;
+            return getRawAxis(1);
         }
     }
     
@@ -61,7 +61,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return 0.0;
+            return getRawAxis(5);
         }
     }
     
@@ -73,7 +73,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return 0.0;
+            return getRawAxis(4);
         }
     }
     
@@ -81,11 +81,11 @@ public class GenericController extends Joystick
     {
         if(isLogitechController)
         {
-            return (getRawAxis(5) < 0.0);
+            return (getRawAxis(5) > 0.0);
         }
         else
         {
-            return false;
+            return (getRawAxis(6) > 0.0);
         }
     }
     
@@ -93,11 +93,11 @@ public class GenericController extends Joystick
     {
         if(isLogitechController)
         {
-            return (getRawAxis(5) > 0.0);
+            return (getRawAxis(5) < 0.0);
         }
         else
         {
-            return false;
+            return (getRawAxis(6) < 0.0);
         }
     }
     
@@ -109,7 +109,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return false;
+            return getRawButton(9);
         }
     }
     
@@ -121,7 +121,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return false;
+            return getRawButton(10);
         }
     }
     
@@ -133,7 +133,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return false;
+            return getRawButton(5);
         }
     }
     
@@ -145,7 +145,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return false;
+            return getRawButton(6);
         }
     }
     
@@ -157,7 +157,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return false;
+            return (getRawAxis(3) > 0.2);
         }
     }
     
@@ -169,7 +169,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return false;
+            return (getRawAxis(3) < -0.2);
         }
     }
     
@@ -181,7 +181,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return false;
+            return getRawButton(7);
         }
     }
     
@@ -193,7 +193,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return false;
+            return getRawButton(8);
         }
     }
     
@@ -205,7 +205,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return false;
+            return getRawButton(3);
         }
     }
     
@@ -217,7 +217,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return false;
+            return getRawButton(4);
         }
     }
     
@@ -229,7 +229,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return false;
+            return getRawButton(2);
         }
     }
     
@@ -241,7 +241,7 @@ public class GenericController extends Joystick
         }
         else
         {
-            return false;
+            return getRawButton(1);
         }
     }
 }
