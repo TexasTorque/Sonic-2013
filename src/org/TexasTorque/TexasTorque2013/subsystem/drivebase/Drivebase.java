@@ -46,21 +46,21 @@ public class Drivebase
         double p = params.getAsDouble("D_GyroP", 0.0);
         double i = params.getAsDouble("D_GyroI", 0.0);
         double d = params.getAsDouble("D_GyroD", 0.0);
-        int e = params.getAsInt("D_GyroEpsilon", 0);
+        double e = params.getAsDouble("D_GyroEpsilon", 0.0);
         
         gyroPID = new SimPID(p, i, d, e);
         
         p = params.getAsDouble("D_LeftLockP", 0.0);
         i = params.getAsDouble("D_LeftLockI", 0.0);
         d = params.getAsDouble("D_LeftLockD", 0.0);
-        e = params.getAsInt("D_LeftLockEpsilon", 0);
+        e = params.getAsDouble("D_LeftLockEpsilon", 0.0);
         
         leftLockPID = new SimPID(p, i, d, e);
         
         p = params.getAsDouble("D_RightLockP", 0.0);
         i = params.getAsDouble("D_RightLockI", 0.0);
         d = params.getAsDouble("D_RightLockD", 0.0);
-        e = params.getAsInt("D_RightLockEpsilon", 0);
+        e = params.getAsDouble("D_RightLockEpsilon", 0.0);
         
         rightLockPID = new SimPID(p, i, d, e);
         
@@ -139,7 +139,7 @@ public class Drivebase
         double p = params.getAsDouble("D_GyroP", 0.0);
         double i = params.getAsDouble("D_GyroI", 0.0);
         double d =  params.getAsDouble("D_GyroD", 0.0);
-        int e = params.getAsInt("D_GyroEpsilon", 0);
+        double e = params.getAsDouble("D_GyroEpsilon", 0.0);
         
         gyroPID.setConstants(p, i, d);
         gyroPID.setErrorEpsilon(e);
@@ -150,7 +150,7 @@ public class Drivebase
         double p = params.getAsDouble("D_LeftLockP", 0.0);
         double i = params.getAsDouble("D_LeftLockI", 0.0);
         double d =  params.getAsDouble("D_LeftLockD", 0.0);
-        int e = params.getAsInt("D_LeftLockEpsilon", 0);
+        double e = params.getAsDouble("D_LeftLockEpsilon", 0.0);
         
         leftLockPID.setConstants(p, i, d);
         leftLockPID.setErrorEpsilon(e);
@@ -158,7 +158,7 @@ public class Drivebase
         p = params.getAsDouble("D_RightLockP", 0.0);
         i = params.getAsDouble("D_RightLockI", 0.0);
         d = params.getAsDouble("D_RightLockD", 0.0);
-        e = params.getAsInt("D_RightLockEpsilon", 0);
+        e = params.getAsDouble("D_RightLockEpsilon", 0.0);
         
         rightLockPID.setConstants(p, i, d);
         rightLockPID.setErrorEpsilon(e);

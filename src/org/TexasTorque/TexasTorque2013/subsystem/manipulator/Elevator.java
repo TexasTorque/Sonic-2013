@@ -39,14 +39,14 @@ public class Elevator
         double p = params.getAsDouble("E_ElevatorUpP", 0.0);
         double i = params.getAsDouble("E_ElevatorUpI", 0.0);
         double d = params.getAsDouble("E_ElevatorUpD", 0.0);
-        int e = params.getAsInt("E_ElevatorUpEpsilon", 0);
+        double e = params.getAsDouble("E_ElevatorUpEpsilon", 0.0);
         
         elevatorUpPID = new SimPID(p, i, d, e);
         
         p = params.getAsDouble("E_ElevatorDownP", 0.0);
         i = params.getAsDouble("E_ElevatorDownI", 0.0);
         d = params.getAsDouble("E_ElevatorDownD", 0.0);
-        e = params.getAsInt("E_ElevatorDownEpsilon", 0);
+        e = params.getAsDouble("E_ElevatorDownEpsilon", 0.0);
         
         elevatorDownPID = new SimPID(p, i, d, e);
         
@@ -88,7 +88,7 @@ public class Elevator
         double p = params.getAsDouble("E_ElevatorUpP", 0.0);
         double i = params.getAsDouble("E_ElevatorUpI", 0.0);
         double d = params.getAsDouble("E_ElevatorUpD", 0.0);
-        int e = params.getAsInt("E_ElevatorUpEpsilon", 0);
+        double e = params.getAsDouble("E_ElevatorUpEpsilon", 0.0);
         
         elevatorUpPID.setConstants(p, i, d);
         elevatorUpPID.setErrorEpsilon(e);
@@ -96,7 +96,7 @@ public class Elevator
         p = params.getAsDouble("E_ElevatorDownP", 0.0);
         i = params.getAsDouble("E_ElevatorDownI", 0.0);
         d = params.getAsDouble("E_ElevatorDownD", 0.0);
-        e = params.getAsInt("E_ElevatorDownEpsilon", 0);
+        e = params.getAsDouble("E_ElevatorDownEpsilon", 0.0);
         
         elevatorDownPID.setConstants(p, i, d);
         elevatorDownPID.setErrorEpsilon(e);
