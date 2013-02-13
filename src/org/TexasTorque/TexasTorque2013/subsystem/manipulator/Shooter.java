@@ -6,6 +6,7 @@ import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.SimPID;
+import org.TexasTorque.TorqueLib.util.TorqueLogging;
 
 public class Shooter
 {
@@ -14,6 +15,7 @@ public class Shooter
     private RobotOutput robotOutput;
     private DriverInput driverInput;
     private SensorInput sensorInput;
+    private TorqueLogging logging;
     private Parameters params;
     private SimPID frontShooterPID;
     private SimPID rearShooterPID;
@@ -35,6 +37,7 @@ public class Shooter
         robotOutput = RobotOutput.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
+        logging = TorqueLogging.getInstance();
         params = Parameters.getInstance();
         
         double p = params.getAsDouble("S_FrontShooterP", 0.0);
@@ -78,6 +81,12 @@ public class Shooter
         tiltPID.setDesiredValue((int)desiredTiltPosition);
         tiltMotorSpeed = tiltPID.calcPID((int)sensorInput.getTiltAngle());
         robotOutput.setShooterTiltMotor(tiltMotorSpeed);
+    }
+    
+    public synchronized void logData()
+    {
+        logging.logValue("TiltAngle", desiredTiltPosition);
+        logging.logValue("TiltMotorSpeed", tiltMotorSpeed);
     }
     
     public synchronized void setShooterRates(double frontRate, double rearRate)

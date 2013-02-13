@@ -75,6 +75,7 @@ public class Manipulator
     public synchronized void logData()
     {
         intake.logData();
+        shooter.logData();
     }
     
     public void calcOverrides()
