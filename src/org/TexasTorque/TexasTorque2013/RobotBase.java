@@ -28,7 +28,7 @@ public class RobotBase extends IterativeRobot
     double loopTime;
     
     public void robotInit()
-    {
+    {     
         watchdog = Watchdog.getInstance();
         watchdog.setEnabled(true);
         
