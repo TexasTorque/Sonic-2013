@@ -47,6 +47,8 @@ public class RobotBase extends IterativeRobot
         
         autoManager = new AutonomousManager();
         
+        driverInput.pullJoystickTypes();
+        
         loopTime = 0.0;
     }
 
