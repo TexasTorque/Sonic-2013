@@ -66,7 +66,7 @@ public class RobotBase extends IterativeRobot
         watchdog.feed();
         dashboardManager.updateLCD();
         autoManager.runAutonomous();
-        logLoopTime();
+        logData();
     }
 
     public void teleopInit()
@@ -80,11 +80,10 @@ public class RobotBase extends IterativeRobot
     public void teleopPeriodic()
     {
         watchdog.feed();
-        logging.logValue("FrameTime", dashboardManager.getDS().getMatchTime());
         drivebase.run();
         manipulator.run();
         dashboardManager.updateLCD();
-        logLoopTime();
+        logData();
     }
     
     public void disabledInit()
@@ -122,6 +121,14 @@ public class RobotBase extends IterativeRobot
         double previous = loopTime;
         loopTime = dashboardManager.getDS().getMatchTime();
         logging.logValue("LoopTime", loopTime - previous);
+    }
+    
+    public void logData()
+    {
+        logging.logValue("FrameTime", dashboardManager.getDS().getMatchTime());
+        logLoopTime();
+        drivebase.logData();
+        manipulator.logData();
     }
     
 }

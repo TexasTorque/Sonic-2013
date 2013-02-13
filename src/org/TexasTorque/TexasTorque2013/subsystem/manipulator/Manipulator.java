@@ -72,6 +72,11 @@ public class Manipulator
         }
     }
     
+    public synchronized void logData()
+    {
+        intake.logData();
+    }
+    
     public void calcOverrides()
     {
         //----- Intake -----

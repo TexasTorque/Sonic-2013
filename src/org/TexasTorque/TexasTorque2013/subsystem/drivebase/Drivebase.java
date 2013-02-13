@@ -93,6 +93,11 @@ public class Drivebase
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
     
+    public synchronized void logData()
+    {
+        
+    }
+    
     private synchronized void calcGyroPID()
     {
         desiredGyroAngle = (sensorInput.getGyroAngle() + SmartDashboard.getNumber("azimuth", 0.0));
