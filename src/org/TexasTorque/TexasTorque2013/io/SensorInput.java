@@ -55,8 +55,9 @@ public class SensorInput
     
     private void startEncoders()
     {
-        leftDriveEncoder.setOptions(20, 250, false);
-        rightDriveEncoder.setOptions(20, 250, false);
+        // 1 foot = 958 clicks
+        leftDriveEncoder.setOptions(20, 1062, false);
+        rightDriveEncoder.setOptions(20, 1062, false);
         frontShooterCounter.setOptions(20, 100, true);
         rearShooterCounter.setOptions(20, 100, true);
         elevatorEncoder.setOptions(20, 250, false);
