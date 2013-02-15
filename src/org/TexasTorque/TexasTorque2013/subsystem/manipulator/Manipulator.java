@@ -102,11 +102,13 @@ public class Manipulator
         if(driverInput.elevatorTopOverride())
         {
             double speed = params.getAsDouble("E_ElevatorOverrideSpeed", 0.5);
+            
             robotOutput.setElevatorMotors(speed);
         }
         else if(driverInput.elevatorBottomOverride())
         {
             double speed = -1 * params.getAsDouble("E_ElevatorOverrideSpeed", 0.5) * 0.8; // Accounts for gravity
+            
             robotOutput.setElevatorMotors(speed);
         }
         else
@@ -117,11 +119,13 @@ public class Manipulator
         if(driverInput.tiltUpOverride())
         {
             double speed = params.getAsDouble("S_TiltOverrideSpeed", 0.5);
+            
             robotOutput.setShooterTiltMotor(speed);
         }
         else if(driverInput.tiltDownOverride())
         {
             double speed = -1 * params.getAsDouble("S_TiltOverrideSpeed", 0.5);
+            
             robotOutput.setShooterTiltMotor(speed);
         }
         else
@@ -133,6 +137,7 @@ public class Manipulator
         {
             double frontSpeed = params.getAsDouble("S_FrontShooterOverrideSpeed", 0.7);
             double rearSpeed  = params.getAsDouble("S_RearShooterOverrideSpeed", 0.5);
+            
             robotOutput.setShooterMotors(frontSpeed, rearSpeed);
         }
         else
@@ -164,6 +169,7 @@ public class Manipulator
         if(shooter.isParallel())
         {
             int elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+            
             elevator.setDesiredPosition(elevatorBottomPosition);
             if(elevator.elevatorAtBottom())
             {
@@ -180,6 +186,7 @@ public class Manipulator
         if(shooter.isParallel())
         {
             int elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+            
             elevator.setDesiredPosition(elevatorBottomPosition);
             if(elevator.elevatorAtBottom())
             {
@@ -218,6 +225,7 @@ public class Manipulator
         if(shooter.isParallel())
         {
             int elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+            
             elevator.setDesiredPosition(elevatorBottomPosition);
         }
     }
