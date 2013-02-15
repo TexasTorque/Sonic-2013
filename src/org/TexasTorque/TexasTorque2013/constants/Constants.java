@@ -43,6 +43,9 @@ public class Constants
     public final static int DEFAULT_ELEVATOR_TOP_POSITION = 1;
     
     //----- Magazine -----
+    public final static boolean MAGAZINE_STORED = false;
+    public final static boolean MAGAZINE_LOADING = true;
+    
     public final static int MAGAZINE_READY_STATE = 0;
     public final static int MAGAZINE_LOADING_STATE = 1;
     public final static int MAGAZINE_SHOOTING_STATE = 2;

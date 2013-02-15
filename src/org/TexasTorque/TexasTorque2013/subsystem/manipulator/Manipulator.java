@@ -143,14 +143,15 @@ public class Manipulator
         if(driverInput.magazineShootOverride())
         {
             robotOutput.setLoaderSolenoid(false);
+            robotOutput.setFrisbeeLifter(Constants.MAGAZINE_STORED);
         }
         else if(driverInput.intakeOverride())
         {
-            robotOutput.setFrisbeeLifter(false);
+            robotOutput.setFrisbeeLifter(Constants.MAGAZINE_LOADING);
         }
         else
         {
-            robotOutput.setFrisbeeLifter(true);
+            robotOutput.setFrisbeeLifter(Constants.MAGAZINE_STORED);
             robotOutput.setLoaderSolenoid(true);
         }
     }
@@ -162,7 +163,8 @@ public class Manipulator
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         if(shooter.isParallel())
         {
-            elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
+            int elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+            elevator.setDesiredPosition(elevatorBottomPosition);
             if(elevator.elevatorAtBottom())
             {
                 intake.setIntakeSpeed(params.getAsDouble("I_OuttakeSpeed", -1.0));
@@ -177,7 +179,8 @@ public class Manipulator
         magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
         if(shooter.isParallel())
         {
-            elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
+            int elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+            elevator.setDesiredPosition(elevatorBottomPosition);
             if(elevator.elevatorAtBottom())
             {
                 intake.setIntakeSpeed(params.getAsDouble("I_IntakeSpeed", Constants.MOTOR_STOPPED));
@@ -187,15 +190,17 @@ public class Manipulator
     
     public void shootHighWithVision()
     {
-        elevator.setDesiredPosition(params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION));
+        int elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
+        elevator.setDesiredPosition(elevatorTopPosition);
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         if(elevator.elevatorAtTop() && SmartDashboard.getBoolean("found", false))
         {
             double frontRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
             double rearRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
-            shooter.setShooterRates(frontRate, rearRate);
             double elevation = SmartDashboard.getNumber("elevation", Constants.TILT_PARALLEL_POSITION);
+            
+            shooter.setShooterRates(frontRate, rearRate);
             shooter.setTiltAngle(elevation);
             if((driverInput.fireFrisbee() || dashboardManager.getDS().isAutonomous()) && shooter.isReadyToFire() && Drivebase.getInstance().isHorizontallyLocked())
             {
@@ -212,7 +217,8 @@ public class Manipulator
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         if(shooter.isParallel())
         {
-            elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
+            int elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+            elevator.setDesiredPosition(elevatorBottomPosition);
         }
     }
     
