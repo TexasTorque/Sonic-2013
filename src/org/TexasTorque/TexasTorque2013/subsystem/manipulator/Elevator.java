@@ -7,6 +7,7 @@ import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.SimPID;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
+import org.TexasTorque.TorqueLib.util.TorqueTrapezoidal;
 
 public class Elevator
 {
@@ -18,10 +19,12 @@ public class Elevator
     private TorqueLogging logging;
     private Parameters params;
     
-    private SimPID elevatorUpPID;
-    private SimPID elevatorDownPID;
+    
     private double elevatorMotorSpeed;
     private int desiredElevatorPosition;
+    private TorqueTrapezoidal elevatorTrapezoidal;
+    private SimPID elevatorLockPID;
+    private int elevatorState;
     
     private int elevatorTopPosition;
     private int elevatorBottomPosition;
@@ -38,20 +41,29 @@ public class Elevator
         sensorInput = SensorInput.getInstance();
         logging = TorqueLogging.getInstance();
         params = Parameters.getInstance();
+        elevatorTrapezoidal = new TorqueTrapezoidal(sensorInput.elevatorEncoder());
         
-        double p = params.getAsDouble("E_ElevatorUpP", 0.0);
-        double i = params.getAsDouble("E_ElevatorUpI", 0.0);
-        double d = params.getAsDouble("E_ElevatorUpD", 0.0);
-        double e = params.getAsDouble("E_ElevatorUpEpsilon", 0.0);
+        double p = params.getAsDouble("E_ElevatorLockP", 0.0);
+        double i = params.getAsDouble("E_ElevatorLockI", 0.0);
+        double d = params.getAsDouble("E_ElevatorLockD", 0.0);
+        double e = params.getAsDouble("E_ElevatorLockEpsilon", 0.0);
         
-        elevatorUpPID = new SimPID(p, i, d, e);
+        elevatorLockPID = new SimPID(p, i, d, e);
         
-        p = params.getAsDouble("E_ElevatorDownP", 0.0);
-        i = params.getAsDouble("E_ElevatorDownI", 0.0);
-        d = params.getAsDouble("E_ElevatorDownD", 0.0);
-        e = params.getAsDouble("E_ElevatorDownEpsilon", 0.0);
+        p = params.getAsDouble("E_ElevatorTrapP", 0.0);
+        i = params.getAsDouble("E_ElevatorTrapI", 0.0);
+        d = params.getAsDouble("E_ElevatorTrapD", 0.0);
+        e = params.getAsDouble("E_ElevatorTrapEpsilon", 0.0);
         
-        elevatorDownPID = new SimPID(p, i, d, e);
+        elevatorTrapezoidal.setPIDOptions(p, i, d, e);
+        
+        double xEpsilon = params.getAsDouble("E_ElevatorTrapXEpsilon", 0.0);
+        double maxV = params.getAsDouble("E_ElevatorTrapMaxVelocity", 0.0);
+        double maxA = params.getAsDouble("E_ElevatorTrapMaxAcceleration", 0.0);
+        double vFactor = params.getAsDouble("E_ElevatorTrapVelocityFactor", 0.0);
+        double aFactor = params.getAsDouble("E_ElevatorTrapAccelerationFactor", 0.0);
+        
+        elevatorTrapezoidal.setTrapezoidOptions(xEpsilon, maxV, maxA, vFactor, aFactor);
         
         elevatorMotorSpeed = Constants.MOTOR_STOPPED;
         
@@ -59,66 +71,85 @@ public class Elevator
         elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
         
         desiredElevatorPosition = elevatorBottomPosition;
+        elevatorState = 0;
+        elevatorTrapezoidal.start();
     }
     
     public void run()
     {
+        
         elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
         elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
         
-        if(desiredElevatorPosition == elevatorTopPosition)
+        if(elevatorState == Constants.ELEVATOR_MOVING_STATE)
         {
-            elevatorUpPID.setDesiredValue(desiredElevatorPosition);
-            elevatorMotorSpeed = elevatorUpPID.calcPID(sensorInput.getElevatorEncoder());
+            elevatorMotorSpeed = elevatorTrapezoidal.getMotorOutput();
+            if(elevatorTrapezoidal.isFinished())
+            {
+                elevatorState = Constants.ELEVATOR_LOCKED_STATE;
+                elevatorLockPID.setDesiredValue(sensorInput.getElevatorEncoder());
+            }
         }
-        else if(desiredElevatorPosition == elevatorBottomPosition)
+        else if(elevatorState == Constants.ELEVATOR_LOCKED_STATE)
         {
-            elevatorDownPID.setDesiredValue(desiredElevatorPosition);
-            elevatorMotorSpeed = elevatorDownPID.calcPID(sensorInput.getElevatorEncoder());
+            elevatorMotorSpeed = elevatorLockPID.calcPID(sensorInput.getElevatorEncoder());
         }
+        
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
     }
     
     public synchronized void logData()
     {
-        logging.logValue("DesiredElevatorPosition", desiredElevatorPosition);
-        logging.logValue("ElevatorMotorSpeed", elevatorMotorSpeed);
-        logging.logValue("ActualElevatorPosition", sensorInput.getElevatorEncoder());
-        logging.logValue("ElevatorAtTop", elevatorAtTop());
-        logging.logValue("ElevatorAtBottom", elevatorAtBottom());
+        
+    }
+    
+    public synchronized void pullElevatorLockPID()
+    {
+        double p = params.getAsDouble("E_ElevatorLockP", 0.0);
+        double i = params.getAsDouble("E_ElevatorLockI", 0.0);
+        double d = params.getAsDouble("E_ElevatorLockD", 0.0);
+        double e = params.getAsDouble("E_ElevatorLockEpsilon", 0.0);
+        
+        elevatorLockPID = new SimPID(p, i, d, e);
+    }
+    
+    public synchronized void pullElevatorTrapOptions()
+    {
+        double xEpsilon = params.getAsDouble("E_ElevatorTrapXEpsilon", 0.0);
+        double maxV = params.getAsDouble("E_ElevatorTrapMaxVelocity", 0.0);
+        double maxA = params.getAsDouble("E_ElevatorTrapMaxAcceleration", 0.0);
+        double vFactor = params.getAsDouble("E_ElevatorTrapVelocityFactor", 0.0);
+        double aFactor = params.getAsDouble("E_ElevatorTrapAccelerationFactor", 0.0);
+        
+        elevatorTrapezoidal.setTrapezoidOptions(xEpsilon, maxV, maxA, vFactor, aFactor);
+        
+        double p = params.getAsDouble("E_ElevatorTrapP", 0.0);
+        double i = params.getAsDouble("E_ElevatorTrapI", 0.0);
+        double d = params.getAsDouble("E_ElevatorTrapD", 0.0);
+        double e = params.getAsDouble("E_ElevatorTrapEpsilon", 0.0);
+        
+        elevatorTrapezoidal.setPIDOptions(p, i, d, e);
     }
     
     public synchronized void setDesiredPosition(int position)
     {
-        desiredElevatorPosition = position;
-    }
-    
-    public synchronized void loadElevatorPID()
-    {
-        double p = params.getAsDouble("E_ElevatorUpP", 0.0);
-        double i = params.getAsDouble("E_ElevatorUpI", 0.0);
-        double d = params.getAsDouble("E_ElevatorUpD", 0.0);
-        double e = params.getAsDouble("E_ElevatorUpEpsilon", 0.0);
-        
-        elevatorUpPID.setConstants(p, i, d);
-        elevatorUpPID.setErrorEpsilon(e);
-        
-        p = params.getAsDouble("E_ElevatorDownP", 0.0);
-        i = params.getAsDouble("E_ElevatorDownI", 0.0);
-        d = params.getAsDouble("E_ElevatorDownD", 0.0);
-        e = params.getAsDouble("E_ElevatorDownEpsilon", 0.0);
-        
-        elevatorDownPID.setConstants(p, i, d);
-        elevatorDownPID.setErrorEpsilon(e);
+        if(position != desiredElevatorPosition)
+        {
+            desiredElevatorPosition = position;
+            
+            elevatorTrapezoidal.setGoalDistance(desiredElevatorPosition);
+            elevatorState = Constants.ELEVATOR_MOVING_STATE;
+            
+        }
     }
     
     public synchronized boolean elevatorAtTop()
     {
-        return (desiredElevatorPosition == elevatorTopPosition && elevatorUpPID.isDone());
+        return (desiredElevatorPosition == elevatorTopPosition && elevatorTrapezoidal.isFinished() && elevatorLockPID.isDone());
     }
     
     public synchronized boolean elevatorAtBottom()
     {
-        return (desiredElevatorPosition == elevatorBottomPosition && elevatorDownPID.isDone());
+        return (desiredElevatorPosition == elevatorBottomPosition && elevatorTrapezoidal.isFinished() && elevatorLockPID.isDone());
     }
 }

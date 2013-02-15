@@ -112,6 +112,11 @@ public class SensorInput
         return elevatorEncoder.get();
     }
     
+    public synchronized TorqueEncoder elevatorEncoder()
+    {
+        return elevatorEncoder;
+    }
+    
     public synchronized double getGyroAngle()
     {
         return limitGyroAngle(-gyro.getAngle() * 2);
