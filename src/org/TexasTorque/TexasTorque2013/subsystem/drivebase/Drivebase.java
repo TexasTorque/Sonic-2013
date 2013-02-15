@@ -95,6 +95,13 @@ public class Drivebase
     
     public synchronized void logData()
     {
+        logging.logValue("LeftDriveSpeed", leftDriveSpeed);
+        logging.logValue("LeftDriveEncoderPosition", sensorInput.getLeftDriveEncoder());
+        logging.logValue("LeftDriveEncoderVelocity", sensorInput.getLeftDriveEncoderRate());
+        logging.logValue("RightDriveSpeed", rightDriveSpeed);
+        logging.logValue("RightDriveEncoderPosition", sensorInput.getRightDriveEncoder());
+        logging.logValue("RightDriveEncoderVelocity", sensorInput.getRightDriveEncoderRate());
+        logging.logValue("GyroAngle", sensorInput.getGyroAngle());
     }
     
     private synchronized void calcGyroPID()
