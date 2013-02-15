@@ -185,7 +185,7 @@ public class Drivebase
         cheesyDrive(yAxis, xAxis);
     }
     
-    public void simpleDrive(double yAxis, double xAxis)
+    private void simpleDrive(double yAxis, double xAxis)
     {
         yAxis = applySqrtCurve(yAxis);
         xAxis = applySqrtCurve(yAxis);
@@ -194,7 +194,7 @@ public class Drivebase
         rightDriveSpeed = yAxis - xAxis;
     }
     
-    public void cheesyDrive(double throttle, double turn)
+    private void cheesyDrive(double throttle, double turn)
     {
         throttle = applySqrtCurve(throttle);
         turn = applySqrtCurve(turn);
