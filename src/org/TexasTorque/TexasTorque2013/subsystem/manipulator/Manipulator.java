@@ -235,7 +235,8 @@ public class Manipulator
         shooter.loadFrontShooterPID();
         shooter.loadRearShooterPID();
         shooter.loadTiltPID();
-        elevator.loadElevatorPID();
+        elevator.loadElevatorLockPID();
+        elevator.loadElevatorTrapOptions();
     }
     
 }

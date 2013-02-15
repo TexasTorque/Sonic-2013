@@ -100,10 +100,21 @@ public class Elevator
     
     public synchronized void logData()
     {
+        logging.logValue("ElevatorMotorSpeed", elevatorMotorSpeed);
+        logging.logValue("ElevatorPosition", sensorInput.getElevatorEncoder());
+        logging.logValue("ElevatorVelocity", sensorInput.getElevatorRate());
+        logging.logValue("ElevatorAcceleration", sensorInput.getElevatorAcceleration());
+        logging.logValue("ElevatorGoalVelocity", elevatorTrapezoidal.getGoalVelocity());
         
+        /*
+ * velocity
+ * acceleration
+ * goal velocity
+ * 
+ */
     }
     
-    public synchronized void pullElevatorLockPID()
+    public synchronized void loadElevatorLockPID()
     {
         double p = params.getAsDouble("E_ElevatorLockP", 0.0);
         double i = params.getAsDouble("E_ElevatorLockI", 0.0);
@@ -113,7 +124,7 @@ public class Elevator
         elevatorLockPID = new SimPID(p, i, d, e);
     }
     
-    public synchronized void pullElevatorTrapOptions()
+    public synchronized void loadElevatorTrapOptions()
     {
         double xEpsilon = params.getAsDouble("E_ElevatorTrapXEpsilon", 0.0);
         double maxV = params.getAsDouble("E_ElevatorTrapMaxVelocity", 0.0);
