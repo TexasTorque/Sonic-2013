@@ -41,6 +41,8 @@ public class Constants
     //----- Elevator -----
     public final static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;
     public final static int DEFAULT_ELEVATOR_TOP_POSITION = 1;
+    public final static int ELEVATOR_LOCKED_STATE = 0;
+    public final static int ELEVATOR_MOVING_STATE = 1;
     
     //----- Magazine -----
     public final static boolean MAGAZINE_STORED = false;
