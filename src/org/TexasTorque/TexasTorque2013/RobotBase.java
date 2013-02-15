@@ -28,7 +28,7 @@ public class RobotBase extends IterativeRobot
     double loopTime;
     
     public void robotInit()
-    {
+    {     
         watchdog = Watchdog.getInstance();
         watchdog.setEnabled(true);
         
@@ -47,6 +47,8 @@ public class RobotBase extends IterativeRobot
         
         autoManager = new AutonomousManager();
         
+        driverInput.pullJoystickTypes();
+        
         loopTime = 0.0;
     }
 
@@ -64,12 +66,13 @@ public class RobotBase extends IterativeRobot
         watchdog.feed();
         dashboardManager.updateLCD();
         autoManager.runAutonomous();
-        logLoopTime();
+        logData();
     }
 
     public void teleopInit()
     {
         params.load();
+        driverInput.pullJoystickTypes();
         pullNewPIDGains();
         sensorInput.resetEncoders();
     }
@@ -77,11 +80,10 @@ public class RobotBase extends IterativeRobot
     public void teleopPeriodic()
     {
         watchdog.feed();
-        logging.logValue("FrameTime", dashboardManager.getDS().getMatchTime());
         drivebase.run();
         manipulator.run();
         dashboardManager.updateLCD();
-        logLoopTime();
+        logData();
     }
     
     public void disabledInit()
@@ -101,10 +103,11 @@ public class RobotBase extends IterativeRobot
     
     public void initLogging()
     {
-        TorqueLogging.setDashboardLogging(true);
+        TorqueLogging.setDashboardLogging(false);
         TorqueLogging.setLoopTime(params.getAsInt("LoggingLoopTime", Constants.TORQUE_LOGGING_LOOP_TIME));
         logging = TorqueLogging.getInstance();
-        logging.setKeyMapping("FrameNumber,FrameTime,LoopTime");
+        String loggingString = "FrameNumber,FrameTime,LoopTime";
+        logging.setKeyMapping(loggingString);
         logging.startLogging();
     }
     
@@ -119,6 +122,14 @@ public class RobotBase extends IterativeRobot
         double previous = loopTime;
         loopTime = dashboardManager.getDS().getMatchTime();
         logging.logValue("LoopTime", loopTime - previous);
+    }
+    
+    public void logData()
+    {
+        logging.logValue("FrameTime", dashboardManager.getDS().getMatchTime());
+        logLoopTime();
+        drivebase.logData();
+        manipulator.logData();
     }
     
 }
