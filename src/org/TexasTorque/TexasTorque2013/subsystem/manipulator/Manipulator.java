@@ -163,7 +163,8 @@ public class Manipulator
     
     public void calcReverseIntake()
     {
-        shooter.setTiltAngle(Constants.TILT_PARALLEL_POSITION);
+        double tiltAngle = params.getAsDouble("S_TiltStandardAngle", 0.0);
+        shooter.setTiltAngle(tiltAngle);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         if(shooter.isParallel())
@@ -180,7 +181,8 @@ public class Manipulator
     
     public void calcIntake()
     {
-        shooter.setTiltAngle(Constants.TILT_PARALLEL_POSITION);
+        double tiltAngle = params.getAsDouble("S_TiltStandardAngle", 0.0);
+        shooter.setTiltAngle(tiltAngle);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
         magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
         if(shooter.isParallel())
@@ -197,7 +199,9 @@ public class Manipulator
     
     public void shootHighWithVision()
     {
+        double tiltAngle = params.getAsDouble("S_TiltStandardAngle", 0.0);
         int elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
+        shooter.setTiltAngle(tiltAngle);
         elevator.setDesiredPosition(elevatorTopPosition);
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
@@ -218,8 +222,9 @@ public class Manipulator
     
     public void restoreDefaultPositions()
     {
+        double tiltAngle = params.getAsDouble("S_TiltStandardAngle", 0.0);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
-        shooter.setTiltAngle(Constants.TILT_PARALLEL_POSITION);
+        shooter.setTiltAngle(tiltAngle);
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         if(shooter.isParallel())

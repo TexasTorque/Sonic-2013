@@ -26,6 +26,7 @@ public class RobotBase extends IterativeRobot
     AutonomousManager autoManager;
     
     double loopTime;
+    boolean logData;
     
     public void robotInit()
     {     
@@ -50,6 +51,7 @@ public class RobotBase extends IterativeRobot
         driverInput.pullJoystickTypes();
         
         loopTime = 0.0;
+        logData = SmartDashboard.getBoolean("logData", false);
     }
 
     public void autonomousInit()
@@ -106,7 +108,15 @@ public class RobotBase extends IterativeRobot
         TorqueLogging.setDashboardLogging(false);
         TorqueLogging.setLoopTime(params.getAsInt("LoggingLoopTime", Constants.TORQUE_LOGGING_LOOP_TIME));
         logging = TorqueLogging.getInstance();
-        String loggingString = "FrameNumber,FrameTime,LoopTime";
+        
+        String loggingString =
+                "FrameNumber,FrameTime,LoopTime,InOverrideState,"
+                + "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,RightDriveSpeed,RightDriveEncoderVelocity,GyroAngle,"
+                + "ElevatorMotorSpeed,ElevatorPosition,ElevatorVelocity,ElevatorAcceleration,ElevatorGoalVelocity,"
+                + "IntakeMotorSpeed,"
+                + "DesiredTiltAngle,TiltMotorSpeed,ActualTiltAngle,"
+                + "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate";
+        // Stuff for the magazine
         logging.setKeyMapping(loggingString);
         logging.startLogging();
     }
