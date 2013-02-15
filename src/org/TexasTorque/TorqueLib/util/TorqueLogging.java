@@ -12,7 +12,6 @@ import javax.microedition.io.*;
 
 public class TorqueLogging extends Thread
 {
-    
     private static TorqueLogging instance;
     private FileConnection fileConnection = null;
     private BufferedWriter fileIO = null;
