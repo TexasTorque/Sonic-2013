@@ -105,13 +105,6 @@ public class Elevator
         logging.logValue("ElevatorVelocity", sensorInput.getElevatorRate());
         logging.logValue("ElevatorAcceleration", sensorInput.getElevatorAcceleration());
         logging.logValue("ElevatorGoalVelocity", elevatorTrapezoidal.getGoalVelocity());
-        
-        /*
- * velocity
- * acceleration
- * goal velocity
- * 
- */
     }
     
     public synchronized void loadElevatorLockPID()
@@ -150,7 +143,6 @@ public class Elevator
             
             elevatorTrapezoidal.setGoalDistance(desiredElevatorPosition);
             elevatorState = Constants.ELEVATOR_MOVING_STATE;
-            
         }
     }
     
