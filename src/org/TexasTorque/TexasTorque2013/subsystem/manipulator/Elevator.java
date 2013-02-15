@@ -23,6 +23,9 @@ public class Elevator
     private double elevatorMotorSpeed;
     private int desiredElevatorPosition;
     
+    private int elevatorTopPosition;
+    private int elevatorBottomPosition;
+    
     public static Elevator getInstance()
     {
         return (instance == null) ? instance = new Elevator() : instance;
@@ -51,17 +54,24 @@ public class Elevator
         elevatorDownPID = new SimPID(p, i, d, e);
         
         elevatorMotorSpeed = Constants.MOTOR_STOPPED;
-        desiredElevatorPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+        
+        elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
+        elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+        
+        desiredElevatorPosition = elevatorBottomPosition;
     }
     
     public void run()
     {
-        if(desiredElevatorPosition == params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION))
+        elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
+        elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+        
+        if(desiredElevatorPosition == elevatorTopPosition)
         {
             elevatorUpPID.setDesiredValue(desiredElevatorPosition);
             elevatorMotorSpeed = elevatorUpPID.calcPID(sensorInput.getElevatorEncoder());
         }
-        else if(desiredElevatorPosition == params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION))
+        else if(desiredElevatorPosition == elevatorBottomPosition)
         {
             elevatorDownPID.setDesiredValue(desiredElevatorPosition);
             elevatorMotorSpeed = elevatorDownPID.calcPID(sensorInput.getElevatorEncoder());
@@ -104,11 +114,11 @@ public class Elevator
     
     public synchronized boolean elevatorAtTop()
     {
-        return (desiredElevatorPosition == params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION) && elevatorUpPID.isDone());
+        return (desiredElevatorPosition == elevatorTopPosition && elevatorUpPID.isDone());
     }
     
     public synchronized boolean elevatorAtBottom()
     {
-        return (desiredElevatorPosition == params.getAsInt("E_ElevatorDownPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION) && elevatorDownPID.isDone());
+        return (desiredElevatorPosition == elevatorBottomPosition && elevatorDownPID.isDone());
     }
 }
