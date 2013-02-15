@@ -100,8 +100,8 @@ public class Drivebase
     private synchronized void calcGyroPID()
     {
         desiredGyroAngle = (sensorInput.getGyroAngle() + SmartDashboard.getNumber("azimuth", 0.0));
-        gyroPID.setDesiredValue((int)desiredGyroAngle);
-        double motorOutput = gyroPID.calcPID((int)sensorInput.getGyroAngle());
+        gyroPID.setDesiredValue(desiredGyroAngle);
+        double motorOutput = gyroPID.calcPID(sensorInput.getGyroAngle());
         leftDriveSpeed = motorOutput;
         rightDriveSpeed = -motorOutput;
     }

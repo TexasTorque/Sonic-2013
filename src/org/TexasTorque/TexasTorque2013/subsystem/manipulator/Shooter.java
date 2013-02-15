@@ -71,15 +71,15 @@ public class Shooter
     
     public void run()
     {
-        frontShooterPID.setDesiredValue((int)desiredFrontShooterRate);
-        rearShooterPID.setDesiredValue((int)desiredRearShooterRate);
-        double frontSpeed = frontShooterPID.calcPID((int)sensorInput.getFrontShooterRate());
-        double rearSpeed = rearShooterPID.calcPID((int)sensorInput.getRearShooterRate());
+        frontShooterPID.setDesiredValue(desiredFrontShooterRate);
+        rearShooterPID.setDesiredValue(desiredRearShooterRate);
+        double frontSpeed = frontShooterPID.calcPID(sensorInput.getFrontShooterRate());
+        double rearSpeed = rearShooterPID.calcPID(sensorInput.getRearShooterRate());
         frontMotorSpeed = limitShooterSpeed(frontSpeed);
         rearMotorSpeed = limitShooterSpeed(rearSpeed);
         robotOutput.setShooterMotors(frontMotorSpeed, rearMotorSpeed);
-        tiltPID.setDesiredValue((int)desiredTiltPosition);
-        tiltMotorSpeed = tiltPID.calcPID((int)sensorInput.getTiltAngle());
+        tiltPID.setDesiredValue(desiredTiltPosition);
+        tiltMotorSpeed = tiltPID.calcPID(sensorInput.getTiltAngle());
         robotOutput.setShooterTiltMotor(tiltMotorSpeed);
     }
     
