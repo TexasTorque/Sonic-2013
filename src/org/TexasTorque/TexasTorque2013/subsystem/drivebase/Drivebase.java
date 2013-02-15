@@ -175,7 +175,7 @@ public class Drivebase
         return axisValue;
     }
     
-    public void mixChannels(double yAxis, double xAxis)
+    private void mixChannels(double yAxis, double xAxis)
     {
         yAxis = driverInput.applyDeadband(yAxis, Constants.SPEED_AXIS_DEADBAND);
         xAxis = driverInput.applyDeadband(xAxis, Constants.TURN_AXIS_DEADBAND);

@@ -83,7 +83,7 @@ public class Manipulator
         elevator.logData();
     }
     
-    public void calcOverrides()
+    private void calcOverrides()
     {
         //----- Intake -----
         if(driverInput.intakeOverride())
