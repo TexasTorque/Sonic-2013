@@ -48,7 +48,7 @@ public class Manipulator
     {
         if(!driverInput.override())
         {
-            if(driverInput.reverseIntake())
+            /*if(driverInput.reverseIntake())
             {
                 calcReverseIntake();
             }
@@ -67,7 +67,7 @@ public class Manipulator
             shooter.run();
             elevator.run();
             intake.run();
-            magazine.run();
+            magazine.run();*/
         }
         else
         {

@@ -54,7 +54,7 @@ public class RobotOutput
         //----- Misc Motors -----
         intakeMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.INTAKE_MOTOR_PORT), false, true);
         elevatorMotorLeft = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.ELEVATOR_MOTOR_PORT_LEFT), false, true);
-        elevatorMotorRight = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.ELEVATOR_MOTOR_PORT_RIGHT), false, true);
+        elevatorMotorRight = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.ELEVATOR_MOTOR_PORT_RIGHT), true, true);
         compressor.start();
     }
  

@@ -30,9 +30,9 @@ public class SensorInput
         //----- Encoders/Counters -----
         leftDriveEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_B_PORT, true);
         rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, true);
-        frontShooterCounter = new TorqueCounter(CounterBase.EncodingType.k4X, new DigitalInput(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_COUNTER_A_PORT)
+        frontShooterCounter = new TorqueCounter(CounterBase.EncodingType.k1X, new DigitalInput(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_COUNTER_A_PORT)
                 , new DigitalInput(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_COUNTER_B_PORT), true);
-        rearShooterCounter = new TorqueCounter(CounterBase.EncodingType.k4X, new DigitalInput(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_COUNTER_A_PORT)
+        rearShooterCounter = new TorqueCounter(CounterBase.EncodingType.k1X, new DigitalInput(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_COUNTER_A_PORT)
                 , new DigitalInput(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_COUNTER_B_PORT), true);
         elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.ELEVATOR_ENCODER_B_PORT, true);
         //----- Gyro -----

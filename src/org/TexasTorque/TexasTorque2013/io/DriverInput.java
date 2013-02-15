@@ -124,12 +124,12 @@ public class DriverInput
     
     public synchronized boolean elevatorTopOverride()
     {
-        return (operatorController.getLeftYAxis() < -0.2);
+        return (operatorController.getLeftYAxis() < -0.5);
     }
     
     public synchronized boolean elevatorBottomOverride()
     {
-        return (operatorController.getLeftYAxis() > 0.2);
+        return (operatorController.getLeftYAxis() > 0.5);
     }
     
     public synchronized boolean shooterOverride()
