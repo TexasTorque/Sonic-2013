@@ -75,7 +75,7 @@ public class TorqueTrapezoidal extends Thread
         return motorOutput;
     }
     
-    public synchronized double getGoalOutput()
+    public synchronized double getGoalVelocity()
     {
         return calculatedVelocity;
     }
@@ -85,7 +85,7 @@ public class TorqueTrapezoidal extends Thread
         return currentState;
     }
     
-    public synchronized boolean getFinished()
+    public synchronized boolean isFinished()
     {
         return (currentState == WAITING_STATE);
     }
@@ -135,6 +135,7 @@ public class TorqueTrapezoidal extends Thread
             else
             {
                 motorOutput = 0.0;
+                calculatedVelocity = 0.0;
             }
             
             previousVelocity = currentVelocity;
