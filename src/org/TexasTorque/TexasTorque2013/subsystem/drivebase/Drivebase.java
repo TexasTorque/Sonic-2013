@@ -95,7 +95,6 @@ public class Drivebase
     
     public synchronized void logData()
     {
-        
     }
     
     private synchronized void calcGyroPID()

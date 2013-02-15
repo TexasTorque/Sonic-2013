@@ -106,7 +106,8 @@ public class RobotBase extends IterativeRobot
         TorqueLogging.setDashboardLogging(false);
         TorqueLogging.setLoopTime(params.getAsInt("LoggingLoopTime", Constants.TORQUE_LOGGING_LOOP_TIME));
         logging = TorqueLogging.getInstance();
-        logging.setKeyMapping("FrameNumber,FrameTime,LoopTime");
+        String loggingString = "FrameNumber,FrameTime,LoopTime";
+        logging.setKeyMapping(loggingString);
         logging.startLogging();
     }
     
