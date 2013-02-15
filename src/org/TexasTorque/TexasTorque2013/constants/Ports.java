@@ -12,10 +12,10 @@ public class Ports
     
     //----- Motors -----
         //----- Sidecar 1 -----
-        public final static int FRONT_RIGHT_MOTOR_PORT = 9;
-        public final static int REAR_RIGHT_MOTOR_PORT = 8;
+        public final static int FRONT_RIGHT_MOTOR_PORT = 2;
+        public final static int REAR_RIGHT_MOTOR_PORT = 3;
         public final static int ELEVATOR_MOTOR_PORT_LEFT = 4;
-        public final static int INTAKE_MOTOR_PORT = 6;
+        public final static int INTAKE_MOTOR_PORT = 5;
         
         //----- Sidecar 2 -----
         public final static int REAR_SHOOTER_MOTOR_A_PORT = 1;
