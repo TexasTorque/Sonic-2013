@@ -31,7 +31,7 @@ public class Constants
     public final static double GYRO_SENSITIVITY = 0.0136;
     
     //----- Shooter -----
-    public final static double TILT_PARALLEL_POSITION = 5.0;
+    public final static double DEFAULT_STANDARD_TILT_POSITION = 5.0;
     public final static double POTENTIOMETER_LOW_VOLTAGE = 1.5226;
     public final static double POTENTIOMETER_HIGH_VOLTAGE = 0.2986;
     public final static double DEFAULT_FRONT_SHOOTER_RATE = 3000.0;

@@ -74,6 +74,7 @@ public class Manipulator
                 elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
                 robotOutput.setElevatorMotors(0.0);
             }
+            //elevator.run();
             //shooter.run();
             //intake.run();
             //magazine.run();
@@ -209,7 +210,7 @@ public class Manipulator
     
     public void shootHighWithVision()
     {
-        double tiltAngle = params.getAsDouble("S_TiltStandardAngle", 0.0);
+        double tiltAngle = params.getAsDouble("S_TiltStandardAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
         int elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
         
         shooter.setTiltAngle(tiltAngle);
@@ -220,7 +221,7 @@ public class Manipulator
         {
             double frontRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
             double rearRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
-            double elevation = SmartDashboard.getNumber("elevation", Constants.TILT_PARALLEL_POSITION);
+            double elevation = SmartDashboard.getNumber("elevation", Constants.DEFAULT_STANDARD_TILT_POSITION);
             
             shooter.setShooterRates(frontRate, rearRate);
             shooter.setTiltAngle(elevation);
@@ -233,7 +234,7 @@ public class Manipulator
     
     public void restoreDefaultPositions()
     {
-        double tiltAngle = params.getAsDouble("S_TiltStandardAngle", 0.0);
+        double tiltAngle = params.getAsDouble("S_TiltStandardAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
         shooter.setTiltAngle(tiltAngle);
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
