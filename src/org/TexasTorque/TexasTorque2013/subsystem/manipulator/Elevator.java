@@ -78,7 +78,7 @@ public class Elevator
         
         if(desiredElevatorPosition == elevatorTopPosition)
         {
-            if(sensorInput.getElevatorEncoder() >= elevatorUpPID.getDesiredVal())
+            if(elevatorUpPID.isDone())
             {
                 isLocking = true;
             }
