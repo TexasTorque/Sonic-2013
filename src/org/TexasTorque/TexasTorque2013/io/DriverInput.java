@@ -27,10 +27,10 @@ public class DriverInput
     
     public synchronized void pullJoystickTypes()
     {
-        boolean firstType = SmartDashboard.getBoolean("firstControllerIsLogitech", Constants.DEFAULT_FIRST_CONTROLLER_TYPE);
-        boolean secondType = SmartDashboard.getBoolean("secondControllerIsLogitech", Constants.DEFAULT_SECOND_CONTROLLER_TYPE);
+        boolean firstControllerType = SmartDashboard.getBoolean("firstControllerIsLogitech", Constants.DEFAULT_FIRST_CONTROLLER_TYPE);
+        boolean secondControllerType = SmartDashboard.getBoolean("secondControllerIsLogitech", Constants.DEFAULT_SECOND_CONTROLLER_TYPE);
         
-        if(firstType)
+        if(firstControllerType)
         {
             driveController.setAsLogitech();
         }
@@ -39,7 +39,7 @@ public class DriverInput
             driveController.setAsXBox();
         }
         
-        if(secondType)
+        if(secondControllerType)
         {
             operatorController.setAsLogitech();
         }
