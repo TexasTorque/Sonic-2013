@@ -88,7 +88,11 @@ public class RobotBase extends IterativeRobot
         manipulator.run();
         dashboardManager.updateLCD();
         logData();
-        System.err.println(sensorInput.getTiltVoltage());
+        SmartDashboard.putNumber("TiltValue", sensorInput.getTiltAngle());
+        SmartDashboard.putNumber("TiltVoltage", sensorInput.getTiltVoltage());
+        SmartDashboard.putNumber("Elevator", sensorInput.getElevatorEncoder());
+        System.err.println(sensorInput.getElevatorEncoder());
+        
     }
     
     public void disabledInit()

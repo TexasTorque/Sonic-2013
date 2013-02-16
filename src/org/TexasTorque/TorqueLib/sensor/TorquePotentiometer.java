@@ -40,10 +40,6 @@ public class TorquePotentiometer
         {
             return 1.0;
         }
-        else if(value < 0.0)
-        {
-            return 0.0;
-        }
         else
         {
             return value;

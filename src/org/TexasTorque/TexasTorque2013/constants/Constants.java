@@ -32,15 +32,15 @@ public class Constants
     
     //----- Shooter -----
     public final static double TILT_PARALLEL_POSITION = 5.0;
-    public final static double POTENTIOMETER_LOW_VOLTAGE = 1.56;
-    public final static double POTENTIOMETER_HIGH_VOLTAGE = 5.0;
+    public final static double POTENTIOMETER_LOW_VOLTAGE = 1.5226;
+    public final static double POTENTIOMETER_HIGH_VOLTAGE = 0.2986;
     public final static double DEFAULT_FRONT_SHOOTER_RATE = 3000.0;
     public final static double DEFAULT_REAR_SHOOTER_RATE = 2000.0;
     public final static double SHOOTER_STOPPED_RATE = 0.0;
     
     //----- Elevator -----
     public final static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;
-    public final static int DEFAULT_ELEVATOR_TOP_POSITION = 1;
+    public final static int DEFAULT_ELEVATOR_TOP_POSITION = 750;
     public final static int ELEVATOR_LOCKED_STATE = 0;
     public final static int ELEVATOR_MOVING_STATE = 1;
     

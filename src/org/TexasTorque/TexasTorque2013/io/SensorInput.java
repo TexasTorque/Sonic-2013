@@ -34,7 +34,7 @@ public class SensorInput
                 , new DigitalInput(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_COUNTER_B_PORT), true);
         rearShooterCounter = new TorqueCounter(CounterBase.EncodingType.k1X, new DigitalInput(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_COUNTER_A_PORT)
                 , new DigitalInput(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_COUNTER_B_PORT), true);
-        elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.ELEVATOR_ENCODER_B_PORT, true);
+        elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_B_PORT, false);
         //----- Gyro -----
         gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
         gyroChannel.setAccumulatorDeadband(Constants.GYRO_ACCUMULATOR_DEADBAND);

@@ -44,11 +44,11 @@ public class Ports
         public final static int FRONT_SHOOTER_COUNTER_B_PORT = 7;
         public final static int REAR_SHOOTER_COUNTER_A_PORT = 8;
         public final static int REAR_SHOOTER_COUNTER_B_PORT = 9;
-        public final static int ELEVATOR_ENCODER_A_PORT = 11;
-        public final static int ELEVATOR_ENCODER_B_PORT = 12;
         //----- Sidecar 2 -----
         public final static int LEFT_DRIVE_ENCODER_A_PORT = 1;
         public final static int LEFT_DRIVE_ENCODER_B_PORT = 2;
+        public final static int ELEVATOR_ENCODER_A_PORT = 3;
+        public final static int ELEVATOR_ENCODER_B_PORT = 4;
     
     //----- Analog Inputs -----
     public final static int GYRO_PORT = 1;
