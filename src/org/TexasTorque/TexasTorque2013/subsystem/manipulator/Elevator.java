@@ -4,6 +4,7 @@ import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
+import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.SimPID;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
@@ -17,6 +18,7 @@ public class Elevator
     private SensorInput sensorInput;
     private TorqueLogging logging;
     private Parameters params;
+    private DashboardManager dashboardManager;
     
     private SimPID elevatorUpPID;
     private SimPID elevatorDownPID;
@@ -40,6 +42,7 @@ public class Elevator
         sensorInput = SensorInput.getInstance();
         logging = TorqueLogging.getInstance();
         params = Parameters.getInstance();
+        dashboardManager = DashboardManager.getInstance();
         
         double p = params.getAsDouble("E_ElevatorUpP", 0.0);
         double i = params.getAsDouble("E_ElevatorUpI", 0.0);
@@ -68,6 +71,9 @@ public class Elevator
         elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
         isLocking = false;
         
+        elevatorUpPID.setDesiredValue(elevatorTopPosition);
+        elevatorDownPID.setDesiredValue(elevatorBottomPosition);
+        
         desiredElevatorPosition = elevatorBottomPosition;
     }
     
@@ -76,9 +82,11 @@ public class Elevator
         elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
         elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
         
+        int encoderPosition = sensorInput.getElevatorEncoder();
+        
         if(desiredElevatorPosition == elevatorTopPosition)
         {
-            if(elevatorUpPID.isDone())
+            if(elevatorUpPID.isDone() && encoderPosition > 740)
             {
                 isLocking = true;
             }
@@ -110,6 +118,11 @@ public class Elevator
         logging.logValue("ElevatorMotorSpeed", elevatorMotorSpeed);
         logging.logValue("ActualElevatorPosition", sensorInput.getElevatorEncoder());
         logging.logValue("IsLocking", isLocking);
+    }
+    
+    public synchronized void reset()
+    {
+        isLocking = false;
     }
     
     public synchronized void setDesiredPosition(int position)

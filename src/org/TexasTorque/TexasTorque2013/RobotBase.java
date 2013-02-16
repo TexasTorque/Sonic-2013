@@ -7,6 +7,7 @@ import org.TexasTorque.TexasTorque2013.autonomous.AutonomousManager;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Elevator;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Manipulator;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
@@ -81,6 +82,7 @@ public class RobotBase extends IterativeRobot
         logData = SmartDashboard.getBoolean("logData", false);
         logging.setLogging(logData);
         driverInput.pullJoystickTypes();
+        Elevator.getInstance().reset();
         pullNewPIDGains();
     }
 
@@ -103,6 +105,10 @@ public class RobotBase extends IterativeRobot
     {
         watchdog.feed();
         dashboardManager.updateLCD();
+        if(driverInput.getResetEncoders())
+        {
+            sensorInput.resetEncoders();
+        }
     }
     
     public void initSmartDashboard()

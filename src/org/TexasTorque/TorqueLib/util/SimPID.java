@@ -37,7 +37,7 @@ public class SimPID
         this.errorIncrement = 1.0;
         
         this.cycleCount = 0;
-        this.minCycleCount = 5;
+        this.minCycleCount = 0;
     }
     
     public SimPID(double p, double i, double d)
