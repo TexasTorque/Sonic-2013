@@ -24,6 +24,7 @@ public class TorqueLogging extends Thread
     private String keys;
     private String values;
     private int numLines;
+    private boolean logData;
     
     public static void setFileName(String fileNm)
     {
@@ -72,6 +73,11 @@ public class TorqueLogging extends Thread
         table.put("FrameNumber", "" + numLines);
     }
     
+    public void setLogging(boolean log)
+    {
+        logData = log;
+    }
+    
     public void startLogging()
     {
         this.start();
@@ -96,7 +102,7 @@ public class TorqueLogging extends Thread
         while(true)
         {
             watchdog.feed();
-            while(ds.isDisabled())
+            while(ds.isDisabled() || !logData)
             {
                 watchdog.feed();
             }

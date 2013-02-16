@@ -53,11 +53,14 @@ public class RobotBase extends IterativeRobot
         
         loopTime = 0.0;
         logData = SmartDashboard.getBoolean("logData", false);
+        logging.setLogging(logData);
     }
 
     public void autonomousInit()
     {
         pullNewPIDGains();
+        logData = SmartDashboard.getBoolean("logData", false);
+        logging.setLogging(logData);
         sensorInput.resetEncoders();
         autoManager.setAutonomousDelay(driverInput.getAutonomousDelay());
         autoManager.setAutoMode(Constants.DO_NOTHING_AUTO);
@@ -75,6 +78,8 @@ public class RobotBase extends IterativeRobot
     public void teleopInit()
     {
         params.load();
+        logData = SmartDashboard.getBoolean("logData", false);
+        logging.setLogging(logData);
         driverInput.pullJoystickTypes();
         pullNewPIDGains();
         sensorInput.resetEncoders();
@@ -86,6 +91,8 @@ public class RobotBase extends IterativeRobot
         drivebase.run();
         manipulator.run();
         dashboardManager.updateLCD();
+        SmartDashboard.putNumber("Elevator Position", sensorInput.getElevatorEncoder());
+        dashboardManager.printToErr(sensorInput.getElevatorEncoder() + "");
         logData();
     }
     
@@ -102,6 +109,7 @@ public class RobotBase extends IterativeRobot
     public void initSmartDashboard()
     {
         SmartDashboard.putNumber("Autonomous Delay", 0.0);
+        SmartDashboard.putBoolean("logData", true);
     }
     
     public void initLogging()
@@ -112,8 +120,8 @@ public class RobotBase extends IterativeRobot
         
         final String loggingString =
                 "FrameNumber,FrameTime,LoopTime,InOverrideState,"
-                + "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,RightDriveSpeed,RightDriveEncoderVelocity,GyroAngle,"
-                + "ElevatorMotorSpeed,ActualElevatorPosition,DesiredElevatorPosition"
+                + "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,RightDriveEncoderPosition,RightDriveSpeed,RightDriveEncoderVelocity,GyroAngle,"
+                + "ElevatorMotorSpeed,ActualElevatorPosition,DesiredElevatorPosition,"
                 + "IntakeMotorSpeed,"
                 + "DesiredTiltAngle,TiltMotorSpeed,ActualTiltAngle,"
                 + "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate";
