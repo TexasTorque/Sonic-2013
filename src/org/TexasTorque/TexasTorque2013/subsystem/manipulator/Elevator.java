@@ -76,7 +76,6 @@ public class Elevator
             elevatorDownPID.setDesiredValue(desiredElevatorPosition);
             elevatorMotorSpeed = elevatorDownPID.calcPID(sensorInput.getElevatorEncoder());
         }
-        System.err.println(sensorInput.getElevatorEncoder());
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
     }
     

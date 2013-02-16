@@ -64,7 +64,7 @@ public class Shooter
         frontMotorSpeed = Constants.MOTOR_STOPPED;
         rearMotorSpeed = Constants.MOTOR_STOPPED;
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
-        desiredTiltPosition = Constants.TILT_PARALLEL_POSITION;
+        desiredTiltPosition = Constants.DEFAULT_STANDARD_TILT_POSITION;
         desiredFrontShooterRate = Constants.SHOOTER_STOPPED_RATE;
         desiredRearShooterRate = Constants.SHOOTER_STOPPED_RATE;
     }
@@ -147,7 +147,7 @@ public class Shooter
     
     public synchronized boolean isParallel()
     {
-        return (isVerticallyLocked() && desiredTiltPosition == Constants.TILT_PARALLEL_POSITION);
+        return (isVerticallyLocked() && desiredTiltPosition == Constants.DEFAULT_STANDARD_TILT_POSITION);
     }
     
     public synchronized boolean isReadyToFire()
