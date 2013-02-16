@@ -120,7 +120,7 @@ public class RobotBase extends IterativeRobot
         final String loggingString =
                 "FrameNumber,FrameTime,LoopTime,InOverrideState,"
                 + "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,RightDriveEncoderPosition,RightDriveSpeed,RightDriveEncoderVelocity,GyroAngle,"
-                + "ElevatorMotorSpeed,ActualElevatorPosition,DesiredElevatorPosition,"
+                + "ElevatorMotorSpeed,ActualElevatorPosition,DesiredElevatorPosition,IsLocking,"
                 + "IntakeMotorSpeed,"
                 + "DesiredTiltAngle,TiltMotorSpeed,ActualTiltAngle,"
                 + "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate,"

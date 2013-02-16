@@ -20,8 +20,10 @@ public class Elevator
     
     private SimPID elevatorUpPID;
     private SimPID elevatorDownPID;
+    private SimPID elevatorLockPID;
     private double elevatorMotorSpeed;
     private int desiredElevatorPosition;
+    private boolean isLocking;
     
     private int elevatorTopPosition;
     private int elevatorBottomPosition;
@@ -53,10 +55,18 @@ public class Elevator
         
         elevatorDownPID = new SimPID(p, i, d, e);
         
+        p = params.getAsDouble("E_ElevatorLockP", 0.0);
+        i = params.getAsDouble("E_ElevatorLockI", 0.0);
+        d = params.getAsDouble("E_ElevatorLockD", 0.0);
+        e = params.getAsDouble("E_ElevatorLockEpsilon", 0.0);
+        
+        elevatorLockPID = new SimPID(p, i, d, e);
+        
         elevatorMotorSpeed = Constants.MOTOR_STOPPED;
         
         elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
         elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+        isLocking = false;
         
         desiredElevatorPosition = elevatorBottomPosition;
     }
@@ -68,15 +78,30 @@ public class Elevator
         
         if(desiredElevatorPosition == elevatorTopPosition)
         {
-            elevatorUpPID.setDesiredValue(desiredElevatorPosition);
-            elevatorMotorSpeed = elevatorUpPID.calcPID(sensorInput.getElevatorEncoder());
+            if(sensorInput.getElevatorEncoder() >= elevatorUpPID.getDesiredVal())
+            {
+                isLocking = true;
+            }
+            if(isLocking)
+            {
+                elevatorLockPID.setDesiredValue(desiredElevatorPosition);
+                elevatorMotorSpeed = elevatorLockPID.calcPID(sensorInput.getElevatorEncoder());
+            }
+            else
+            {
+                isLocking = false;
+                elevatorUpPID.setDesiredValue(desiredElevatorPosition);
+                elevatorMotorSpeed = elevatorUpPID.calcPID(sensorInput.getElevatorEncoder());
+            }
         }
         else if(desiredElevatorPosition == elevatorBottomPosition)
         {
+            isLocking = false;
             elevatorDownPID.setDesiredValue(desiredElevatorPosition);
             elevatorMotorSpeed = elevatorDownPID.calcPID(sensorInput.getElevatorEncoder());
         }
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
+        System.err.println(isLocking);
     }
     
     public synchronized void logData()
@@ -84,6 +109,7 @@ public class Elevator
         logging.logValue("DesiredElevatorPosition", desiredElevatorPosition);
         logging.logValue("ElevatorMotorSpeed", elevatorMotorSpeed);
         logging.logValue("ActualElevatorPosition", sensorInput.getElevatorEncoder());
+        logging.logValue("IsLocking", isLocking);
     }
     
     public synchronized void setDesiredPosition(int position)
@@ -108,11 +134,19 @@ public class Elevator
         
         elevatorDownPID.setConstants(p, i, d);
         elevatorDownPID.setErrorEpsilon(e);
+        
+        p = params.getAsDouble("E_ElevatorLockP", 0.0);
+        i = params.getAsDouble("E_ElevatorLockI", 0.0);
+        d = params.getAsDouble("E_ElevatorLockD", 0.0);
+        e = params.getAsDouble("E_ElevatorLockEpsilon", 0.0);
+        
+        elevatorLockPID.setConstants(p, i, d);
+        elevatorLockPID.setErrorEpsilon(e);
     }
     
     public synchronized boolean elevatorAtTop()
     {
-        return (desiredElevatorPosition == elevatorTopPosition && elevatorUpPID.isDone());
+        return (desiredElevatorPosition == elevatorTopPosition && elevatorLockPID.isDone() && isLocking);
     }
     
     public synchronized boolean elevatorAtBottom()
