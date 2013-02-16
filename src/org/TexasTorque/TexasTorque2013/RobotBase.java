@@ -36,6 +36,8 @@ public class RobotBase extends IterativeRobot
         params = Parameters.getInstance();
         params.load();
         
+        SmartDashboard.putNumber("elevation", 0.0);
+        
         initSmartDashboard();
         initLogging();
         
@@ -86,6 +88,7 @@ public class RobotBase extends IterativeRobot
         manipulator.run();
         dashboardManager.updateLCD();
         logData();
+        System.err.println(sensorInput.getTiltVoltage());
     }
     
     public void disabledInit()

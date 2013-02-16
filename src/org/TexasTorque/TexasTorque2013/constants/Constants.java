@@ -32,7 +32,7 @@ public class Constants
     
     //----- Shooter -----
     public final static double TILT_PARALLEL_POSITION = 5.0;
-    public final static double POTENTIOMETER_LOW_VOLTAGE = 2.5;
+    public final static double POTENTIOMETER_LOW_VOLTAGE = 1.56;
     public final static double POTENTIOMETER_HIGH_VOLTAGE = 5.0;
     public final static double DEFAULT_FRONT_SHOOTER_RATE = 3000.0;
     public final static double DEFAULT_REAR_SHOOTER_RATE = 2000.0;

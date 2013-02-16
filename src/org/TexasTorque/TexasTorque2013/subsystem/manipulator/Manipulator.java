@@ -48,7 +48,7 @@ public class Manipulator
     {
         if(!driverInput.override())
         {
-            if(driverInput.reverseIntake())
+            /*if(driverInput.reverseIntake())
             {
                 calcReverseIntake();
             }
@@ -67,7 +67,9 @@ public class Manipulator
             shooter.run();
             elevator.run();
             intake.run();
-            magazine.run();
+            magazine.run();*/
+            robotOutput.setElevatorMotors(0.0);
+            robotOutput.setShooterTiltMotor(0.0);
         }
         else
         {
@@ -201,6 +203,7 @@ public class Manipulator
     {
         double tiltAngle = params.getAsDouble("S_TiltStandardAngle", 0.0);
         int elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
+        
         shooter.setTiltAngle(tiltAngle);
         elevator.setDesiredPosition(elevatorTopPosition);
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);

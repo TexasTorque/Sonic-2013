@@ -164,4 +164,9 @@ public class SensorInput
         return getTiltPotentiometer() * 90;
     }
     
+    public synchronized double getTiltVoltage()
+    {
+        return tiltPotentiometer.getRaw();
+    }
+    
 }
