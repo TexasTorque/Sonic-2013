@@ -45,9 +45,9 @@ public class Parameters
                  while((line = fileIO.readLine()) != null)
                  {
                      watchdog.feed();
-                     map.put(line.substring(0, index=line.indexOf(" ")), line.substring(index + 1));
+                     map.put(line.substring(0, index = line.indexOf(" ")), line.substring(index + 1));
                  }
-                 System.err.println("Parameters file: " + fileName + " sucsessfully loaded.");
+                 System.err.println("Parameters file: " + fileName + " successfully loaded.");
                  fileConnection.close();
             }
             else

@@ -108,11 +108,6 @@ public class SensorInput
         return elevatorEncoder.get();
     }
     
-    public synchronized TorqueEncoder elevatorEncoder()
-    {
-        return elevatorEncoder;
-    }
-    
     public synchronized double getElevatorRate()
     {
         return elevatorEncoder.getRate();

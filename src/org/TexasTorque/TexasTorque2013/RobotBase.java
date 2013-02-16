@@ -32,6 +32,7 @@ public class RobotBase extends IterativeRobot
     {     
         watchdog = Watchdog.getInstance();
         watchdog.setEnabled(true);
+        watchdog.setExpiration(0.2);
         
         params = Parameters.getInstance();
         params.load();
