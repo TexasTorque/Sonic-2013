@@ -2,7 +2,6 @@ package org.TexasTorque.TorqueLib.util;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStationLCD;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DashboardManager
 {
@@ -24,6 +23,21 @@ public class DashboardManager
     public synchronized void printToErr(String output)
     {
         System.err.println(output);
+    }
+    
+    public synchronized void printToErr(int output)
+    {
+        printToErr("" + output);
+    }
+    
+    public synchronized void printToErr(double output)
+    {
+        printToErr("" + output);
+    }
+    
+    public synchronized void printToErr(boolean output)
+    {
+        printToErr("" + output);
     }
     
     public synchronized void printToLCD(int line, String output)
