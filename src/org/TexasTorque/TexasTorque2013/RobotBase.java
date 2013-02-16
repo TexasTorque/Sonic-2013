@@ -82,7 +82,6 @@ public class RobotBase extends IterativeRobot
         logging.setLogging(logData);
         driverInput.pullJoystickTypes();
         pullNewPIDGains();
-        sensorInput.resetEncoders();
     }
 
     public void teleopPeriodic()

@@ -69,9 +69,13 @@ public class Manipulator
                 elevator.setDesiredPosition(params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION));
                 elevator.run();
             }
-            else
+            else if(driverInput.reverseIntake())
             {
                 elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
+                elevator.run();
+            }
+            else
+            {
                 robotOutput.setElevatorMotors(0.0);
             }
             //elevator.run();

@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.Watchdog;
 
 public class TorqueCounter extends Thread
 {
+    private Watchdog watchdog;
+    
     private int clicksPerRev;
     private double currentRate;
     private double threadPeriod;
@@ -25,12 +27,14 @@ public class TorqueCounter extends Thread
     
     public TorqueCounter(int sidecar, int port)
     {
+        watchdog = Watchdog.getInstance();
         counter = new Counter(sidecar, port);
         initCounter();
     }
     
     public TorqueCounter(EncodingType encodingType, DigitalSource upSource, DigitalSource downSource, boolean reverse)
     {
+        watchdog = Watchdog.getInstance();
         counter = new Counter(encodingType, upSource, downSource, reverse);
         initCounter();
     }
@@ -74,7 +78,6 @@ public class TorqueCounter extends Thread
     
     public void run()
     {
-        Watchdog watchdog = Watchdog.getInstance();
         counter.reset();
         counter.start();
         while(true)

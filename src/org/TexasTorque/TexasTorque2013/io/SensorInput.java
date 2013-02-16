@@ -2,6 +2,7 @@ package org.TexasTorque.TexasTorque2013.io;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.Watchdog;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
 import org.TexasTorque.TorqueLib.sensor.TorqueCounter;
@@ -11,6 +12,7 @@ import org.TexasTorque.TorqueLib.sensor.TorquePotentiometer;
 public class SensorInput
 {
     private static SensorInput instance;
+    private Watchdog watchdog;
     //----- Encoder -----
     private TorqueEncoder leftDriveEncoder;
     private TorqueEncoder rightDriveEncoder;
@@ -25,6 +27,7 @@ public class SensorInput
 
     public SensorInput()
     {
+        watchdog = Watchdog.getInstance();
         //----- Encoders/Counters -----
         leftDriveEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_B_PORT, false);
         rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
@@ -117,10 +120,12 @@ public class SensorInput
     {
         while(angle >= 360.0)
         {
+            watchdog.feed();
             angle -= 360.0;
         }
         while(angle < 0.0)
         {
+            watchdog.feed();
             angle += 360.0;
         }
         if(angle > 180)
