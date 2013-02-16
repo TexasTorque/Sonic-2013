@@ -1,8 +1,6 @@
 package org.TexasTorque.TexasTorque2013.io;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
-import edu.wpi.first.wpilibj.CounterBase;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
@@ -30,10 +28,8 @@ public class SensorInput
         //----- Encoders/Counters -----
         leftDriveEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_B_PORT, true);
         rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, true);
-        frontShooterCounter = new TorqueCounter(CounterBase.EncodingType.k1X, new DigitalInput(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_COUNTER_A_PORT)
-                , new DigitalInput(Ports.SIDECAR_ONE, Ports.FRONT_SHOOTER_COUNTER_B_PORT), true);
-        rearShooterCounter = new TorqueCounter(CounterBase.EncodingType.k1X, new DigitalInput(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_COUNTER_A_PORT)
-                , new DigitalInput(Ports.SIDECAR_ONE, Ports.REAR_SHOOTER_COUNTER_B_PORT), true);
+        frontShooterCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_COUNTER_PORT);
+        rearShooterCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_COUNTER_PORT);
         elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_B_PORT, false);
         //----- Gyro -----
         gyroChannel = new AnalogChannel(Ports.GYRO_PORT);

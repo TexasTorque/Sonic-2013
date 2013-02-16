@@ -63,12 +63,21 @@ public class Manipulator
             else
             {
                 restoreDefaultPositions();
+            }*/
+            if(driverInput.runIntake())
+            {
+                elevator.setDesiredPosition(params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION));
+            }
+            else
+            {
+                elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
+                robotOutput.setElevatorMotors(0.0);
             }
             shooter.run();
             elevator.run();
             intake.run();
-            magazine.run();*/
-            robotOutput.setElevatorMotors(0.0);
+            magazine.run();
+            //robotOutput.setElevatorMotors(0.0);
             robotOutput.setShooterTiltMotor(0.0);
         }
         else
@@ -104,6 +113,11 @@ public class Manipulator
         if(driverInput.elevatorTopOverride())
         {
             double speed = params.getAsDouble("E_ElevatorOverrideSpeed", 0.5);
+            
+            if(sensorInput.getElevatorEncoder() > 800 || sensorInput.getElevatorEncoder() < 0)
+            {
+                speed = 0.0;
+            }
             
             robotOutput.setElevatorMotors(speed);
         }

@@ -13,9 +13,10 @@ import javax.microedition.io.*;
 public class TorqueLogging extends Thread
 {
     private static TorqueLogging instance;
+    private Watchdog watchdog;
     private FileConnection fileConnection = null;
     private BufferedWriter fileIO = null;
-    private static String fileName = "TorqueLog.txt";
+    private static String fileName = "TorqueLog.csv";
     private String filePath = "file:///ni-rt/startup/";
     private static boolean logToDashboard = false;
     private static long threadLoopTime = 2;
@@ -46,6 +47,7 @@ public class TorqueLogging extends Thread
     
     public TorqueLogging()
     {
+        watchdog = Watchdog.getInstance();
         try
         {
             fileConnection = (FileConnection) Connector.open(filePath + fileName);
@@ -91,13 +93,12 @@ public class TorqueLogging extends Thread
     {
         init();
         DriverStation ds = DriverStation.getInstance();
-        Watchdog dog = Watchdog.getInstance();
         while(true)
         {
-            dog.feed();
+            watchdog.feed();
             while(ds.isDisabled())
             {
-                dog.feed();
+                watchdog.feed();
             }
             
             calculateValueString();
@@ -135,7 +136,7 @@ public class TorqueLogging extends Thread
         int index = 0;
         while(index != -1)
         {
-            Watchdog.getInstance().feed();
+            watchdog.feed();
             index = keys.indexOf(",", start);
             if(index != -1)
             {
@@ -199,6 +200,7 @@ public class TorqueLogging extends Thread
         boolean first = true;
         while(index != -1)
         {
+            watchdog.feed();
             index = keys.indexOf(",", start);
             if(index != -1)
             {

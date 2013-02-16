@@ -40,15 +40,13 @@ public class Ports
         public final static int PRESSURE_SWITCH_PORT = 13;
         public final static int RIGHT_DRIVE_ENCODER_A_PORT = 1;
         public final static int RIGHT_DRIVE_ENCODER_B_PORT = 2;
-        public final static int FRONT_SHOOTER_COUNTER_A_PORT = 6;
-        public final static int FRONT_SHOOTER_COUNTER_B_PORT = 7;
-        public final static int REAR_SHOOTER_COUNTER_A_PORT = 8;
-        public final static int REAR_SHOOTER_COUNTER_B_PORT = 9;
         //----- Sidecar 2 -----
         public final static int LEFT_DRIVE_ENCODER_A_PORT = 1;
         public final static int LEFT_DRIVE_ENCODER_B_PORT = 2;
         public final static int ELEVATOR_ENCODER_A_PORT = 3;
         public final static int ELEVATOR_ENCODER_B_PORT = 4;
+        public final static int FRONT_SHOOTER_COUNTER_PORT = 5;
+        public final static int REAR_SHOOTER_COUNTER_PORT = 6;
     
     //----- Analog Inputs -----
     public final static int GYRO_PORT = 1;

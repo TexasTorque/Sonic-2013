@@ -2,6 +2,7 @@ package org.TexasTorque.TorqueLib.util;
 
 import com.sun.squawk.io.BufferedReader;
 import com.sun.squawk.microedition.io.*;
+import edu.wpi.first.wpilibj.Watchdog;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Hashtable;
@@ -9,8 +10,8 @@ import javax.microedition.io.*;
 
 public class Parameters
 {
-    
     private static Parameters instance;
+    private Watchdog watchdog;
     private Hashtable map;
     private String fileName;
     private String filePath;
@@ -24,6 +25,7 @@ public class Parameters
   
     public Parameters(String fileNm)
     {
+        watchdog = Watchdog.getInstance();
         map = new Hashtable();
         filePath = "file:///ni-rt/startup/";
         fileName = fileNm;
@@ -42,6 +44,7 @@ public class Parameters
                  int index;
                  while((line = fileIO.readLine()) != null)
                  {
+                     watchdog.feed();
                      map.put(line.substring(0, index=line.indexOf(" ")), line.substring(index + 1));
                  }
                  System.err.println("Parameters file: " + fileName + " sucsessfully loaded.");
