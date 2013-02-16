@@ -160,6 +160,7 @@ public class TorqueLogging extends Thread
             keys += name + ",";
         }
         table.put(name, "" + value);
+        SmartDashboard.putNumber(name, value);
     }
     
     public synchronized void logValue(String name, boolean value)
@@ -169,6 +170,7 @@ public class TorqueLogging extends Thread
             keys += name + ",";
         }
         table.put(name, "" + value);
+        SmartDashboard.putBoolean(name, value);
     }
     
     public synchronized void logValue(String name, double value)
@@ -178,6 +180,7 @@ public class TorqueLogging extends Thread
             keys += name + ",";
         }
         table.put(name, "" + value);
+        SmartDashboard.putNumber(name, value);
     }
     
     public synchronized void logValue(String name, String value)
@@ -187,6 +190,7 @@ public class TorqueLogging extends Thread
             keys += name + ",";
         }
         table.put(name, value);
+        SmartDashboard.putString(name, value);        
     }
     
     private void writeKeysToFile()
