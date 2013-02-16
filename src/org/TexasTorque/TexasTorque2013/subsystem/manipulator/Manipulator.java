@@ -92,6 +92,7 @@ public class Manipulator
         intake.logData();
         shooter.logData();
         elevator.logData();
+        magazine.logData();
     }
     
     private void calcOverrides()

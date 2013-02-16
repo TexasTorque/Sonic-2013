@@ -5,6 +5,7 @@ import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TorqueLib.util.Parameters;
+import org.TexasTorque.TorqueLib.util.TorqueLogging;
 
 public class Magazine
 {
@@ -13,6 +14,7 @@ public class Magazine
     private SensorInput sensorInput;
     private DriverInput driverInput;
     private Parameters params;
+    private TorqueLogging logging;
     
     private boolean magazineCompressed;
     private boolean triggerBack;
@@ -25,6 +27,7 @@ public class Magazine
         sensorInput = SensorInput.getInstance();
         driverInput = DriverInput.getInstance();
         params = Parameters.getInstance();
+        logging = TorqueLogging.getInstance();
         magazineCompressed = false;
         triggerBack = true;
         magazineState = Constants.MAGAZINE_READY_STATE;
@@ -42,6 +45,14 @@ public class Magazine
         calcMagazineState();
         robotOutput.setFrisbeeLifter(magazineCompressed);
         robotOutput.setLoaderSolenoid(triggerBack);
+    }
+    
+    public void logData()
+    {
+        logging.logValue("MagazineFrisbeePosition", magazineCompressed);
+        logging.logValue("MagazineTriggerPosition", triggerBack);
+        logging.logValue("CurrentMagazineState", magazineState);
+        logging.logValue("DesiredMagazineState", desiredState);
     }
     
     public synchronized void setDesiredState(int state)
