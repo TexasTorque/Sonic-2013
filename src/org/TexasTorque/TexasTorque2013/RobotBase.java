@@ -36,8 +36,6 @@ public class RobotBase extends IterativeRobot
         params = Parameters.getInstance();
         params.load();
         
-        SmartDashboard.putNumber("elevation", 0.0);
-        
         initSmartDashboard();
         initLogging();
         
@@ -88,11 +86,6 @@ public class RobotBase extends IterativeRobot
         manipulator.run();
         dashboardManager.updateLCD();
         logData();
-        SmartDashboard.putNumber("TiltValue", sensorInput.getTiltAngle());
-        SmartDashboard.putNumber("TiltVoltage", sensorInput.getTiltVoltage());
-        SmartDashboard.putNumber("Elevator", sensorInput.getElevatorEncoder());
-        System.err.println(sensorInput.getElevatorEncoder());
-        
     }
     
     public void disabledInit()
@@ -116,10 +109,10 @@ public class RobotBase extends IterativeRobot
         TorqueLogging.setLoopTime(params.getAsInt("LoggingLoopTime", Constants.TORQUE_LOGGING_LOOP_TIME));
         logging = TorqueLogging.getInstance();
         
-        String loggingString =
+        final String loggingString =
                 "FrameNumber,FrameTime,LoopTime,InOverrideState,"
                 + "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,RightDriveSpeed,RightDriveEncoderVelocity,GyroAngle,"
-                + "ElevatorMotorSpeed,ElevatorPosition,ElevatorVelocity,ElevatorAcceleration,ElevatorGoalVelocity,"
+                + "ElevatorMotorSpeed,ActualElevatorPosition,DesiredElevatorPosition"
                 + "IntakeMotorSpeed,"
                 + "DesiredTiltAngle,TiltMotorSpeed,ActualTiltAngle,"
                 + "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate";

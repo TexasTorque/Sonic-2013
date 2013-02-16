@@ -73,11 +73,10 @@ public class Manipulator
                 elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
                 robotOutput.setElevatorMotors(0.0);
             }
-            shooter.run();
+            //shooter.run();
             elevator.run();
-            intake.run();
-            magazine.run();
-            //robotOutput.setElevatorMotors(0.0);
+            //intake.run();
+            //magazine.run();
             robotOutput.setShooterTiltMotor(0.0);
         }
         else
@@ -257,8 +256,7 @@ public class Manipulator
         shooter.loadFrontShooterPID();
         shooter.loadRearShooterPID();
         shooter.loadTiltPID();
-        elevator.loadElevatorLockPID();
-        elevator.loadElevatorTrapOptions();
+        elevator.loadElevatorPID();
     }
     
 }
