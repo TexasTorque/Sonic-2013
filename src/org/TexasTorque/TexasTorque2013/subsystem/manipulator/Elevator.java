@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
@@ -111,15 +112,21 @@ public class Elevator
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
         System.err.println(isLocking);
     }
-    
-    public synchronized void logData()
-    {
+
+    public synchronized void logData() {
         logging.logValue("DesiredElevatorPosition", desiredElevatorPosition);
+        SmartDashboard.putNumber("DesiredElevatorPosition", desiredElevatorPosition);
+
         logging.logValue("ElevatorMotorSpeed", elevatorMotorSpeed);
+        SmartDashboard.putNumber("ElevatorMotorSpeed", elevatorMotorSpeed);
+
         logging.logValue("ActualElevatorPosition", sensorInput.getElevatorEncoder());
+        SmartDashboard.putNumber("ActualElevatorPosition", sensorInput.getElevatorEncoder());
+
         logging.logValue("IsLocking", isLocking);
+        SmartDashboard.putBoolean("IsLocking", isLocking);
     }
-    
+
     public synchronized void reset()
     {
         isLocking = false;
