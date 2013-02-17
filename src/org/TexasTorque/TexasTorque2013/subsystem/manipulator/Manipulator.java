@@ -184,7 +184,7 @@ public class Manipulator
         shooter.setTiltAngle(tiltAngle);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
-        if(shooter.isParallel())
+        if(shooter.isAtStandardPosition())
         {
             int elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
             
@@ -202,7 +202,7 @@ public class Manipulator
         shooter.setTiltAngle(tiltAngle);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
         magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
-        if(shooter.isParallel())
+        if(shooter.isAtStandardPosition())
         {
             int elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
             
@@ -245,7 +245,7 @@ public class Manipulator
         shooter.setTiltAngle(tiltAngle);
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
-        if(shooter.isParallel())
+        if(shooter.isAtStandardPosition())
         {
             int elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
             
@@ -257,7 +257,8 @@ public class Manipulator
     {
         shooter.loadFrontShooterPID();
         shooter.loadRearShooterPID();
-        shooter.loadTiltPID();
+        shooter.loadTiltLockPID();
+        shooter.loadTiltPIV();
         elevator.loadElevatorLockPID();
         elevator.loadElevatorPIV();
     }

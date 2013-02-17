@@ -129,7 +129,7 @@ public class RobotBase extends IterativeRobot
                 + "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,RightDriveEncoderPosition,RightDriveSpeed,RightDriveEncoderVelocity,GyroAngle,"
                 + "ElevatorMotorSpeed,DesiredElevatorPosition,ElevatorPosition,ElevatorVelocity,ElevatorAcceleration,ElevatorGoalVelocity."
                 + "IntakeMotorSpeed,"
-                + "DesiredTiltAngle,TiltMotorSpeed,ActualTiltAngle,"
+                + "TiltMotorSpeed,CurrentAngle,DesiredAngle,TiltVelocity,GoalTiltVelocity,"
                 + "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate,"
                 + "MagazineFrisbeePosition,MagazineTriggerPosition,CurrentMagazineState,DesiredMagazineState";
         logging.setKeyMapping(loggingString);

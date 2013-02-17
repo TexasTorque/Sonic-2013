@@ -37,6 +37,8 @@ public class Constants
     public final static double DEFAULT_FRONT_SHOOTER_RATE = 3000.0;
     public final static double DEFAULT_REAR_SHOOTER_RATE = 2000.0;
     public final static double SHOOTER_STOPPED_RATE = 0.0;
+    public final static int TILT_LOCKED_STATE = 0;
+    public final static int TILT_MOVING_STATE = 1;
     
     //----- Elevator -----
     public final static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;

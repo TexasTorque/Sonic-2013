@@ -1,14 +1,17 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import edu.wpi.first.wpilibj.Timer;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
+import org.TexasTorque.TorqueLib.util.FeedforwardPIV;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.SimPID;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
+import org.TexasTorque.TorqueLib.util.TrajectorySmoother;
 
-public class Shooter
+public class Shooter extends FeedforwardPIV
 {
     
     private static Shooter instance;
@@ -17,15 +20,27 @@ public class Shooter
     private SensorInput sensorInput;
     private TorqueLogging logging;
     private Parameters params;
+    
     private SimPID frontShooterPID;
     private SimPID rearShooterPID;
-    private SimPID tiltPID;
+    
+    private SimPID tiltLockPID;
+    private TrajectorySmoother trajectory;
+    
     private double frontMotorSpeed;
     private double rearMotorSpeed;
-    private double tiltMotorSpeed;
-    private double desiredTiltPosition;
     private double desiredFrontShooterRate;
     private double desiredRearShooterRate;
+    
+    private double tiltMotorSpeed;
+    private double desiredTiltPosition;
+    private int tiltState;
+    private double tiltEpsilon;
+    
+    private double previousTime;
+    private boolean firstIteration;
+    private double previousAngle;
+    private double tiltVelocity;
     
     public static Shooter getInstance()
     {
@@ -40,60 +55,95 @@ public class Shooter
         logging = TorqueLogging.getInstance();
         params = Parameters.getInstance();
         
-        double p = params.getAsDouble("S_FrontShooterP", 0.0);
-        double i = params.getAsDouble("S_FrontShooterI", 0.0);
-        double d = params.getAsDouble("S_FrontShooterD", 0.0);
-        double e = params.getAsDouble("S_FrontShooterEpsilon", 0.0);
+        frontShooterPID = new SimPID();
+        rearShooterPID = new SimPID();
         
-        frontShooterPID = new SimPID(p, i, d, e);
+        tiltLockPID = new SimPID();
         
-        p = params.getAsDouble("S_RearShooterP", 0.0);
-        i = params.getAsDouble("S_RearShooterI", 0.0);
-        d = params.getAsDouble("S_RearShooterD", 0.0);
-        e = params.getAsDouble("S_RearShooterEpsilon", 0.0);
-        
-        rearShooterPID = new SimPID(p, i, d, e);
-        
-        p = params.getAsDouble("S_TiltP", 0.0);
-        i = params.getAsDouble("S_TiltI", 0.0);
-        d = params.getAsDouble("S_TiltD", 0.0);
-        e = params.getAsDouble("S_TiltEpsilon", 0.0);
-        
-        tiltPID = new SimPID(p, i, d, e);
+        loadTiltLockPID();
+        loadTiltPIV();
+        loadFrontShooterPID();
+        loadRearShooterPID();
         
         frontMotorSpeed = Constants.MOTOR_STOPPED;
         rearMotorSpeed = Constants.MOTOR_STOPPED;
-        tiltMotorSpeed = Constants.MOTOR_STOPPED;
-        desiredTiltPosition = Constants.DEFAULT_STANDARD_TILT_POSITION;
         desiredFrontShooterRate = Constants.SHOOTER_STOPPED_RATE;
         desiredRearShooterRate = Constants.SHOOTER_STOPPED_RATE;
+        
+        desiredTiltPosition = Constants.DEFAULT_STANDARD_TILT_POSITION;
+        tiltMotorSpeed = Constants.MOTOR_STOPPED;
+        tiltState = Constants.TILT_MOVING_STATE;
+        
+        previousTime = Timer.getFPGATimestamp();
+        previousAngle = 0.0;
+        firstIteration = true;
     }
     
     public void run()
     {
+        double currentTime = Timer.getFPGATimestamp();
+        double dt = currentTime - previousTime;
+        previousTime = currentTime;
+        
+        if(tiltState == Constants.TILT_MOVING_STATE && !firstIteration)
+        {
+            double position = sensorInput.getTiltAngle();
+            double dAngle = position - previousAngle;
+            double velocity = dAngle / dt;
+            previousAngle = position;
+            
+            tiltVelocity = velocity;
+            
+            trajectory.update(position, velocity, Constants.MOTOR_STOPPED, dt);
+            
+            tiltMotorSpeed = calculate(trajectory, position, velocity, dt);
+            
+            if(onTarget(tiltEpsilon))
+            {
+                tiltState = Constants.TILT_LOCKED_STATE;
+                
+                tiltLockPID.resetErrorSum();
+                tiltLockPID.resetPreviousVal();
+            }
+        }
+        else if(tiltState == Constants.TILT_LOCKED_STATE)
+        {
+            tiltLockPID.setDesiredValue(desiredTiltPosition);
+            tiltMotorSpeed = tiltLockPID.calcPID(sensorInput.getTiltAngle());
+        }
+        else
+        {
+            firstIteration = false;
+            tiltMotorSpeed = 0.0;
+        }
+
         frontShooterPID.setDesiredValue(desiredFrontShooterRate);
         rearShooterPID.setDesiredValue(desiredRearShooterRate);
+        
         double frontSpeed = frontShooterPID.calcPID(sensorInput.getFrontShooterRate());
         double rearSpeed = rearShooterPID.calcPID(sensorInput.getRearShooterRate());
+        
         frontMotorSpeed = limitShooterSpeed(frontSpeed);
         rearMotorSpeed = limitShooterSpeed(rearSpeed);
+        
         robotOutput.setShooterMotors(frontMotorSpeed, rearMotorSpeed);
-        tiltPID.setDesiredValue(desiredTiltPosition);
-        tiltMotorSpeed = tiltPID.calcPID(sensorInput.getTiltAngle());
         robotOutput.setShooterTiltMotor(tiltMotorSpeed);
     }
     
     public synchronized void logData()
     {
-        logging.logValue("DesiredTiltAngle", desiredTiltPosition);
-        logging.logValue("TiltMotorSpeed", tiltMotorSpeed);
-        logging.logValue("ActualTiltAngle", sensorInput.getTiltAngle());
         logging.logValue("DesiredFrontShooterRate", desiredFrontShooterRate);
         logging.logValue("FrontShooterMotorSpeed", frontMotorSpeed);
         logging.logValue("ActualFrontShooterRate", sensorInput.getFrontShooterRate());
         logging.logValue("DesiredRearShooterRate", desiredRearShooterRate);
         logging.logValue("RearShooterMotorSpeed", rearMotorSpeed);
         logging.logValue("ActualRearShooterRate", sensorInput.getRearShooterRate());
+        
+        logging.logValue("TiltMotorSpeed", tiltMotorSpeed);
+        logging.logValue("CurrentAngle", sensorInput.getTiltAngle());
+        logging.logValue("DesiredAngle", desiredTiltPosition);
+        logging.logValue("TiltVelocity", tiltVelocity);
+        logging.logValue("GoalTiltVelocity", getSetpoint());
     }
     
     public synchronized void setShooterRates(double frontRate, double rearRate)
@@ -104,7 +154,11 @@ public class Shooter
     
     public synchronized void setTiltAngle(double degrees)
     {
-        desiredTiltPosition = degrees;
+        if(degrees != desiredTiltPosition)
+        {
+            desiredTiltPosition = degrees;
+            tiltState = Constants.TILT_MOVING_STATE;
+        }
     }
     
     public synchronized void loadFrontShooterPID()
@@ -116,6 +170,8 @@ public class Shooter
         
         frontShooterPID.setConstants(p, i, d);
         frontShooterPID.setErrorEpsilon(e);
+        frontShooterPID.resetErrorSum();
+        frontShooterPID.resetPreviousVal();
     }
     
     public synchronized void loadRearShooterPID()
@@ -127,27 +183,51 @@ public class Shooter
         
         rearShooterPID.setConstants(p, i, d);
         rearShooterPID.setErrorEpsilon(e);
+        rearShooterPID.resetErrorSum();
+        rearShooterPID.resetPreviousVal();
     }
     
-    public synchronized void loadTiltPID()
+    public synchronized void loadTiltLockPID()
     {
+        double p = params.getAsDouble("S_TiltLockP", 0.0);
+        double i = params.getAsDouble("S_TiltLockI", 0.0);
+        double d = params.getAsDouble("S_TiltLockD", 0.0);
+        double e = params.getAsDouble("S_TiltLockEpsilon", 0.0);
+        
+        tiltLockPID.setConstants(p, i, d);
+        tiltLockPID.setErrorEpsilon(e);
+        tiltLockPID.resetErrorSum();
+        tiltLockPID.resetPreviousVal();
+    }
+    
+    public synchronized void loadTiltPIV()
+    {
+        double maxAccel = params.getAsDouble("S_TiltMaxAcceleration", 0.0);
+        double maxVel = params.getAsDouble("S_TiltVelocity", 0.0);
+        
+        trajectory = new TrajectorySmoother(maxAccel, maxVel);
+        
         double p = params.getAsDouble("S_TiltP", 0.0);
         double i = params.getAsDouble("S_TiltI", 0.0);
-        double d = params.getAsDouble("S_TiltD", 0.0);
-        double e = params.getAsDouble("S_TiltEpsilon", 0.0);
+        double v = params.getAsDouble("S_TiltD", 0.0);
+        double ffv = params.getAsDouble("S_TiltFFV", 0.0);
+        double ffa = params.getAsDouble("S_TiltFFA", 0.0);
         
-        tiltPID.setConstants(p, i, d);
-        tiltPID.setErrorEpsilon(e);
+        tiltEpsilon = params.getAsInt("S_TiltEpsilon", 0);
+        
+        setParams(p, i, v, ffa, ffa);
     }
     
     public synchronized boolean isVerticallyLocked()
     {
-        return tiltPID.isDone();
+        return (tiltState == Constants.TILT_LOCKED_STATE && tiltLockPID.isDone());
     }
     
-    public synchronized boolean isParallel()
+    public synchronized boolean isAtStandardPosition()
     {
-        return (isVerticallyLocked() && desiredTiltPosition == Constants.DEFAULT_STANDARD_TILT_POSITION);
+        double standardPosition = params.getAsDouble("S_TiltStandardAngle", 0.0);
+        
+        return (desiredTiltPosition == standardPosition && isVerticallyLocked());
     }
     
     public synchronized boolean isReadyToFire()
