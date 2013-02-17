@@ -45,7 +45,7 @@ public class Elevator
         logging = TorqueLogging.getInstance();
         params = Parameters.getInstance();
         dashboardManager = DashboardManager.getInstance();
-        elevatorTrapezoidal = new TorqueTrapezoidal(sensorInput.elevatorEncoder());
+        elevatorTrapezoidal = new TorqueTrapezoidal(/*sensorInput.elevatorEncoder()*/null);
         
         double p = params.getAsDouble("E_ElevatorLockP", 0.0);
         double i = params.getAsDouble("E_ElevatorLockI", 0.0);
