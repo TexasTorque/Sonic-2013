@@ -24,7 +24,6 @@ public class Elevator
     
     private double elevatorMotorSpeed;
     private int desiredElevatorPosition;
-    private boolean isLocking; //R/ Tommy not sure if you need this
 
     private TorqueTrapezoidal elevatorTrapezoidal;
     private SimPID elevatorLockPID;
@@ -81,7 +80,6 @@ public class Elevator
         
         elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
         elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
-        isLocking = false;
         
         desiredElevatorPosition = elevatorBottomPosition;
         elevatorState = 0;
