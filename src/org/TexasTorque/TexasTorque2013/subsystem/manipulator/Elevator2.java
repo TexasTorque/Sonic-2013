@@ -99,7 +99,12 @@ public class Elevator2 extends FeedforwardPIV
     
     public synchronized void logData()
     {
-        
+        logging.logValue("ElevatorMotorSpeed", elevatorMotorSpeed);
+        logging.logValue("DesiredElevatorPosition", desiredPosition);
+        logging.logValue("ElevatorPosition", sensorInput.getElevatorEncoder());
+        logging.logValue("ElevatorVelocity", sensorInput.getElevatorEncoderVelocity());
+        logging.logValue("ElevatorAcceleration", sensorInput.getElevatorEncoderAcceleration());
+        logging.logValue("ElevatorGoalVelocity", getSetpoint());
     }
     
     public synchronized void loadElevatorLockPID()
