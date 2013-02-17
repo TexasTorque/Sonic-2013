@@ -261,6 +261,7 @@ public class Manipulator
         shooter.loadTiltPIV();
         elevator.loadElevatorLockPID();
         elevator.loadElevatorPIV();
+        magazine.setDeltaTime(params.getAsDouble("M_DeltaTime", Constants.MAGAZINE_DELTA_TIME));
     }
     
 }

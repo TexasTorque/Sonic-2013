@@ -131,7 +131,7 @@ public class RobotBase extends IterativeRobot
                 + "IntakeMotorSpeed,"
                 + "TiltMotorSpeed,CurrentAngle,DesiredAngle,TiltVelocity,GoalTiltVelocity,"
                 + "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate,"
-                + "MagazineFrisbeePosition,MagazineTriggerPosition,CurrentMagazineState,DesiredMagazineState";
+                + "MagazinePosition,MagazineTriggerPosition,CurrentMagazineState,DesiredMagazineState";
         logging.setKeyMapping(loggingString);
         logging.startLogging();
     }

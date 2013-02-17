@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import edu.wpi.first.wpilibj.Timer;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
@@ -16,7 +17,10 @@ public class Magazine
     private Parameters params;
     private TorqueLogging logging;
     
-    private boolean magazineCompressed;
+    private double previousTime;
+    private double deltaTime;
+    
+    private boolean magazineRaised;
     private boolean triggerBack;
     private int magazineState;
     private int desiredState;
@@ -28,11 +32,14 @@ public class Magazine
         driverInput = DriverInput.getInstance();
         params = Parameters.getInstance();
         logging = TorqueLogging.getInstance();
-        magazineCompressed = false;
+        
+        previousTime = Timer.getFPGATimestamp();
+        deltaTime = Constants.MAGAZINE_DELTA_TIME;
+        
+        magazineRaised = false;
         triggerBack = true;
         magazineState = Constants.MAGAZINE_READY_STATE;
         desiredState = Constants.MAGAZINE_READY_STATE;
-        
     }
     
     public static Magazine getInstance()
@@ -43,13 +50,13 @@ public class Magazine
     public void run()
     {
         calcMagazineState();
-        robotOutput.setFrisbeeLifter(magazineCompressed);
+        robotOutput.setFrisbeeLifter(magazineRaised);
         robotOutput.setLoaderSolenoid(triggerBack);
     }
     
     public void logData()
     {
-        logging.logValue("MagazineFrisbeePosition", magazineCompressed);
+        logging.logValue("MagazinePosition", magazineRaised);
         logging.logValue("MagazineTriggerPosition", triggerBack);
         logging.logValue("CurrentMagazineState", magazineState);
         logging.logValue("DesiredMagazineState", desiredState);
@@ -58,6 +65,11 @@ public class Magazine
     public synchronized void setDesiredState(int state)
     {
         desiredState = state;
+    }
+    
+    public synchronized void setDeltaTime(double time)
+    {
+        deltaTime = time;
     }
     
     private synchronized void calcMagazineState()
@@ -90,6 +102,7 @@ public class Magazine
         else if(magazineState == Constants.MAGAZINE_READY_STATE && desiredState == Constants.MAGAZINE_SHOOTING_STATE)
         {
             magazineState = Constants.MAGAZINE_SHOOTING_STATE;
+            previousTime = Timer.getFPGATimestamp();
         }
         else if(magazineState == Constants.MAGAZINE_READY_STATE && desiredState == Constants.MAGAZINE_READY_STATE)
         {
@@ -99,15 +112,15 @@ public class Magazine
     
     private synchronized void calcReadyState()
     {
-        magazineCompressed = true;
+        magazineRaised = true;
         triggerBack = true;
     }
     
     private synchronized void calcShootingState()
     {
-        magazineCompressed = true;
+        magazineRaised = true;
         triggerBack = false;
-        if(true) // Conditional that will say when the frisbee has passed the sensor
+        if(timeHasElapsed())
         {
             magazineState = Constants.MAGAZINE_RESETTING_STATE;
         }
@@ -115,9 +128,9 @@ public class Magazine
     
     private synchronized void calcResettingState()
     {
-        magazineCompressed = true;
+        magazineRaised = true;
         triggerBack = true;
-        if(true) // Conditional that will say when the loader has been reset
+        if(timeHasElapsed())
         {
             magazineState = Constants.MAGAZINE_READY_STATE;
         }
@@ -125,13 +138,24 @@ public class Magazine
     
     private synchronized void calcLoadingState()
     {
-        magazineCompressed = false;
+        magazineRaised = false;
         triggerBack = true;
     }
     
     public synchronized boolean getIsWaiting()
     {
         return (magazineState == Constants.MAGAZINE_READY_STATE);
+    }
+    
+    private synchronized boolean timeHasElapsed()
+    {
+        double currentTime = Timer.getFPGATimestamp();
+        if((currentTime - previousTime) > deltaTime)
+        {
+            previousTime = currentTime;
+            return true;
+        }
+        return false;
     }
     
 }

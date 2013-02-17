@@ -55,6 +55,8 @@ public class Constants
     public final static int MAGAZINE_SHOOTING_STATE = 2;
     public final static int MAGAZINE_RESETTING_STATE = 3;
     
+    public final static double MAGAZINE_DELTA_TIME = 1.0;
+    
     //----- Misc -----
     public final static int TORQUE_LOGGING_LOOP_TIME = 20;
     public final static double MOTOR_STOPPED = 0.0;
