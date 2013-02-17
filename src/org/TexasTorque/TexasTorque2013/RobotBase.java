@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013;
 
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot; 
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -53,8 +54,6 @@ public class RobotBase extends IterativeRobot
         driverInput.pullJoystickTypes();
         
         loopTime = 0.0;
-        logData = SmartDashboard.getBoolean("logData", false);
-        logging.setLogging(logData);
     }
 
     public void autonomousInit()
@@ -82,7 +81,6 @@ public class RobotBase extends IterativeRobot
         logData = SmartDashboard.getBoolean("logData", false);
         logging.setLogging(logData);
         driverInput.pullJoystickTypes();
-        Elevator.getInstance().reset();
         pullNewPIDGains();
     }
 
@@ -99,6 +97,8 @@ public class RobotBase extends IterativeRobot
     
     public void disabledInit()
     {
+        logData = SmartDashboard.getBoolean("logData", false);
+        logging.setLogging(logData);
     }
     
     public void disabledPeriodic()
@@ -108,6 +108,7 @@ public class RobotBase extends IterativeRobot
         if(driverInput.getResetEncoders())
         {
             sensorInput.resetEncoders();
+            sensorInput.resetGyro();
         }
     }
     

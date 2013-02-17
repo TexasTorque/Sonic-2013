@@ -76,6 +76,17 @@ public class SensorInput
         elevatorEncoder.resetEncoder();
     }
     
+    public synchronized void resetGyro()
+    {
+        gyro.reset();
+        gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
+    }
+    
+    public synchronized TorqueEncoder elevatorEncoder()
+    {
+        return elevatorEncoder;
+    }
+    
     public synchronized int getLeftDriveEncoder()
     {
         return leftDriveEncoder.get();
@@ -111,12 +122,22 @@ public class SensorInput
         return elevatorEncoder.get();
     }
     
+    public synchronized double getElevatorEncoderVelocity()
+    {
+        return elevatorEncoder.getRate();
+    }
+    
+    public synchronized double getElevatorEncoderAcceleration()
+    {
+        return elevatorEncoder.getAcceleration();
+    }
+    
     public synchronized double getGyroAngle()
     {
         return limitGyroAngle(-gyro.getAngle() * 2);
     }
     
-    private synchronized double limitGyroAngle(double angle)
+    public synchronized double limitGyroAngle(double angle)
     {
         while(angle >= 360.0)
         {

@@ -227,7 +227,7 @@ public class Manipulator
         {
             double frontRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
             double rearRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
-            double elevation = SmartDashboard.getNumber("elevation", Constants.DEFAULT_STANDARD_TILT_POSITION);
+            double elevation = sensorInput.getTiltAngle() + SmartDashboard.getNumber("elevation", Constants.DEFAULT_STANDARD_TILT_POSITION);
             
             shooter.setShooterRates(frontRate, rearRate);
             shooter.setTiltAngle(elevation);

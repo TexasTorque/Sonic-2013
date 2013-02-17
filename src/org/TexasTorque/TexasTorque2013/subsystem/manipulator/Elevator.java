@@ -83,9 +83,6 @@ public class Elevator
         elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
         isLocking = false;
         
-        elevatorUpPID.setDesiredValue(elevatorTopPosition);
-        elevatorDownPID.setDesiredValue(elevatorBottomPosition);
-        
         desiredElevatorPosition = elevatorBottomPosition;
         elevatorState = 0;
         elevatorTrapezoidal.start();
@@ -97,24 +94,6 @@ public class Elevator
         elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
         elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
         
-//R/        int encoderPosition = sensorInput.getElevatorEncoder();
-//R/        
-//R/        if(desiredElevatorPosition == elevatorTopPosition)
-//R/        {
-//R/            if(elevatorUpPID.isDone() && encoderPosition > 740)
-//R/            {
-//R/                isLocking = true;
-//R/            }
-//R/            if(isLocking)
-//R/            {
-//R/                elevatorLockPID.setDesiredValue(desiredElevatorPosition);
-//R/                elevatorMotorSpeed = elevatorLockPID.calcPID(sensorInput.getElevatorEncoder());
-//R/            }
-//R/            else
-//R/            {
-//R/                isLocking = false;
-//R/                elevatorUpPID.setDesiredValue(desiredElevatorPosition);
-//R/                elevatorMotorSpeed = elevatorUpPID.calcPID(sensorInput.getElevatorEncoder());
         if(elevatorState == Constants.ELEVATOR_MOVING_STATE)
         {
             elevatorMotorSpeed = elevatorTrapezoidal.getMotorOutput();
@@ -126,14 +105,10 @@ public class Elevator
         }
         else if(elevatorState == Constants.ELEVATOR_LOCKED_STATE)
         {
-//R/            isLocking = false;
-//R/            elevatorDownPID.setDesiredValue(desiredElevatorPosition);
-//R/            elevatorMotorSpeed = elevatorDownPID.calcPID(sensorInput.getElevatorEncoder());
             elevatorMotorSpeed = elevatorLockPID.calcPID(sensorInput.getElevatorEncoder());
         }
         
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
-        System.err.println(isLocking);
     }
 
     public synchronized void logData() {
@@ -145,14 +120,15 @@ public class Elevator
 
         logging.logValue("ActualElevatorPosition", sensorInput.getElevatorEncoder());
         SmartDashboard.putNumber("ActualElevatorPosition", sensorInput.getElevatorEncoder());
-
-        logging.logValue("IsLocking", isLocking);
-        SmartDashboard.putBoolean("IsLocking", isLocking);
-    }
-
-    public synchronized void reset()
-    {
-        isLocking = false; //R/ Tommy not sure if you need this
+        
+        logging.logValue("ElevatorVelocity", sensorInput.getElevatorEncoderVelocity());
+        SmartDashboard.putNumber("ElevatorVelocity", sensorInput.getElevatorEncoderVelocity());
+        
+        logging.logValue("ElevatorAcceleration", sensorInput.getElevatorEncoderAcceleration());
+        SmartDashboard.putNumber("ElevatorAcceleration", sensorInput.getElevatorEncoderAcceleration());
+        
+        logging.logValue("DesiredElevatorVelocity", elevatorTrapezoidal.getGoalVelocity());
+        SmartDashboard.putNumber("DesiredElevatorVelocity", elevatorTrapezoidal.getGoalVelocity());
     }
     
     public synchronized void loadElevatorLockPID()
@@ -180,16 +156,6 @@ public class Elevator
         double d = params.getAsDouble("E_ElevatorTrapD", 0.0);
         double e = params.getAsDouble("E_ElevatorTrapEpsilon", 0.0);
         
-//R/        elevatorDownPID.setConstants(p, i, d);
-//R/        elevatorDownPID.setErrorEpsilon(e);
-//R/        
-//R/        p = params.getAsDouble("E_ElevatorLockP", 0.0);
-//R/        i = params.getAsDouble("E_ElevatorLockI", 0.0);
-//R/        d = params.getAsDouble("E_ElevatorLockD", 0.0);
-//R/        e = params.getAsDouble("E_ElevatorLockEpsilon", 0.0);
-//R/        
-//R/        elevatorLockPID.setConstants(p, i, d);
-//R/        elevatorLockPID.setErrorEpsilon(e);
         elevatorTrapezoidal.setPIDOptions(p, i, d, e);
     }
     
@@ -206,11 +172,11 @@ public class Elevator
     
     public synchronized boolean elevatorAtTop()
     {
-        return (desiredElevatorPosition == elevatorTopPosition && elevatorTrapezoidal.isFinished() && elevatorLockPID.isDone());
+        return (desiredElevatorPosition == elevatorTopPosition && elevatorTrapezoidal.isFinished() && elevatorLockPID.isDone()); // Will need to be changed
     }
     
     public synchronized boolean elevatorAtBottom()
     {
-        return (desiredElevatorPosition == elevatorBottomPosition && elevatorTrapezoidal.isFinished() && elevatorLockPID.isDone());
+        return (desiredElevatorPosition == elevatorBottomPosition && elevatorTrapezoidal.isFinished() && elevatorLockPID.isDone()); // Will need to be changed
     }
 }
