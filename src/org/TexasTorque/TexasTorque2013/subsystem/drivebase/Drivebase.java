@@ -43,26 +43,12 @@ public class Drivebase
         params = Parameters.getInstance();
         logging = TorqueLogging.getInstance();
         
-        double p = params.getAsDouble("D_GyroP", 0.0);
-        double i = params.getAsDouble("D_GyroI", 0.0);
-        double d = params.getAsDouble("D_GyroD", 0.0);
-        double e = params.getAsDouble("D_GyroEpsilon", 0.0);
+        gyroPID = new SimPID();
+        leftLockPID = new SimPID();
+        rightLockPID = new SimPID();
         
-        gyroPID = new SimPID(p, i, d, e);
-        
-        p = params.getAsDouble("D_LeftLockP", 0.0);
-        i = params.getAsDouble("D_LeftLockI", 0.0);
-        d = params.getAsDouble("D_LeftLockD", 0.0);
-        e = params.getAsDouble("D_LeftLockEpsilon", 0.0);
-        
-        leftLockPID = new SimPID(p, i, d, e);
-        
-        p = params.getAsDouble("D_RightLockP", 0.0);
-        i = params.getAsDouble("D_RightLockI", 0.0);
-        d = params.getAsDouble("D_RightLockD", 0.0);
-        e = params.getAsDouble("D_RightLockEpsilon", 0.0);
-        
-        rightLockPID = new SimPID(p, i, d, e);
+        loadGyroPID();
+        loadLockPID();
         
         leftDriveSpeed = Constants.MOTOR_STOPPED;
         rightDriveSpeed = Constants.MOTOR_STOPPED;
@@ -149,6 +135,8 @@ public class Drivebase
         
         gyroPID.setConstants(p, i, d);
         gyroPID.setErrorEpsilon(e);
+        gyroPID.resetErrorSum();
+        gyroPID.resetPreviousVal();
     }
     
     public synchronized void loadLockPID()
@@ -160,6 +148,8 @@ public class Drivebase
         
         leftLockPID.setConstants(p, i, d);
         leftLockPID.setErrorEpsilon(e);
+        leftLockPID.resetErrorSum();
+        leftLockPID.resetPreviousVal();
         
         p = params.getAsDouble("D_RightLockP", 0.0);
         i = params.getAsDouble("D_RightLockI", 0.0);
@@ -168,6 +158,8 @@ public class Drivebase
         
         rightLockPID.setConstants(p, i, d);
         rightLockPID.setErrorEpsilon(e);
+        rightLockPID.resetErrorSum();
+        rightLockPID.resetPreviousVal();
     }
     
     public synchronized boolean isHorizontallyLocked()
