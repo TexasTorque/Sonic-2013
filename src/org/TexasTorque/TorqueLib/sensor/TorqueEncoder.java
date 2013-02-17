@@ -21,7 +21,7 @@ public class TorqueEncoder extends Thread
     private double currentAcceleration;
     private double currentVel;
     private double previousVel;
-    private final int filterSize = 10;
+    private final int filterSize = 1;
     
     public TorqueEncoder(int aSlot, int aChannel, int bSlot, int bChannel, boolean reverseDirection)
     {
