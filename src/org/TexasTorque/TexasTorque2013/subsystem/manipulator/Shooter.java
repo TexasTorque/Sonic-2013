@@ -49,6 +49,8 @@ public class Shooter extends FeedforwardPIV
     
     public Shooter()
     {
+        super();
+        
         robotOutput = RobotOutput.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
@@ -202,7 +204,7 @@ public class Shooter extends FeedforwardPIV
     
     public synchronized void loadTiltPIV()
     {
-        double maxAccel = params.getAsDouble("S_TiltMaxAcceleration", 0.0);
+        double maxAccel = params.getAsDouble("S_TiltAcceleration", 0.0);
         double maxVel = params.getAsDouble("S_TiltVelocity", 0.0);
         
         trajectory = new TrajectorySmoother(maxAccel, maxVel);

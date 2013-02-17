@@ -39,6 +39,8 @@ public class Elevator2 extends FeedforwardPIV
     
     public Elevator2()
     {
+        super();
+        
         robotOutput = RobotOutput.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();

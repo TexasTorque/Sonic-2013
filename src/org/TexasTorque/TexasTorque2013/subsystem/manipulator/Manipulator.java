@@ -42,6 +42,8 @@ public class Manipulator
         elevator = Elevator2.getInstance();
         intake = Intake.getInstance();
         magazine = Magazine.getInstance();
+        
+        SmartDashboard.putNumber("speed", 0.0);
     }
     
     public void run()
@@ -82,7 +84,8 @@ public class Manipulator
             
             if(driverInput.runIntake() && sensorInput.getElevatorEncoder() < 800)
             {
-                robotOutput.setElevatorMotors(0.5);
+                double x = SmartDashboard.getNumber("speed", 0.0);
+                robotOutput.setElevatorMotors(x);
             }
             else
             {
