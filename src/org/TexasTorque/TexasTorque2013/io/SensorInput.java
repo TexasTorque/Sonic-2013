@@ -82,11 +82,6 @@ public class SensorInput
         gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
     }
     
-    public synchronized TorqueEncoder elevatorEncoder()
-    {
-        return elevatorEncoder;
-    }
-    
     public synchronized int getLeftDriveEncoder()
     {
         return leftDriveEncoder.get();
