@@ -90,7 +90,7 @@ public class TorqueEncoder extends Thread
             Timer.delay(threadPeriod / 1000);
             current = encoder.get();
             double finalTime = Timer.getFPGATimestamp();
-            rateArray[arrayIndex] = ((current - previous) * 60) / ((finalTime - initialTime) * clicksPerRev);
+            rateArray[arrayIndex] = ((current - previous)/* * 60*/) / ((finalTime - initialTime)/* * clicksPerRev*/);
             calcRate();
             currentVel = currentRate;
             accArray[arrayIndex] = (currentVel - previousVel) / (threadPeriod / 1000);

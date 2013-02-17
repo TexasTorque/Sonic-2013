@@ -62,7 +62,7 @@ public class Drivebase
     {
         if(!dashboard.getDS().isAutonomous())
         {
-           mixChannels(driverInput.getThrottle(), driverInput.getTurn());
+           /*mixChannels(driverInput.getThrottle(), driverInput.getTurn());
            if(driverInput.shootVisionHigh() && SmartDashboard.getBoolean("found", false))
            {
                horizontallyTrack();
@@ -74,7 +74,7 @@ public class Drivebase
            if(driverInput.shiftHighGear())
            {
                robotOutput.setShifters(true);
-           }
+           }*/
         }
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }

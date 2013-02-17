@@ -64,7 +64,8 @@ public class Manipulator
             {
                 restoreDefaultPositions();
             }*/
-            if(driverInput.runIntake())
+            
+            /*if(driverInput.runIntake())
             {
                 elevator.setDesiredPosition(params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION));
                 elevator.run();
@@ -73,6 +74,15 @@ public class Manipulator
             {
                 elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
                 elevator.run();
+            }
+            else
+            {
+                robotOutput.setElevatorMotors(0.0);
+            }*/
+            
+            if(driverInput.runIntake() && sensorInput.getElevatorEncoder() < 800)
+            {
+                robotOutput.setElevatorMotors(0.5);
             }
             else
             {

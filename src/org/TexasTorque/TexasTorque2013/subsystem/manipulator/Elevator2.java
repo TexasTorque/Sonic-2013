@@ -132,7 +132,7 @@ public class Elevator2 extends FeedforwardPIV
         double ffa = params.getAsDouble("E_ElevatorFFA", 0.0);
         elevatorEpsilon = params.getAsInt("E_ElevatorEpsilon", 0);
         
-        setParams(p, i, v, ffa, ffa);
+        setParams(p, i, v, ffv, ffa);
     }
     
     public synchronized void setDesiredPosition(int position)

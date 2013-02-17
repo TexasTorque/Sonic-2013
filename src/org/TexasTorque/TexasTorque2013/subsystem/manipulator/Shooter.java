@@ -213,9 +213,9 @@ public class Shooter extends FeedforwardPIV
         double ffv = params.getAsDouble("S_TiltFFV", 0.0);
         double ffa = params.getAsDouble("S_TiltFFA", 0.0);
         
-        tiltEpsilon = params.getAsInt("S_TiltEpsilon", 0);
+        tiltEpsilon = params.getAsDouble("S_TiltEpsilon", 0.0);
         
-        setParams(p, i, v, ffa, ffa);
+        setParams(p, i, v, ffv, ffa);
     }
     
     public synchronized boolean isVerticallyLocked()
