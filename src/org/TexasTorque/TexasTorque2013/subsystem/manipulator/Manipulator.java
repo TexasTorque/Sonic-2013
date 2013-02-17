@@ -78,10 +78,11 @@ public class Manipulator
             {
                 robotOutput.setElevatorMotors(0.0);
             }
-            //elevator.run();
-            //shooter.run();
-            //intake.run();
-            //magazine.run();
+            shooter.run();
+            elevator.run();
+            intake.run();
+            magazine.run();
+            //robotOutput.setElevatorMotors(0.0);
             robotOutput.setShooterTiltMotor(0.0);
         }
         else
@@ -257,7 +258,8 @@ public class Manipulator
         shooter.loadFrontShooterPID();
         shooter.loadRearShooterPID();
         shooter.loadTiltPID();
-        elevator.loadElevatorPID();
+        elevator.loadElevatorLockPID();
+        elevator.loadElevatorTrapOptions();
     }
     
 }

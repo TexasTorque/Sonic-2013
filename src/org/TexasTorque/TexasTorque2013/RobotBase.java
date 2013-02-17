@@ -155,5 +155,4 @@ public class RobotBase extends IterativeRobot
         drivebase.logData();
         manipulator.logData();
     }
-    
 }
