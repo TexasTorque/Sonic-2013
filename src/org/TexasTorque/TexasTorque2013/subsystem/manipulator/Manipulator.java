@@ -78,12 +78,13 @@ public class Manipulator
             {
                 robotOutput.setElevatorMotors(0.0);
             }
-            shooter.run();
-            elevator.run();
-            intake.run();
-            magazine.run();
+            
+            //shooter.run();
+            //elevator.run();
+            //intake.run();
+            //magazine.run();
             //robotOutput.setElevatorMotors(0.0);
-            robotOutput.setShooterTiltMotor(0.0);
+            //robotOutput.setShooterTiltMotor(0.0);
         }
         else
         {
