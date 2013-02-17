@@ -105,7 +105,7 @@ public class RobotBase extends IterativeRobot
     {
         watchdog.feed();
         dashboardManager.updateLCD();
-        if(driverInput.getResetEncoders())
+        if(driverInput.resetSensors())
         {
             sensorInput.resetEncoders();
             sensorInput.resetGyro();

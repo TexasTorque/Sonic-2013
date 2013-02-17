@@ -66,7 +66,7 @@ public class DriverInput
         return SmartDashboard.getNumber("Autonomous Delay", params.getAsDouble("Misc_AutonomousDelay", 0.0));
     }
     
-    public synchronized boolean getResetEncoders()
+    public synchronized boolean resetSensors()
     {
         return operatorController.getBottomActionButton();
     }
