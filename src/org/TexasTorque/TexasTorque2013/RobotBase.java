@@ -91,8 +91,6 @@ public class RobotBase extends IterativeRobot
         drivebase.run();
         manipulator.run();
         dashboardManager.updateLCD();
-        SmartDashboard.putNumber("Elevator Position", sensorInput.getElevatorEncoder());
-        //dashboardManager.printToErr(sensorInput.getElevatorEncoder());
         logData();
     }
     
@@ -130,7 +128,7 @@ public class RobotBase extends IterativeRobot
                 + "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,RightDriveEncoderPosition,RightDriveSpeed,RightDriveEncoderVelocity,GyroAngle,"
                 + "ElevatorMotorSpeed,DesiredElevatorPosition,ElevatorPosition,ElevatorVelocity,ElevatorAcceleration,ElevatorGoalVelocity."
                 + "IntakeMotorSpeed,"
-                + "TiltMotorSpeed,CurrentAngle,DesiredAngle,TiltVelocity,GoalTiltVelocity,"
+                + "DesiredTiltAngle,TiltMotorSpeed,ActualTiltAngle,"
                 + "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate,"
                 + "MagazinePosition,MagazineTriggerPosition,CurrentMagazineState,DesiredMagazineState";
         logging.setKeyMapping(loggingString);
