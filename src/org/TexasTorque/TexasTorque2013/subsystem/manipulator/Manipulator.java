@@ -42,8 +42,6 @@ public class Manipulator
         elevator = Elevator2.getInstance();
         intake = Intake.getInstance();
         magazine = Magazine.getInstance();
-        
-        SmartDashboard.putNumber("speed", 0.0);
     }
     
     public void run()
@@ -94,7 +92,7 @@ public class Manipulator
             else
             {
                 //robotOutput.setElevatorMotors(0.0);
-                robotOutput.setShooterTiltMotor(0.0);
+                robotOutput.setTiltMotor(0.0);
             }
             
             //shooter.run();
@@ -156,17 +154,17 @@ public class Manipulator
         {
             double speed = params.getAsDouble("S_TiltOverrideSpeed", 0.5);
             
-            robotOutput.setShooterTiltMotor(speed);
+            robotOutput.setTiltMotor(speed);
         }
         else if(driverInput.tiltDownOverride())
         {
             double speed = -1 * params.getAsDouble("S_TiltOverrideSpeed", 0.5);
             
-            robotOutput.setShooterTiltMotor(speed);
+            robotOutput.setTiltMotor(speed);
         }
         else
         {
-            robotOutput.setShooterTiltMotor(Constants.MOTOR_STOPPED);
+            robotOutput.setTiltMotor(Constants.MOTOR_STOPPED);
         }
         //----- Shooter -----
         if(driverInput.shooterOverride())

@@ -17,9 +17,11 @@ public class Shooter
     private SensorInput sensorInput;
     private TorqueLogging logging;
     private Parameters params;
+    
     private SimPID frontShooterPID;
     private SimPID rearShooterPID;
     private SimPID tiltPID;
+    
     private double frontMotorSpeed;
     private double rearMotorSpeed;
     private double tiltMotorSpeed;
@@ -60,15 +62,17 @@ public class Shooter
     {
         frontShooterPID.setDesiredValue(desiredFrontShooterRate);
         rearShooterPID.setDesiredValue(desiredRearShooterRate);
+        tiltPID.setDesiredValue(desiredTiltPosition);
+        
         double frontSpeed = frontShooterPID.calcPID(sensorInput.getFrontShooterRate());
         double rearSpeed = rearShooterPID.calcPID(sensorInput.getRearShooterRate());
+        
         frontMotorSpeed = limitShooterSpeed(frontSpeed);
         rearMotorSpeed = limitShooterSpeed(rearSpeed);
         
-        tiltPID.setDesiredValue(desiredTiltPosition);
         tiltMotorSpeed = tiltPID.calcPID(sensorInput.getTiltAngle());
         
-        robotOutput.setShooterTiltMotor(tiltMotorSpeed);
+        robotOutput.setTiltMotor(tiltMotorSpeed);
         robotOutput.setShooterMotors(frontMotorSpeed, rearMotorSpeed);
     }
     

@@ -90,7 +90,7 @@ public class RobotOutput
         elevatorMotorRight.Set(speed);
     }
     
-    public synchronized void setShooterTiltMotor(double speed)
+    public synchronized void setTiltMotor(double speed)
     {
         shooterTiltMotor.Set(speed);
     }
