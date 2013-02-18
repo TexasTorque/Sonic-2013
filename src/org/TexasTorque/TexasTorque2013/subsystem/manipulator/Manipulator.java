@@ -276,8 +276,7 @@ public class Manipulator
     {
         shooter.loadFrontShooterPID();
         shooter.loadRearShooterPID();
-        shooter.loadTiltLockPID();
-        shooter.loadTiltPIV();
+        shooter.loadTiltPID();
         elevator.loadElevatorLockPID();
         elevator.loadElevatorPIV();
         magazine.setDeltaTime(params.getAsDouble("M_DeltaTime", Constants.MAGAZINE_DELTA_TIME));
