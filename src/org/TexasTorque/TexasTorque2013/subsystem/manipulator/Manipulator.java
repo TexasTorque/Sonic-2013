@@ -82,14 +82,19 @@ public class Manipulator
                 robotOutput.setElevatorMotors(0.0);
             }*/
             
-            if(driverInput.runIntake() && sensorInput.getElevatorEncoder() < 800)
+            System.out.println(sensorInput.getTiltAngle());
+            if(driverInput.runIntake())
             {
-                double x = SmartDashboard.getNumber("speed", 0.0);
-                robotOutput.setElevatorMotors(x);
+                //robotOutput.setShooterTiltMotor(-0.7);
+                //elevator.setDesiredPosition(params.getAsInt("E_ElevatorTopPosition", 0));
+                //elevator.run();
+                shooter.setTiltAngle(45);
+                shooter.run();
             }
             else
             {
-                robotOutput.setElevatorMotors(0.0);
+                //robotOutput.setElevatorMotors(0.0);
+                robotOutput.setShooterTiltMotor(0.0);
             }
             
             //shooter.run();

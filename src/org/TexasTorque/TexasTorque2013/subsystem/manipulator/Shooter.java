@@ -89,7 +89,7 @@ public class Shooter extends FeedforwardPIV
         
         if(tiltState == Constants.TILT_MOVING_STATE && !firstIteration)
         {
-            double position = sensorInput.getTiltAngle();
+            double position = desiredTiltPosition - sensorInput.getTiltAngle();
             double dAngle = position - previousAngle;
             double velocity = dAngle / dt;
             previousAngle = position;

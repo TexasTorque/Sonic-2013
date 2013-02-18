@@ -54,6 +54,7 @@ public class FeedforwardPIV
         m_integralError += m_error - currentPosition;
 
         m_result = (m_P * m_error + m_I * m_integralError + m_V * ((m_error - m_prevError)/dt - desiredSpeed)) + m_ffV * desiredSpeed + m_ffA * desiredAccel;
+        System.out.println(desiredSpeed + "\t\t" + desiredAccel);
         m_prevError = m_error;
 
         if (m_result > m_maximumOutput)

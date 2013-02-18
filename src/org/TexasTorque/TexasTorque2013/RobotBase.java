@@ -82,6 +82,7 @@ public class RobotBase extends IterativeRobot
         logging.setLogging(logData);
         driverInput.pullJoystickTypes();
         pullNewPIDGains();
+        Elevator2.getInstance().reset();
     }
 
     public void teleopPeriodic()
@@ -91,7 +92,7 @@ public class RobotBase extends IterativeRobot
         manipulator.run();
         dashboardManager.updateLCD();
         SmartDashboard.putNumber("Elevator Position", sensorInput.getElevatorEncoder());
-        dashboardManager.printToErr(sensorInput.getElevatorEncoder());
+        //dashboardManager.printToErr(sensorInput.getElevatorEncoder());
         logData();
     }
     

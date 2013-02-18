@@ -96,7 +96,7 @@ public class TorqueCounter extends Thread
             rateArray[arrayIndex] = ((current - previous) * 60) / ((finalTime - initialTime) * clicksPerRev);
             calcRate();
             currentVel = currentRate;
-            accArray[arrayIndex] = (currentVel - previousVel) / (threadPeriod / 1000);
+            accArray[arrayIndex] = (currentVel - previousVel) / (finalTime - initialTime);
             calcAcceleration();
             arrayIndex++;
             if(arrayIndex == filterSize)

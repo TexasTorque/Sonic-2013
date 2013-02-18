@@ -1,6 +1,7 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
@@ -67,19 +68,21 @@ public class Elevator2 extends FeedforwardPIV
         previousTime = currentTime;
         if(elevatorState == Constants.ELEVATOR_MOVING_STATE && !firstIteration)
         {
-            double position  = sensorInput.getElevatorEncoder();
+            double position  = desiredPosition - sensorInput.getElevatorEncoder();
             double velocity = sensorInput.getElevatorEncoderVelocity();
+            
+            System.out.println("Velocity: " + velocity + "\t\t Position: " + sensorInput.getElevatorEncoder());
             
             trajectory.update(position, velocity, Constants.MOTOR_STOPPED, dt);
             
             elevatorMotorSpeed = calculate(trajectory, position, velocity, dt);
             
-            if(onTarget(elevatorEpsilon))
+            /*if(onTarget(elevatorEpsilon))
             {
                 elevatorState = Constants.ELEVATOR_LOCKED_STATE;
                 elevatorLockPID.resetErrorSum();
                 elevatorLockPID.resetPreviousVal();
-            }
+            }*/
         }
         else if(elevatorState == Constants.ELEVATOR_LOCKED_STATE)
         {
@@ -96,7 +99,7 @@ public class Elevator2 extends FeedforwardPIV
     
     public synchronized void reset()
     {
-        
+        elevatorState = Constants.ELEVATOR_MOVING_STATE;
     }
     
     public synchronized void logData()
