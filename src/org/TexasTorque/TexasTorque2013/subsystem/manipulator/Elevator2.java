@@ -1,6 +1,7 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import edu.wpi.first.wpilibj.Timer;
+import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
@@ -68,12 +69,15 @@ public class Elevator2
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
     }
     
-    public synchronized void reset()
-    {
-    }
-    
     public synchronized void logData()
     {
+        logging.logValue("ElevatorMotorSpeed", elevatorMotorSpeed);
+        logging.logValue("E_ElevatorVelocity", sensorInput.getElevatorEncoderVelocity());
+        logging.logValue("ElevatorPosition", sensorInput.getElevatorEncoder());
+        if(trajectory != null)
+        {
+            logging.logValue("ElevatorGoalVelocity", trajectory.getVelocity());
+        }
     }
     
     public synchronized void loadNewTrajectory()
@@ -108,11 +112,15 @@ public class Elevator2
     
     public synchronized boolean elevatorAtTop()
     {
-        return false;
+        double topPosition = params.getAsDouble("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
+        
+        return (desiredPosition == topPosition && elevatorPID.isDone());
     }
     
     public synchronized boolean elevatorAtBottom()
     {
-        return false;
+        double bottomPosition = params.getAsDouble("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+        
+        return (desiredPosition == bottomPosition && elevatorPID.isDone());
     }
 }
