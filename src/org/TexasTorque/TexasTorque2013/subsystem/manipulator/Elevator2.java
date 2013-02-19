@@ -1,19 +1,16 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
-import org.TexasTorque.TorqueLib.util.FeedforwardPIV;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.SimPID;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
 import org.TexasTorque.TorqueLib.util.TrajectorySmoother;
 
-public class Elevator2 extends FeedforwardPIV
+public class Elevator2
 {
     private static Elevator2 instance;
     private RobotOutput robotOutput;
@@ -24,12 +21,10 @@ public class Elevator2 extends FeedforwardPIV
     private DashboardManager dashboardManager;
     
     private TrajectorySmoother trajectory;
-    private SimPID elevatorLockPID;
+    private SimPID elevatorPID;
     
     private int desiredPosition;
     private double elevatorMotorSpeed;
-    private int elevatorEpsilon;
-    private int elevatorState;
     private double previousTime;
     private boolean firstIteration;
     
@@ -40,8 +35,6 @@ public class Elevator2 extends FeedforwardPIV
     
     public Elevator2()
     {
-        super();
-        
         robotOutput = RobotOutput.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
@@ -49,14 +42,11 @@ public class Elevator2 extends FeedforwardPIV
         params = Parameters.getInstance();
         dashboardManager = DashboardManager.getInstance();
         
-        elevatorLockPID = new SimPID();
-        
-        loadElevatorLockPID();
-        loadElevatorPIV();
+        elevatorPID = new SimPID();
+        loadElevatorPID();
         
         desiredPosition = 0;
         elevatorMotorSpeed = 0.0;
-        elevatorState = Constants.ELEVATOR_MOVING_STATE;
         previousTime = Timer.getFPGATimestamp();
         firstIteration = true;
     }
@@ -66,78 +56,45 @@ public class Elevator2 extends FeedforwardPIV
         double currentTime = Timer.getFPGATimestamp();
         double dt = currentTime - previousTime;
         previousTime = currentTime;
-        if(elevatorState == Constants.ELEVATOR_MOVING_STATE && !firstIteration)
-        {
-            double position  = desiredPosition - sensorInput.getElevatorEncoder();
-            double velocity = sensorInput.getElevatorEncoderVelocity();
-            
-            System.out.println("Velocity: " + velocity + "\t\t Position: " + sensorInput.getElevatorEncoder());
-            
-            trajectory.update(position, velocity, Constants.MOTOR_STOPPED, dt);
-            
-            elevatorMotorSpeed = calculate(trajectory, position, velocity, dt);
-            
-            /*if(onTarget(elevatorEpsilon))
-            {
-                elevatorState = Constants.ELEVATOR_LOCKED_STATE;
-                elevatorLockPID.resetErrorSum();
-                elevatorLockPID.resetPreviousVal();
-            }*/
-        }
-        else if(elevatorState == Constants.ELEVATOR_LOCKED_STATE)
-        {
-            elevatorLockPID.setDesiredValue(desiredPosition);
-            elevatorMotorSpeed = elevatorLockPID.calcPID(sensorInput.getElevatorEncoder());
-        }
-        else
-        {
-            firstIteration = false;
-            elevatorMotorSpeed = 0.0;
-        }
+        
+        double error = desiredPosition - sensorInput.getElevatorEncoder();
+        double velocity = sensorInput.getElevatorEncoderVelocity();
+        
+        trajectory.update(error, velocity , 0.0, dt);
+        elevatorPID.setDesiredValue(trajectory.getVelocity());
+        
+        elevatorMotorSpeed = elevatorPID.calcPID(sensorInput.getElevatorEncoderVelocity());
+        
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
     }
     
     public synchronized void reset()
     {
-        elevatorState = Constants.ELEVATOR_MOVING_STATE;
     }
     
     public synchronized void logData()
     {
-        logging.logValue("ElevatorMotorSpeed", elevatorMotorSpeed);
-        logging.logValue("DesiredElevatorPosition", desiredPosition);
-        logging.logValue("ElevatorPosition", sensorInput.getElevatorEncoder());
-        logging.logValue("ElevatorVelocity", sensorInput.getElevatorEncoderVelocity());
-        logging.logValue("ElevatorAcceleration", sensorInput.getElevatorEncoderAcceleration());
-        logging.logValue("ElevatorGoalVelocity", getSetpoint());
     }
     
-    public synchronized void loadElevatorLockPID()
+    public synchronized void loadNewTrajectory()
     {
-        double p = params.getAsDouble("E_ElevatorLockP", 0.0);
-        double i = params.getAsDouble("E_ElevatorLockI", 0.0);
-        double d = params.getAsDouble("E_ElevatorLockD", 0.0);
-        double e = params.getAsDouble("E_ElevatorLockEpsilon", 0.0);
+        double maxV = params.getAsDouble("E_ElevatorMaxVelocity", 0.0);
+        double maxA = params.getAsDouble("E_ElevatorMaxAcceleration", 0.0);
         
-        elevatorLockPID.setConstants(p, i, d);
-        elevatorLockPID.setErrorEpsilon(e);
-        elevatorLockPID.resetErrorSum();
-        elevatorLockPID.resetPreviousVal();
+        trajectory = new TrajectorySmoother(maxA, maxV);
     }
     
-    public synchronized void loadElevatorPIV()
+    public synchronized void loadElevatorPID()
     {
-        double maxAccel = params.getAsDouble("E_MaxAcceleration", 0.0);
-        double maxVel = params.getAsDouble("E_MaxVelocity", 0.0);
-        trajectory = new TrajectorySmoother(maxAccel, maxVel);
         double p = params.getAsDouble("E_ElevatorP", 0.0);
         double i = params.getAsDouble("E_ElevatorI", 0.0);
-        double v = params.getAsDouble("E_ElevatorV", 0.0);
-        double ffv = params.getAsDouble("E_ElevatorFFV", 0.0);
-        double ffa = params.getAsDouble("E_ElevatorFFA", 0.0);
-        elevatorEpsilon = params.getAsInt("E_ElevatorEpsilon", 0);
+        double d = params.getAsDouble("E_ElevatorD", 0.0);
+        int e = params.getAsInt("E_ElevatorEpsilon", 0);
         
-        setParams(p, i, v, ffv, ffa);
+        elevatorPID.setConstants(p, i, d);
+        elevatorPID.setErrorEpsilon(e);
+        elevatorPID.resetErrorSum();
+        elevatorPID.resetPreviousVal();
     }
     
     public synchronized void setDesiredPosition(int position)
@@ -145,21 +102,17 @@ public class Elevator2 extends FeedforwardPIV
         if(position != desiredPosition)
         {
             desiredPosition = position;
-            elevatorState = Constants.ELEVATOR_MOVING_STATE;
+            loadNewTrajectory();
         }
     }
     
     public synchronized boolean elevatorAtTop()
     {
-        int topPosition  = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
-        
-        return (desiredPosition == topPosition && elevatorState == Constants.ELEVATOR_LOCKED_STATE && elevatorLockPID.isDone());
+        return false;
     }
     
     public synchronized boolean elevatorAtBottom()
     {
-        int bottomPosition  = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
-        
-        return (desiredPosition == bottomPosition && elevatorState == Constants.ELEVATOR_LOCKED_STATE && elevatorLockPID.isDone());
+        return false;
     }
 }
