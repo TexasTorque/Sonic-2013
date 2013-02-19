@@ -1,20 +1,18 @@
 package org.TexasTorque.TexasTorque2013;
 
-import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.IterativeRobot; 
+import edu.wpi.first.wpilibj.SimpleRobot;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousManager;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
-import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Elevator2;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Manipulator;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
 
-public class RobotBase extends IterativeRobot
+public class RobotBase extends SimpleRobot
 {
     Watchdog watchdog;
     Parameters params;
@@ -55,6 +53,33 @@ public class RobotBase extends IterativeRobot
         
         loopTime = 0.0;
     }
+    
+    public void autonomous()
+    {
+        autonomousInit();
+        while(isAutonomous())
+        {
+            autonomousPeriodic();
+        }
+    }
+    
+    public void operatorControl()
+    {
+        teleopInit();
+        while(isOperatorControl())
+        {
+            teleopPeriodic();
+        }
+    }
+    
+    public void disabled()
+    {
+        disabledInit();
+        while(isDisabled())
+        {
+            disabledPeriodic();
+        }
+    }
 
     public void autonomousInit()
     {
@@ -82,7 +107,6 @@ public class RobotBase extends IterativeRobot
         logging.setLogging(logData);
         driverInput.pullJoystickTypes();
         pullNewPIDGains();
-        Elevator2.getInstance().reset();
     }
 
     public void teleopPeriodic()
