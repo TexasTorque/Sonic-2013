@@ -3,6 +3,7 @@ package org.TexasTorque.TorqueLib.util;
 import com.sun.squawk.io.BufferedWriter;
 import com.sun.squawk.microedition.io.*;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.IOException;
@@ -117,16 +118,15 @@ public class TorqueLogging extends Thread
                 writeValuesToFile();
             }
             this.logValue("FrameNumber", numLines++);
+            Timer.delay(threadLoopTime/1000);
             try
             {
-                Thread.sleep(threadLoopTime);
-                try
-                {
-                    fileIO.flush();
-                }
-                catch (IOException ex){}
+                fileIO.flush();
             }
-            catch (InterruptedException ex){}
+            catch (IOException ex)
+            {
+                System.err.println("IOException caught trying to flush the buffer in TorqueLogging.");
+            }
         }
     }
     
