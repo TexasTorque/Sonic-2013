@@ -176,7 +176,7 @@ public class RobotBase extends SimpleRobot
     {
         logging.logValue("FrameTime", dashboardManager.getDS().getMatchTime());
         logLoopTime();
-        drivebase.logData();
-        manipulator.logData();
+        //drivebase.logData();
+        //manipulator.logData();
     }
 }
