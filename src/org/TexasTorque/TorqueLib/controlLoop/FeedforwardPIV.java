@@ -1,7 +1,6 @@
-package org.TexasTorque.TorqueLib.util;
+package org.TexasTorque.TorqueLib.controlLoop;
 
 
-import org.TexasTorque.TorqueLib.util.TrajectorySmoother;
 import edu.wpi.first.wpilibj.util.BoundaryException;
 
 /**

@@ -1,4 +1,4 @@
-package org.TexasTorque.TorqueLib.util;
+package org.TexasTorque.TorqueLib.controlLoop;
 
 public class SimPID
 {

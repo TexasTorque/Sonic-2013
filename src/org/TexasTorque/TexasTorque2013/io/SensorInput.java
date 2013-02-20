@@ -122,11 +122,6 @@ public class SensorInput
         return elevatorEncoder.getRate();
     }
     
-    public synchronized double getElevatorEncoderAcceleration()
-    {
-        return elevatorEncoder.getAcceleration();
-    }
-    
     public synchronized double getGyroAngle()
     {
         return limitGyroAngle(-gyro.getAngle() * 2);
@@ -156,14 +151,14 @@ public class SensorInput
         return pressureSensor.getVoltage();
     }
     
-    public synchronized double getTiltPotentiometer()
-    {
-        return tiltPotentiometer.get();
-    }
-    
     public synchronized double getTiltAngle()
     {
         return getTiltPotentiometer() * 90;
+    }
+    
+    private synchronized double getTiltPotentiometer()
+    {
+        return tiltPotentiometer.get();
     }
     
     public synchronized double getTiltVoltage()

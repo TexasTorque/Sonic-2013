@@ -4,8 +4,8 @@ import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
+import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 import org.TexasTorque.TorqueLib.util.Parameters;
-import org.TexasTorque.TorqueLib.util.SimPID;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
 
 public class Shooter

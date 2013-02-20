@@ -5,11 +5,11 @@ import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.DriverInput;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
+import org.TexasTorque.TorqueLib.controlLoop.SimPID;
+import org.TexasTorque.TorqueLib.controlLoop.TrajectorySmoother;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
-import org.TexasTorque.TorqueLib.util.SimPID;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
-import org.TexasTorque.TorqueLib.util.TrajectorySmoother;
 
 public class Elevator
 {
