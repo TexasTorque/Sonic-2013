@@ -92,8 +92,7 @@ public class DriverInput
     
     public synchronized boolean runIntake()
     {
-        //return operatorController.getRightActionButton();
-        return false;
+        return operatorController.getRightActionButton();
     }
     
     public synchronized boolean reverseIntake()
