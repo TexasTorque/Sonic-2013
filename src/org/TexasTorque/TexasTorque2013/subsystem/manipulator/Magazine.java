@@ -1,23 +1,11 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import edu.wpi.first.wpilibj.Timer;
+import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
-import org.TexasTorque.TexasTorque2013.io.DriverInput;
-import org.TexasTorque.TexasTorque2013.io.RobotOutput;
-import org.TexasTorque.TexasTorque2013.io.SensorInput;
-import org.TexasTorque.TorqueLib.util.Parameters;
-import org.TexasTorque.TorqueLib.util.TorqueLogging;
-import org.TexasTorque.TorqueLib.util.TorqueSubsystem;
 
-public class Magazine implements TorqueSubsystem
-{
-    private static Magazine instance;
-    private RobotOutput robotOutput;
-    private SensorInput sensorInput;
-    private DriverInput driverInput;
-    private Parameters params;
-    private TorqueLogging logging;
-    
+public class Magazine extends TorqueSubsystem
+{   
     private double previousTime;
     private double deltaTime;
     
@@ -26,13 +14,9 @@ public class Magazine implements TorqueSubsystem
     private int magazineState;
     private int desiredState;
     
-    public Magazine()
+    private Magazine()
     {
-        robotOutput = RobotOutput.getInstance();
-        sensorInput = SensorInput.getInstance();
-        driverInput = DriverInput.getInstance();
-        params = Parameters.getInstance();
-        logging = TorqueLogging.getInstance();
+        super();
         
         previousTime = Timer.getFPGATimestamp();
         deltaTime = Constants.MAGAZINE_DELTA_TIME;
@@ -43,7 +27,7 @@ public class Magazine implements TorqueSubsystem
         desiredState = Constants.MAGAZINE_READY_STATE;
     }
     
-    public static Magazine getInstance()
+    public static TorqueSubsystem getInstance()
     {
         return (instance == null) ? instance = new Magazine() : instance;
     }

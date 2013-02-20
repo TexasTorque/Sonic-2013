@@ -1,27 +1,13 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import edu.wpi.first.wpilibj.Timer;
+import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
-import org.TexasTorque.TexasTorque2013.io.DriverInput;
-import org.TexasTorque.TexasTorque2013.io.RobotOutput;
-import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 import org.TexasTorque.TorqueLib.controlLoop.TrajectorySmoother;
-import org.TexasTorque.TorqueLib.util.DashboardManager;
-import org.TexasTorque.TorqueLib.util.Parameters;
-import org.TexasTorque.TorqueLib.util.TorqueLogging;
-import org.TexasTorque.TorqueLib.util.TorqueSubsystem;
 
-public class Elevator implements TorqueSubsystem
+public class Elevator extends TorqueSubsystem
 {
-    private static Elevator instance;
-    private RobotOutput robotOutput;
-    private DriverInput driverInput;
-    private SensorInput sensorInput;
-    private TorqueLogging logging;
-    private Parameters params;
-    private DashboardManager dashboardManager;
-    
     private TrajectorySmoother trajectory;
     private SimPID elevatorPID;
     
@@ -33,19 +19,14 @@ public class Elevator implements TorqueSubsystem
     public static int elevatorTopPosition;
     public static int elevatorBottomPosition;
     
-    public static Elevator getInstance()
+    public static TorqueSubsystem getInstance()
     {
         return (instance == null) ? instance = new Elevator() : instance;
     }
     
-    public Elevator()
+    private Elevator()
     {
-        robotOutput = RobotOutput.getInstance();
-        driverInput = DriverInput.getInstance();
-        sensorInput = SensorInput.getInstance();
-        logging = TorqueLogging.getInstance();
-        params = Parameters.getInstance();
-        dashboardManager = DashboardManager.getInstance();
+        super();
         
         elevatorPID = new SimPID();
         

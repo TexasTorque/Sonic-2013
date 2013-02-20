@@ -1,44 +1,26 @@
 package org.TexasTorque.TexasTorque2013.subsystem.drivebase;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
-import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
-import org.TexasTorque.TorqueLib.util.DashboardManager;
-import org.TexasTorque.TorqueLib.util.Parameters;
-import org.TexasTorque.TorqueLib.util.TorqueLogging;
-import org.TexasTorque.TorqueLib.util.TorqueSubsystem;
 
-public class Drivebase implements TorqueSubsystem
-{
-    
-    private static Drivebase instance;
-    private DashboardManager dashboard;
-    private RobotOutput robotOutput;
-    private DriverInput driverInput;
-    private SensorInput sensorInput;
-    private Parameters params;
-    private TorqueLogging logging;
-    
+public class Drivebase extends TorqueSubsystem
+{   
     private SimPID gyroPID;
     
     private double leftDriveSpeed;
     private double rightDriveSpeed;
     private double desiredGyroAngle;
     
-    public static Drivebase getInstance()
+    public static TorqueSubsystem getInstance()
     {
         return (instance == null) ? instance = new Drivebase() : instance;
     }
             
-    public Drivebase()
+    private Drivebase()
     {
-        dashboard = DashboardManager.getInstance();
-        robotOutput = RobotOutput.getInstance();
-        driverInput = DriverInput.getInstance();
-        sensorInput = SensorInput.getInstance();
-        params = Parameters.getInstance();
-        logging = TorqueLogging.getInstance();
+        super();
         
         gyroPID = new SimPID();
         
@@ -49,7 +31,7 @@ public class Drivebase implements TorqueSubsystem
     
     public void run()
     {
-        if(!dashboard.getDS().isAutonomous())
+        if(!dashboardManager.getDS().isAutonomous())
         {
            mixChannels(driverInput.getThrottle(), driverInput.getTurn());
            /*if(driverInput.shootVisionHigh() && SmartDashboard.getBoolean("found", false))

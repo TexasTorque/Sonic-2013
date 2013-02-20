@@ -1,24 +1,11 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
-import org.TexasTorque.TexasTorque2013.io.DriverInput;
-import org.TexasTorque.TexasTorque2013.io.RobotOutput;
-import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
-import org.TexasTorque.TorqueLib.util.Parameters;
-import org.TexasTorque.TorqueLib.util.TorqueLogging;
-import org.TexasTorque.TorqueLib.util.TorqueSubsystem;
 
-public class Shooter implements TorqueSubsystem
-{
-    
-    private static Shooter instance;
-    private RobotOutput robotOutput;
-    private DriverInput driverInput;
-    private SensorInput sensorInput;
-    private TorqueLogging logging;
-    private Parameters params;
-    
+public class Shooter extends TorqueSubsystem
+{   
     private SimPID frontShooterPID;
     private SimPID rearShooterPID;
     private SimPID tiltPID;
@@ -38,18 +25,14 @@ public class Shooter implements TorqueSubsystem
     public static double frontShooterRate;
     public static double rearShooterRate;
     
-    public static Shooter getInstance()
+    public static TorqueSubsystem getInstance()
     {
         return (instance == null) ? instance = new Shooter() : instance;
     }
     
-    public Shooter()
+    private Shooter()
     {
-        robotOutput = RobotOutput.getInstance();
-        driverInput = DriverInput.getInstance();
-        sensorInput = SensorInput.getInstance();
-        logging = TorqueLogging.getInstance();
-        params = Parameters.getInstance();
+        super();
         
         frontShooterPID = new SimPID();
         rearShooterPID = new SimPID();

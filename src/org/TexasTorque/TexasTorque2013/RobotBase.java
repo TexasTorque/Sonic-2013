@@ -44,8 +44,8 @@ public class RobotBase extends SimpleRobot
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
         robotOutput = RobotOutput.getInstance();
-        drivebase = Drivebase.getInstance();
-        manipulator = Manipulator.getInstance();
+        drivebase = (Drivebase) Drivebase.getInstance();
+        manipulator = (Manipulator) Manipulator.getInstance();
         
         autoManager = new AutonomousManager();
         

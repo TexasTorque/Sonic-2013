@@ -1,49 +1,30 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
-import org.TexasTorque.TexasTorque2013.io.DriverInput;
-import org.TexasTorque.TexasTorque2013.io.RobotOutput;
-import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
-import org.TexasTorque.TorqueLib.util.DashboardManager;
-import org.TexasTorque.TorqueLib.util.Parameters;
-import org.TexasTorque.TorqueLib.util.TorqueLogging;
-import org.TexasTorque.TorqueLib.util.TorqueSubsystem;
 
-public class Manipulator implements TorqueSubsystem
-{
-    
-    private static Manipulator instance;
-    private DashboardManager dashboardManager;
-    private RobotOutput robotOutput;
-    private SensorInput sensorInput;
-    private DriverInput driverInput;
-    private TorqueLogging logging;
-    private Parameters params;
-    
+public class Manipulator extends TorqueSubsystem
+{   
     private Shooter shooter;
     private Elevator elevator;
     private Intake intake;
     private Magazine magazine;
     
-    public static Manipulator getInstance()
+    public static TorqueSubsystem getInstance()
     {
         return (instance == null) ? instance = new Manipulator() : instance;
     }
     
-    public Manipulator()
+    private Manipulator()
     {
-        dashboardManager = DashboardManager.getInstance();
-        robotOutput = RobotOutput.getInstance();
-        sensorInput = SensorInput.getInstance();
-        driverInput = DriverInput.getInstance();
-        logging = TorqueLogging.getInstance();
-        params = Parameters.getInstance();
-        shooter = Shooter.getInstance();
-        elevator = Elevator.getInstance();
-        intake = Intake.getInstance();
-        magazine = Magazine.getInstance();
+        super();
+        
+        shooter = (Shooter) Shooter.getInstance();
+        elevator = (Elevator) Elevator.getInstance();
+        intake = (Intake) Intake.getInstance();
+        magazine = (Magazine) Magazine.getInstance();
     }
     
     public void run()
@@ -257,7 +238,7 @@ public class Manipulator implements TorqueSubsystem
             shooter.setShooterRates(frontRate, rearRate);
             shooter.setTiltAngle(elevation);
             
-            if((driverInput.fireFrisbee() || dashboardManager.getDS().isAutonomous()) && shooter.isReadyToFire() && Drivebase.getInstance().isHorizontallyLocked())
+            if((driverInput.fireFrisbee() || dashboardManager.getDS().isAutonomous()) && shooter.isReadyToFire() && ((Drivebase) Drivebase.getInstance()).isHorizontallyLocked())
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
             }
