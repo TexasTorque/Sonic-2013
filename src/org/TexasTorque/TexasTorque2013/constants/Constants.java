@@ -40,6 +40,10 @@ public class Constants
     public final static int TILT_LOCKED_STATE = 0;
     public final static int TILT_MOVING_STATE = 1;
     
+    //----- Intake -----
+    public final static boolean INTAKE_DOWN_POSITION = true;
+    public final static boolean INTAKE_UP_POSITION = false;
+    
     //----- Elevator -----
     public final static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;
     public final static int DEFAULT_ELEVATOR_TOP_POSITION = 750;

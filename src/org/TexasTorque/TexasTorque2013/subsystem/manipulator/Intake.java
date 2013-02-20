@@ -16,7 +16,9 @@ public class Intake
     private SensorInput sensorInput;
     private TorqueLogging logging;
     private Parameters params;
+    
     private double intakeMotorSpeed;
+    private boolean intakeState;
     
     public static Intake getInstance()
     {
@@ -30,11 +32,15 @@ public class Intake
         sensorInput = SensorInput.getInstance();
         logging = TorqueLogging.getInstance();
         params = Parameters.getInstance();
+        
         intakeMotorSpeed = Constants.MOTOR_STOPPED;
+        intakeState = Constants.INTAKE_UP_POSITION;
     }
     
     public void run()
     {
+        robotOutput.setIntakeDropdown(intakeState);
+        
         robotOutput.setIntakeMotor(intakeMotorSpeed);
     }
     
@@ -46,5 +52,10 @@ public class Intake
     public synchronized void setIntakeSpeed(double speed)
     {
         intakeMotorSpeed = speed;
+    }
+    
+    public synchronized void setIntakeDropdown(boolean dropdown)
+    {
+        intakeState = (dropdown) ? Constants.INTAKE_DOWN_POSITION : Constants.INTAKE_UP_POSITION;
     }
 }
