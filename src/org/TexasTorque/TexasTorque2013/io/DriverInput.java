@@ -92,22 +92,26 @@ public class DriverInput
     
     public synchronized boolean runIntake()
     {
-        return operatorController.getRightActionButton();
+        //return operatorController.getRightActionButton();
+        return false;
     }
     
     public synchronized boolean reverseIntake()
     {
-        return operatorController.getLeftActionButton();
+        //return operatorController.getLeftActionButton();
+        return false;
     }
     
     public synchronized boolean shootVisionHigh()
     {
-        return operatorController.getTopActionButton();
+        //return operatorController.getTopActionButton();
+        return false;
     }
     
     public synchronized boolean fireFrisbee()
     {
-        return operatorController.getBottomRightBumper();
+        //return operatorController.getBottomRightBumper();
+        return false;
     }
     
 //---------- Overrides ----------
@@ -139,7 +143,7 @@ public class DriverInput
     
     public synchronized boolean shooterOverride()
     {
-        return false;
+        return operatorController.getBottomActionButton();
     }
     
     public synchronized boolean magazineShootOverride()
@@ -149,12 +153,12 @@ public class DriverInput
     
     public synchronized boolean tiltUpOverride()
     {
-        return (operatorController.getRightYAxis() < -0.2);
+        return (operatorController.getRightYAxis() < -0.5);
     }
     
     public synchronized boolean tiltDownOverride()
     {
-        return (operatorController.getRightYAxis() > 0.2);
+        return (operatorController.getRightYAxis() > 0.5);
     }
     
     

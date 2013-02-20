@@ -65,35 +65,7 @@ public class Manipulator
                 restoreDefaultPositions();
             }*/
             
-            /*if(driverInput.runIntake())
-            {
-                elevator.setDesiredPosition(params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION));
-                elevator.run();
-            }
-            else if(driverInput.reverseIntake())
-            {
-                elevator.setDesiredPosition(params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION));
-                elevator.run();
-            }
-            else
-            {
-                robotOutput.setElevatorMotors(0.0);
-            }*/
             
-            System.out.println(sensorInput.getTiltAngle());
-            if(driverInput.runIntake())
-            {
-                //robotOutput.setShooterTiltMotor(-0.7);
-                //elevator.setDesiredPosition(params.getAsInt("E_ElevatorTopPosition", 0));
-                //elevator.run();
-                shooter.setTiltAngle(45);
-                shooter.run();
-            }
-            else
-            {
-                //robotOutput.setElevatorMotors(0.0);
-                robotOutput.setTiltMotor(0.0);
-            }
             
             //shooter.run();
             //elevator.run();

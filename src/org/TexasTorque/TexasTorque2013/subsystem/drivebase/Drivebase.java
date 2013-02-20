@@ -62,8 +62,8 @@ public class Drivebase
     {
         if(!dashboard.getDS().isAutonomous())
         {
-           /*mixChannels(driverInput.getThrottle(), driverInput.getTurn());
-           if(driverInput.shootVisionHigh() && SmartDashboard.getBoolean("found", false))
+           mixChannels(driverInput.getThrottle(), driverInput.getTurn());
+           /*if(driverInput.shootVisionHigh() && SmartDashboard.getBoolean("found", false))
            {
                horizontallyTrack();
            }
