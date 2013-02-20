@@ -245,8 +245,7 @@ public class Manipulator
     public void loadParameters()
     {
         shooter.loadParameters();
-        elevator.loadElevatorPID();
-        elevator.loadNewTrajectory();
+        elevator.loadParameters();
         magazine.loadParameters();
     }
     

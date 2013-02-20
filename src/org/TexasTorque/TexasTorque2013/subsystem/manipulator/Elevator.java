@@ -44,7 +44,8 @@ public class Elevator
         dashboardManager = DashboardManager.getInstance();
         
         elevatorPID = new SimPID();
-        loadElevatorPID();
+        
+        loadNewTrajectory();
         
         desiredPosition = 0;
         elevatorMotorSpeed = 0.0;
@@ -84,15 +85,7 @@ public class Elevator
         }
     }
     
-    public synchronized void loadNewTrajectory()
-    {
-        double maxV = params.getAsDouble("E_ElevatorMaxVelocity", 0.0);
-        double maxA = params.getAsDouble("E_ElevatorMaxAcceleration", 0.0);
-        
-        trajectory = new TrajectorySmoother(maxA, maxV);
-    }
-    
-    public synchronized void loadElevatorPID()
+    public synchronized void loadParameters()
     {
         double p = params.getAsDouble("E_ElevatorP", 0.0);
         double i = params.getAsDouble("E_ElevatorI", 0.0);
@@ -103,6 +96,16 @@ public class Elevator
         elevatorPID.setErrorEpsilon(e);
         elevatorPID.resetErrorSum();
         elevatorPID.resetPreviousVal();
+        
+        loadNewTrajectory();
+    }
+    
+    private synchronized void loadNewTrajectory()
+    {
+        double maxV = params.getAsDouble("E_ElevatorMaxVelocity", 0.0);
+        double maxA = params.getAsDouble("E_ElevatorMaxAcceleration", 0.0);
+        
+        trajectory = new TrajectorySmoother(maxA, maxV);
     }
     
     public synchronized void setDesiredPosition(int position)
