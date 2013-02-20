@@ -20,6 +20,7 @@ public class Manipulator
     private DriverInput driverInput;
     private TorqueLogging logging;
     private Parameters params;
+    
     private Shooter shooter;
     private Elevator elevator;
     private Intake intake;
@@ -87,6 +88,17 @@ public class Manipulator
         shooter.logData();
         elevator.logData();
         magazine.logData();
+    }
+    
+    public synchronized String getKeyNames()
+    {
+        String names = "InOverrideState,";
+        names += intake.getKeyNames();
+        names += elevator.getKeyNames();
+        names += magazine.getKeyNames();
+        names += shooter.getKeyNames();
+        
+        return names;
     }
     
     public void loadParameters()

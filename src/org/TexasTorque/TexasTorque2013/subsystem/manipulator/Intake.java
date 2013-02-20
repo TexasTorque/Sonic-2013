@@ -53,6 +53,13 @@ public class Intake
         logging.logValue("IntakeDropdownPosition", intakeState);
     }
     
+    public synchronized String getKeyNames()
+    {
+        String names = "IntakeMotorSpeed,IntakeDropdownPosition";
+        
+        return names;
+    }
+    
     public synchronized void loadParameters()
     {
         intakeSpeed = params.getAsDouble("I_IntakeSpeed", 1.0);

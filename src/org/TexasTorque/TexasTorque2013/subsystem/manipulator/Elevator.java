@@ -75,7 +75,7 @@ public class Elevator
     public synchronized void logData()
     {
         logging.logValue("ElevatorMotorSpeed", elevatorMotorSpeed);
-        logging.logValue("E_ElevatorVelocity", sensorInput.getElevatorEncoderVelocity());
+        logging.logValue("ElevatorVelocity", sensorInput.getElevatorEncoderVelocity());
         logging.logValue("ElevatorPosition", sensorInput.getElevatorEncoder());
         if(trajectory != null)
         {
@@ -85,6 +85,13 @@ public class Elevator
         {
             logging.logValue("E_ElevatorGoalVelocity", "Trajectory is Null");
         }
+    }
+    
+    public synchronized String getKeyNames()
+    {
+        String names = "ElevatorMotorSpeed,ElevatorVelocity,ElevatorPosition,ElevatorGoalVelocity,";
+        
+        return names;
     }
     
     public synchronized void loadParameters()

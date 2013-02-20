@@ -18,16 +18,12 @@ public class Drivebase
     private SensorInput sensorInput;
     private Parameters params;
     private TorqueLogging logging;
+    
     private SimPID gyroPID;
-    private SimPID leftLockPID;
-    private SimPID rightLockPID;
     
     private double leftDriveSpeed;
     private double rightDriveSpeed;
     private double desiredGyroAngle;
-    private boolean baseLockSaved;
-    private int baseLockLeftPosition;
-    private int baseLockRightPosition;
     
     public static Drivebase getInstance()
     {
@@ -44,18 +40,10 @@ public class Drivebase
         logging = TorqueLogging.getInstance();
         
         gyroPID = new SimPID();
-        leftLockPID = new SimPID();
-        rightLockPID = new SimPID();
-        
-        loadGyroPID();
-        loadLockPID();
         
         leftDriveSpeed = Constants.MOTOR_STOPPED;
         rightDriveSpeed = Constants.MOTOR_STOPPED;
         desiredGyroAngle = 0.0;
-        baseLockSaved = false;
-        baseLockLeftPosition = 0;
-        baseLockRightPosition = 0;
     }
     
     public void run()
@@ -66,10 +54,6 @@ public class Drivebase
            /*if(driverInput.shootVisionHigh() && SmartDashboard.getBoolean("found", false))
            {
                horizontallyTrack();
-           }
-           else
-           {
-               baseLockSaved = false;
            }
            if(driverInput.shiftHighGear())
            {
@@ -84,49 +68,24 @@ public class Drivebase
         logging.logValue("LeftDriveSpeed", leftDriveSpeed);
         logging.logValue("LeftDriveEncoderPosition", sensorInput.getLeftDriveEncoder());
         logging.logValue("LeftDriveEncoderVelocity", sensorInput.getLeftDriveEncoderRate());
+        
         logging.logValue("RightDriveSpeed", rightDriveSpeed);
         logging.logValue("RightDriveEncoderPosition", sensorInput.getRightDriveEncoder());
         logging.logValue("RightDriveEncoderVelocity", sensorInput.getRightDriveEncoderRate());
+        
         logging.logValue("GyroAngle", sensorInput.getGyroAngle());
     }
     
-    private synchronized void calcGyroPID()
+    public synchronized String getKeyNames()
     {
-        desiredGyroAngle = (sensorInput.getGyroAngle() + SmartDashboard.getNumber("azimuth", 0.0));
-        gyroPID.setDesiredValue(desiredGyroAngle);
-        double motorOutput = gyroPID.calcPID(sensorInput.getGyroAngle());
-        leftDriveSpeed = motorOutput;
-        rightDriveSpeed = -motorOutput;
+        String names = "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,"
+                + "RightDriveSpeed,RightDriveEncoderPosition,RightDriveEncoderVelocity,"
+                + "GyroAngle,";
+        
+        return names;
     }
     
-    private synchronized void calcBaseLockPID()
-    {
-        if(!baseLockSaved)
-        {
-            baseLockSaved = true;
-            baseLockLeftPosition = sensorInput.getLeftDriveEncoder();
-            baseLockRightPosition = sensorInput.getRightDriveEncoder();
-            leftLockPID.setDesiredValue(baseLockLeftPosition);
-            rightLockPID.setDesiredValue(baseLockRightPosition);
-        }
-        leftDriveSpeed = leftLockPID.calcPID(sensorInput.getLeftDriveEncoder());
-        rightDriveSpeed = rightLockPID.calcPID(sensorInput.getRightDriveEncoder());
-    }
-    
-    public synchronized void horizontallyTrack()
-    {
-        if(isHorizontallyLocked())
-        {
-            calcBaseLockPID();
-        }
-        else
-        {
-            baseLockSaved = false;
-            calcGyroPID();
-        }
-    }
-    
-    public synchronized void loadGyroPID()
+    public synchronized void loadParameters()
     {
         double p = params.getAsDouble("D_GyroP", 0.0);
         double i = params.getAsDouble("D_GyroI", 0.0);
@@ -139,27 +98,20 @@ public class Drivebase
         gyroPID.resetPreviousVal();
     }
     
-    public synchronized void loadLockPID()
+    private synchronized void calcGyroPID()
     {
-        double p = params.getAsDouble("D_LeftLockP", 0.0);
-        double i = params.getAsDouble("D_LeftLockI", 0.0);
-        double d =  params.getAsDouble("D_LeftLockD", 0.0);
-        double e = params.getAsDouble("D_LeftLockEpsilon", 0.0);
+        desiredGyroAngle = (sensorInput.getGyroAngle() + SmartDashboard.getNumber("azimuth", 0.0));
+        gyroPID.setDesiredValue(desiredGyroAngle);
         
-        leftLockPID.setConstants(p, i, d);
-        leftLockPID.setErrorEpsilon(e);
-        leftLockPID.resetErrorSum();
-        leftLockPID.resetPreviousVal();
+        double motorOutput = gyroPID.calcPID(sensorInput.getGyroAngle());
         
-        p = params.getAsDouble("D_RightLockP", 0.0);
-        i = params.getAsDouble("D_RightLockI", 0.0);
-        d = params.getAsDouble("D_RightLockD", 0.0);
-        e = params.getAsDouble("D_RightLockEpsilon", 0.0);
-        
-        rightLockPID.setConstants(p, i, d);
-        rightLockPID.setErrorEpsilon(e);
-        rightLockPID.resetErrorSum();
-        rightLockPID.resetPreviousVal();
+        leftDriveSpeed = motorOutput;
+        rightDriveSpeed = -motorOutput;
+    }
+    
+    public synchronized void horizontallyTrack()
+    {
+        calcGyroPID();
     }
     
     public synchronized boolean isHorizontallyLocked()

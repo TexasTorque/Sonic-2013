@@ -94,6 +94,15 @@ public class Shooter
         logging.logValue("ActualRearShooterRate", sensorInput.getRearShooterRate());
     }
     
+    public synchronized String getKeyNames()
+    {
+        String names = "DesiredTiltAngle,TiltMotorSpeed,ActualtiltAngle,"
+                + "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,"
+                + "DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate";
+        
+        return names;
+    }
+    
     public synchronized void setShooterRates(double frontRate, double rearRate)
     {
         if(frontRate != desiredFrontShooterRate)

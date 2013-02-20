@@ -149,14 +149,8 @@ public class RobotBase extends SimpleRobot
         TorqueLogging.setLoopTime(params.getAsInt("LoggingLoopTime", Constants.TORQUE_LOGGING_LOOP_TIME));
         logging = TorqueLogging.getInstance();
         
-        final String loggingString =
-                "FrameNumber,FrameTime,LoopTime,InOverrideState,"
-                + "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,RightDriveEncoderPosition,RightDriveSpeed,RightDriveEncoderVelocity,GyroAngle,"
-                + "ElevatorMotorSpeed,DesiredElevatorPosition,ElevatorPosition,ElevatorVelocity,ElevatorAcceleration,ElevatorGoalVelocity."
-                + "IntakeMotorSpeed,IntakeDropdownPosition,"
-                + "DesiredTiltAngle,TiltMotorSpeed,ActualTiltAngle,"
-                + "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate,"
-                + "MagazinePosition,MagazineTriggerPosition,CurrentMagazineState,DesiredMagazineState";
+        final String loggingString = drivebase.getKeyNames() + manipulator.getKeyNames();
+        
         logging.setKeyMapping(loggingString);
         logging.startLogging();
     }
@@ -164,7 +158,7 @@ public class RobotBase extends SimpleRobot
     public void pullNewPIDGains()
     {
         manipulator.loadParameters();
-        drivebase.loadGyroPID();
+        drivebase.loadParameters();
     }
     
     public void logLoopTime()

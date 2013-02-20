@@ -54,12 +54,19 @@ public class Magazine
         robotOutput.setLoaderSolenoid(triggerBack);
     }
     
-    public void logData()
+    public synchronized void logData()
     {
         logging.logValue("MagazinePosition", magazineRaised);
         logging.logValue("MagazineTriggerPosition", triggerBack);
         logging.logValue("CurrentMagazineState", magazineState);
         logging.logValue("DesiredMagazineState", desiredState);
+    }
+    
+    public synchronized String getKeyNames()
+    {
+        String names = "MagazinePosition,MagazineTriggerPosition,CurrentMagazineState,DesiredMagazineState,";
+        
+        return names;
     }
     
     public synchronized void loadParameters()
