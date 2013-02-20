@@ -7,8 +7,9 @@ import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
+import org.TexasTorque.TorqueLib.util.TorqueSubsystem;
 
-public class Shooter
+public class Shooter implements TorqueSubsystem
 {
     
     private static Shooter instance;

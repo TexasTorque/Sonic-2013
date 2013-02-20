@@ -7,8 +7,9 @@ import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
+import org.TexasTorque.TorqueLib.util.TorqueSubsystem;
 
-public class Drivebase 
+public class Drivebase implements TorqueSubsystem
 {
     
     private static Drivebase instance;

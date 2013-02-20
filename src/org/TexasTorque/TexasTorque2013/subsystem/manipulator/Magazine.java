@@ -7,8 +7,9 @@ import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
+import org.TexasTorque.TorqueLib.util.TorqueSubsystem;
 
-public class Magazine
+public class Magazine implements TorqueSubsystem
 {
     private static Magazine instance;
     private RobotOutput robotOutput;

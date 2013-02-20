@@ -10,8 +10,9 @@ import org.TexasTorque.TorqueLib.controlLoop.TrajectorySmoother;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
+import org.TexasTorque.TorqueLib.util.TorqueSubsystem;
 
-public class Elevator
+public class Elevator implements TorqueSubsystem
 {
     private static Elevator instance;
     private RobotOutput robotOutput;

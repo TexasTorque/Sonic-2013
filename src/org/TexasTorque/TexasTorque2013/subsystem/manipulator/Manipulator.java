@@ -9,8 +9,9 @@ import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
+import org.TexasTorque.TorqueLib.util.TorqueSubsystem;
 
-public class Manipulator
+public class Manipulator implements TorqueSubsystem
 {
     
     private static Manipulator instance;
