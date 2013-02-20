@@ -153,7 +153,7 @@ public class RobotBase extends SimpleRobot
                 "FrameNumber,FrameTime,LoopTime,InOverrideState,"
                 + "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,RightDriveEncoderPosition,RightDriveSpeed,RightDriveEncoderVelocity,GyroAngle,"
                 + "ElevatorMotorSpeed,DesiredElevatorPosition,ElevatorPosition,ElevatorVelocity,ElevatorAcceleration,ElevatorGoalVelocity."
-                + "IntakeMotorSpeed,"
+                + "IntakeMotorSpeed,IntakeDropdownPosition,"
                 + "DesiredTiltAngle,TiltMotorSpeed,ActualTiltAngle,"
                 + "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate,"
                 + "MagazinePosition,MagazineTriggerPosition,CurrentMagazineState,DesiredMagazineState";

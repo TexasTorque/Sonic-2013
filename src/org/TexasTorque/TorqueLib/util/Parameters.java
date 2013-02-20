@@ -70,7 +70,7 @@ public class Parameters
     public synchronized double getAsDouble(String name, double dflt)
     {
         String value = (String)map.get(name);
-         return (value == null) ? dflt : Double.parseDouble(value);
+        return (value == null) ? dflt : Double.parseDouble(value);
     }
     
     public synchronized boolean getAsBoolean(String name, boolean dflt)

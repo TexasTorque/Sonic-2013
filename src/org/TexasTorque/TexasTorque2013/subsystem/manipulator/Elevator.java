@@ -27,7 +27,10 @@ public class Elevator
     private int desiredPosition;
     private double elevatorMotorSpeed;
     private double previousTime;
-    private boolean firstIteration;
+    
+    public static double elevatorOverrideSpeed;
+    public static int elevatorTopPosition;
+    public static int elevatorBottomPosition;
     
     public static Elevator getInstance()
     {
@@ -50,7 +53,6 @@ public class Elevator
         desiredPosition = 0;
         elevatorMotorSpeed = 0.0;
         previousTime = Timer.getFPGATimestamp();
-        firstIteration = true;
     }
     
     public void run()
@@ -87,6 +89,10 @@ public class Elevator
     
     public synchronized void loadParameters()
     {
+        elevatorOverrideSpeed = params.getAsDouble("E_ElevatorOverrideSpeed", 0.7);
+        elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
+        elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+        
         double p = params.getAsDouble("E_ElevatorP", 0.0);
         double i = params.getAsDouble("E_ElevatorI", 0.0);
         double d = params.getAsDouble("E_ElevatorD", 0.0);
@@ -119,15 +125,11 @@ public class Elevator
     
     public synchronized boolean elevatorAtTop()
     {
-        double topPosition = params.getAsDouble("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
-        
-        return (desiredPosition == topPosition && elevatorPID.isDone());
+        return (desiredPosition == elevatorTopPosition && elevatorPID.isDone());
     }
     
     public synchronized boolean elevatorAtBottom()
     {
-        double bottomPosition = params.getAsDouble("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
-        
-        return (desiredPosition == bottomPosition && elevatorPID.isDone());
+        return (desiredPosition == elevatorBottomPosition && elevatorPID.isDone());
     }
 }

@@ -20,6 +20,9 @@ public class Intake
     private double intakeMotorSpeed;
     private boolean intakeState;
     
+    public static double intakeSpeed;
+    public static double outtakeSpeed;
+    
     public static Intake getInstance()
     {
         return (instance == null) ? instance = new Intake() : instance;
@@ -47,10 +50,13 @@ public class Intake
     public synchronized void logData()
     {
         logging.logValue("IntakeMotorSpeed", intakeMotorSpeed);
+        logging.logValue("IntakeDropdownPosition", intakeState);
     }
     
     public synchronized void loadParameters()
     {
+        intakeSpeed = params.getAsDouble("I_IntakeSpeed", 1.0);
+        outtakeSpeed = params.getAsDouble("I_OuttakeSpeed", -1.0);
     }
     
     public synchronized void setIntakeSpeed(double speed)

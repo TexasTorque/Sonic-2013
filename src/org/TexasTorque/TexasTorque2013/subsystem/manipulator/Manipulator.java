@@ -89,16 +89,28 @@ public class Manipulator
         magazine.logData();
     }
     
+    public void loadParameters()
+    {
+        shooter.loadParameters();
+        elevator.loadParameters();
+        magazine.loadParameters();
+        intake.loadParameters();
+    }
+    
     private void calcOverrides()
     {
         //----- Intake -----
         if(driverInput.intakeOverride())
         {
-            robotOutput.setIntakeMotor(params.getAsDouble("I_IntakeSpeed", 1.0));
+            double intakeSpeed = Intake.intakeSpeed;
+            
+            robotOutput.setIntakeMotor(intakeSpeed);
         }
         else if(driverInput.outtakeOverride())
         {
-            robotOutput.setIntakeMotor(params.getAsDouble("I_OuttakeSpeed", -1.0));
+            double outtakeSpeed = Intake.outtakeSpeed;
+            
+            robotOutput.setIntakeMotor(outtakeSpeed);
         }
         else
         {
@@ -107,13 +119,13 @@ public class Manipulator
         //----- Elevator -----
         if(driverInput.elevatorTopOverride())
         {
-            double speed = params.getAsDouble("E_ElevatorOverrideSpeed", 0.5);
+            double speed = Elevator.elevatorOverrideSpeed;
             
             robotOutput.setElevatorMotors(speed);
         }
         else if(driverInput.elevatorBottomOverride())
         {
-            double speed = -1 * params.getAsDouble("E_ElevatorOverrideSpeed", 0.5) * 0.8; // Accounts for gravity
+            double speed = -0.8 * Elevator.elevatorOverrideSpeed;
             
             robotOutput.setElevatorMotors(speed);
         }
@@ -124,13 +136,13 @@ public class Manipulator
         //----- Tilt -----
         if(driverInput.tiltUpOverride())
         {
-            double speed = params.getAsDouble("S_TiltOverrideSpeed", 0.5);
+            double speed = Shooter.tiltOverrideSpeed;
             
             robotOutput.setTiltMotor(speed);
         }
         else if(driverInput.tiltDownOverride())
         {
-            double speed = -1 * params.getAsDouble("S_TiltOverrideSpeed", 0.5);
+            double speed = -1 * Shooter.tiltOverrideSpeed;
             
             robotOutput.setTiltMotor(speed);
         }
@@ -141,8 +153,8 @@ public class Manipulator
         //----- Shooter -----
         if(driverInput.shooterOverride())
         {
-            double frontSpeed = params.getAsDouble("S_FrontShooterOverrideSpeed", 0.7);
-            double rearSpeed  = params.getAsDouble("S_RearShooterOverrideSpeed", 0.5);
+            double frontSpeed = Shooter.frontShooterOverrideSpeed;
+            double rearSpeed  = Shooter.rearShooterOverrideSpeed;
             
             robotOutput.setShooterMotors(frontSpeed, rearSpeed);
         }
@@ -169,57 +181,69 @@ public class Manipulator
     
     public void calcReverseIntake()
     {
-        double tiltAngle = params.getAsDouble("S_TiltStandardAngle", 0.0);
+        double tiltAngle = Shooter.standardTiltPosition;
+        
         shooter.setTiltAngle(tiltAngle);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        
         if(shooter.isAtStandardPosition())
         {
-            int elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+            int elevatorBottomPosition = Elevator.elevatorBottomPosition;
             
             elevator.setDesiredPosition(elevatorBottomPosition);
+            
             if(elevator.elevatorAtBottom())
             {
-                intake.setIntakeSpeed(params.getAsDouble("I_OuttakeSpeed", -1.0));
+                double intakeSpeed = Intake.intakeSpeed;
+                
+                intake.setIntakeSpeed(intakeSpeed);
             }
         }
     }
     
     public void calcIntake()
     {
-        double tiltAngle = params.getAsDouble("S_TiltStandardAngle", 0.0);
+        double tiltAngle = Shooter.standardTiltPosition;
+        
         shooter.setTiltAngle(tiltAngle);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
         magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
+        
         if(shooter.isAtStandardPosition())
         {
-            int elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+            int elevatorBottomPosition = Elevator.elevatorBottomPosition;
             
             elevator.setDesiredPosition(elevatorBottomPosition);
+            
             if(elevator.elevatorAtBottom())
             {
-                intake.setIntakeSpeed(params.getAsDouble("I_IntakeSpeed", Constants.MOTOR_STOPPED));
+                double outtakeSpeed = Intake.outtakeSpeed;
+                
+                intake.setIntakeSpeed(outtakeSpeed);
             }
         }
     }
     
     public void shootHighWithVision()
     {
-        double tiltAngle = params.getAsDouble("S_TiltStandardAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
-        int elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
+        double tiltAngle = Shooter.standardTiltPosition;
+        int elevatorTopPosition = Elevator.elevatorTopPosition;
         
         shooter.setTiltAngle(tiltAngle);
         elevator.setDesiredPosition(elevatorTopPosition);
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        
         if(elevator.elevatorAtTop() && SmartDashboard.getBoolean("found", false))
         {
-            double frontRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
-            double rearRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
+            double frontRate = Shooter.frontShooterRate;
+            double rearRate = Shooter.rearShooterRate;
             double elevation = sensorInput.getTiltAngle() + SmartDashboard.getNumber("elevation", Constants.DEFAULT_STANDARD_TILT_POSITION);
             
             shooter.setShooterRates(frontRate, rearRate);
             shooter.setTiltAngle(elevation);
+            
             if((driverInput.fireFrisbee() || dashboardManager.getDS().isAutonomous()) && shooter.isReadyToFire() && Drivebase.getInstance().isHorizontallyLocked())
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
@@ -229,24 +253,18 @@ public class Manipulator
     
     public void restoreDefaultPositions()
     {
-        double tiltAngle = params.getAsDouble("S_TiltStandardAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
+        double tiltAngle = Shooter.standardTiltPosition;
+        
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
         shooter.setTiltAngle(tiltAngle);
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        
         if(shooter.isAtStandardPosition())
         {
-            int elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+            int elevatorBottomPosition = Elevator.elevatorBottomPosition;
             
             elevator.setDesiredPosition(elevatorBottomPosition);
         }
     }
-    
-    public void loadParameters()
-    {
-        shooter.loadParameters();
-        elevator.loadParameters();
-        magazine.loadParameters();
-    }
-    
 }

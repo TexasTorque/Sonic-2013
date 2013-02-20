@@ -30,6 +30,13 @@ public class Shooter
     private double tiltMotorSpeed;
     private double desiredTiltPosition;
     
+    public static double tiltOverrideSpeed;
+    public static double standardTiltPosition;
+    public static double frontShooterOverrideSpeed;
+    public static double rearShooterOverrideSpeed;
+    public static double frontShooterRate;
+    public static double rearShooterRate;
+    
     public static Shooter getInstance()
     {
         return (instance == null) ? instance = new Shooter() : instance;
@@ -112,6 +119,13 @@ public class Shooter
     
     public synchronized void loadParameters()
     {
+        tiltOverrideSpeed = params.getAsDouble("S_TiltOverrideSpeed", 0.5);
+        standardTiltPosition = params.getAsDouble("S_TiltStandardAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
+        frontShooterOverrideSpeed = params.getAsDouble("S_FrontShooterOverrideSpeed", 0.7);
+        rearShooterOverrideSpeed = params.getAsDouble("S_RearShooterOverrideSpeed", 0.5);
+        frontShooterRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
+        rearShooterRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
+        
         double p = params.getAsDouble("S_FrontShooterP", 0.0);
         double i = params.getAsDouble("S_FrontShooterI", 0.0);
         double d = params.getAsDouble("S_FrontShooterD", 0.0);
