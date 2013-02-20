@@ -186,7 +186,7 @@ public class Drivebase
     private void simpleDrive(double yAxis, double xAxis)
     {
         yAxis = applySqrtCurve(yAxis);
-        xAxis = applySqrtCurve(yAxis);
+        xAxis = applySqrtCurve(xAxis);
         
         leftDriveSpeed = yAxis + xAxis;
         rightDriveSpeed = yAxis - xAxis;
