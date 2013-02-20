@@ -78,6 +78,10 @@ public class Elevator
         {
             logging.logValue("ElevatorGoalVelocity", trajectory.getVelocity());
         }
+        else
+        {
+            logging.logValue("E_ElevatorGoalVelocity", "Trajectory is Null");
+        }
     }
     
     public synchronized void loadNewTrajectory()
