@@ -242,14 +242,12 @@ public class Manipulator
         }
     }
     
-    public void pullNewPIDGains()
+    public void loadParameters()
     {
-        shooter.loadFrontShooterPID();
-        shooter.loadRearShooterPID();
-        shooter.loadTiltPID();
+        shooter.loadParameters();
         elevator.loadElevatorPID();
         elevator.loadNewTrajectory();
-        magazine.setDeltaTime(params.getAsDouble("M_DeltaTime", Constants.MAGAZINE_DELTA_TIME));
+        magazine.loadParameters();
     }
     
 }

@@ -62,14 +62,14 @@ public class Magazine
         logging.logValue("DesiredMagazineState", desiredState);
     }
     
+    public synchronized void loadParameters()
+    {
+        deltaTime = params.getAsDouble("M_DeltaTime", Constants.MAGAZINE_DELTA_TIME);
+    }
+    
     public synchronized void setDesiredState(int state)
     {
         desiredState = state;
-    }
-    
-    public synchronized void setDeltaTime(double time)
-    {
-        deltaTime = time;
     }
     
     private synchronized void calcMagazineState()

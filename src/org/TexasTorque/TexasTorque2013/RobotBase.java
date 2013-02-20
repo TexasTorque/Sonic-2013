@@ -163,7 +163,7 @@ public class RobotBase extends SimpleRobot
     
     public void pullNewPIDGains()
     {
-        manipulator.pullNewPIDGains();
+        manipulator.loadParameters();
         drivebase.loadGyroPID();
     }
     

@@ -49,6 +49,10 @@ public class Intake
         logging.logValue("IntakeMotorSpeed", intakeMotorSpeed);
     }
     
+    public synchronized void loadParameters()
+    {
+    }
+    
     public synchronized void setIntakeSpeed(double speed)
     {
         intakeMotorSpeed = speed;
