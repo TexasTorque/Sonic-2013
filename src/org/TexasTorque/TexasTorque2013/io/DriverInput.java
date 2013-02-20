@@ -98,20 +98,17 @@ public class DriverInput
     
     public synchronized boolean reverseIntake()
     {
-        //return operatorController.getLeftActionButton();
-        return false;
+        return operatorController.getLeftActionButton();
     }
     
     public synchronized boolean shootVisionHigh()
     {
-        //return operatorController.getTopActionButton();
-        return false;
+        return operatorController.getTopActionButton();
     }
     
     public synchronized boolean fireFrisbee()
     {
-        //return operatorController.getBottomRightBumper();
-        return false;
+        return operatorController.getBottomRightBumper();
     }
     
 //---------- Overrides ----------
@@ -143,7 +140,7 @@ public class DriverInput
     
     public synchronized boolean shooterOverride()
     {
-        return operatorController.getBottomActionButton();
+        return false;
     }
     
     public synchronized boolean magazineShootOverride()

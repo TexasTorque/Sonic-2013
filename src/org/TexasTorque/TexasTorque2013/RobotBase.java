@@ -139,6 +139,8 @@ public class RobotBase extends SimpleRobot
     {
         SmartDashboard.putNumber("Autonomous Delay", 0.0);
         SmartDashboard.putBoolean("logData", true);
+        SmartDashboard.putBoolean("firstControllerIsLogitech", true);
+        SmartDashboard.putBoolean("secondControllerIsLogitech", false);
     }
     
     public void initLogging()
@@ -176,7 +178,7 @@ public class RobotBase extends SimpleRobot
     {
         logging.logValue("FrameTime", dashboardManager.getDS().getMatchTime());
         logLoopTime();
-        //drivebase.logData();
-        //manipulator.logData();
+        drivebase.logData();
+        manipulator.logData();
     }
 }
