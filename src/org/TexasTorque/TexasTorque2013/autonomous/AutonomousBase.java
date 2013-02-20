@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Watchdog;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
-import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Elevator2;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Elevator;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Intake;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Magazine;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Manipulator;
@@ -23,7 +23,7 @@ public abstract class AutonomousBase
     protected Drivebase drivebase;
     protected Intake intake;
     protected Shooter shooter;
-    protected Elevator2 elevator;
+    protected Elevator elevator;
     protected Magazine magazine;
     protected Manipulator manipulator;
     protected DashboardManager dashboardManager;
@@ -39,7 +39,7 @@ public abstract class AutonomousBase
         drivebase = Drivebase.getInstance();
         intake = Intake.getInstance();
         shooter = Shooter.getInstance();
-        elevator = Elevator2.getInstance();
+        elevator = Elevator.getInstance();
         magazine = Magazine.getInstance();
         params = Parameters.getInstance();
         manipulator = Manipulator.getInstance();

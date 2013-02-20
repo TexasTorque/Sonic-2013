@@ -21,7 +21,7 @@ public class Manipulator
     private TorqueLogging logging;
     private Parameters params;
     private Shooter shooter;
-    private Elevator2 elevator;
+    private Elevator elevator;
     private Intake intake;
     private Magazine magazine;
     
@@ -39,7 +39,7 @@ public class Manipulator
         logging = TorqueLogging.getInstance();
         params = Parameters.getInstance();
         shooter = Shooter.getInstance();
-        elevator = Elevator2.getInstance();
+        elevator = Elevator.getInstance();
         intake = Intake.getInstance();
         magazine = Magazine.getInstance();
     }

@@ -11,9 +11,9 @@ import org.TexasTorque.TorqueLib.util.SimPID;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
 import org.TexasTorque.TorqueLib.util.TrajectorySmoother;
 
-public class Elevator2
+public class Elevator
 {
-    private static Elevator2 instance;
+    private static Elevator instance;
     private RobotOutput robotOutput;
     private DriverInput driverInput;
     private SensorInput sensorInput;
@@ -29,12 +29,12 @@ public class Elevator2
     private double previousTime;
     private boolean firstIteration;
     
-    public static Elevator2 getInstance()
+    public static Elevator getInstance()
     {
-        return (instance == null) ? instance = new Elevator2() : instance;
+        return (instance == null) ? instance = new Elevator() : instance;
     }
     
-    public Elevator2()
+    public Elevator()
     {
         robotOutput = RobotOutput.getInstance();
         driverInput = DriverInput.getInstance();
