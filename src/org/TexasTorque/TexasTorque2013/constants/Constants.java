@@ -37,8 +37,6 @@ public class Constants
     public final static double DEFAULT_FRONT_SHOOTER_RATE = 3000.0;
     public final static double DEFAULT_REAR_SHOOTER_RATE = 2000.0;
     public final static double SHOOTER_STOPPED_RATE = 0.0;
-    public final static int TILT_LOCKED_STATE = 0;
-    public final static int TILT_MOVING_STATE = 1;
     
     //----- Intake -----
     public final static boolean INTAKE_DOWN_POSITION = true;
@@ -47,8 +45,6 @@ public class Constants
     //----- Elevator -----
     public final static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;
     public final static int DEFAULT_ELEVATOR_TOP_POSITION = 750;
-    public final static int ELEVATOR_LOCKED_STATE = 0;
-    public final static int ELEVATOR_MOVING_STATE = 1;
     
     //----- Magazine -----
     public final static boolean MAGAZINE_STORED = false;
