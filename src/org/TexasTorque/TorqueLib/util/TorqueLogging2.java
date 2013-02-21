@@ -44,6 +44,22 @@ public class TorqueLogging2
         logString = null;
     }
     
+    public void createNewFile()
+    {
+        try
+        {
+            if(fileConnection.exists())
+            {
+                fileConnection.delete();
+            }
+            instance = new TorqueLogging2();
+        }
+        catch(IOException e)
+        {
+            System.err.println("Error trying to create a new file in createNewFile() method");
+        }
+    }
+    
     public void logKeyNames(String names)
     {
         keyNames = names;
