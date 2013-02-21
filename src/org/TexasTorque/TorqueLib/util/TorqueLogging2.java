@@ -32,12 +32,8 @@ public class TorqueLogging2
             if(!fileConnection.exists())
             {
                fileConnection.create();
-               fileIO = new BufferedWriter(new OutputStreamWriter(fileConnection.openOutputStream()));
             }
-            else
-            {
-                fileIO = new BufferedWriter(new OutputStreamWriter(fileConnection.openOutputStream()));
-            }
+            fileIO = new BufferedWriter(new OutputStreamWriter(fileConnection.openOutputStream()));
         }
         catch(IOException e)
         {
