@@ -38,7 +38,9 @@ public class RobotBase extends SimpleRobot
         params.load();
         
         initSmartDashboard();
-        initLogging();
+        
+        logging = TorqueLogging.getInstance();
+        logging.setDashboardLogging(logData);
         
         dashboardManager = DashboardManager.getInstance();
         driverInput = DriverInput.getInstance();
@@ -84,7 +86,7 @@ public class RobotBase extends SimpleRobot
     public void autonomousInit()
     {
         pullNewPIDGains();
-        logData = SmartDashboard.getBoolean("logData", false);
+        initLogging();
         sensorInput.resetEncoders();
         autoManager.setAutonomousDelay(driverInput.getAutonomousDelay());
         autoManager.setAutoMode(Constants.DO_NOTHING_AUTO);
@@ -102,16 +104,7 @@ public class RobotBase extends SimpleRobot
     public void teleopInit()
     {
         params.load();
-        logData = SmartDashboard.getBoolean("logData", false);
-        if(logData)
-        {
-            logging.createNewFile();
-            String data = "FrameTime,";
-            data += drivebase.getKeyNames();
-            data += manipulator.getKeyNames();
-            
-            logging.logKeyNames(data);
-        }
+        initLogging();
         driverInput.pullJoystickTypes();
         pullNewPIDGains();
     }
@@ -127,7 +120,6 @@ public class RobotBase extends SimpleRobot
     
     public void disabledInit()
     {
-        logData = SmartDashboard.getBoolean("logData", false);
     }
     
     public void disabledPeriodic()
@@ -149,18 +141,24 @@ public class RobotBase extends SimpleRobot
         SmartDashboard.putBoolean("secondControllerIsLogitech", false);
     }
     
-    public void initLogging()
-    {
-        logging = TorqueLogging.getInstance();
-        logging.setDashboardLogging(logData);
-        
-        final String loggingString = drivebase.getKeyNames() + manipulator.getKeyNames();
-    }
-    
     public void pullNewPIDGains()
     {
         manipulator.loadParameters();
         drivebase.loadParameters();
+    }
+    
+    public void initLogging()
+    {
+        logData = SmartDashboard.getBoolean("logData", false);
+        if(logData)
+        {
+            logging.createNewFile();
+            String data = "FrameTime,";
+            data += drivebase.getKeyNames();
+            data += manipulator.getKeyNames();
+            
+            logging.logKeyNames(data);
+        }
     }
     
     public void logData()
