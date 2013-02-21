@@ -54,19 +54,20 @@ public class Elevator extends TorqueSubsystem
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
     }
     
-    public synchronized void logData()
+    public synchronized String logData()
     {
-        logging.logValue("ElevatorMotorSpeed", elevatorMotorSpeed);
-        logging.logValue("ElevatorVelocity", sensorInput.getElevatorEncoderVelocity());
-        logging.logValue("ElevatorPosition", sensorInput.getElevatorEncoder());
+        String data = elevatorMotorSpeed + ",";
+        data += sensorInput.getElevatorEncoderVelocity() + ",";
+        data += sensorInput.getElevatorEncoder() + ",";
         if(trajectory != null)
         {
-            logging.logValue("ElevatorGoalVelocity", trajectory.getVelocity());
+            data += trajectory.getVelocity() + ",";
         }
         else
         {
-            logging.logValue("E_ElevatorGoalVelocity", "Trajectory is Null");
+            data += "Trajectory is null,";
         }
+        return data;
     }
     
     public synchronized String getKeyNames()

@@ -63,13 +63,15 @@ public class Manipulator extends TorqueSubsystem
         }
     }
     
-    public synchronized void logData()
+    public synchronized String logData()
     {
-        logging.logValue("InOverrideState", driverInput.override());
-        intake.logData();
-        shooter.logData();
-        elevator.logData();
-        magazine.logData();
+        String data = driverInput.override() + ",";
+        data += intake.logData();
+        data += shooter.logData();
+        data += elevator.logData();
+        data += magazine.logData();
+        
+        return data;
     }
     
     public synchronized String getKeyNames()

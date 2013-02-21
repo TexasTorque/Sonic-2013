@@ -39,12 +39,14 @@ public class Magazine extends TorqueSubsystem
         robotOutput.setLoaderSolenoid(triggerBack);
     }
     
-    public synchronized void logData()
+    public synchronized String logData()
     {
-        logging.logValue("MagazinePosition", magazineRaised);
-        logging.logValue("MagazineTriggerPosition", triggerBack);
-        logging.logValue("CurrentMagazineState", magazineState);
-        logging.logValue("DesiredMagazineState", desiredState);
+        String data = magazineRaised + ",";
+        data += triggerBack + ",";
+        data += magazineState + ",";
+        data += desiredState + ",";
+        
+        return data;
     }
     
     public synchronized String getKeyNames()

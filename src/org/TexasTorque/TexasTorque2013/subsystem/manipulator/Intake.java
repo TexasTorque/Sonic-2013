@@ -31,10 +31,12 @@ public class Intake extends TorqueSubsystem
         robotOutput.setIntakeMotor(intakeMotorSpeed);
     }
     
-    public synchronized void logData()
+    public synchronized String logData()
     {
-        logging.logValue("IntakeMotorSpeed", intakeMotorSpeed);
-        logging.logValue("IntakeDropdownPosition", intakeState);
+        String data = intakeMotorSpeed + ",";
+        data += intakeState + ",";
+        
+        return data;
     }
     
     public synchronized String getKeyNames()

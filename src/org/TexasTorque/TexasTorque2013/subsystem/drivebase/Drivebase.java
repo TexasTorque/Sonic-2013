@@ -13,6 +13,9 @@ public class Drivebase extends TorqueSubsystem
     private double rightDriveSpeed;
     private double desiredGyroAngle;
     
+    public static double highSensitivity;
+    public static double lowSensitivity;
+    
     public static TorqueSubsystem getInstance()
     {
         return (instance == null) ? instance = new Drivebase() : instance;
@@ -46,17 +49,19 @@ public class Drivebase extends TorqueSubsystem
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
     
-    public synchronized void logData()
+    public synchronized String logData()
     {
-        logging.logValue("LeftDriveSpeed", leftDriveSpeed);
-        logging.logValue("LeftDriveEncoderPosition", sensorInput.getLeftDriveEncoder());
-        logging.logValue("LeftDriveEncoderVelocity", sensorInput.getLeftDriveEncoderRate());
+        String data = leftDriveSpeed + ",";
+        data += sensorInput.getLeftDriveEncoder() + ",";
+        data += sensorInput.getLeftDriveEncoderRate() + ",";
         
-        logging.logValue("RightDriveSpeed", rightDriveSpeed);
-        logging.logValue("RightDriveEncoderPosition", sensorInput.getRightDriveEncoder());
-        logging.logValue("RightDriveEncoderVelocity", sensorInput.getRightDriveEncoderRate());
+        data += rightDriveSpeed + ",";
+        data += sensorInput.getRightDriveEncoder() + ",";
+        data += sensorInput.getRightDriveEncoderRate() + ",";
         
-        logging.logValue("GyroAngle", sensorInput.getGyroAngle());
+        data += sensorInput.getGyroAngle() + ",";
+        
+        return data;
     }
     
     public synchronized String getKeyNames()
@@ -70,6 +75,9 @@ public class Drivebase extends TorqueSubsystem
     
     public synchronized void loadParameters()
     {
+        highSensitivity = params.getAsDouble("D_HighSensitivity", Constants.DEFAULT_HIGH_SENSITIVITY);
+        lowSensitivity = params.getAsDouble("D_LowSensitivity", Constants.DEFAULT_LOW_SENSITIVITY);
+        
         double p = params.getAsDouble("D_GyroP", 0.0);
         double i = params.getAsDouble("D_GyroI", 0.0);
         double d =  params.getAsDouble("D_GyroD", 0.0);
@@ -139,11 +147,11 @@ public class Drivebase extends TorqueSubsystem
         double SpeedInner = 0.0;
         if(!driverInput.shiftHighGear())
         {
-            turn = turn * params.getAsDouble("D_LowSensitivity", Constants.DEFAULT_LOW_SENSITIVITY);
+            turn = turn * lowSensitivity;
         }
         else
         {
-            turn = turn * params.getAsDouble("D_HighSensitivity", Constants.DEFAULT_HIGH_SENSITIVITY);
+            turn = turn * highSensitivity;
         }
         if(turn == 0.0)
         {

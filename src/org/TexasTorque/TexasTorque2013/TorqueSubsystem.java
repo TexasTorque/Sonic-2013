@@ -5,7 +5,6 @@ import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
-import org.TexasTorque.TorqueLib.util.TorqueLogging;
 
 public abstract class TorqueSubsystem
 {
@@ -16,7 +15,6 @@ public abstract class TorqueSubsystem
     protected DriverInput driverInput;
     protected SensorInput sensorInput;
     protected Parameters params;
-    protected TorqueLogging logging;
     
     protected TorqueSubsystem()
     {
@@ -25,7 +23,6 @@ public abstract class TorqueSubsystem
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
         params = Parameters.getInstance();
-        logging = TorqueLogging.getInstance();
     }
     
     public static TorqueSubsystem getInstance()
@@ -40,8 +37,9 @@ public abstract class TorqueSubsystem
             {
             }
             
-            public void logData()
+            public String logData()
             {
+                return null;
             }
             
             public String getKeyNames()
@@ -53,6 +51,6 @@ public abstract class TorqueSubsystem
     
     public abstract void run();
     public abstract void loadParameters();
-    public abstract void logData();
+    public abstract String logData();
     public abstract String getKeyNames();
 }

@@ -85,7 +85,6 @@ public class RobotBase extends SimpleRobot
     {
         pullNewPIDGains();
         logData = SmartDashboard.getBoolean("logData", false);
-        logging.setLogging(logData);
         sensorInput.resetEncoders();
         autoManager.setAutonomousDelay(driverInput.getAutonomousDelay());
         autoManager.setAutoMode(Constants.DO_NOTHING_AUTO);
@@ -104,7 +103,15 @@ public class RobotBase extends SimpleRobot
     {
         params.load();
         logData = SmartDashboard.getBoolean("logData", false);
-        logging.setLogging(logData);
+        if(logData)
+        {
+            logging.createNewFile();
+            String data = "FrameTime,";
+            data += drivebase.getKeyNames();
+            data += manipulator.getKeyNames();
+            
+            logging.logKeyNames(data);
+        }
         driverInput.pullJoystickTypes();
         pullNewPIDGains();
     }
@@ -121,7 +128,6 @@ public class RobotBase extends SimpleRobot
     public void disabledInit()
     {
         logData = SmartDashboard.getBoolean("logData", false);
-        logging.setLogging(logData);
     }
     
     public void disabledPeriodic()
@@ -145,14 +151,10 @@ public class RobotBase extends SimpleRobot
     
     public void initLogging()
     {
-        TorqueLogging.setDashboardLogging(false);
-        TorqueLogging.setLoopTime(params.getAsInt("LoggingLoopTime", Constants.TORQUE_LOGGING_LOOP_TIME));
         logging = TorqueLogging.getInstance();
+        logging.setDashboardLogging(logData);
         
         final String loggingString = drivebase.getKeyNames() + manipulator.getKeyNames();
-        
-        logging.setKeyMapping(loggingString);
-        logging.startLogging();
     }
     
     public void pullNewPIDGains()
@@ -161,18 +163,15 @@ public class RobotBase extends SimpleRobot
         drivebase.loadParameters();
     }
     
-    public void logLoopTime()
-    {
-        double previous = loopTime;
-        loopTime = dashboardManager.getDS().getMatchTime();
-        logging.logValue("LoopTime", loopTime - previous);
-    }
-    
     public void logData()
     {
-        logging.logValue("FrameTime", dashboardManager.getDS().getMatchTime());
-        logLoopTime();
-        drivebase.logData();
-        manipulator.logData();
+        if(logData)
+        {
+            String data = dashboardManager.getDS().getMatchTime() + ",";
+            data += drivebase.logData();
+            data += manipulator.logData();
+            
+            logging.logData(data);
+        }
     }
 }

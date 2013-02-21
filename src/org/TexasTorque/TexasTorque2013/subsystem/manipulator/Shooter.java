@@ -63,19 +63,21 @@ public class Shooter extends TorqueSubsystem
         robotOutput.setShooterMotors(frontShooterMotorSpeed, rearShooterMotorSpeed);
     }
     
-    public synchronized void logData()
+    public synchronized String logData()
     {
-        logging.logValue("DesiredTiltAngle", desiredTiltPosition);
-        logging.logValue("TiltMotorSpeed", tiltMotorSpeed);
-        logging.logValue("ActualTiltAngle", sensorInput.getTiltAngle());
+        String data = desiredTiltPosition + ",";
+        data += tiltMotorSpeed + ",";
+        data += sensorInput.getTiltAngle() + ",";
         
-        logging.logValue("DesiredFrontShooterRate", desiredFrontShooterRate);
-        logging.logValue("FrontShooterMotorSpeed", frontShooterMotorSpeed);
-        logging.logValue("ActualFrontShooterRate", sensorInput.getFrontShooterRate());
+        data += desiredFrontShooterRate + ",";
+        data += frontShooterMotorSpeed + ",";
+        data += sensorInput.getFrontShooterRate() + ",";
         
-        logging.logValue("DesiredRearShooterRate", desiredRearShooterRate);
-        logging.logValue("RearShooterMotorSpeed", rearShooterMotorSpeed);
-        logging.logValue("ActualRearShooterRate", sensorInput.getRearShooterRate());
+        data += desiredRearShooterRate + ",";
+        data += rearShooterMotorSpeed + ",";
+        data += sensorInput.getRearShooterRate() + ",";
+        
+        return data;
     }
     
     public synchronized String getKeyNames()
