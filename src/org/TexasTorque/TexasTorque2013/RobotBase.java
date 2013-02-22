@@ -25,8 +25,8 @@ public class RobotBase extends SimpleRobot
     Manipulator  manipulator;
     AutonomousManager autoManager;
     
-    double loopTime;
     boolean logData;
+    int logCycles;
     
     public void robotInit()
     {     
@@ -53,7 +53,7 @@ public class RobotBase extends SimpleRobot
         
         driverInput.pullJoystickTypes();
         
-        loopTime = 0.0;
+        logCycles = 0;
     }
     
     public void autonomous()
@@ -61,6 +61,7 @@ public class RobotBase extends SimpleRobot
         autonomousInit();
         while(isAutonomous())
         {
+            watchdog.feed();
             autonomousPeriodic();
         }
     }
@@ -68,8 +69,9 @@ public class RobotBase extends SimpleRobot
     public void operatorControl()
     {
         teleopInit();
-        while(isOperatorControl())
+        while(isOperatorControl() && isEnabled())
         {
+            watchdog.feed();
             teleopPeriodic();
         }
     }
@@ -79,13 +81,15 @@ public class RobotBase extends SimpleRobot
         disabledInit();
         while(isDisabled())
         {
+            watchdog.feed();
             disabledPeriodic();
         }
     }
 
     public void autonomousInit()
     {
-        pullNewPIDGains();
+        params.load();
+        loadParameters();
         initLogging();
         sensorInput.resetEncoders();
         autoManager.setAutonomousDelay(driverInput.getAutonomousDelay());
@@ -95,7 +99,6 @@ public class RobotBase extends SimpleRobot
 
     public void autonomousPeriodic()
     {
-        watchdog.feed();
         dashboardManager.updateLCD();
         autoManager.runAutonomous();
         logData();
@@ -104,14 +107,15 @@ public class RobotBase extends SimpleRobot
     public void teleopInit()
     {
         params.load();
+        loadParameters();
         initLogging();
         driverInput.pullJoystickTypes();
-        pullNewPIDGains();
+        
+        logCycles = Constants.CYCLES_PER_LOG;
     }
 
     public void teleopPeriodic()
     {
-        watchdog.feed();
         drivebase.run();
         manipulator.run();
         dashboardManager.updateLCD();
@@ -124,7 +128,6 @@ public class RobotBase extends SimpleRobot
     
     public void disabledPeriodic()
     {
-        watchdog.feed();
         dashboardManager.updateLCD();
         if(driverInput.resetSensors())
         {
@@ -136,12 +139,12 @@ public class RobotBase extends SimpleRobot
     public void initSmartDashboard()
     {
         SmartDashboard.putNumber("Autonomous Delay", 0.0);
-        SmartDashboard.putBoolean("logData", true);
-        SmartDashboard.putBoolean("firstControllerIsLogitech", true);
-        SmartDashboard.putBoolean("secondControllerIsLogitech", false);
+        SmartDashboard.putBoolean("logData", false);
+        SmartDashboard.putBoolean("firstControllerIsLogitech", Constants.DEFAULT_FIRST_CONTROLLER_TYPE);
+        SmartDashboard.putBoolean("secondControllerIsLogitech", Constants.DEFAULT_SECOND_CONTROLLER_TYPE);
     }
     
-    public void pullNewPIDGains()
+    public void loadParameters()
     {
         manipulator.loadParameters();
         drivebase.loadParameters();
@@ -165,11 +168,18 @@ public class RobotBase extends SimpleRobot
     {
         if(logData)
         {
-            String data = dashboardManager.getDS().getMatchTime() + ",";
-            data += drivebase.logData();
-            data += manipulator.logData();
+            if(logCycles  == Constants.CYCLES_PER_LOG)
+            {
+                String data = dashboardManager.getDS().getMatchTime() + ",";
+                data += drivebase.logData();
+                data += manipulator.logData();
+
+                logging.logData(data);
+                
+                logCycles = 0;
+            }
             
-            logging.logData(data);
+            logCycles++;
         }
     }
 }
