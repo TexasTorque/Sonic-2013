@@ -29,8 +29,8 @@ public class RobotBase extends SimpleRobot
     int logCycles;
     
     public void robotInit()
-    {     
-        watchdog = Watchdog.getInstance();
+    {
+        watchdog = getWatchdog();
         watchdog.setEnabled(true);
         watchdog.setExpiration(0.2);
         
@@ -63,6 +63,7 @@ public class RobotBase extends SimpleRobot
         {
             watchdog.feed();
             autonomousPeriodic();
+            dashboardManager.updateLCD();
         }
     }
     
@@ -73,6 +74,7 @@ public class RobotBase extends SimpleRobot
         {
             watchdog.feed();
             teleopPeriodic();
+            dashboardManager.updateLCD();
         }
     }
     
@@ -83,6 +85,7 @@ public class RobotBase extends SimpleRobot
         {
             watchdog.feed();
             disabledPeriodic();
+            dashboardManager.updateLCD();
         }
     }
 
@@ -118,7 +121,6 @@ public class RobotBase extends SimpleRobot
     {
         drivebase.run();
         manipulator.run();
-        dashboardManager.updateLCD();
         logData();
     }
     
