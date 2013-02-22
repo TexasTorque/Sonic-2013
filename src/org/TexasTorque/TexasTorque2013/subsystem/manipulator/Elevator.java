@@ -35,7 +35,7 @@ public class Elevator extends TorqueSubsystem
         loadNewTrajectory();
         
         desiredPosition = 0;
-        elevatorMotorSpeed = 0.0;
+        elevatorMotorSpeed = Constants.MOTOR_STOPPED;
         previousTime = Timer.getFPGATimestamp();
     }
     
