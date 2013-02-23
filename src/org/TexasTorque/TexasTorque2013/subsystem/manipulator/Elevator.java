@@ -3,6 +3,7 @@ package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 import edu.wpi.first.wpilibj.Timer;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
+import org.TexasTorque.TorqueLib.controlLoop.FeedforwardPIV;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 import org.TexasTorque.TorqueLib.controlLoop.TrajectorySmoother;
 
@@ -11,11 +12,12 @@ public class Elevator extends TorqueSubsystem
     private static Elevator instance;
     
     private TrajectorySmoother trajectory;
-    private SimPID elevatorPID;
+    private FeedforwardPIV feedForward;
     
     private int desiredPosition;
     private double elevatorMotorSpeed;
     private double previousTime;
+    private double elevatorEpsilon;
     
     public static double elevatorOverrideSpeed;
     public static int elevatorTopPosition;
@@ -32,7 +34,7 @@ public class Elevator extends TorqueSubsystem
     {
         super();
         
-        elevatorPID = new SimPID();
+        feedForward = new FeedforwardPIV();
         
         loadNewTrajectory();
         
@@ -51,9 +53,8 @@ public class Elevator extends TorqueSubsystem
         double velocity = sensorInput.getElevatorEncoderVelocity();
         
         trajectory.update(error, velocity , 0.0, dt);
-        elevatorPID.setDesiredValue(trajectory.getVelocity());
         
-        elevatorMotorSpeed = elevatorPID.calcPID(sensorInput.getElevatorEncoderVelocity());
+        elevatorMotorSpeed = feedForward.calculate(trajectory, error, velocity, dt);
         
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
     }
@@ -92,13 +93,14 @@ public class Elevator extends TorqueSubsystem
         
         double p = params.getAsDouble("E_ElevatorP", 0.0);
         double i = params.getAsDouble("E_ElevatorI", 0.0);
-        double d = params.getAsDouble("E_ElevatorD", 0.0);
+        double v = params.getAsDouble("E_ElevatorV", 0.0);
         int e = params.getAsInt("E_ElevatorEpsilon", 0);
+        double ffv = params.getAsDouble("E_ElevatorFFV", 0.0);
+        double ffa = params.getAsDouble("E_ElevatorFFA", 0.0);
         
-        elevatorPID.setConstants(p, i, d);
-        elevatorPID.setErrorEpsilon(e);
-        elevatorPID.resetErrorSum();
-        elevatorPID.resetPreviousVal();
+        feedForward.setParams(p, i, v, ffv, ffa);
+        
+        elevatorEpsilon = e;
         
         loadNewTrajectory();
     }
@@ -113,17 +115,18 @@ public class Elevator extends TorqueSubsystem
         if(position != desiredPosition)
         {
             desiredPosition = position;
+            feedForward.setSetpoint(desiredPosition);
             loadNewTrajectory();
         }
     }
     
     public synchronized boolean elevatorAtTop()
     {
-        return (desiredPosition == elevatorTopPosition && elevatorPID.isDone());
+        return (desiredPosition == elevatorTopPosition && feedForward.onTarget(elevatorEpsilon));
     }
     
     public synchronized boolean elevatorAtBottom()
     {
-        return (desiredPosition == elevatorBottomPosition && elevatorPID.isDone());
+        return (desiredPosition == elevatorBottomPosition && feedForward.onTarget(elevatorEpsilon));
     }
 }
