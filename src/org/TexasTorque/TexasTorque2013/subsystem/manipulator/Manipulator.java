@@ -52,28 +52,15 @@ public class Manipulator extends TorqueSubsystem
             
             if(driverInput.runIntake())
             {
-                elevator.setDesiredPosition(Elevator.elevatorTopPosition);
-                elevator.run();
-            }
-            else if(driverInput.fireFrisbee())
-            {
-                elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
-                elevator.run();
+                robotOutput.setTiltMotor(0.5);
             }
             else
             {
-                robotOutput.setElevatorMotors(0.0);
+                robotOutput.setTiltMotor(0.0);
             }
             
-            SmartDashboard.putNumber("ElevatorSpeed", elevator.elevatorMotorSpeed);
-            SmartDashboard.putNumber("ElevatorVelocity", sensorInput.getElevatorEncoderVelocity());
-            SmartDashboard.putNumber("GoalVelocity", elevator.trajectory.getVelocity());
-            SmartDashboard.putNumber("ElevatorPosition", sensorInput.getElevatorEncoder());
-            SmartDashboard.putNumber("ElevatorAcceleration", sensorInput.getElevatorAcceleration());
-            SmartDashboard.putNumber("GoalAcceleration", elevator.trajectory.getAcceleration());
-            
             magazine.run();
-            shooter.run();
+            //shooter.run();
             intake.run();
         }
         else

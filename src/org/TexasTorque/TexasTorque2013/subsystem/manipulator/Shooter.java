@@ -1,9 +1,11 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
+import org.TexasTorque.TorqueLib.controlLoop.FeedforwardPIV;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
+import org.TexasTorque.TorqueLib.controlLoop.TrajectorySmoother;
 
 public class Shooter extends TorqueSubsystem
 {   
@@ -11,7 +13,9 @@ public class Shooter extends TorqueSubsystem
     
     private SimPID frontShooterPID;
     private SimPID rearShooterPID;
-    private SimPID tiltPID;
+    
+    private TrajectorySmoother trajectory;
+    private FeedforwardPIV feedForward;
     
     private double frontShooterMotorSpeed;
     private double rearShooterMotorSpeed;
@@ -21,12 +25,18 @@ public class Shooter extends TorqueSubsystem
     private double tiltMotorSpeed;
     private double desiredTiltPosition;
     
+    private double previousTime;
+    private double previousAngle;
+    private double tiltEpsilon;
+    
     public static double tiltOverrideSpeed;
     public static double standardTiltPosition;
     public static double frontShooterOverrideSpeed;
     public static double rearShooterOverrideSpeed;
     public static double frontShooterRate;
     public static double rearShooterRate;
+    public static double maxTiltVelocity;
+    public static double maxTiltAcceleration;
     
     public static Shooter getInstance()
     {
@@ -39,9 +49,11 @@ public class Shooter extends TorqueSubsystem
         
         frontShooterPID = new SimPID();
         rearShooterPID = new SimPID();
-        tiltPID = new SimPID();
         
-        loadParameters();
+        loadNewTrajectory();
+        
+        previousTime = 0.0;
+        previousAngle = sensorInput.getTiltAngle();
         
         frontShooterMotorSpeed = Constants.MOTOR_STOPPED;
         rearShooterMotorSpeed = Constants.MOTOR_STOPPED;
@@ -54,13 +66,22 @@ public class Shooter extends TorqueSubsystem
     
     public void run()
     {   
+        double currentTime = Timer.getFPGATimestamp();
+        double dt = currentTime - previousTime;
+        double velocity = (sensorInput.getTiltAngle() - previousAngle) / dt;
+        double error = desiredTiltPosition - sensorInput.getTiltAngle();
+        previousTime = currentTime;
+        previousAngle = sensorInput.getTiltAngle();
+        
+        trajectory.update(error, velocity, 0.0, dt);
+        
+        tiltMotorSpeed = feedForward.calculate(trajectory, error, velocity, dt);
+        
         double frontSpeed = frontShooterPID.calcPID(sensorInput.getFrontShooterRate());
         double rearSpeed = rearShooterPID.calcPID(sensorInput.getRearShooterRate());
         
         frontShooterMotorSpeed = limitShooterSpeed(frontSpeed);
         rearShooterMotorSpeed = limitShooterSpeed(rearSpeed);
-        
-        tiltMotorSpeed = tiltPID.calcPID(sensorInput.getTiltAngle());
         
         robotOutput.setTiltMotor(tiltMotorSpeed);
         robotOutput.setShooterMotors(frontShooterMotorSpeed, rearShooterMotorSpeed);
@@ -111,7 +132,8 @@ public class Shooter extends TorqueSubsystem
         if(degrees != desiredTiltPosition)
         {
             desiredTiltPosition = degrees;
-            tiltPID.setDesiredValue(desiredTiltPosition);
+            feedForward.setSetpoint(desiredTiltPosition);
+            loadNewTrajectory();
         }
     }
     
@@ -123,6 +145,8 @@ public class Shooter extends TorqueSubsystem
         rearShooterOverrideSpeed = params.getAsDouble("S_RearShooterOverrideSpeed", 0.5);
         frontShooterRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
         rearShooterRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
+        maxTiltVelocity = params.getAsDouble("S_TiltMaxVelocity", 0.0);
+        maxTiltAcceleration = params.getAsDouble("S_TiltMaxAcceleration", 0.0);
         
         double p = params.getAsDouble("S_FrontShooterP", 0.0);
         double i = params.getAsDouble("S_FrontShooterI", 0.0);
@@ -150,20 +174,26 @@ public class Shooter extends TorqueSubsystem
         
         p = params.getAsDouble("S_TiltP", 0.0);
         i = params.getAsDouble("S_TiltI", 0.0);
-        d = params.getAsDouble("S_TiltD", 0.0);
+        double v = params.getAsDouble("S_TiltV", 0.0);
         e = params.getAsDouble("S_TiltEpsilon", 0.0);
-        r = params.getAsDouble("S_TiltDoneRange", 0.0);
+        double ffv = params.getAsDouble("S_TiltFFV", 0.0);
+        double ffa = params.getAsDouble("S_TiltFFA", 0.0);
         
-        tiltPID.setConstants(p, i, d);
-        tiltPID.setErrorEpsilon(e);
-        tiltPID.setDoneRange(r);
-        tiltPID.resetErrorSum();
-        tiltPID.resetPreviousVal();
+        feedForward.setParams(p, i, v, ffv, ffa);
+        
+        tiltEpsilon = e;
+        
+        loadNewTrajectory();
+    }
+    
+    private synchronized void loadNewTrajectory()
+    {
+        trajectory = new TrajectorySmoother(maxTiltAcceleration, maxTiltVelocity);
     }
     
     public synchronized boolean isVerticallyLocked()
     {
-        return tiltPID.isDone();
+        return feedForward.onTarget(tiltEpsilon);
     }
     
     public synchronized boolean isAtStandardPosition()
