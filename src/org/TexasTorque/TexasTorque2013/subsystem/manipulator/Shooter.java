@@ -128,9 +128,11 @@ public class Shooter extends TorqueSubsystem
         double i = params.getAsDouble("S_FrontShooterI", 0.0);
         double d = params.getAsDouble("S_FrontShooterD", 0.0);
         double e = params.getAsDouble("S_FrontShooterEpsilon", 0.0);
+        double r = params.getAsDouble("S_FrontShooterDoneRange", 0.0);
         
         frontShooterPID.setConstants(p, i, d);
         frontShooterPID.setErrorEpsilon(e);
+        frontShooterPID.setDoneRange(r);
         frontShooterPID.resetErrorSum();
         frontShooterPID.resetPreviousVal();
         
@@ -138,9 +140,11 @@ public class Shooter extends TorqueSubsystem
         i = params.getAsDouble("S_RearShooterI", 0.0);
         d = params.getAsDouble("S_RearShooterD", 0.0);
         e = params.getAsDouble("S_RearShooterEpsilon", 0.0);
+        r = params.getAsDouble("S_RearShooterDoneRange", 0.0);
         
         rearShooterPID.setConstants(p, i, d);
         rearShooterPID.setErrorEpsilon(e);
+        rearShooterPID.setDoneRange(r);
         rearShooterPID.resetErrorSum();
         rearShooterPID.resetPreviousVal();
         
@@ -148,9 +152,11 @@ public class Shooter extends TorqueSubsystem
         i = params.getAsDouble("S_TiltI", 0.0);
         d = params.getAsDouble("S_TiltD", 0.0);
         e = params.getAsDouble("S_TiltEpsilon", 0.0);
+        r = params.getAsDouble("S_TiltDoneRange", 0.0);
         
         tiltPID.setConstants(p, i, d);
         tiltPID.setErrorEpsilon(e);
+        tiltPID.setDoneRange(r);
         tiltPID.resetErrorSum();
         tiltPID.resetPreviousVal();
     }
