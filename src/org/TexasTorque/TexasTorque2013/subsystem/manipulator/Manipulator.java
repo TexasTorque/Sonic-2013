@@ -52,17 +52,29 @@ public class Manipulator extends TorqueSubsystem
             
             if(driverInput.runIntake())
             {
-                shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
+                elevator.setDesiredPosition(Elevator.elevatorTopPosition);
+                elevator.run();
+            }
+            else if(driverInput.fireFrisbee())
+            {
+                elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
+                elevator.run();
             }
             else
             {
-                robotOutput.setShooterMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
+                robotOutput.setElevatorMotors(0.0);
             }
             
-            shooter.run();
-            elevator.run();
-            intake.run();
+            SmartDashboard.putNumber("ElevatorSpeed", elevator.elevatorMotorSpeed);
+            SmartDashboard.putNumber("ElevatorVelocity", sensorInput.getElevatorEncoderVelocity());
+            SmartDashboard.putNumber("GoalVelocity", elevator.trajectory.getVelocity());
+            SmartDashboard.putNumber("ElevatorPosition", sensorInput.getElevatorEncoder());
+            SmartDashboard.putNumber("ElevatorAcceleration", sensorInput.getElevatorAcceleration());
+            SmartDashboard.putNumber("GoalAcceleration", elevator.trajectory.getAcceleration());
+            
             magazine.run();
+            shooter.run();
+            intake.run();
         }
         else
         {
@@ -73,9 +85,9 @@ public class Manipulator extends TorqueSubsystem
     public synchronized String logData()
     {
         String data = driverInput.override() + ",";
+        data += intake.logData();
         data += elevator.logData();
         data += magazine.logData();
-        data += intake.logData();
         data += shooter.logData();
         
         return data;

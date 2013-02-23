@@ -104,7 +104,7 @@ public class RobotOutput
     
     public synchronized void setLoaderSolenoid(boolean extend)
     {
-        loader.set(extend);
+        loader.set(!extend);
     }
     
     public synchronized void setShifters(boolean highGear)
@@ -126,11 +126,11 @@ public class RobotOutput
     {
         if(retracted)
         {
-            frisbeeLifter.set(DoubleSolenoid.Value.kReverse);
+            frisbeeLifter.set(DoubleSolenoid.Value.kForward);
         }
         else
         {
-            frisbeeLifter.set(DoubleSolenoid.Value.kForward);
+            frisbeeLifter.set(DoubleSolenoid.Value.kReverse);
         }
     }
     

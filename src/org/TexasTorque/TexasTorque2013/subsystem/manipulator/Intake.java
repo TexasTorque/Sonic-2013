@@ -43,7 +43,7 @@ public class Intake extends TorqueSubsystem
     
     public synchronized String getKeyNames()
     {
-        String names = "IntakeMotorSpeed,IntakeDropdownPosition";
+        String names = "IntakeMotorSpeed,IntakeDropdownPosition,";
         
         return names;
     }

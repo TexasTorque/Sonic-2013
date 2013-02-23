@@ -173,7 +173,7 @@ public class Shooter extends TorqueSubsystem
     
     public synchronized boolean isReadyToFire()
     {
-        return (isVerticallyLocked() && frontShooterPID.isDone() && rearShooterPID.isDone());
+        return (/*isVerticallyLocked() && */frontShooterPID.isDone() && rearShooterPID.isDone());
     }
     
     private double limitShooterSpeed(double shooterSpeed)

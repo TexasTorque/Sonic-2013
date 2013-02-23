@@ -1,6 +1,7 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TorqueLib.controlLoop.FeedforwardPIV;
@@ -11,11 +12,11 @@ public class Elevator extends TorqueSubsystem
 {
     private static Elevator instance;
     
-    private TrajectorySmoother trajectory;
+    public TrajectorySmoother trajectory;
     private FeedforwardPIV feedForward;
     
     private int desiredPosition;
-    private double elevatorMotorSpeed;
+    public double elevatorMotorSpeed;
     private double previousTime;
     private double elevatorEpsilon;
     

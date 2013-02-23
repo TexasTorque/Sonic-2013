@@ -1,6 +1,7 @@
 package org.TexasTorque.TexasTorque2013;
 
 import edu.wpi.first.wpilibj.SimpleRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousManager;
@@ -24,6 +25,8 @@ public class RobotBase extends SimpleRobot
     Drivebase drivebase;
     Manipulator  manipulator;
     AutonomousManager autoManager;
+    
+    Timer robotTime;
     
     boolean logData;
     int logCycles;
@@ -53,6 +56,8 @@ public class RobotBase extends SimpleRobot
         autoManager = new AutonomousManager();
         
         driverInput.pullJoystickTypes();
+        
+        robotTime = new Timer();
         
         logCycles = 0;
         numCycles = 0.0;
@@ -119,6 +124,9 @@ public class RobotBase extends SimpleRobot
         driverInput.pullJoystickTypes();
         
         logCycles = Constants.CYCLES_PER_LOG;
+        
+        robotTime.reset();
+        robotTime.start();
     }
 
     public void teleopPeriodic()
@@ -161,8 +169,8 @@ public class RobotBase extends SimpleRobot
         logData = SmartDashboard.getBoolean("logData", false);
         if(logData)
         {
-            logging.createNewFile();
-            String data = "FrameTime,";
+            //logging.createNewFile();
+            String data = "MatchTime,RobotTime,";
             data += drivebase.getKeyNames();
             data += manipulator.getKeyNames();
             
@@ -177,6 +185,7 @@ public class RobotBase extends SimpleRobot
             if(logCycles  == Constants.CYCLES_PER_LOG)
             {
                 String data = dashboardManager.getDS().getMatchTime() + ",";
+                data += robotTime.get() + ",";
                 data += drivebase.logData();
                 data += manipulator.logData();
 
