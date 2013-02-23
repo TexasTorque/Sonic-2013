@@ -52,7 +52,7 @@ public class Manipulator extends TorqueSubsystem
             
             if(driverInput.runIntake())
             {
-                shooter.setShooterRates(Shooter.frontShooterRate*60/100, Shooter.rearShooterRate*60/100);
+                shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
             }
             else
             {
