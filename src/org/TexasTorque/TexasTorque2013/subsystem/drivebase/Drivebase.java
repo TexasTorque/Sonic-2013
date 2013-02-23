@@ -7,6 +7,8 @@ import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 
 public class Drivebase extends TorqueSubsystem
 {   
+    private static Drivebase instance;
+    
     private SimPID gyroPID;
     
     private double leftDriveSpeed;
@@ -16,7 +18,7 @@ public class Drivebase extends TorqueSubsystem
     public static double highSensitivity;
     public static double lowSensitivity;
     
-    public static TorqueSubsystem getInstance()
+    public static Drivebase getInstance()
     {
         return (instance == null) ? instance = new Drivebase() : instance;
     }

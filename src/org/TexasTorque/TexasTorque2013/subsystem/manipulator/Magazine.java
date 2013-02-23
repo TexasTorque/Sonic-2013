@@ -6,6 +6,8 @@ import org.TexasTorque.TexasTorque2013.constants.Constants;
 
 public class Magazine extends TorqueSubsystem
 {   
+    private static Magazine instance;
+    
     private double previousTime;
     private double deltaTime;
     
@@ -27,7 +29,7 @@ public class Magazine extends TorqueSubsystem
         desiredState = Constants.MAGAZINE_READY_STATE;
     }
     
-    public static TorqueSubsystem getInstance()
+    public static Magazine getInstance()
     {
         return (instance == null) ? instance = new Magazine() : instance;
     }

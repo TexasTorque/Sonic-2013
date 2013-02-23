@@ -1,11 +1,14 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 
 public class Shooter extends TorqueSubsystem
 {   
+    private static Shooter instance;
+    
     private SimPID frontShooterPID;
     private SimPID rearShooterPID;
     private SimPID tiltPID;
@@ -25,7 +28,7 @@ public class Shooter extends TorqueSubsystem
     public static double frontShooterRate;
     public static double rearShooterRate;
     
-    public static TorqueSubsystem getInstance()
+    public static Shooter getInstance()
     {
         return (instance == null) ? instance = new Shooter() : instance;
     }
@@ -61,6 +64,8 @@ public class Shooter extends TorqueSubsystem
         
         robotOutput.setTiltMotor(tiltMotorSpeed);
         robotOutput.setShooterMotors(frontShooterMotorSpeed, rearShooterMotorSpeed);
+        SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate()*60/100);
+        SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate()*60/100);
     }
     
     public synchronized String logData()

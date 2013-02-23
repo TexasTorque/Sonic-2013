@@ -8,6 +8,8 @@ import org.TexasTorque.TorqueLib.controlLoop.TrajectorySmoother;
 
 public class Elevator extends TorqueSubsystem
 {
+    private static Elevator instance;
+    
     private TrajectorySmoother trajectory;
     private SimPID elevatorPID;
     
@@ -21,7 +23,7 @@ public class Elevator extends TorqueSubsystem
     public static double maxElevatorVelocity;
     public static double maxElevatorAcceleration;
     
-    public static TorqueSubsystem getInstance()
+    public static Elevator getInstance()
     {
         return (instance == null) ? instance = new Elevator() : instance;
     }

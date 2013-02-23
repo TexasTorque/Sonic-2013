@@ -7,12 +7,14 @@ import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
 
 public class Manipulator extends TorqueSubsystem
 {   
+    private static Manipulator instance;
+    
     private Shooter shooter;
     private Elevator elevator;
     private Intake intake;
     private Magazine magazine;
     
-    public static TorqueSubsystem getInstance()
+    public static Manipulator getInstance()
     {
         return (instance == null) ? instance = new Manipulator() : instance;
     }
@@ -21,10 +23,10 @@ public class Manipulator extends TorqueSubsystem
     {
         super();
         
-        shooter = (Shooter) Shooter.getInstance();
-        elevator = (Elevator) Elevator.getInstance();
-        intake = (Intake) Intake.getInstance();
-        magazine = (Magazine) Magazine.getInstance();
+        shooter = Shooter.getInstance();
+        elevator = Elevator.getInstance();
+        intake = Intake.getInstance();
+        magazine = Magazine.getInstance();
     }
     
     public void run()
@@ -48,14 +50,19 @@ public class Manipulator extends TorqueSubsystem
                 restoreDefaultPositions();
             }*/
             
+            if(driverInput.runIntake())
+            {
+                shooter.setShooterRates(Shooter.frontShooterRate*60/100, Shooter.rearShooterRate*60/100);
+            }
+            else
+            {
+                robotOutput.setShooterMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
+            }
             
-            
-            //shooter.run();
-            //elevator.run();
-            //intake.run();
-            //magazine.run();
-            //robotOutput.setElevatorMotors(0.0);
-            //robotOutput.setShooterTiltMotor(0.0);
+            shooter.run();
+            elevator.run();
+            intake.run();
+            magazine.run();
         }
         else
         {

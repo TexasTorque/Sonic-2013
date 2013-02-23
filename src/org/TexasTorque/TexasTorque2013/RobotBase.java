@@ -27,6 +27,7 @@ public class RobotBase extends SimpleRobot
     
     boolean logData;
     int logCycles;
+    double numCycles;
     
     public void robotInit()
     {
@@ -46,14 +47,15 @@ public class RobotBase extends SimpleRobot
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
         robotOutput = RobotOutput.getInstance();
-        drivebase = (Drivebase) Drivebase.getInstance();
-        manipulator = (Manipulator) Manipulator.getInstance();
+        drivebase = Drivebase.getInstance();
+        manipulator = Manipulator.getInstance();
         
         autoManager = new AutonomousManager();
         
         driverInput.pullJoystickTypes();
         
         logCycles = 0;
+        numCycles = 0.0;
     }
     
     public void autonomous()
@@ -75,6 +77,8 @@ public class RobotBase extends SimpleRobot
             watchdog.feed();
             teleopPeriodic();
             dashboardManager.updateLCD();
+            numCycles++;
+            SmartDashboard.putNumber("NumCycles", numCycles);
         }
     }
     

@@ -9,7 +9,6 @@ import org.TexasTorque.TorqueLib.util.Parameters;
 public abstract class TorqueSubsystem
 {
     
-    protected static TorqueSubsystem instance;
     protected DashboardManager dashboardManager;
     protected RobotOutput robotOutput;
     protected DriverInput driverInput;
@@ -25,29 +24,6 @@ public abstract class TorqueSubsystem
         params = Parameters.getInstance();
     }
     
-    public static TorqueSubsystem getInstance()
-    {
-        return (instance == null) ? instance = new TorqueSubsystem()
-        {
-            public void run()
-            {
-            }
-            
-            public void loadParameters()
-            {
-            }
-            
-            public String logData()
-            {
-                return null;
-            }
-            
-            public String getKeyNames()
-            {
-                return null;
-            }
-        } : instance;
-    }
     
     public abstract void run();
     public abstract void loadParameters();

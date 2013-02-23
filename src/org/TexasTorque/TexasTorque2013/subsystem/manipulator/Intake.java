@@ -5,13 +5,15 @@ import org.TexasTorque.TexasTorque2013.constants.Constants;
 
 public class Intake extends TorqueSubsystem
 {
+    private static Intake instance;
+    
     private double intakeMotorSpeed;
     private boolean intakeState;
     
     public static double intakeSpeed;
     public static double outtakeSpeed;
     
-    public static TorqueSubsystem getInstance()
+    public static Intake getInstance()
     {
         return (instance == null) ? instance = new Intake() : instance;
     }
