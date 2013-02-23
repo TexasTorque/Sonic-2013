@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Watchdog;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Shooter;
 import org.TexasTorque.TorqueLib.sensor.TorqueCounter;
 import org.TexasTorque.TorqueLib.sensor.TorqueEncoder;
 import org.TexasTorque.TorqueLib.sensor.TorquePotentiometer;
@@ -104,12 +105,12 @@ public class SensorInput
     
     public synchronized double getFrontShooterRate()
     {
-        return frontShooterCounter.getRate();
+        return Shooter.convertToRPM(frontShooterCounter.getRate());
     }
     
     public synchronized double getRearShooterRate()
     {
-        return rearShooterCounter.getRate();
+        return Shooter.convertToRPM(rearShooterCounter.getRate());
     }
     
     public synchronized int getElevatorEncoder()

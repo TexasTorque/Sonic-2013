@@ -64,8 +64,6 @@ public class Shooter extends TorqueSubsystem
         
         robotOutput.setTiltMotor(tiltMotorSpeed);
         robotOutput.setShooterMotors(frontShooterMotorSpeed, rearShooterMotorSpeed);
-        SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate()*60/100);
-        SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate()*60/100);
     }
     
     public synchronized String logData()
@@ -182,6 +180,11 @@ public class Shooter extends TorqueSubsystem
         {
             return shooterSpeed;
         }
+    }
+    
+    public static double convertToRPM(double clicksPerSec)
+    {
+        return (clicksPerSec * 60) / 100;
     }
     
 }
