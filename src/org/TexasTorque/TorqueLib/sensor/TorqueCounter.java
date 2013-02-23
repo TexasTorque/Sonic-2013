@@ -93,7 +93,7 @@ public class TorqueCounter extends Thread
             Timer.delay(threadPeriod / 1000);
             current = counter.get();
             double finalTime = Timer.getFPGATimestamp();
-            rateArray[arrayIndex] = ((current - previous) * 60) / ((finalTime - initialTime) * clicksPerRev);
+            rateArray[arrayIndex] = ((current - previous)/* * 60*/) / ((finalTime - initialTime)/* * clicksPerRev*/);
             calcRate();
             currentVel = currentRate;
             accArray[arrayIndex] = (currentVel - previousVel) / (finalTime - initialTime);
