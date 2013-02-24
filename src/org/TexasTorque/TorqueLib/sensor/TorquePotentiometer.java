@@ -31,9 +31,9 @@ public class TorquePotentiometer
     
     public double get()
     {
-        //return 1 - limitValue((pot.getVoltage() - minVoltage) / (maxVoltage - minVoltage));
+        return 1 - limitValue((pot.getVoltage() - minVoltage) / (maxVoltage - minVoltage));
         
-        values[valuesIndex++] = 1 - limitValue((pot.getVoltage() - minVoltage) / (maxVoltage - minVoltage));
+        /*values[valuesIndex++] = 1 - limitValue((pot.getVoltage() - minVoltage) / (maxVoltage - minVoltage));
         
         if (valuesIndex >= valuesSize) {
             valuesIndex = 0;
@@ -45,7 +45,7 @@ public class TorquePotentiometer
         }
         average /= valuesSize;
         
-        return average;
+        return average;*/
     }
     
     public double getRaw()

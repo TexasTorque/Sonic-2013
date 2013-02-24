@@ -15,8 +15,8 @@ public class SensorInput
     private static SensorInput instance;
     private Watchdog watchdog;
     //----- Encoder -----
-    private TorqueCounter leftDriveCounter;
-    private TorqueCounter rightDriveCounter;
+    private TorqueEncoder leftDriveEncoder;
+    private TorqueEncoder rightDriveEncoder;
     private TorqueCounter frontShooterCounter;
     private TorqueCounter rearShooterCounter;
     private TorqueEncoder elevatorEncoder;
@@ -32,8 +32,8 @@ public class SensorInput
     {
         watchdog = Watchdog.getInstance();
         //----- Encoders/Counters -----
-        leftDriveCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_A_PORT);
-        rightDriveCounter = new TorqueCounter(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT);
+        leftDriveEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_B_PORT, false);
+        rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
         frontShooterCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_COUNTER_PORT);
         rearShooterCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_COUNTER_PORT);
         elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_B_PORT, true);
@@ -60,14 +60,14 @@ public class SensorInput
     private void startEncoders()
     {
         // 1 foot = 958 clicks
-        leftDriveCounter.setOptions(20, 250, false);
-        rightDriveCounter.setOptions(20, 250, false);
+        leftDriveEncoder.setOptions(10, 250, false);
+        rightDriveEncoder.setOptions(10, 250, false);
         frontShooterCounter.setOptions(10, 100, true);
         rearShooterCounter.setOptions(10, 100, true);
         elevatorEncoder.setOptions(10, 250, false);
         tiltEncoder.setOptions(20, 250, false);
-        leftDriveCounter.start();
-        rightDriveCounter.start();        
+        leftDriveEncoder.start();
+        rightDriveEncoder.start();        
         frontShooterCounter.start();
         rearShooterCounter.start();
         elevatorEncoder.start();
@@ -76,8 +76,8 @@ public class SensorInput
     
     public synchronized void resetEncoders()
     {
-        leftDriveCounter.resetCounter();
-        rightDriveCounter.resetCounter();
+        leftDriveEncoder.resetEncoder();
+        rightDriveEncoder.resetEncoder();
         frontShooterCounter.resetCounter();
         rearShooterCounter.resetCounter();
         elevatorEncoder.resetEncoder();
@@ -90,24 +90,34 @@ public class SensorInput
         gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
     }
     
-    public synchronized int getLeftDriveEncoder()
+    public synchronized double getLeftDriveEncoder()
     {
-        return (leftDriveCounter.get() / 958) * 12; 
+        return (/*leftDriveEncoder.get()*/ leftDriveEncoder.encoder.get() / 958.0) * 12; 
     }
     
-    public synchronized int getRightDriveEncoder()
+    public synchronized double getRightDriveEncoder()
     {
-        return (rightDriveCounter.get() / 958) * 12;
+        return (/*rightDriveEncoder.get()*/ rightDriveEncoder.encoder.get() / 958.0) * 12;
     }
     
     public synchronized double getLeftDriveEncoderRate()
     {
-        return (leftDriveCounter.getRate() / 958) * 12;
+        return (leftDriveEncoder.getRate() / 958.0) * 12;
     }
     
     public synchronized double getRightDriveEncoderRate()
     {
-        return (rightDriveCounter.getRate() / 958) * 12;
+        return (rightDriveEncoder.getRate() / 958.0) * 12;
+    }
+    
+    public synchronized double getLeftDriveEncoderAcceleration()
+    {
+        return (leftDriveEncoder.getAcceleration() / 958.0) * 12;
+    }
+    
+    public synchronized double getRightDriveEncoderAcceleration()
+    {
+        return (rightDriveEncoder.getAcceleration() / 958.0) * 12;
     }
     
     public synchronized double getFrontShooterRate()

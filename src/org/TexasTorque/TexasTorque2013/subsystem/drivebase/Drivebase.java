@@ -73,8 +73,8 @@ public class Drivebase extends TorqueSubsystem
             
             if(driverInput.runIntake())
             {
-                double leftError = 300 - sensorInput.getLeftDriveEncoder();
-                double rightError = 300 - sensorInput.getRightDriveEncoder();
+                double leftError = 100 - sensorInput.getLeftDriveEncoder();
+                double rightError = 100 - sensorInput.getRightDriveEncoder();
                 double leftVelocity = sensorInput.getLeftDriveEncoderRate();
                 double rightVelocity = sensorInput.getRightDriveEncoderRate();
                 
@@ -85,6 +85,10 @@ public class Drivebase extends TorqueSubsystem
                 rightDriveSpeed = rightFeedForward.calculate(rightTrajectory, rightError, rightVelocity, dt);
                 
                 robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
+                SmartDashboard.putNumber("LeftError", leftError);
+                SmartDashboard.putNumber("RightError", rightError);
+                System.err.println("LP: " + sensorInput.getLeftDriveEncoder());
+                System.err.println("RP: " + sensorInput.getRightDriveEncoder());
             }
             else
             {
@@ -102,6 +106,10 @@ public class Drivebase extends TorqueSubsystem
             SmartDashboard.putNumber("LeftPosition", sensorInput.getLeftDriveEncoder());
             SmartDashboard.putNumber("RightPosition", sensorInput.getRightDriveEncoder());
             SmartDashboard.putNumber("Setpoint", 300);
+            SmartDashboard.putNumber("LeftGoalAcceleration", leftTrajectory.getAcceleration());
+            SmartDashboard.putNumber("RightGoalAcceleration", rightTrajectory.getAcceleration());
+            SmartDashboard.putNumber("LeftAcceleration", sensorInput.getLeftDriveEncoderAcceleration());
+            SmartDashboard.putNumber("RightAcceleration", sensorInput.getRightDriveEncoderAcceleration());
             
         }
         //robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
@@ -158,6 +166,7 @@ public class Drivebase extends TorqueSubsystem
         double ffa = params.getAsDouble("D_LeftFFA", 0.0);
         
         leftFeedForward.setParams(p, i, v, ffv, ffa);
+        leftFeedForward.setSetpoint(100);
         
         p = params.getAsDouble("D_RightP", 0.0);
         i = params.getAsDouble("D_RightI", 0.0);
@@ -167,6 +176,7 @@ public class Drivebase extends TorqueSubsystem
         ffa = params.getAsDouble("D_RightFFA", 0.0);
         
         rightFeedForward.setParams(p, i, v, ffv, ffa);
+        rightFeedForward.setSetpoint(100);
         
         loadNewTrajectory();
     }

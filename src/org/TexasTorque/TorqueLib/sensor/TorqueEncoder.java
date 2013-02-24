@@ -14,7 +14,7 @@ public class TorqueEncoder extends Thread
     private boolean resetData;
     private int current;
     private int previous;
-    private Encoder encoder;
+    public Encoder encoder;
     private double[] rateArray;
     private double[] accArray;
     private int arrayIndex;
