@@ -8,10 +8,14 @@ public class TorquePotentiometer
     private double maxVoltage;
     private double minVoltage;
     
+    private double[] values;
+    private final int valuesSize = 4;
+    private int valuesIndex = 0;
+    
     public TorquePotentiometer(int port)
     {
         pot = new AnalogChannel(port);
-        
+        values = new double[valuesSize];
     }
     
     public TorquePotentiometer(int sidecar, int port)
@@ -27,7 +31,21 @@ public class TorquePotentiometer
     
     public double get()
     {
-        return 1 - limitValue((pot.getVoltage() - minVoltage) / (maxVoltage - minVoltage));
+        //return 1 - limitValue((pot.getVoltage() - minVoltage) / (maxVoltage - minVoltage));
+        
+        values[valuesIndex++] = 1 - limitValue((pot.getVoltage() - minVoltage) / (maxVoltage - minVoltage));
+        
+        if (valuesIndex >= valuesSize) {
+            valuesIndex = 0;
+        }
+        
+        double average = 0;
+        for (int i = 0; i < valuesSize; i++) {
+            average += values[i];
+        }
+        average /= valuesSize;
+        
+        return average;
     }
     
     public double getRaw()
