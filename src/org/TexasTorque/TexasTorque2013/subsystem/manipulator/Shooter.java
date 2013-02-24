@@ -1,7 +1,6 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TorqueLib.controlLoop.FeedforwardPIV;
@@ -29,7 +28,6 @@ public class Shooter extends TorqueSubsystem
     public double tempVelocity; // remove later
     
     private double previousTime;
-    private double previousAngle;
     private double tiltEpsilon;
     
     public static double tiltOverrideSpeed;
@@ -58,7 +56,6 @@ public class Shooter extends TorqueSubsystem
         loadNewTrajectory();
         
         previousTime = 0.0;
-        previousAngle = sensorInput.getTiltAngle();
         
         frontShooterMotorSpeed = Constants.MOTOR_STOPPED;
         rearShooterMotorSpeed = Constants.MOTOR_STOPPED;
@@ -67,18 +64,16 @@ public class Shooter extends TorqueSubsystem
         
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
         desiredTiltPosition = Constants.DEFAULT_STANDARD_TILT_POSITION;
-        
-        tempVelocity = 0.0; // remvoe
     }
     
     public void run()
     {   
         double currentTime = Timer.getFPGATimestamp();
         double dt = currentTime - previousTime;
-        double velocity = (sensorInput.getTiltAngle() - previousAngle) / dt;
-        double error = desiredTiltPosition - sensorInput.getTiltAngle();
         previousTime = currentTime;
-        previousAngle = sensorInput.getTiltAngle();
+        
+        double velocity = sensorInput.getTiltVelocity();
+        double error = desiredTiltPosition - sensorInput.getTiltPosition();
         
         trajectory.update(error, velocity, 0.0, dt);
         
@@ -92,8 +87,6 @@ public class Shooter extends TorqueSubsystem
         
         robotOutput.setTiltMotor(tiltMotorSpeed);
         robotOutput.setShooterMotors(frontShooterMotorSpeed, rearShooterMotorSpeed);
-        
-        tempVelocity = velocity;
     }
     
     public synchronized String logData()

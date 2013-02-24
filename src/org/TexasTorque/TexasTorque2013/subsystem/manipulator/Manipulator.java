@@ -50,7 +50,7 @@ public class Manipulator extends TorqueSubsystem
                 restoreDefaultPositions();
             }*/
             
-            if(driverInput.runIntake() && sensorInput.getTiltAngle() < 50)
+            if(driverInput.runIntake() && sensorInput.getTiltPosition() < 50)
             {
                 shooter.setTiltAngle(30);
                 shooter.run();
@@ -69,7 +69,7 @@ public class Manipulator extends TorqueSubsystem
             calcOverrides();
         }
         
-        SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
+        SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltPosition());
         SmartDashboard.putNumber("TiltVelocity", shooter.tempVelocity);
         SmartDashboard.putNumber("TiltSpeed", shooter.tiltMotorSpeed);
         SmartDashboard.putNumber("GoalVelocity", shooter.trajectory.getVelocity());
