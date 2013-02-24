@@ -1,6 +1,7 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TorqueLib.controlLoop.FeedforwardPIV;
@@ -14,7 +15,7 @@ public class Shooter extends TorqueSubsystem
     private SimPID frontShooterPID;
     private SimPID rearShooterPID;
     
-    private TrajectorySmoother trajectory;
+    public TrajectorySmoother trajectory;
     private FeedforwardPIV feedForward;
     
     private double frontShooterMotorSpeed;
@@ -22,8 +23,10 @@ public class Shooter extends TorqueSubsystem
     private double desiredFrontShooterRate;
     private double desiredRearShooterRate;
     
-    private double tiltMotorSpeed;
+    public double tiltMotorSpeed;
     private double desiredTiltPosition;
+    
+    public double tempVelocity; // remove later
     
     private double previousTime;
     private double previousAngle;
@@ -50,6 +53,8 @@ public class Shooter extends TorqueSubsystem
         frontShooterPID = new SimPID();
         rearShooterPID = new SimPID();
         
+        feedForward = new FeedforwardPIV();
+        
         loadNewTrajectory();
         
         previousTime = 0.0;
@@ -62,6 +67,8 @@ public class Shooter extends TorqueSubsystem
         
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
         desiredTiltPosition = Constants.DEFAULT_STANDARD_TILT_POSITION;
+        
+        tempVelocity = 0.0; // remvoe
     }
     
     public void run()
@@ -85,6 +92,8 @@ public class Shooter extends TorqueSubsystem
         
         robotOutput.setTiltMotor(tiltMotorSpeed);
         robotOutput.setShooterMotors(frontShooterMotorSpeed, rearShooterMotorSpeed);
+        
+        tempVelocity = velocity;
     }
     
     public synchronized String logData()
@@ -106,7 +115,7 @@ public class Shooter extends TorqueSubsystem
     
     public synchronized String getKeyNames()
     {
-        String names = "DesiredTiltAngle,TiltMotorSpeed,ActualtiltAngle,"
+        String names = "DesiredTiltAngle,TiltMotorSpeed,ActualTiltAngle,"
                 + "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,"
                 + "DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate";
         
@@ -188,7 +197,8 @@ public class Shooter extends TorqueSubsystem
     
     private synchronized void loadNewTrajectory()
     {
-        trajectory = new TrajectorySmoother(maxTiltAcceleration, maxTiltVelocity);
+        //trajectory = new TrajectorySmoother(maxTiltAcceleration, maxTiltVelocity);
+        trajectory = new TrajectorySmoother(0.0, 6);
     }
     
     public synchronized boolean isVerticallyLocked()
