@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.subsystem.drivebase;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
@@ -22,8 +23,14 @@ public class Drivebase extends TorqueSubsystem
     private double rightDriveSpeed;
     private double desiredGyroAngle;
     
+    private double previousTime;
+    
     public static double highSensitivity;
     public static double lowSensitivity;
+    public static double leftMaxVelocity;
+    public static double leftMaxAcceleration;
+    public static double rightMaxVelocity;
+    public static double rightMaxAcceleration;
     
     public static Drivebase getInstance()
     {
@@ -42,13 +49,19 @@ public class Drivebase extends TorqueSubsystem
         leftDriveSpeed = Constants.MOTOR_STOPPED;
         rightDriveSpeed = Constants.MOTOR_STOPPED;
         desiredGyroAngle = 0.0;
+        
+        previousTime = Timer.getFPGATimestamp();
     }
     
     public void run()
     {
+        double currentTime = Timer.getFPGATimestamp();
+        double dt = currentTime - previousTime;
+        previousTime = currentTime;
+        
         if(!dashboardManager.getDS().isAutonomous())
         {
-           mixChannels(driverInput.getThrottle(), driverInput.getTurn());
+           //mixChannels(driverInput.getThrottle(), driverInput.getTurn());
            /*if(driverInput.shootVisionHigh() && SmartDashboard.getBoolean("found", false))
            {
                horizontallyTrack();
@@ -57,8 +70,41 @@ public class Drivebase extends TorqueSubsystem
            {
                robotOutput.setShifters(true);
            }*/
+            
+            if(driverInput.runIntake())
+            {
+                double leftError = 300 - sensorInput.getLeftDriveEncoder();
+                double rightError = 300 - sensorInput.getRightDriveEncoder();
+                double leftVelocity = sensorInput.getLeftDriveEncoderRate();
+                double rightVelocity = sensorInput.getRightDriveEncoderRate();
+                
+                leftTrajectory.update(leftError, leftVelocity, 0.0, dt);
+                rightTrajectory.update(rightError, rightVelocity, 0.0, dt);
+                
+                leftDriveSpeed = leftFeedForward.calculate(leftTrajectory, leftError, leftVelocity, dt);
+                rightDriveSpeed = rightFeedForward.calculate(rightTrajectory, rightError, rightVelocity, dt);
+                
+                robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
+            }
+            else
+            {
+                leftDriveSpeed = 0.0;
+                rightDriveSpeed = 0.0;
+                robotOutput.setDriveMotors(0.0, 0.0);
+            }
+            
+            SmartDashboard.putNumber("LeftSpeed", leftDriveSpeed);
+            SmartDashboard.putNumber("RightSpeed", rightDriveSpeed);
+            SmartDashboard.putNumber("LeftVelocity", sensorInput.getLeftDriveEncoderRate());
+            SmartDashboard.putNumber("RightVelocity", sensorInput.getRightDriveEncoderRate());
+            SmartDashboard.putNumber("LeftGoalVelocity", leftTrajectory.getVelocity());
+            SmartDashboard.putNumber("RightGoalVelocity", rightTrajectory.getVelocity());
+            SmartDashboard.putNumber("LeftPosition", sensorInput.getLeftDriveEncoder());
+            SmartDashboard.putNumber("RightPosition", sensorInput.getRightDriveEncoder());
+            SmartDashboard.putNumber("Setpoint", 300);
+            
         }
-        robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
+        //robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
     
     public synchronized String logData()
@@ -89,6 +135,10 @@ public class Drivebase extends TorqueSubsystem
     {
         highSensitivity = params.getAsDouble("D_HighSensitivity", Constants.DEFAULT_HIGH_SENSITIVITY);
         lowSensitivity = params.getAsDouble("D_LowSensitivity", Constants.DEFAULT_LOW_SENSITIVITY);
+        leftMaxVelocity = params.getAsDouble("D_LeftMaxVelocity", 0.0);
+        leftMaxAcceleration = params.getAsDouble("D_LeftMaxAcceleration", 0.0);
+        rightMaxVelocity = params.getAsDouble("D_RightMaxVelocity", 0.0);
+        rightMaxAcceleration = params.getAsDouble("D_RightMaxAcceleration", 0.0);
         
         double p = params.getAsDouble("D_GyroP", 0.0);
         double i = params.getAsDouble("D_GyroI", 0.0);
@@ -99,11 +149,32 @@ public class Drivebase extends TorqueSubsystem
         gyroPID.setErrorEpsilon(e);
         gyroPID.resetErrorSum();
         gyroPID.resetPreviousVal();
+        
+        p = params.getAsDouble("D_LeftP", 0.0);
+        i = params.getAsDouble("D_LeftI", 0.0);
+        double v = params.getAsDouble("D_LeftV", 0.0);
+        e = params.getAsDouble("D_LeftEpsilon", 0.0);
+        double ffv = params.getAsDouble("D_LeftFFV", 0.0);
+        double ffa = params.getAsDouble("D_LeftFFA", 0.0);
+        
+        leftFeedForward.setParams(p, i, v, ffv, ffa);
+        
+        p = params.getAsDouble("D_RightP", 0.0);
+        i = params.getAsDouble("D_RightI", 0.0);
+        v = params.getAsDouble("D_RightV", 0.0);
+        e = params.getAsDouble("D_RightEpsilon", 0.0);
+        ffv = params.getAsDouble("D_RightFFV", 0.0);
+        ffa = params.getAsDouble("D_RightFFA", 0.0);
+        
+        rightFeedForward.setParams(p, i, v, ffv, ffa);
+        
+        loadNewTrajectory();
     }
     
     private synchronized void loadNewTrajectory()
     {
-        
+        leftTrajectory = new TrajectorySmoother(leftMaxAcceleration, leftMaxVelocity);
+        rightTrajectory = new TrajectorySmoother(rightMaxAcceleration, rightMaxVelocity);
     }
     
     private synchronized void calcGyroPID()

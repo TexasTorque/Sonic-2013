@@ -79,11 +79,13 @@ public class RobotBase extends SimpleRobot
         teleopInit();
         while(isOperatorControl() && isEnabled())
         {
+            double previousTime = Timer.getFPGATimestamp();
             watchdog.feed();
             teleopPeriodic();
             dashboardManager.updateLCD();
             numCycles++;
             SmartDashboard.putNumber("NumCycles", numCycles);
+            SmartDashboard.putNumber("Hertz", 1.0/(Timer.getFPGATimestamp() - previousTime));
         }
     }
     

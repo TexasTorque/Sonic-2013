@@ -60,8 +60,8 @@ public class SensorInput
     private void startEncoders()
     {
         // 1 foot = 958 clicks
-        leftDriveCounter.setOptions(20, 1062, false);
-        rightDriveCounter.setOptions(20, 1062, false);
+        leftDriveCounter.setOptions(20, 250, false);
+        rightDriveCounter.setOptions(20, 250, false);
         frontShooterCounter.setOptions(10, 100, true);
         rearShooterCounter.setOptions(10, 100, true);
         elevatorEncoder.setOptions(10, 250, false);
@@ -92,22 +92,22 @@ public class SensorInput
     
     public synchronized int getLeftDriveEncoder()
     {
-        return leftDriveCounter.get();
+        return (leftDriveCounter.get() / 958) * 12; 
     }
     
     public synchronized int getRightDriveEncoder()
     {
-        return rightDriveCounter.get();
+        return (rightDriveCounter.get() / 958) * 12;
     }
     
     public synchronized double getLeftDriveEncoderRate()
     {
-        return leftDriveCounter.getRate();
+        return (leftDriveCounter.getRate() / 958) * 12;
     }
     
     public synchronized double getRightDriveEncoderRate()
     {
-        return rightDriveCounter.getRate();
+        return (rightDriveCounter.getRate() / 958) * 12;
     }
     
     public synchronized double getFrontShooterRate()
