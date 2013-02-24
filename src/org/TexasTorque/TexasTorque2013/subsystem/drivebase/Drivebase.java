@@ -3,13 +3,20 @@ package org.TexasTorque.TexasTorque2013.subsystem.drivebase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
+import org.TexasTorque.TorqueLib.controlLoop.FeedforwardPIV;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
+import org.TexasTorque.TorqueLib.controlLoop.TrajectorySmoother;
 
 public class Drivebase extends TorqueSubsystem
 {   
     private static Drivebase instance;
     
     private SimPID gyroPID;
+    
+    private TrajectorySmoother leftTrajectory;
+    private TrajectorySmoother rightTrajectory;
+    private FeedforwardPIV leftFeedForward;
+    private FeedforwardPIV rightFeedForward;
     
     private double leftDriveSpeed;
     private double rightDriveSpeed;
@@ -28,6 +35,9 @@ public class Drivebase extends TorqueSubsystem
         super();
         
         gyroPID = new SimPID();
+        
+        leftFeedForward = new FeedforwardPIV();
+        rightFeedForward = new FeedforwardPIV();
         
         leftDriveSpeed = Constants.MOTOR_STOPPED;
         rightDriveSpeed = Constants.MOTOR_STOPPED;
@@ -89,6 +99,11 @@ public class Drivebase extends TorqueSubsystem
         gyroPID.setErrorEpsilon(e);
         gyroPID.resetErrorSum();
         gyroPID.resetPreviousVal();
+    }
+    
+    private synchronized void loadNewTrajectory()
+    {
+        
     }
     
     private synchronized void calcGyroPID()

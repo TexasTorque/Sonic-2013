@@ -50,7 +50,7 @@ public class Manipulator extends TorqueSubsystem
                 restoreDefaultPositions();
             }*/
             
-            if(driverInput.runIntake() && sensorInput.getTiltPosition() < 50)
+            /*if(driverInput.runIntake() && sensorInput.getTiltPosition() < 50)
             {
                 shooter.setTiltAngle(30);
                 shooter.run();
@@ -58,7 +58,7 @@ public class Manipulator extends TorqueSubsystem
             else
             {
                 robotOutput.setTiltMotor(0.0);
-            }
+            }*/
             
             magazine.run();
             //shooter.run();
