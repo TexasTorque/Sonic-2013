@@ -16,7 +16,7 @@ public class Elevator extends TorqueSubsystem
     private int desiredPosition;
     public double elevatorMotorSpeed;
     private double previousTime;
-    private double elevatorEpsilon;
+    private int elevatorEpsilon;
     
     public static double elevatorOverrideSpeed;
     public static int elevatorTopPosition;
@@ -37,9 +37,11 @@ public class Elevator extends TorqueSubsystem
         
         loadNewTrajectory();
         
-        desiredPosition = 0;
-        elevatorMotorSpeed = Constants.MOTOR_STOPPED;
         previousTime = Timer.getFPGATimestamp();
+        
+        desiredPosition = Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION;
+        elevatorMotorSpeed = Constants.MOTOR_STOPPED;
+        elevatorEpsilon = 0;
     }
     
     public void run()
