@@ -19,6 +19,14 @@ public class Shooter extends TorqueSubsystem
     public double tiltMotorSpeed;
     private double desiredTiltPosition;
     
+    private double innerZoneSpeed;
+    private double middleZoneSpeed;
+    private double outerZoneSpeed;
+    
+    private double innerZoneRange;
+    private double middleZoneRange;
+    private double outerZoneRange;
+    
     public static double tiltOverrideSpeed;
     public static double standardTiltPosition;
     public static double frontShooterOverrideSpeed;
@@ -139,6 +147,8 @@ public class Shooter extends TorqueSubsystem
         rearShooterPID.setDoneRange(r);
         rearShooterPID.resetErrorSum();
         rearShooterPID.resetPreviousVal();
+        
+        innerZoneSpeed = params.getAsDouble(null, d)
     }
     
     public synchronized boolean isVerticallyLocked()
