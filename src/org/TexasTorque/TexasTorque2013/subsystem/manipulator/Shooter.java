@@ -18,6 +18,7 @@ public class Shooter extends TorqueSubsystem
     
     public double tiltMotorSpeed;
     private double desiredTiltPosition;
+    private boolean inInnerZone;
     
     private double innerZoneSpeed;
     private double middleZoneSpeed;
@@ -54,6 +55,7 @@ public class Shooter extends TorqueSubsystem
         
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
         desiredTiltPosition = Constants.DEFAULT_STANDARD_TILT_POSITION;
+        inInnerZone = false;
     }
     
     public void run()
@@ -79,18 +81,22 @@ public class Shooter extends TorqueSubsystem
         if(dAngle <= innerZoneRange)
         {
             motorSpeed = innerZoneSpeed;
+            inInnerZone = true;
         }
         else if(dAngle <= middleZoneRange)
         {
             motorSpeed = (desiredTiltPosition > currentAngle) ? middleZoneSpeed : -1 * middleZoneSpeed;
+            inInnerZone = false;
         }
         else if(dAngle <= outerZoneRange)
         {
             motorSpeed = (desiredTiltPosition  > currentAngle) ? outerZoneSpeed : -1 * outerZoneSpeed;
+            inInnerZone = false;
         }
         else
         {
             motorSpeed = (desiredTiltPosition > currentAngle) ? nullZoneSpeed : -1 * nullZoneSpeed;
+            inInnerZone = false;
         }
         
         return motorSpeed;
@@ -189,17 +195,22 @@ public class Shooter extends TorqueSubsystem
     
     public synchronized boolean isVerticallyLocked()
     {
-        return false;
+        return inInnerZone;
     }
     
     public synchronized boolean isAtStandardPosition()
     {
-        return (isVerticallyLocked() && desiredTiltPosition == Constants.DEFAULT_STANDARD_TILT_POSITION);
+        return (isVerticallyLocked() && (desiredTiltPosition == Constants.DEFAULT_STANDARD_TILT_POSITION || desiredTiltPosition == 0.0));
     }
     
     public synchronized boolean isReadyToFire()
     {
-        return (/*isVerticallyLocked() && */frontShooterPID.isDone() && rearShooterPID.isDone());
+        return (isVerticallyLocked() && isSpunUp());
+    }
+    
+    public synchronized boolean isSpunUp()
+    {
+        return (frontShooterPID.isDone() && rearShooterPID.isDone());
     }
     
     private double limitShooterSpeed(double shooterSpeed)
