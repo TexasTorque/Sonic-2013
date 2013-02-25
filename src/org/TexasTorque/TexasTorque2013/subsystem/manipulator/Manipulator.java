@@ -33,57 +33,16 @@ public class Manipulator extends TorqueSubsystem
     {
         if(!driverInput.override())
         {
-            /*if(driverInput.reverseIntake())
-            {
-                calcReverseIntake();
-            }
-            else if(driverInput.runIntake())
-            {
-                calcIntake();
-            }
-            else if(driverInput.shootVisionHigh())
-            {
-                shootHighWithVision();
-            }
-            else
-            {
-                restoreDefaultPositions();
-            }*/
-            
-            /*if(driverInput.runIntake() && sensorInput.getTiltPosition() < 50)
-            {
-                shooter.setTiltAngle(30);
-                shooter.run();
-            }
-            else
-            {
-                robotOutput.setTiltMotor(0.0);
-            }*/
-            
-            if(driverInput.runIntake())
-            {
-                shooter.setTiltAngle(30);
-                shooter.run();
-            }
-            else
-            {
-                shooter.setTiltAngle(0);
-                robotOutput.setTiltMotor(0.0);
-            }
-            
-            magazine.run();
-            intake.run();
         }
         else
         {
             calcOverrides();
         }
         
-        SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
-        SmartDashboard.putNumber("TiltSpeed", shooter.tiltMotorSpeed);
-        SmartDashboard.putNumber("GoalVelocity", shooter.trajectory.getVelocity());
-        SmartDashboard.putNumber("TiltVolts", sensorInput.getTiltVoltage());
-        SmartDashboard.putNumber("TiltVelocity", shooter.tempVelocity);
+        intake.run();
+        elevator.run();
+        shooter.run();
+        magazine.run();
     }
     
     public synchronized String logData()
