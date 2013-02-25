@@ -44,6 +44,8 @@ public class Manipulator extends TorqueSubsystem
         //elevator.run();
         shooter.run();
         //magazine.run();
+        
+        SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
     }
     
     public synchronized String logData()
