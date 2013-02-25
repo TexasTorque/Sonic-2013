@@ -25,10 +25,11 @@ public class Shooter extends TorqueSubsystem
     public double tiltMotorSpeed;
     private double desiredTiltPosition;
     
-    public double tempVelocity; // remove later
-    
     private double previousTime;
     private double tiltEpsilon;
+    private double previousAngle;
+    
+    public double tempVelocity;
     
     public static double tiltOverrideSpeed;
     public static double standardTiltPosition;
@@ -64,6 +65,8 @@ public class Shooter extends TorqueSubsystem
         
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
         desiredTiltPosition = Constants.DEFAULT_STANDARD_TILT_POSITION;
+        
+        previousAngle = 0.0;
     }
     
     public void run()
@@ -72,8 +75,10 @@ public class Shooter extends TorqueSubsystem
         double dt = currentTime - previousTime;
         previousTime = currentTime;
         
-        double velocity = sensorInput.getTiltVelocity();
-        double error = desiredTiltPosition - sensorInput.getTiltPosition();
+        double velocity = (sensorInput.getTiltAngle() - previousAngle) / dt;
+        tempVelocity = velocity;
+        previousAngle = sensorInput.getTiltAngle();
+        double error = desiredTiltPosition - sensorInput.getTiltAngle();
         
         trajectory.update(error, velocity, 0.0, dt);
         
