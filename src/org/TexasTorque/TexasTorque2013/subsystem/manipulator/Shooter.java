@@ -14,9 +14,6 @@ public class Shooter extends TorqueSubsystem
     private SimPID frontShooterPID;
     private SimPID rearShooterPID;
     
-    public TrajectorySmoother trajectory;
-    private FeedforwardPIV feedForward;
-    
     private double frontShooterMotorSpeed;
     private double rearShooterMotorSpeed;
     private double desiredFrontShooterRate;
@@ -25,20 +22,12 @@ public class Shooter extends TorqueSubsystem
     public double tiltMotorSpeed;
     private double desiredTiltPosition;
     
-    private double previousTime;
-    private double tiltEpsilon;
-    private double previousAngle;
-    
-    public double tempVelocity;
-    
     public static double tiltOverrideSpeed;
     public static double standardTiltPosition;
     public static double frontShooterOverrideSpeed;
     public static double rearShooterOverrideSpeed;
     public static double frontShooterRate;
     public static double rearShooterRate;
-    public static double maxTiltVelocity;
-    public static double maxTiltAcceleration;
     
     public static Shooter getInstance()
     {
@@ -52,12 +41,6 @@ public class Shooter extends TorqueSubsystem
         frontShooterPID = new SimPID();
         rearShooterPID = new SimPID();
         
-        feedForward = new FeedforwardPIV();
-        
-        loadNewTrajectory();
-        
-        previousTime = 0.0;
-        
         frontShooterMotorSpeed = Constants.MOTOR_STOPPED;
         rearShooterMotorSpeed = Constants.MOTOR_STOPPED;
         desiredFrontShooterRate = Constants.SHOOTER_STOPPED_RATE;
@@ -65,25 +48,10 @@ public class Shooter extends TorqueSubsystem
         
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
         desiredTiltPosition = Constants.DEFAULT_STANDARD_TILT_POSITION;
-        
-        previousAngle = 0.0;
     }
     
     public void run()
     {   
-        double currentTime = Timer.getFPGATimestamp();
-        double dt = currentTime - previousTime;
-        previousTime = currentTime;
-        
-        double velocity = (sensorInput.getTiltAngle() - previousAngle) / dt;
-        tempVelocity = velocity;
-        previousAngle = sensorInput.getTiltAngle();
-        double error = desiredTiltPosition - sensorInput.getTiltAngle();
-        
-        trajectory.update(error, velocity, 0.0, dt);
-        
-        tiltMotorSpeed = feedForward.calculate(trajectory, error, velocity, dt);
-        
         double frontSpeed = frontShooterPID.calcPID(sensorInput.getFrontShooterRate());
         double rearSpeed = rearShooterPID.calcPID(sensorInput.getRearShooterRate());
         
@@ -139,8 +107,6 @@ public class Shooter extends TorqueSubsystem
         if(degrees != desiredTiltPosition)
         {
             desiredTiltPosition = degrees;
-            feedForward.setSetpoint(desiredTiltPosition);
-            loadNewTrajectory();
         }
     }
     
@@ -152,8 +118,6 @@ public class Shooter extends TorqueSubsystem
         rearShooterOverrideSpeed = params.getAsDouble("S_RearShooterOverrideSpeed", 0.5);
         frontShooterRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
         rearShooterRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
-        maxTiltVelocity = params.getAsDouble("S_TiltMaxVelocity", 0.0);
-        maxTiltAcceleration = params.getAsDouble("S_TiltMaxAcceleration", 0.0);
         
         double p = params.getAsDouble("S_FrontShooterP", 0.0);
         double i = params.getAsDouble("S_FrontShooterI", 0.0);
@@ -178,30 +142,11 @@ public class Shooter extends TorqueSubsystem
         rearShooterPID.setDoneRange(r);
         rearShooterPID.resetErrorSum();
         rearShooterPID.resetPreviousVal();
-        
-        p = params.getAsDouble("S_TiltP", 0.0);
-        i = params.getAsDouble("S_TiltI", 0.0);
-        double v = params.getAsDouble("S_TiltV", 0.0);
-        e = params.getAsDouble("S_TiltEpsilon", 0.0);
-        double ffv = params.getAsDouble("S_TiltFFV", 0.0);
-        double ffa = params.getAsDouble("S_TiltFFA", 0.0);
-        
-        feedForward.setParams(p, i, v, ffv, ffa);
-        
-        tiltEpsilon = e;
-        
-        loadNewTrajectory();
-    }
-    
-    private synchronized void loadNewTrajectory()
-    {
-        //trajectory = new TrajectorySmoother(maxTiltAcceleration, maxTiltVelocity);
-        trajectory = new TrajectorySmoother(0.0, 6);
     }
     
     public synchronized boolean isVerticallyLocked()
     {
-        return feedForward.onTarget(tiltEpsilon);
+        return false;
     }
     
     public synchronized boolean isAtStandardPosition()
