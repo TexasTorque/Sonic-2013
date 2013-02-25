@@ -22,6 +22,7 @@ public class Shooter extends TorqueSubsystem
     private double innerZoneSpeed;
     private double middleZoneSpeed;
     private double outerZoneSpeed;
+    private double nullZoneSpeed;
     
     private double innerZoneRange;
     private double middleZoneRange;
@@ -63,8 +64,36 @@ public class Shooter extends TorqueSubsystem
         frontShooterMotorSpeed = limitShooterSpeed(frontSpeed);
         rearShooterMotorSpeed = limitShooterSpeed(rearSpeed);
         
+        tiltMotorSpeed = scheduledTiltSpeed();
+        
         robotOutput.setTiltMotor(tiltMotorSpeed);
         robotOutput.setShooterMotors(frontShooterMotorSpeed, rearShooterMotorSpeed);
+    }
+    
+    private double scheduledTiltSpeed()
+    {
+        double motorSpeed = 0.0;
+        double currentAngle = sensorInput.getTiltAngle();
+        double dAngle = Math.abs(desiredTiltPosition - currentAngle);
+        
+        if(dAngle <= innerZoneRange)
+        {
+            motorSpeed = innerZoneSpeed;
+        }
+        else if(dAngle <= middleZoneRange)
+        {
+            motorSpeed = (desiredTiltPosition > currentAngle) ? middleZoneSpeed : -1 * middleZoneSpeed;
+        }
+        else if(dAngle <= outerZoneRange)
+        {
+            motorSpeed = (desiredTiltPosition  > currentAngle) ? outerZoneSpeed : -1 * outerZoneSpeed;
+        }
+        else
+        {
+            motorSpeed = (desiredTiltPosition > currentAngle) ? nullZoneSpeed : -1 * nullZoneSpeed;
+        }
+        
+        return motorSpeed;
     }
     
     public synchronized String logData()
@@ -148,7 +177,14 @@ public class Shooter extends TorqueSubsystem
         rearShooterPID.resetErrorSum();
         rearShooterPID.resetPreviousVal();
         
-        innerZoneSpeed = params.getAsDouble(null, d)
+        innerZoneSpeed = params.getAsDouble("S_InnerZoneSpeed", 0.0);
+        middleZoneSpeed = params.getAsDouble("S_MiddleZoneSpeed", 0.0);
+        outerZoneSpeed = params.getAsDouble("S_OuterZoneSpeed", 0.0);
+        nullZoneSpeed = params.getAsDouble("S_NullZoneSpeed", 0.0);
+        
+        innerZoneRange = params.getAsDouble("S_InnerZoneRange", 0.0);
+        middleZoneRange = params.getAsDouble("S_MiddleZoneRange", 0.0);
+        outerZoneRange = params.getAsDouble("S_OuterZoneRange", 0.0);
     }
     
     public synchronized boolean isVerticallyLocked()
