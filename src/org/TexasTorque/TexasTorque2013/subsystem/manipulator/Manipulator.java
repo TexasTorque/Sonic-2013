@@ -33,16 +33,17 @@ public class Manipulator extends TorqueSubsystem
     {
         if(!driverInput.override())
         {
+            shooter.setTiltAngle(30);
         }
         else
         {
             calcOverrides();
         }
         
-        intake.run();
-        elevator.run();
+        //intake.run();
+        //elevator.run();
         shooter.run();
-        magazine.run();
+        //magazine.run();
     }
     
     public synchronized String logData()
