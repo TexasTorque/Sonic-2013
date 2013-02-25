@@ -27,13 +27,24 @@ public class Manipulator extends TorqueSubsystem
         elevator = Elevator.getInstance();
         intake = Intake.getInstance();
         magazine = Magazine.getInstance();
+        
+        SmartDashboard.putNumber("DesiredDegree", 0.0);
     }
     
     public void run()
     {
         if(!driverInput.override())
         {
-            shooter.setTiltAngle(30);
+            if(driverInput.runIntake())
+            {
+                shooter.setTiltAngle(SmartDashboard.getNumber("DesiredDegree", 0.0));
+                shooter.run();
+            }
+            else
+            {
+                shooter.setTiltAngle(0.0);
+                robotOutput.setTiltMotor(0.0);
+            }
         }
         else
         {
@@ -42,10 +53,10 @@ public class Manipulator extends TorqueSubsystem
         
         //intake.run();
         //elevator.run();
-        shooter.run();
         //magazine.run();
         
         SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
+        SmartDashboard.putNumber("TiltSpeed", shooter.tiltMotorSpeed);
     }
     
     public synchronized String logData()
