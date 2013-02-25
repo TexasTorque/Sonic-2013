@@ -15,7 +15,6 @@ public class RobotOutput
     private Compressor compressor;
     private Solenoid driveShifter;
     private Solenoid loader;
-    private Solenoid intakeDropdown;
     private Solenoid levelTwoClimber;
     private DoubleSolenoid frisbeeLifter;
     private DoubleSolenoid passiveClimber;
@@ -42,7 +41,6 @@ public class RobotOutput
         compressor = new Compressor(Ports.SIDECAR_ONE, Ports.PRESSURE_SWITCH_PORT, Ports.SIDECAR_ONE, Ports.COMPRESSOR_RELAY_PORT);
         driveShifter = new Solenoid(Ports.DRIVE_SHIFTER_PORT);
         loader = new Solenoid(Ports.LOADER_SOLENOID_PORT);
-        intakeDropdown = new Solenoid(Ports.INTAKE_DROPDOWN_PORT);
         levelTwoClimber = new Solenoid(Ports.LEVEL_TWO_CLIMBER_PORT);
         frisbeeLifter = new DoubleSolenoid(Ports.FRISBEE_LIFTER_SOLENOID_A_PORT, Ports.FRISBEE_LIFTER_SOLENOID_B_PORT);
         passiveClimber = new DoubleSolenoid(Ports.PASSIVE_CLIMBER_A_PORT, Ports.PASSIVE_CLIMBER_B_PORT);
@@ -110,11 +108,6 @@ public class RobotOutput
     public synchronized void setShifters(boolean highGear)
     {
         driveShifter.set(highGear);
-    }
-    
-    public synchronized void setIntakeDropdown(boolean down)
-    {
-        intakeDropdown.set(down);
     }
     
     public synchronized void setLevelTwoClimber(boolean release)

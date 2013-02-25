@@ -8,7 +8,6 @@ public class Intake extends TorqueSubsystem
     private static Intake instance;
     
     private double intakeMotorSpeed;
-    private boolean intakeState;
     
     public static double intakeSpeed;
     public static double outtakeSpeed;
@@ -23,27 +22,23 @@ public class Intake extends TorqueSubsystem
         super();
         
         intakeMotorSpeed = Constants.MOTOR_STOPPED;
-        intakeState = Constants.INTAKE_UP_POSITION;
     }
     
     public void run()
-    {
-        robotOutput.setIntakeDropdown(intakeState);
-        
+    {   
         robotOutput.setIntakeMotor(intakeMotorSpeed);
     }
     
     public synchronized String logData()
     {
         String data = intakeMotorSpeed + ",";
-        data += intakeState + ",";
         
         return data;
     }
     
     public synchronized String getKeyNames()
     {
-        String names = "IntakeMotorSpeed,IntakeDropdownPosition,";
+        String names = "IntakeMotorSpeed,";
         
         return names;
     }
@@ -57,10 +52,5 @@ public class Intake extends TorqueSubsystem
     public synchronized void setIntakeSpeed(double speed)
     {
         intakeMotorSpeed = speed;
-    }
-    
-    public synchronized void setIntakeDropdown(boolean dropdown)
-    {
-        intakeState = (dropdown) ? Constants.INTAKE_DOWN_POSITION : Constants.INTAKE_UP_POSITION;
     }
 }
