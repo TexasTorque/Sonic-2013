@@ -110,6 +110,11 @@ public class DriverInput
         return operatorController.getBottomRightBumper();
     }
     
+    public synchronized boolean raiseElevator()
+    {
+        return operatorController.getBottomActionButton();
+    }
+    
 //---------- Overrides ----------
     
     public synchronized boolean override()
