@@ -20,8 +20,6 @@ public class SensorInput
     private TorqueCounter frontShooterCounter;
     private TorqueCounter rearShooterCounter;
     private TorqueEncoder elevatorEncoder;
-    
-    private TorqueEncoder tiltEncoder;
     //----- Analog -----
     private AnalogChannel pressureSensor;
     private AnalogChannel gyroChannel;
@@ -37,8 +35,6 @@ public class SensorInput
         frontShooterCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_COUNTER_PORT);
         rearShooterCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_COUNTER_PORT);
         elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_B_PORT, true);
-        
-        tiltEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.TILT_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.TILT_ENCODER_B_PORT, true);
         //----- Gyro -----
         gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
         gyroChannel.setAccumulatorDeadband(Constants.GYRO_ACCUMULATOR_DEADBAND);
@@ -65,13 +61,11 @@ public class SensorInput
         frontShooterCounter.setOptions(10, 100, true);
         rearShooterCounter.setOptions(10, 100, true);
         elevatorEncoder.setOptions(10, 250, false);
-        tiltEncoder.setOptions(20, 250, false);
         leftDriveEncoder.start();
         rightDriveEncoder.start();        
         frontShooterCounter.start();
         rearShooterCounter.start();
         elevatorEncoder.start();
-        tiltEncoder.start();
     }
     
     public synchronized void resetEncoders()
@@ -81,7 +75,6 @@ public class SensorInput
         frontShooterCounter.resetCounter();
         rearShooterCounter.resetCounter();
         elevatorEncoder.resetEncoder();
-        tiltEncoder.resetEncoder();
     }
     
     public synchronized void resetGyro()
@@ -188,20 +181,4 @@ public class SensorInput
     {
         return tiltPotentiometer.getRaw();
     }
-    
-    public synchronized double getTiltPosition()
-    {
-        return convertToDegrees(tiltEncoder.get());
-    }
-    
-    public synchronized double getTiltVelocity()
-    {
-        return convertToDegrees(tiltEncoder.getRate());
-    }
-    
-    private synchronized double convertToDegrees(double clicks)
-    {
-        return clicks / 62.5;
-    }
-    
 }
