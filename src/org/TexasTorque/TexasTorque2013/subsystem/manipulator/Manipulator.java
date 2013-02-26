@@ -35,6 +35,20 @@ public class Manipulator extends TorqueSubsystem
     {
         if(!driverInput.override())
         {
+            if(driverInput.shootVisionHigh())
+            {
+                shootHighWithVision();
+            }
+            else
+            {
+                shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+                elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
+                intake.setIntakeSpeed(0.0);
+            }
+            
+            shooter.run();
+            intake.run();
+            elevator.run();
         }
         else
         {
@@ -165,6 +179,37 @@ public class Manipulator extends TorqueSubsystem
     
     public void shootHighWithVision()
     {
+        intake.setIntakeSpeed(0.0);
+        robotOutput.setFrisbeeLifter(true);
+        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
+        elevator.setDesiredPosition(Elevator.elevatorTopPosition);
+        
+        if(sensorInput.getElevatorEncoder() > 100)
+        {
+            shooter.setTiltAngle(Shooter.standardTiltPosition);
+        }
+        else
+        {
+            shooter.setTiltAngle(0.0);
+        }
+        
+        if(elevator.elevatorAtTop() && SmartDashboard.getBoolean("found", false))
+        {
+            double currentAngle = sensorInput.getTiltAngle();
+            double elevation = SmartDashboard.getNumber("elevation", 0.0);
+            elevation = sensorInput.limitGyroAngle(elevation);
+            shooter.setTiltAngle(currentAngle + elevation);
+            
+            if(shooter.isReadyToFire() && (driverInput.fireFrisbee() || dashboardManager.getDS().isAutonomous()))
+            {
+                robotOutput.setLoaderSolenoid(false);
+            }
+            else
+            {
+                robotOutput.setLoaderSolenoid(true);
+            }
+        }
+        
     }
     
     public void restoreDefaultPositions()
