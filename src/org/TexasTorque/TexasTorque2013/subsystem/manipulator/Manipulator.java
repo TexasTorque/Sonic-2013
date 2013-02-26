@@ -37,20 +37,13 @@ public class Manipulator extends TorqueSubsystem
         {
             if(driverInput.runIntake())
             {
-                //shooter.setTiltAngle(SmartDashboard.getNumber("DesiredDegree", 0.0));
-                //shooter.run();
-                shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
-                if(driverInput.fireFrisbee())
-                {
-                    magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
-                }
+                shooter.setTiltAngle(SmartDashboard.getNumber("DesiredDegree", 0.0));
+                shooter.run();
             }
             else
             {
-                shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
-                magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
-                //shooter.setTiltAngle(0.0);
-                //robotOutput.setTiltMotor(0.0);
+                shooter.setTiltAngle(0.0);
+                robotOutput.setTiltMotor(0.0);
             }
         }
         else
@@ -59,7 +52,7 @@ public class Manipulator extends TorqueSubsystem
         }
         
         shooter.run();
-        magazine.run();
+        //magazine.run();
         
         //intake.run();
         //elevator.run();
