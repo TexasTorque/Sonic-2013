@@ -157,32 +157,32 @@ public class DriverInput
     
     public synchronized boolean intakeOverride()
     {
-        return false;
+        return operatorController.getTopLeftBumper();
     }
     
     public synchronized boolean outtakeOverride()
     {
-        return false;
+        return operatorController.getTopRightBumper();
     }
     
     public synchronized boolean elevatorTopOverride()
     {
-        return false;
+        return (operatorController.getLeftYAxis() < -0.5);
     }
     
     public synchronized boolean elevatorBottomOverride()
     {
-        return false;
+        return (operatorController.getLeftYAxis() > 0.5);
     }
     
     public synchronized boolean shooterOverride()
     {
-        return false;
+        return operatorController.getBottomActionButton();
     }
     
     public synchronized boolean magazineShootOverride()
     {
-        return false;
+        return operatorController.getBottomLeftBumper();
     }
     
     public synchronized boolean tiltUpOverride()
