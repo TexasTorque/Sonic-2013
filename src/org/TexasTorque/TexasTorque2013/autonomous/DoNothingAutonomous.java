@@ -1,5 +1,7 @@
 package org.TexasTorque.TexasTorque2013.autonomous;
 
+import org.TexasTorque.TexasTorque2013.constants.Constants;
+
 public class DoNothingAutonomous extends AutonomousBase
 {
     
@@ -18,7 +20,13 @@ public class DoNothingAutonomous extends AutonomousBase
         while(ds.isAutonomous())
         {
             watchdog.feed();
-            robotOutput.setDriveMotors(0.0, 0.0);
+            robotOutput.setDriveMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
+            robotOutput.setElevatorMotors(Constants.MOTOR_STOPPED);
+            robotOutput.setShooterMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
+            robotOutput.setTiltMotor(Constants.MOTOR_STOPPED);
+            robotOutput.setIntakeMotor(Constants.MOTOR_STOPPED);
+            robotOutput.setFrisbeeLifter(Constants.MAGAZINE_STORED);
+            robotOutput.setLoaderSolenoid(true);
         }
     }
     

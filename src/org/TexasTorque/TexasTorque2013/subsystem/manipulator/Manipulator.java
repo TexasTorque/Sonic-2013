@@ -199,19 +199,19 @@ public class Manipulator extends TorqueSubsystem
         }
     }
     
-    public void reverseIntake()
-    {
-        restoreDefaultPositions();
-        
-        intake.setIntakeSpeed(Intake.outtakeSpeed);
-        magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
-    }
-    
     public void intakeFrisbees()
     {
         restoreDefaultPositions();
         
         intake.setIntakeSpeed(Intake.intakeSpeed);
+        magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
+    }
+    
+    public void reverseIntake()
+    {
+        restoreDefaultPositions();
+        
+        intake.setIntakeSpeed(Intake.outtakeSpeed);
         magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
     }
     
