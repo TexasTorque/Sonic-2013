@@ -305,6 +305,24 @@ public class Manipulator extends TorqueSubsystem
         }
     }
     
+    public void feedFromSlot()
+    {
+        intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+        shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        
+        elevator.setDesiredPosition(Elevator.elevatorFeedPosition);
+        
+        if(sensorInput.getElevatorEncoder() > 100)
+        {
+            shooter.setTiltAngle(Shooter.standardTiltPosition);
+        }
+        else
+        {
+            shooter.setTiltAngle(0.0);
+        }
+    }
+    
     public void restoreDefaultPositions()
     {
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);

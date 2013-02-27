@@ -45,6 +45,7 @@ public class Constants
     //----- Elevator -----
     public final static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;
     public final static int DEFAULT_ELEVATOR_TOP_POSITION = 750;
+    public final static int DEFAULT_ELEVATOR_FEED_POSITION = 400;
     
     //----- Magazine -----
     public final static boolean MAGAZINE_STORED = false;

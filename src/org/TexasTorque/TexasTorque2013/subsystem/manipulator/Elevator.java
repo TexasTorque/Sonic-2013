@@ -21,6 +21,7 @@ public class Elevator extends TorqueSubsystem
     public static double elevatorOverrideSpeed;
     public static int elevatorTopPosition;
     public static int elevatorBottomPosition;
+    public static int elevatorFeedPosition;
     public static double maxElevatorVelocity;
     public static double maxElevatorAcceleration;
     
@@ -88,6 +89,7 @@ public class Elevator extends TorqueSubsystem
         elevatorOverrideSpeed = params.getAsDouble("E_ElevatorOverrideSpeed", 0.7);
         elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
         elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
+        elevatorFeedPosition = params.getAsInt("E_ElevatorFeedPosition", Constants.DEFAULT_ELEVATOR_FEED_POSITION);
         
         maxElevatorVelocity = params.getAsDouble("E_ElevatorMaxVelocity", 0.0);
         maxElevatorAcceleration = params.getAsDouble("E_ElevatorMaxAcceleration", 0.0);
@@ -129,5 +131,10 @@ public class Elevator extends TorqueSubsystem
     public synchronized boolean elevatorAtBottom()
     {
         return (desiredPosition == elevatorBottomPosition && feedForward.onTarget(elevatorEpsilon));
+    }
+    
+    public synchronized boolean elevatorAtFeed()
+    {
+        return (desiredPosition == elevatorFeedPosition && feedForward.onTarget(elevatorEpsilon));
     }
 }
