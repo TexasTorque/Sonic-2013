@@ -35,6 +35,8 @@ public class Shooter extends TorqueSubsystem
     public static double rearShooterOverrideSpeed;
     public static double frontShooterRate;
     public static double rearShooterRate;
+    public static double shootHighStandardAngle;
+    public static double shootLowStandardAngle;
     
     public static Shooter getInstance()
     {
@@ -54,7 +56,7 @@ public class Shooter extends TorqueSubsystem
         desiredRearShooterRate = Constants.SHOOTER_STOPPED_RATE;
         
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
-        desiredTiltPosition = Constants.DEFAULT_STANDARD_TILT_POSITION;
+        desiredTiltPosition = 0.0;
         inInnerZone = false;
     }
     
@@ -158,6 +160,8 @@ public class Shooter extends TorqueSubsystem
         rearShooterOverrideSpeed = params.getAsDouble("S_RearShooterOverrideSpeed", 0.5);
         frontShooterRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
         rearShooterRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
+        shootHighStandardAngle = params.getAsDouble("S_ShootHighAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
+        shootLowStandardAngle = params.getAsDouble("S_ShootLowAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
         
         double p = params.getAsDouble("S_FrontShooterP", 0.0);
         double i = params.getAsDouble("S_FrontShooterI", 0.0);
