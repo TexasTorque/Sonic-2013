@@ -13,9 +13,10 @@ public class Elevator extends TorqueSubsystem
     public TrajectorySmoother trajectory;
     private FeedforwardPIV feedForward;
     
+    private double previousTime;
+    
     private int desiredPosition;
     public double elevatorMotorSpeed;
-    private double previousTime;
     private int elevatorEpsilon;
     
     public static double elevatorOverrideSpeed;
@@ -61,7 +62,29 @@ public class Elevator extends TorqueSubsystem
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
     }
     
-    public synchronized String logData()
+    public void setDesiredPosition(int position)
+    {
+        if(position != desiredPosition)
+        {
+            desiredPosition = position;
+            feedForward.setSetpoint(desiredPosition);
+            loadNewTrajectory();
+        }
+    }
+    
+    public boolean atDesiredPosition()
+    {
+        return feedForward.onTarget(elevatorEpsilon);
+    }
+    
+    public String getKeyNames()
+    {
+        String names = "ElevatorMotorSpeed,ElevatorVelocity,ElevatorPosition,ElevatorGoalVelocity,";
+        
+        return names;
+    }
+    
+    public String logData()
     {
         String data = elevatorMotorSpeed + ",";
         data += sensorInput.getElevatorEncoderVelocity() + ",";
@@ -77,14 +100,7 @@ public class Elevator extends TorqueSubsystem
         return data;
     }
     
-    public synchronized String getKeyNames()
-    {
-        String names = "ElevatorMotorSpeed,ElevatorVelocity,ElevatorPosition,ElevatorGoalVelocity,";
-        
-        return names;
-    }
-    
-    public synchronized void loadParameters()
+    public void loadParameters()
     {
         elevatorOverrideSpeed = params.getAsDouble("E_ElevatorOverrideSpeed", 0.7);
         elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
@@ -108,33 +124,8 @@ public class Elevator extends TorqueSubsystem
         loadNewTrajectory();
     }
     
-    private synchronized void loadNewTrajectory()
+    private void loadNewTrajectory()
     {
         trajectory = new TrajectorySmoother(maxElevatorAcceleration, maxElevatorVelocity);
-    }
-    
-    public synchronized void setDesiredPosition(int position)
-    {
-        if(position != desiredPosition)
-        {
-            desiredPosition = position;
-            feedForward.setSetpoint(desiredPosition);
-            loadNewTrajectory();
-        }
-    }
-    
-    public synchronized boolean elevatorAtTop()
-    {
-        return (desiredPosition == elevatorTopPosition && feedForward.onTarget(elevatorEpsilon));
-    }
-    
-    public synchronized boolean elevatorAtBottom()
-    {
-        return (desiredPosition == elevatorBottomPosition && feedForward.onTarget(elevatorEpsilon));
-    }
-    
-    public synchronized boolean elevatorAtFeed()
-    {
-        return (desiredPosition == elevatorFeedPosition && feedForward.onTarget(elevatorEpsilon));
     }
 }

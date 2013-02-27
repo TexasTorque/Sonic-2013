@@ -29,28 +29,28 @@ public class Intake extends TorqueSubsystem
         robotOutput.setIntakeMotor(intakeMotorSpeed);
     }
     
-    public synchronized String logData()
+    public void setIntakeSpeed(double speed)
     {
-        String data = intakeMotorSpeed + ",";
-        
-        return data;
+        intakeMotorSpeed = speed;
     }
     
-    public synchronized String getKeyNames()
+    public String getKeyNames()
     {
         String names = "IntakeMotorSpeed,";
         
         return names;
     }
     
-    public synchronized void loadParameters()
+     public String logData()
+    {
+        String data = intakeMotorSpeed + ",";
+        
+        return data;
+    }
+    
+    public void loadParameters()
     {
         intakeSpeed = params.getAsDouble("I_IntakeSpeed", 1.0);
         outtakeSpeed = params.getAsDouble("I_OuttakeSpeed", -1.0);
-    }
-    
-    public synchronized void setIntakeSpeed(double speed)
-    {
-        intakeMotorSpeed = speed;
     }
 }

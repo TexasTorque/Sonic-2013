@@ -9,7 +9,8 @@ public class Magazine extends TorqueSubsystem
     private static Magazine instance;
     
     private double previousTime;
-    private double deltaTime;
+    
+     private double deltaTime;
     
     private boolean magazineRaised;
     private boolean triggerBack;
@@ -23,7 +24,7 @@ public class Magazine extends TorqueSubsystem
         previousTime = Timer.getFPGATimestamp();
         deltaTime = Constants.MAGAZINE_DELTA_TIME;
         
-        magazineRaised = false;
+        magazineRaised = Constants.MAGAZINE_STORED;
         triggerBack = true;
         magazineState = Constants.MAGAZINE_READY_STATE;
         desiredState = Constants.MAGAZINE_READY_STATE;
@@ -41,34 +42,12 @@ public class Magazine extends TorqueSubsystem
         robotOutput.setLoaderSolenoid(triggerBack);
     }
     
-    public synchronized String logData()
-    {
-        String data = magazineRaised + ",";
-        data += triggerBack + ",";
-        data += magazineState + ",";
-        data += desiredState + ",";
-        
-        return data;
-    }
-    
-    public synchronized String getKeyNames()
-    {
-        String names = "MagazinePosition,MagazineTriggerPosition,CurrentMagazineState,DesiredMagazineState,";
-        
-        return names;
-    }
-    
-    public synchronized void loadParameters()
-    {
-        deltaTime = params.getAsDouble("M_DeltaTime", Constants.MAGAZINE_DELTA_TIME);
-    }
-    
-    public synchronized void setDesiredState(int state)
+    public void setDesiredState(int state)
     {
         desiredState = state;
     }
     
-    private synchronized void calcMagazineState()
+    private void calcMagazineState()
     {
         
         if(magazineState == Constants.MAGAZINE_LOADING_STATE && desiredState == Constants.MAGAZINE_LOADING_STATE)
@@ -106,13 +85,13 @@ public class Magazine extends TorqueSubsystem
         }
     }
     
-    private synchronized void calcReadyState()
+    private void calcReadyState()
     {
         magazineRaised = true;
         triggerBack = true;
     }
     
-    private synchronized void calcShootingState()
+    private void calcShootingState()
     {
         magazineRaised = true;
         triggerBack = false;
@@ -122,7 +101,7 @@ public class Magazine extends TorqueSubsystem
         }
     }
     
-    private synchronized void calcResettingState()
+    private void calcResettingState()
     {
         magazineRaised = true;
         triggerBack = true;
@@ -132,18 +111,18 @@ public class Magazine extends TorqueSubsystem
         }
     }
     
-    private synchronized void calcLoadingState()
+    private void calcLoadingState()
     {
         magazineRaised = false;
         triggerBack = true;
     }
     
-    public synchronized boolean getIsWaiting()
+    public boolean getIsWaiting()
     {
         return (magazineState == Constants.MAGAZINE_READY_STATE);
     }
     
-    private synchronized boolean timeHasElapsed()
+    private boolean timeHasElapsed()
     {
         double currentTime = Timer.getFPGATimestamp();
         if((currentTime - previousTime) > deltaTime)
@@ -152,6 +131,28 @@ public class Magazine extends TorqueSubsystem
             return true;
         }
         return false;
+    }
+    
+    public String getKeyNames()
+    {
+        String names = "MagazinePosition,MagazineTriggerPosition,CurrentMagazineState,DesiredMagazineState,";
+        
+        return names;
+    }
+    
+    public String logData()
+    {
+        String data = magazineRaised + ",";
+        data += triggerBack + ",";
+        data += magazineState + ",";
+        data += desiredState + ",";
+        
+        return data;
+    }
+    
+    public void loadParameters()
+    {
+        deltaTime = params.getAsDouble("M_DeltaTime", Constants.MAGAZINE_DELTA_TIME);
     }
     
 }

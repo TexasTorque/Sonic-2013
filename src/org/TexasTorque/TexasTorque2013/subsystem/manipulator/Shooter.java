@@ -59,6 +59,15 @@ public class Shooter extends TorqueSubsystem
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
         desiredTiltPosition = 0.0;
         inInnerZone = false;
+        
+        innerZoneSpeed = Constants.MOTOR_STOPPED;
+        middleZoneSpeed = Constants.MOTOR_STOPPED;
+        outerZoneSpeed = Constants.MOTOR_STOPPED;
+        nullZoneSpeed = Constants.MOTOR_STOPPED;
+        
+        innerZoneRange = 0.0;
+        middleZoneRange = 0.0;
+        outerZoneRange = 0.0;
     }
     
     public void run()
@@ -105,7 +114,75 @@ public class Shooter extends TorqueSubsystem
         return motorSpeed;
     }
     
-    public synchronized String logData()
+    public void setShooterRates(double frontRate, double rearRate)
+    {
+        if(frontRate != desiredFrontShooterRate)
+        {
+            desiredFrontShooterRate = frontRate;
+            frontShooterPID.setDesiredValue(desiredFrontShooterRate);
+        }
+        if( rearRate != desiredRearShooterRate)
+        {
+            desiredRearShooterRate = rearRate;
+            rearShooterPID.setDesiredValue(desiredRearShooterRate);
+        }
+    }
+    
+    public void setTiltAngle(double degrees)
+    {
+        if(degrees != desiredTiltPosition)
+        {
+            desiredTiltPosition = degrees;
+        }
+    }
+    
+    public boolean isVerticallyLocked()
+    {
+        return inInnerZone;
+    }
+    
+    public boolean isAtStandardPosition()
+    {
+        return (isVerticallyLocked() && (desiredTiltPosition == Constants.DEFAULT_STANDARD_TILT_POSITION || desiredTiltPosition == 0.0));
+    }
+    
+    public boolean isReadyToFire()
+    {
+        return (isVerticallyLocked() && isSpunUp());
+    }
+    
+    public boolean isSpunUp()
+    {
+        return (frontShooterPID.isDone() && rearShooterPID.isDone());
+    }
+    
+    private double limitShooterSpeed(double shooterSpeed)
+    {
+        if(shooterSpeed < 0.0)
+        {
+            return Constants.MOTOR_STOPPED;
+        }
+        else
+        {
+            return shooterSpeed;
+        }
+    }
+    
+    public static double convertToRPM(double clicksPerSec)
+    {
+        return (clicksPerSec * 60) / 100;
+    }
+    
+    public String getKeyNames()
+    {
+        String names = "DesiredTiltAngle,TiltMotorSpeed,ActualTiltAngle,"
+                + "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,"
+                + "DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate";
+        
+        return names;
+    }
+    
+    public String logData()
     {
         String data = desiredTiltPosition + ",";
         data += tiltMotorSpeed + ",";
@@ -122,38 +199,7 @@ public class Shooter extends TorqueSubsystem
         return data;
     }
     
-    public synchronized String getKeyNames()
-    {
-        String names = "DesiredTiltAngle,TiltMotorSpeed,ActualTiltAngle,"
-                + "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,"
-                + "DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate";
-        
-        return names;
-    }
-    
-    public synchronized void setShooterRates(double frontRate, double rearRate)
-    {
-        if(frontRate != desiredFrontShooterRate)
-        {
-            desiredFrontShooterRate = frontRate;
-            frontShooterPID.setDesiredValue(desiredFrontShooterRate);
-        }
-        if( rearRate != desiredRearShooterRate)
-        {
-            desiredRearShooterRate = rearRate;
-            rearShooterPID.setDesiredValue(desiredRearShooterRate);
-        }
-    }
-    
-    public synchronized void setTiltAngle(double degrees)
-    {
-        if(degrees != desiredTiltPosition)
-        {
-            desiredTiltPosition = degrees;
-        }
-    }
-    
-    public synchronized void loadParameters()
+    public void loadParameters()
     {
         tiltOverrideSpeed = params.getAsDouble("S_TiltOverrideSpeed", 0.5);
         standardTiltPosition = params.getAsDouble("S_TiltStandardAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
@@ -197,43 +243,6 @@ public class Shooter extends TorqueSubsystem
         innerZoneRange = params.getAsDouble("S_InnerZoneRange", 0.0);
         middleZoneRange = params.getAsDouble("S_MiddleZoneRange", 0.0);
         outerZoneRange = params.getAsDouble("S_OuterZoneRange", 0.0);
-    }
-    
-    public synchronized boolean isVerticallyLocked()
-    {
-        return inInnerZone;
-    }
-    
-    public synchronized boolean isAtStandardPosition()
-    {
-        return (isVerticallyLocked() && (desiredTiltPosition == Constants.DEFAULT_STANDARD_TILT_POSITION || desiredTiltPosition == 0.0));
-    }
-    
-    public synchronized boolean isReadyToFire()
-    {
-        return (isVerticallyLocked() && isSpunUp());
-    }
-    
-    public synchronized boolean isSpunUp()
-    {
-        return (frontShooterPID.isDone() && rearShooterPID.isDone());
-    }
-    
-    private double limitShooterSpeed(double shooterSpeed)
-    {
-        if(shooterSpeed < 0.0)
-        {
-            return Constants.MOTOR_STOPPED;
-        }
-        else
-        {
-            return shooterSpeed;
-        }
-    }
-    
-    public static double convertToRPM(double clicksPerSec)
-    {
-        return (clicksPerSec * 60) / 100;
     }
     
 }
