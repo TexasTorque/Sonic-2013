@@ -3,7 +3,6 @@ package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
-import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
 
 public class Manipulator extends TorqueSubsystem
 {   
@@ -35,21 +34,51 @@ public class Manipulator extends TorqueSubsystem
     {
         if(!driverInput.override())
         {
-            if(driverInput.fireFrisbee())
+            if(driverInput.restoreToDefault())
             {
-                intake.setIntakeSpeed(Intake.intakeSpeed);
+                restoreDefaultPositions();
+            }
+            else if(driverInput.runIntake())
+            {
+                intakeFrisbees();
+            }
+            else if(driverInput.reverseIntake())
+            {
+                reverseIntake();
+            }
+            else if(driverInput.shootHighWithVision())
+            {
+                shootHighWithVision();
+            }
+            else if(driverInput.shootHighWithoutVision())
+            {
+            }
+            else if(driverInput.shootLowWithVision())
+            {
+                
+            }
+            else if(driverInput.shootLowWithoutVision())
+            {
+                
             }
             else
             {
                 intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+                shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
             }
+            
             intake.run();
+            shooter.run();
+            elevator.run();
+            magazine.run();
         }
         else
         {
             calcOverrides();
         }
-
+        
+        SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
+        
     }
     
     public synchronized String logData()
@@ -164,18 +193,23 @@ public class Manipulator extends TorqueSubsystem
         }
     }
     
-    public void calcReverseIntake()
+    public void reverseIntake()
     {
+        restoreDefaultPositions();
+        
+        intake.setIntakeSpeed(Intake.outtakeSpeed);
     }
     
-    public void calcIntake()
+    public void intakeFrisbees()
     {
+        restoreDefaultPositions();
+        
+        intake.setIntakeSpeed(Intake.intakeSpeed);
     }
     
     public void shootHighWithVision()
     {
-        intake.setIntakeSpeed(0.0);
-        robotOutput.setFrisbeeLifter(true);
+        intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
         elevator.setDesiredPosition(Elevator.elevatorTopPosition);
         
@@ -197,17 +231,26 @@ public class Manipulator extends TorqueSubsystem
             
             if(shooter.isReadyToFire() && (driverInput.fireFrisbee() || dashboardManager.getDS().isAutonomous()))
             {
-                robotOutput.setLoaderSolenoid(false);
-            }
-            else
-            {
-                robotOutput.setLoaderSolenoid(true);
+                magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
             }
         }
-        
     }
     
     public void restoreDefaultPositions()
     {
+        intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+        shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        
+        if(sensorInput.getElevatorEncoder() > 100)
+        {
+            shooter.setTiltAngle(Shooter.standardTiltPosition);
+        }
+        else
+        {
+            shooter.setTiltAngle(0.0);
+        }
+        
+        elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
     }
 }

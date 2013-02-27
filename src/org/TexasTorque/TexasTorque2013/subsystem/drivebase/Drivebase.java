@@ -39,14 +39,7 @@ public class Drivebase extends TorqueSubsystem
         if(!dashboardManager.getDS().isAutonomous())
         {
            mixChannels(driverInput.getThrottle(), driverInput.getTurn());
-           if(driverInput.shiftHighGear())
-           {
-               robotOutput.setShifters(true);
-           }
-           else
-           {
-               robotOutput.setShifters(false);
-           }
+           setShifters(driverInput.shiftHighGear());
         }
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
@@ -89,6 +82,18 @@ public class Drivebase extends TorqueSubsystem
         gyroPID.setErrorEpsilon(e);
         gyroPID.resetErrorSum();
         gyroPID.resetPreviousVal();
+    }
+    
+    public synchronized void setShifters(boolean highGear)
+    {
+         if(highGear)
+        {
+            robotOutput.setShifters(true);
+        }
+        else
+        {
+            robotOutput.setShifters(false);
+        }
     }
     
     private synchronized void calcGyroPID()

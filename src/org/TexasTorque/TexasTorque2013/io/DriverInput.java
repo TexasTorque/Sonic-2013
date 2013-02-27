@@ -75,7 +75,7 @@ public class DriverInput
     
     public synchronized double getThrottle()
     {
-        return driveController.getLeftYAxis();
+        return -1 * driveController.getLeftYAxis();
     }
     
     public synchronized double getTurn()
@@ -85,34 +85,49 @@ public class DriverInput
     
     public synchronized boolean shiftHighGear()
     {
-        return driveController.getTopRightBumper();
+        return driveController.getTopLeftBumper();
     }
     
 //---------- Manipulator ----------    
     
     public synchronized boolean runIntake()
     {
-        return operatorController.getRightActionButton();
+        return operatorController.getTopLeftBumper();
     }
     
     public synchronized boolean reverseIntake()
     {
+        return operatorController.getTopRightBumper();
+    }
+    
+    public synchronized boolean shootHighWithVision()
+    {
+        return operatorController.getTopActionButton();
+    }
+    
+    public synchronized boolean shootHighWithoutVision()
+    {
+        return operatorController.getRightActionButton();
+    }
+    
+    public synchronized boolean shootLowWithVision()
+    {
+        return operatorController.getBottomActionButton();
+    }
+    
+    public synchronized boolean shootLowWithoutVision()
+    {
         return operatorController.getLeftActionButton();
     }
     
-    public synchronized boolean shootVisionHigh()
+    public synchronized boolean restoreToDefault()
     {
-        return operatorController.getTopActionButton();
+        return operatorController.getBottomLeftBumper();
     }
     
     public synchronized boolean fireFrisbee()
     {
         return operatorController.getBottomRightBumper();
-    }
-    
-    public synchronized boolean raiseElevator()
-    {
-        return operatorController.getBottomActionButton();
     }
     
 //---------- Overrides ----------
@@ -134,12 +149,12 @@ public class DriverInput
     
     public synchronized boolean elevatorTopOverride()
     {
-        return (operatorController.getLeftYAxis() < -0.5);
+        return false;
     }
     
     public synchronized boolean elevatorBottomOverride()
     {
-        return (operatorController.getLeftYAxis() > 0.5);
+        return false;
     }
     
     public synchronized boolean shooterOverride()
@@ -154,12 +169,12 @@ public class DriverInput
     
     public synchronized boolean tiltUpOverride()
     {
-        return (operatorController.getRightYAxis() < -0.5);
+        return false;
     }
     
     public synchronized boolean tiltDownOverride()
     {
-        return (operatorController.getRightYAxis() > 0.5);
+        return false;
     }
     
     
