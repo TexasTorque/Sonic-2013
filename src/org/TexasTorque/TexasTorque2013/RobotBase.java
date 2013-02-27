@@ -133,7 +133,7 @@ public class RobotBase extends SimpleRobot
 
     public void teleopPeriodic()
     {
-        //drivebase.run();
+        drivebase.run();
         manipulator.run();
         logData();
     }

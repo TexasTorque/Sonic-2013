@@ -35,20 +35,15 @@ public class Manipulator extends TorqueSubsystem
     {
         if(!driverInput.override())
         {
-            if(driverInput.shootVisionHigh())
+            if(driverInput.fireFrisbee())
             {
-                shootHighWithVision();
+                intake.setIntakeSpeed(Intake.intakeSpeed);
             }
             else
             {
-                shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
-                elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
-                intake.setIntakeSpeed(0.0);
+                intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
             }
-            
-            shooter.run();
             intake.run();
-            elevator.run();
         }
         else
         {
