@@ -319,7 +319,7 @@ public class Manipulator extends TorqueSubsystem
         
         if(sensorInput.getElevatorEncoder() > 100)
         {
-            shooter.setTiltAngle(Shooter.standardTiltPosition);
+            shooter.setTiltAngle(Shooter.feederStationAngle);
         }
         else
         {
