@@ -36,13 +36,14 @@ public abstract class AutonomousBase
         robotOutput = RobotOutput.getInstance();
         sensorInput = SensorInput.getInstance();
         dashboardManager = DashboardManager.getInstance();
-        drivebase = (Drivebase) Drivebase.getInstance();
-        intake = (Intake) Intake.getInstance();
-        shooter = (Shooter) Shooter.getInstance();
-        elevator = (Elevator) Elevator.getInstance();
-        magazine = (Magazine) Magazine.getInstance();
+        
+        drivebase = Drivebase.getInstance();
+        intake = Intake.getInstance();
+        shooter = Shooter.getInstance();
+        elevator = Elevator.getInstance();
+        magazine = Magazine.getInstance();
         params = Parameters.getInstance();
-        manipulator = (Manipulator) Manipulator.getInstance();
+        manipulator = Manipulator.getInstance();
     }
     
     public abstract void init();
