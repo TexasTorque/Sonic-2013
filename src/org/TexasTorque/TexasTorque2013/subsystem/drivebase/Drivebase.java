@@ -39,14 +39,14 @@ public class Drivebase extends TorqueSubsystem
         if(!dashboardManager.getDS().isAutonomous())
         {
            mixChannels(driverInput.getThrottle(), driverInput.getTurn());
-           /*if(driverInput.shootVisionHigh() && SmartDashboard.getBoolean("found", false))
-           {
-               horizontallyTrack();
-           }
            if(driverInput.shiftHighGear())
            {
                robotOutput.setShifters(true);
-           }*/
+           }
+           else
+           {
+               robotOutput.setShifters(false);
+           }
         }
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
