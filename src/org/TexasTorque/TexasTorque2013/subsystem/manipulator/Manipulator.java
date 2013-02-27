@@ -52,14 +52,15 @@ public class Manipulator extends TorqueSubsystem
             }
             else if(driverInput.shootHighWithoutVision())
             {
+                shootHighWithoutVision();
             }
             else if(driverInput.shootLowWithVision())
             {
-                
+                shootLowWithVision();
             }
             else if(driverInput.shootLowWithoutVision())
             {
-                
+                shootLowWithoutVision();
             }
             else
             {
