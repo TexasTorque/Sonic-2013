@@ -136,7 +136,7 @@ public class DriverInput
     
     public synchronized boolean gotoSlotHeight()
     {
-        return false;
+        return operatorController.getLeftStickClick();
     }
     
 //---------- Overrides ----------
