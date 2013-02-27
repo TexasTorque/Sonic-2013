@@ -32,7 +32,7 @@ public class Manipulator extends TorqueSubsystem
     
     public void run()
     {
-        if(!driverInput.override())
+        if(!driverInput.overrideState())
         {
             if(driverInput.restoreToDefault())
             {
@@ -89,7 +89,7 @@ public class Manipulator extends TorqueSubsystem
     
     public synchronized String logData()
     {
-        String data = driverInput.override() + ",";
+        String data = driverInput.overrideState() + ",";
         data += intake.logData();
         data += elevator.logData();
         data += magazine.logData();

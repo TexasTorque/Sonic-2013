@@ -12,12 +12,16 @@ public class DriverInput
     private Parameters params;
     private GenericController driveController;
     private GenericController operatorController;
+    
+    private boolean inOverrideState;
         
     public DriverInput()
     {
         params = Parameters.getInstance();
         driveController = new GenericController(Ports.DRIVE_CONTROLLER_PORT, true);
         operatorController = new GenericController(Ports.OPERATOR_CONTROLLER_PORT, false);
+        
+        inOverrideState = false;
     }
     
     public synchronized static DriverInput getInstance()
@@ -137,9 +141,18 @@ public class DriverInput
     
 //---------- Overrides ----------
     
-    public synchronized boolean override()
+    public synchronized boolean overrideState()
     {
-        return (intakeOverride() || outtakeOverride() || elevatorTopOverride() || elevatorBottomOverride() || shooterOverride() || magazineShootOverride() || tiltUpOverride() || tiltDownOverride());
+        if(operatorController.getLeftCenterButton())
+        {
+            inOverrideState = true;
+        }
+        else if(operatorController.getRightCenterButton())
+        {
+            inOverrideState = false;
+        }
+        
+        return inOverrideState;
     }
     
     public synchronized boolean intakeOverride()
