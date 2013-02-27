@@ -130,6 +130,11 @@ public class DriverInput
         return operatorController.getBottomRightBumper();
     }
     
+    public synchronized boolean gotoSlotHeight()
+    {
+        return false;
+    }
+    
 //---------- Overrides ----------
     
     public synchronized boolean override()

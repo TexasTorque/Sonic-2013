@@ -62,6 +62,10 @@ public class Manipulator extends TorqueSubsystem
             {
                 shootLowWithoutVision();
             }
+            else if(driverInput.gotoSlotHeight())
+            {
+                feedFromSlot();
+            }
             else
             {
                 intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
