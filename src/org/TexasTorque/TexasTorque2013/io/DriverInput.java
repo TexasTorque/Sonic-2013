@@ -18,8 +18,8 @@ public class DriverInput
     public DriverInput()
     {
         params = Parameters.getInstance();
-        driveController = new GenericController(Ports.DRIVE_CONTROLLER_PORT, true);
-        operatorController = new GenericController(Ports.OPERATOR_CONTROLLER_PORT, false);
+        driveController = new GenericController(Ports.DRIVE_CONTROLLER_PORT, Constants.DEFAULT_FIRST_CONTROLLER_TYPE);
+        operatorController = new GenericController(Ports.OPERATOR_CONTROLLER_PORT, Constants.DEFAULT_SECOND_CONTROLLER_TYPE);
         
         inOverrideState = false;
     }
