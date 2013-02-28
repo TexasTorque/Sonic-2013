@@ -26,8 +26,6 @@ public class Manipulator extends TorqueSubsystem
         elevator = Elevator.getInstance();
         intake = Intake.getInstance();
         magazine = Magazine.getInstance();
-        
-        SmartDashboard.putNumber("DesiredDegree", 0.0);
     }
     
     public void run()
@@ -222,6 +220,7 @@ public class Manipulator extends TorqueSubsystem
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
         elevator.setDesiredPosition(Elevator.elevatorTopPosition);
+        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         
         if(sensorInput.getElevatorEncoder() > 100)
         {
@@ -239,7 +238,7 @@ public class Manipulator extends TorqueSubsystem
             elevation = sensorInput.limitGyroAngle(elevation);
             shooter.setTiltAngle(currentAngle + elevation);
             
-            if(shooter.isReadyToFire() && (driverInput.fireFrisbee() || dashboardManager.getDS().isAutonomous()))
+            if(driverInput.fireFrisbee() || (shooter.isReadyToFire() && dashboardManager.getDS().isAutonomous()))
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
             }
@@ -256,6 +255,7 @@ public class Manipulator extends TorqueSubsystem
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
         elevator.setDesiredPosition(Elevator.elevatorTopPosition);
         shooter.setTiltAngle(Shooter.shootHighStandardAngle);
+        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         
         if(sensorInput.getElevatorEncoder() > 100)
         {
