@@ -36,7 +36,13 @@ public class Drivebase extends TorqueSubsystem
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
     
-    public synchronized void setShifters(boolean highGear)
+    public void setDriveSpeeds(double leftSpeed, double rightSpeed)
+    {
+        leftDriveSpeed = leftSpeed;
+        rightDriveSpeed = rightSpeed;
+    }
+    
+    public void setShifters(boolean highGear)
     {
          if(highGear)
         {
@@ -156,7 +162,7 @@ public class Drivebase extends TorqueSubsystem
         
     }
     
-    public synchronized String getKeyNames()
+    public String getKeyNames()
     {
         String names = "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,"
                 + "RightDriveSpeed,RightDriveEncoderPosition,RightDriveEncoderVelocity,"
@@ -165,7 +171,7 @@ public class Drivebase extends TorqueSubsystem
         return names;
     }
     
-    public synchronized String logData()
+    public String logData()
     {
         String data = leftDriveSpeed + ",";
         data += sensorInput.getLeftDriveEncoder() + ",";
@@ -180,7 +186,7 @@ public class Drivebase extends TorqueSubsystem
         return data;
     }
     
-    public synchronized void loadParameters()
+    public void loadParameters()
     {
         highSensitivity = params.getAsDouble("D_HighSensitivity", Constants.DEFAULT_HIGH_SENSITIVITY);
         lowSensitivity = params.getAsDouble("D_LowSensitivity", Constants.DEFAULT_LOW_SENSITIVITY);
