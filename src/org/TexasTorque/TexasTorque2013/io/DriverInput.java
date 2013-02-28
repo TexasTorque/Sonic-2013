@@ -187,12 +187,12 @@ public class DriverInput
     
     public synchronized boolean tiltUpOverride()
     {
-        return false;
+        return (operatorController.getRightYAxis() < -0.5);
     }
     
     public synchronized boolean tiltDownOverride()
     {
-        return false;
+        return (operatorController.getRightYAxis() > 0.5);
     }
     
     
