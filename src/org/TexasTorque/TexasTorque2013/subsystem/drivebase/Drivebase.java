@@ -1,19 +1,14 @@
 package org.TexasTorque.TexasTorque2013.subsystem.drivebase;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
-import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 
 public class Drivebase extends TorqueSubsystem
 {   
     private static Drivebase instance;
     
-    private SimPID gyroPID;
-    
     private double leftDriveSpeed;
     private double rightDriveSpeed;
-    private double desiredGyroAngle;
     
     public static double highSensitivity;
     public static double lowSensitivity;
@@ -27,11 +22,8 @@ public class Drivebase extends TorqueSubsystem
     {
         super();
         
-        gyroPID = new SimPID();
-        
         leftDriveSpeed = Constants.MOTOR_STOPPED;
         rightDriveSpeed = Constants.MOTOR_STOPPED;
-        desiredGyroAngle = 0.0;
     }
     
     public void run()
@@ -44,46 +36,6 @@ public class Drivebase extends TorqueSubsystem
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
     
-    public synchronized String logData()
-    {
-        String data = leftDriveSpeed + ",";
-        data += sensorInput.getLeftDriveEncoder() + ",";
-        data += sensorInput.getLeftDriveEncoderRate() + ",";
-        
-        data += rightDriveSpeed + ",";
-        data += sensorInput.getRightDriveEncoder() + ",";
-        data += sensorInput.getRightDriveEncoderRate() + ",";
-        
-        data += sensorInput.getGyroAngle() + ",";
-        
-        return data;
-    }
-    
-    public synchronized String getKeyNames()
-    {
-        String names = "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,"
-                + "RightDriveSpeed,RightDriveEncoderPosition,RightDriveEncoderVelocity,"
-                + "GyroAngle,";
-        
-        return names;
-    }
-    
-    public synchronized void loadParameters()
-    {
-        highSensitivity = params.getAsDouble("D_HighSensitivity", Constants.DEFAULT_HIGH_SENSITIVITY);
-        lowSensitivity = params.getAsDouble("D_LowSensitivity", Constants.DEFAULT_LOW_SENSITIVITY);
-        
-        double p = params.getAsDouble("D_GyroP", 0.0);
-        double i = params.getAsDouble("D_GyroI", 0.0);
-        double d =  params.getAsDouble("D_GyroD", 0.0);
-        double e = params.getAsDouble("D_GyroEpsilon", 0.0);
-        
-        gyroPID.setConstants(p, i, d);
-        gyroPID.setErrorEpsilon(e);
-        gyroPID.resetErrorSum();
-        gyroPID.resetPreviousVal();
-    }
-    
     public synchronized void setShifters(boolean highGear)
     {
          if(highGear)
@@ -94,27 +46,6 @@ public class Drivebase extends TorqueSubsystem
         {
             robotOutput.setShifters(false);
         }
-    }
-    
-    private synchronized void calcGyroPID()
-    {
-        desiredGyroAngle = (sensorInput.getGyroAngle() + SmartDashboard.getNumber("azimuth", 0.0));
-        gyroPID.setDesiredValue(desiredGyroAngle);
-        
-        double motorOutput = gyroPID.calcPID(sensorInput.getGyroAngle());
-        
-        leftDriveSpeed = motorOutput;
-        rightDriveSpeed = -motorOutput;
-    }
-    
-    public synchronized void horizontallyTrack()
-    {
-        calcGyroPID();
-    }
-    
-    public synchronized boolean isHorizontallyLocked()
-    {
-        return gyroPID.isDone();
     }
     
     private double applySqrtCurve(double axisValue)
@@ -223,5 +154,35 @@ public class Drivebase extends TorqueSubsystem
             }
         }
         
+    }
+    
+    public synchronized String getKeyNames()
+    {
+        String names = "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,"
+                + "RightDriveSpeed,RightDriveEncoderPosition,RightDriveEncoderVelocity,"
+                + "GyroAngle,";
+        
+        return names;
+    }
+    
+    public synchronized String logData()
+    {
+        String data = leftDriveSpeed + ",";
+        data += sensorInput.getLeftDriveEncoder() + ",";
+        data += sensorInput.getLeftDriveEncoderRate() + ",";
+        
+        data += rightDriveSpeed + ",";
+        data += sensorInput.getRightDriveEncoder() + ",";
+        data += sensorInput.getRightDriveEncoderRate() + ",";
+        
+        data += sensorInput.getGyroAngle() + ",";
+        
+        return data;
+    }
+    
+    public synchronized void loadParameters()
+    {
+        highSensitivity = params.getAsDouble("D_HighSensitivity", Constants.DEFAULT_HIGH_SENSITIVITY);
+        lowSensitivity = params.getAsDouble("D_LowSensitivity", Constants.DEFAULT_LOW_SENSITIVITY);
     }
 }
