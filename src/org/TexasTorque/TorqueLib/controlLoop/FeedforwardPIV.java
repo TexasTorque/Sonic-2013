@@ -169,7 +169,7 @@ public class FeedforwardPIV
      */
     public synchronized boolean onTarget(double tolerance)
     {
-        if( m_last_input != Double.NaN && Math.abs(m_last_input - m_setpoint ) < tolerance )
+        if( m_last_input != Double.NaN && Math.abs(m_last_input/* - m_setpoint */) < tolerance )
         {
             return true;
         }

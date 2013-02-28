@@ -136,6 +136,7 @@ public class RobotBase extends SimpleRobot
         drivebase.run();
         manipulator.run();
         logData();
+        SmartDashboard.putNumber("Voltage", dashboardManager.getDS().getBatteryVoltage());
     }
     
     public void disabledInit()

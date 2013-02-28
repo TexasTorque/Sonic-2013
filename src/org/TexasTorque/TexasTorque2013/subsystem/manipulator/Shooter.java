@@ -24,6 +24,7 @@ public class Shooter extends TorqueSubsystem
     private double middleZoneSpeed;
     private double outerZoneSpeed;
     private double nullZoneSpeed;
+    private double zeroSpeed;
     
     private double innerZoneRange;
     private double middleZoneRange;
@@ -92,12 +93,13 @@ public class Shooter extends TorqueSubsystem
         
         if(dAngle <= innerZoneRange)
         {
-            motorSpeed = innerZoneSpeed;
+            motorSpeed = (desiredTiltPosition == 0.0) ? zeroSpeed : innerZoneSpeed;
             inInnerZone = true;
         }
         else if(dAngle <= middleZoneRange)
         {
             motorSpeed = (desiredTiltPosition > currentAngle) ? middleZoneSpeed : -1 * middleZoneSpeed;
+            motorSpeed = (desiredTiltPosition == 0.0) ? -1 * middleZoneSpeed + zeroSpeed : motorSpeed;
             inInnerZone = false;
         }
         else if(dAngle <= outerZoneRange)
@@ -239,6 +241,7 @@ public class Shooter extends TorqueSubsystem
         middleZoneSpeed = params.getAsDouble("S_MiddleZoneSpeed", 0.0);
         outerZoneSpeed = params.getAsDouble("S_OuterZoneSpeed", 0.0);
         nullZoneSpeed = params.getAsDouble("S_NullZoneSpeed", 0.0);
+        zeroSpeed = params.getAsDouble("S_ZeroSpeed", -0.1);
         
         innerZoneRange = params.getAsDouble("S_InnerZoneRange", 0.0);
         middleZoneRange = params.getAsDouble("S_MiddleZoneRange", 0.0);

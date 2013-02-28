@@ -84,6 +84,8 @@ public class Manipulator extends TorqueSubsystem
         }
         
         SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
+        SmartDashboard.putNumber("ElevatorPosition", sensorInput.getElevatorEncoder());
+        SmartDashboard.putNumber("TiltSpeed", shooter.tiltMotorSpeed);
         
     }
     
@@ -186,15 +188,15 @@ public class Manipulator extends TorqueSubsystem
         if(driverInput.magazineShootOverride())
         {
             robotOutput.setLoaderSolenoid(false);
-            robotOutput.setFrisbeeLifter(Constants.MAGAZINE_STORED);
+            robotOutput.setFrisbeeLifter(!Constants.MAGAZINE_STORED);
         }
         else if(driverInput.intakeOverride())
         {
-            robotOutput.setFrisbeeLifter(Constants.MAGAZINE_LOADING);
+            robotOutput.setFrisbeeLifter(!Constants.MAGAZINE_LOADING);
         }
         else
         {
-            robotOutput.setFrisbeeLifter(Constants.MAGAZINE_STORED);
+            robotOutput.setFrisbeeLifter(!Constants.MAGAZINE_STORED);
             robotOutput.setLoaderSolenoid(true);
         }
     }
@@ -241,6 +243,10 @@ public class Manipulator extends TorqueSubsystem
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
             }
+            else
+            {
+                magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+            }
         }
     }
     
@@ -253,18 +259,21 @@ public class Manipulator extends TorqueSubsystem
         
         if(sensorInput.getElevatorEncoder() > 100)
         {
-            shooter.setTiltAngle(Shooter.standardTiltPosition);
+            shooter.setTiltAngle(Shooter.shootHighStandardAngle);
         }
         else
         {
             shooter.setTiltAngle(0.0);
         }
-        
         if(elevator.atDesiredPosition())
         {
-            if(shooter.isReadyToFire() && (driverInput.fireFrisbee() || dashboardManager.getDS().isAutonomous()))
+            if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isReadyToFire()))
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+            }
+            else
+            {
+                magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
             }
         }
     }
@@ -288,6 +297,10 @@ public class Manipulator extends TorqueSubsystem
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
             }
+            else
+            {
+                magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+            }
         }
         
     }
@@ -302,9 +315,13 @@ public class Manipulator extends TorqueSubsystem
         
         if(elevator.atDesiredPosition())
         {   
-            if(shooter.isReadyToFire() && (driverInput.fireFrisbee() || dashboardManager.getDS().isAutonomous()))
+            if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isReadyToFire()))
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+            }
+            else
+            {
+                magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
             }
         }
     }

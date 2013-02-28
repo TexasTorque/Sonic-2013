@@ -59,6 +59,11 @@ public class Elevator extends TorqueSubsystem
         
         elevatorMotorSpeed = feedForward.calculate(trajectory, error, velocity, dt);
         
+        if(feedForward.onTarget(elevatorEpsilon))
+        {
+            elevatorMotorSpeed = 0.0;
+        }
+        
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
     }
     
