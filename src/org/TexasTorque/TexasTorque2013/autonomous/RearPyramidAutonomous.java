@@ -26,7 +26,7 @@ public class RearPyramidAutonomous extends AutonomousBase {
         {
             watchdog.feed();
             robotOutput.setDriveMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
-            manipulator.shootHighWithVision();
+            manipulator.shootLowWithoutVision();
             if(autonomousTimer.get() > 7.0)
             {
                 manipulator.restoreDefaultPositions();

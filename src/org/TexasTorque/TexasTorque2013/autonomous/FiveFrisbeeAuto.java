@@ -74,11 +74,13 @@ public class FiveFrisbeeAuto extends AutonomousBase
     {
         while(ds.isAutonomous())
         {
+            watchdog.feed();
+            
             if(autonomousState == FIRST_SHOOTING_STATE)
             {
                 drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
                 
-                manipulator.shootLowWithVision();
+                manipulator.shootLowWithoutVision();
                 
                 if(autoTimer.get() > 5.0)
                 {
