@@ -174,6 +174,19 @@ public class Manipulator extends TorqueSubsystem
             magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         }
         
+        if(driverInput.elevatorTopOverride())
+        {
+            robotOutput.setElevatorMotors(Elevator.elevatorOverrideSpeed);
+        }
+        else if(driverInput.elevatorBottomOverride())
+        {
+            robotOutput.setElevatorMotors(-1 * Elevator.elevatorOverrideSpeed);
+        }
+        else
+        {
+            robotOutput.setElevatorMotors(Constants.MOTOR_STOPPED);
+        }
+        
         intake.run();
         magazine.run();
         shooter.run();

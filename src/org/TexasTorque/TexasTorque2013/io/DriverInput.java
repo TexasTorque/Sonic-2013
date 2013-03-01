@@ -165,6 +165,16 @@ public class DriverInput
         return operatorController.getTopRightBumper();
     }
     
+    public synchronized boolean tiltUpOverride()
+    {
+        return (operatorController.getRightYAxis() < -0.5);
+    }
+    
+    public synchronized boolean tiltDownOverride()
+    {
+        return (operatorController.getRightYAxis() > 0.5);
+    }
+    
     public synchronized boolean shootLowWithoutVisionOverride()
     {
         return operatorController.getLeftActionButton();
