@@ -22,6 +22,7 @@ public class AutonomousManager
         autoMapping.put(Integer.toString(Constants.DO_NOTHING_AUTO), new DoNothingAutonomous());
         autoMapping.put(Integer.toString(Constants.FRONT_SHOOT_AUTO), new FrontPyramidAutonomous());
         autoMapping.put(Integer.toString(Constants.REAR_SHOOT_AUTO), new RearPyramidAutonomous());
+        autoMapping.put(Integer.toString(Constants.REAR_DRIVE_FORWARD_AUTO), new FiveFrisbeeAuto());
     }
     
     public void setAutonomousDelay(double delay)

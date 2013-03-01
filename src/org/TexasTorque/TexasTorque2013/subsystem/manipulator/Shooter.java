@@ -39,6 +39,7 @@ public class Shooter extends TorqueSubsystem
     public static double shootHighStandardAngle;
     public static double shootLowStandardAngle;
     public static double feederStationAngle;
+    public static double shootLowAdditive;
     
     public static Shooter getInstance()
     {
@@ -212,6 +213,7 @@ public class Shooter extends TorqueSubsystem
         shootHighStandardAngle = params.getAsDouble("S_ShootHighAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
         shootLowStandardAngle = params.getAsDouble("S_ShootLowAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
         feederStationAngle = params.getAsDouble("S_FeederStationAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
+        shootLowAdditive = params.getAsDouble("S_ShootLowAdditive", 0.0);
         
         double p = params.getAsDouble("S_FrontShooterP", 0.0);
         double i = params.getAsDouble("S_FrontShooterI", 0.0);

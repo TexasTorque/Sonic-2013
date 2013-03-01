@@ -59,7 +59,7 @@ public class Elevator extends TorqueSubsystem
         
         elevatorMotorSpeed = feedForward.calculate(trajectory, error, velocity, dt);
         
-        if(feedForward.onTarget(elevatorEpsilon))
+        if(feedForward.onTarget(elevatorEpsilon) && desiredPosition == 0)
         {
             elevatorMotorSpeed = 0.0;
         }
@@ -74,6 +74,15 @@ public class Elevator extends TorqueSubsystem
             desiredPosition = position;
             feedForward.setSetpoint(desiredPosition);
             loadNewTrajectory();
+            
+            if(desiredPosition != 0)
+            {
+                elevatorEpsilon = 0;
+            }
+            else
+            {
+                elevatorEpsilon = params.getAsInt("E_ElevatorEpsilon", 0);
+            }
         }
     }
     
