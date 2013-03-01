@@ -173,6 +173,10 @@ public class Manipulator extends TorqueSubsystem
             shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
             magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         }
+        
+        intake.run();
+        magazine.run();
+        shooter.run();
     }
     
     public void intakeFrisbees()
