@@ -165,6 +165,21 @@ public class DriverInput
         return operatorController.getTopRightBumper();
     }
     
+    public synchronized boolean shootLowWithoutVisionOverride()
+    {
+        return operatorController.getLeftActionButton();
+    }
+    
+    public synchronized boolean magazineShootOverride()
+    {
+        return operatorController.getBottomLeftBumper();
+    }
+    
+    public synchronized boolean restoreToDefaultOverride()
+    {
+        return operatorController.getBottomLeftBumper();
+    }
+    
     public synchronized boolean elevatorTopOverride()
     {
         return (operatorController.getLeftYAxis() < -0.5);
@@ -174,26 +189,4 @@ public class DriverInput
     {
         return (operatorController.getLeftYAxis() > 0.5);
     }
-    
-    public synchronized boolean shooterOverride()
-    {
-        return operatorController.getBottomActionButton();
-    }
-    
-    public synchronized boolean magazineShootOverride()
-    {
-        return operatorController.getBottomLeftBumper();
-    }
-    
-    public synchronized boolean tiltUpOverride()
-    {
-        return (operatorController.getRightYAxis() < -0.5);
-    }
-    
-    public synchronized boolean tiltDownOverride()
-    {
-        return (operatorController.getRightYAxis() > 0.5);
-    }
-    
-    
 }

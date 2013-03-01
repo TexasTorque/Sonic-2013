@@ -130,83 +130,48 @@ public class Manipulator extends TorqueSubsystem
     
     private void calcOverrides()
     {
-        //----- Intake -----
         if(driverInput.intakeOverride())
         {
-            double intakeSpeed = Intake.intakeSpeed;
-            
-            robotOutput.setIntakeMotor(intakeSpeed);
+            intake.setIntakeSpeed(Intake.intakeSpeed);
+            magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
+            shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+            shooter.setTiltAngle(0.0);
         }
         else if(driverInput.outtakeOverride())
         {
-            double outtakeSpeed = Intake.outtakeSpeed;
+            intake.setIntakeSpeed(Intake.outtakeSpeed);
+            magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
+            shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+            shooter.setTiltAngle(0.0);
+        }
+        else if(driverInput.shootLowWithoutVisionOverride())
+        {
+            double frontSpeed = Shooter.frontShooterRate;
+            double rearSpeed = Shooter.rearShooterRate;
+            double angle = Shooter.shootLowStandardAngle;
             
-            robotOutput.setIntakeMotor(outtakeSpeed);
+            shooter.setShooterRates(frontSpeed, rearSpeed);
+            shooter.setTiltAngle(angle);
+            intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+            
+            if(driverInput.magazineShootOverride())
+            {
+                magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+            }
+        }
+        else if(driverInput.restoreToDefaultOverride())
+        {
+            intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+            shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+            shooter.setTiltAngle(0.0);
         }
         else
         {
-            robotOutput.setIntakeMotor(Constants.MOTOR_STOPPED);
-        }
-        //----- Elevator -----
-        if(driverInput.elevatorTopOverride())
-        {
-            double speed = Elevator.elevatorOverrideSpeed;
-            
-            robotOutput.setElevatorMotors(speed);
-        }
-        else if(driverInput.elevatorBottomOverride())
-        {
-            double speed = -0.8 * Elevator.elevatorOverrideSpeed;
-            
-            robotOutput.setElevatorMotors(speed);
-        }
-        else
-        {
-            robotOutput.setElevatorMotors(Constants.MOTOR_STOPPED);
-        }
-        //----- Tilt -----
-        if(driverInput.tiltUpOverride())
-        {
-            double speed = Shooter.tiltOverrideSpeed;
-            
-            robotOutput.setTiltMotor(speed);
-        }
-        else if(driverInput.tiltDownOverride())
-        {
-            double speed = -1 * Shooter.tiltOverrideSpeed;
-            
-            robotOutput.setTiltMotor(speed);
-        }
-        else
-        {
-            robotOutput.setTiltMotor(Constants.MOTOR_STOPPED);
-        }
-        //----- Shooter -----
-        if(driverInput.shooterOverride())
-        {
-            double frontSpeed = Shooter.frontShooterOverrideSpeed;
-            double rearSpeed  = Shooter.rearShooterOverrideSpeed;
-            
-            robotOutput.setShooterMotors(frontSpeed, rearSpeed);
-        }
-        else
-        {
-            robotOutput.setShooterMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
-        }
-        //----- Magazine -----
-        if(driverInput.magazineShootOverride())
-        {
-            robotOutput.setLoaderSolenoid(false);
-            robotOutput.setFrisbeeLifter(!Constants.MAGAZINE_STORED);
-        }
-        else if(driverInput.intakeOverride())
-        {
-            robotOutput.setFrisbeeLifter(!Constants.MAGAZINE_LOADING);
-        }
-        else
-        {
-            robotOutput.setFrisbeeLifter(!Constants.MAGAZINE_STORED);
-            robotOutput.setLoaderSolenoid(true);
+            intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+            shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         }
     }
     
