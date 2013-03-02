@@ -81,7 +81,7 @@ public class Manipulator extends TorqueSubsystem
             }
             
             intake.run();
-            shooter.run();
+            //shooter.run();
             elevator.run();
             magazine.run();
         }
@@ -95,6 +95,10 @@ public class Manipulator extends TorqueSubsystem
         SmartDashboard.putNumber("TiltSpeed", shooter.tiltMotorSpeed);
         SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
         SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
+        SmartDashboard.putBoolean("FrontIsDone", shooter.isSpunUp());
+        SmartDashboard.putBoolean("TiltIsDone", shooter.isVerticallyLocked());
+        SmartDashboard.putBoolean("ElevatorIsDone", elevator.atDesiredPosition());
+        SmartDashboard.putNumber("TiltVoltage", sensorInput.getTiltVoltage());
         
     }
     
