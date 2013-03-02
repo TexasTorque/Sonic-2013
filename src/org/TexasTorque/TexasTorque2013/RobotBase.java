@@ -36,7 +36,7 @@ public class RobotBase extends SimpleRobot
     {
         watchdog = getWatchdog();
         watchdog.setEnabled(true);
-        watchdog.setExpiration(0.2);
+        watchdog.setExpiration(0.5);
         
         params = Parameters.getInstance();
         params.load();
@@ -107,7 +107,7 @@ public class RobotBase extends SimpleRobot
         initLogging();
         sensorInput.resetEncoders();
         autoManager.setAutonomousDelay(driverInput.getAutonomousDelay());
-        autoManager.setAutoMode(Constants.DO_NOTHING_AUTO);
+        autoManager.setAutoMode(Constants.REAR_SHOOT_AUTO);
         autoManager.initAutonomous();
     }
 

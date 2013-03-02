@@ -39,6 +39,7 @@ public class AutonomousManager
     {
         ((AutonomousBase)autoMapping.get(queuedAutoMode)).init();
         Timer.delay(autoDelay * 1000);
+        firstCycle = true;
     }
     
     public void runAutonomous()

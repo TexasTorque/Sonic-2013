@@ -94,13 +94,12 @@ public class Shooter extends TorqueSubsystem
         
         if(dAngle <= innerZoneRange)
         {
-            motorSpeed = (desiredTiltPosition == 0.0) ? zeroSpeed : innerZoneSpeed;
+            motorSpeed = innerZoneSpeed;
             inInnerZone = true;
         }
         else if(dAngle <= middleZoneRange)
         {
             motorSpeed = (desiredTiltPosition > currentAngle) ? middleZoneSpeed : -1 * middleZoneSpeed;
-            motorSpeed = (desiredTiltPosition == 0.0) ? -1 * middleZoneSpeed + zeroSpeed : motorSpeed;
             inInnerZone = false;
         }
         else if(dAngle <= outerZoneRange)
@@ -156,7 +155,7 @@ public class Shooter extends TorqueSubsystem
     
     public boolean isSpunUp()
     {
-        return (frontShooterPID.isDone() && rearShooterPID.isDone());
+        return (frontShooterPID.isDone());
     }
     
     private double limitShooterSpeed(double shooterSpeed)
