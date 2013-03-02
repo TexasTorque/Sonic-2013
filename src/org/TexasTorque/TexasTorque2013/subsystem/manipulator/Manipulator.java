@@ -81,7 +81,7 @@ public class Manipulator extends TorqueSubsystem
             }
             
             intake.run();
-            //shooter.run();
+            shooter.run();
             elevator.run();
             magazine.run();
         }
@@ -198,18 +198,16 @@ public class Manipulator extends TorqueSubsystem
     
     public void intakeFrisbees()
     {
-        restoreDefaultPositions();
-        
         intake.setIntakeSpeed(Intake.intakeSpeed);
         magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
+        shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
     }
     
     public void reverseIntake()
     {
-        restoreDefaultPositions();
-        
         intake.setIntakeSpeed(Intake.outtakeSpeed);
         magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
+        shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
     }
     
     public void shootHighWithVision()
@@ -263,17 +261,14 @@ public class Manipulator extends TorqueSubsystem
             shooter.setTiltAngle(0.0);
         }
         
-        if(elevator.atDesiredPosition())
-        {
+        System.err.println("Elevator: " + elevator.atDesiredPosition());
+        //if(elevator.atDesiredPosition()) DO NOT REMOVE
+        //{
             if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isReadyToFire()))
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
             }
-            else
-            {
-                magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
-            }
-        }
+        //}
     }
     
     public void shootLowWithVision()

@@ -151,6 +151,7 @@ public class RobotBase extends SimpleRobot
             sensorInput.resetEncoders();
             sensorInput.resetGyro();
         }
+        SmartDashboard.putNumber("TiltVoltage", sensorInput.getTiltVoltage());
     }
     
     public void initSmartDashboard()
