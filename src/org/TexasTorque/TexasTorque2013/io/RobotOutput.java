@@ -27,8 +27,8 @@ public class RobotOutput
     //----- Shooter Motors -----
     private Motor frontShooterMotorA;
     private Motor frontShooterMotorB;
-    private Motor rearShooterMotorA;
-    private Motor rearShooterMotorB;
+    private Motor middleShooterMotor;
+    private Motor rearShooterMotor;
     private Motor shooterTiltMotor;
     //----- Misc Motors -----
     private Motor intakeMotor;
@@ -53,8 +53,8 @@ public class RobotOutput
         //----- Shooter Subsystem Motors-----
         frontShooterMotorA = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_MOTOR_A_PORT), false, true);
         frontShooterMotorB = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_MOTOR_B_PORT), false, true);
-        rearShooterMotorA = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_MOTOR_A_PORT), false, true);
-        rearShooterMotorB = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_MOTOR_B_PORT), false, true);
+        middleShooterMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_MOTOR_A_PORT), false, true);
+        rearShooterMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_MOTOR_B_PORT), false, true);
         shooterTiltMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.SHOOTER_TILT_MOTOR_PORT), true, true);
         //----- Misc Motors -----
         intakeMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.INTAKE_MOTOR_PORT), false, true);
@@ -76,12 +76,12 @@ public class RobotOutput
         rearRightDriveMotor.Set(rightSpeed);
     }
     
-    public synchronized void setShooterMotors(double frontSpeed, double rearSpeed)
+    public synchronized void setShooterMotors(double frontSpeed, double middleSpeed, double rearSpeed)
     {
         frontShooterMotorA.Set(frontSpeed);
         frontShooterMotorB.Set(frontSpeed);
-        rearShooterMotorA.Set(rearSpeed);
-        rearShooterMotorB.Set(rearSpeed);
+        middleShooterMotor.Set(frontSpeed);
+        rearShooterMotor.Set(rearSpeed);
     }
     
     public synchronized void setIntakeMotor(double speed)

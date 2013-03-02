@@ -12,6 +12,7 @@ public class Shooter extends TorqueSubsystem
     private SimPID rearShooterPID;
     
     private double frontShooterMotorSpeed;
+    private double middleShooterMotorSpeed;
     private double rearShooterMotorSpeed;
     private double desiredFrontShooterRate;
     private double desiredRearShooterRate;
@@ -54,6 +55,7 @@ public class Shooter extends TorqueSubsystem
         rearShooterPID = new SimPID();
         
         frontShooterMotorSpeed = Constants.MOTOR_STOPPED;
+        middleShooterMotorSpeed = Constants.MOTOR_STOPPED;
         rearShooterMotorSpeed = Constants.MOTOR_STOPPED;
         desiredFrontShooterRate = Constants.SHOOTER_STOPPED_RATE;
         desiredRearShooterRate = Constants.SHOOTER_STOPPED_RATE;
@@ -75,15 +77,17 @@ public class Shooter extends TorqueSubsystem
     public void run()
     {   
         double frontSpeed = frontShooterPID.calcPID(sensorInput.getFrontShooterRate());
-        double rearSpeed = rearShooterPID.calcPID(sensorInput.getRearShooterRate());
+        double middleSpeed = rearShooterPID.calcPID(sensorInput.getRearShooterRate());
+        double rearSpeed = (desiredFrontShooterRate == Constants.SHOOTER_STOPPED_RATE) ? Constants.MOTOR_STOPPED : rearShooterOverrideSpeed;
         
         frontShooterMotorSpeed = limitShooterSpeed(frontSpeed);
-        rearShooterMotorSpeed = limitShooterSpeed(rearSpeed);
+        middleShooterMotorSpeed = limitShooterSpeed(middleSpeed);
+        rearShooterMotorSpeed = rearSpeed;
         
         tiltMotorSpeed = scheduledTiltSpeed();
         
         robotOutput.setTiltMotor(tiltMotorSpeed);
-        robotOutput.setShooterMotors(frontShooterMotorSpeed, rearShooterMotorSpeed);
+        robotOutput.setShooterMotors(frontShooterMotorSpeed, middleSpeed, rearSpeed);
     }
     
     private double scheduledTiltSpeed()
@@ -195,7 +199,7 @@ public class Shooter extends TorqueSubsystem
         data += sensorInput.getFrontShooterRate() + ",";
         
         data += desiredRearShooterRate + ",";
-        data += rearShooterMotorSpeed + ",";
+        data += middleShooterMotorSpeed + ",";
         data += sensorInput.getRearShooterRate() + ",";
         
         return data;
