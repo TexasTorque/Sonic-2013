@@ -25,7 +25,7 @@ public class RearPyramidAutonomous extends AutonomousBase {
         while(ds.isAutonomous())
         {
             watchdog.feed();
-            robotOutput.setDriveMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
+            /*robotOutput.setDriveMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
             manipulator.shootLowWithoutVision();
             if(autonomousTimer.get() > 7.0)
             {
@@ -35,7 +35,9 @@ public class RearPyramidAutonomous extends AutonomousBase {
             shooter.run();
             elevator.run();
             magazine.run();
-            drivebase.run();
+            drivebase.run();*/
+            robotOutput.setDriveMotors(0.2, 0.2);
+            robotOutput.setIntakeMotor(1.0);
         }
     }
 

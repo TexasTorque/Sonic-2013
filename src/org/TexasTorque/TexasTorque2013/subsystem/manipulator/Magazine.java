@@ -10,7 +10,8 @@ public class Magazine extends TorqueSubsystem
     
     private double previousTime;
     
-     private double deltaTime;
+    private double deltaTimeForward;
+    private double deltaTimeReverse; 
     
     private boolean magazineRaised;
     private boolean triggerBack;
@@ -22,7 +23,9 @@ public class Magazine extends TorqueSubsystem
         super();
         
         previousTime = Timer.getFPGATimestamp();
-        deltaTime = Constants.MAGAZINE_DELTA_TIME;
+        
+        deltaTimeForward = Constants.MAGAZINE_DELTA_TIME;
+        deltaTimeReverse = Constants.MAGAZINE_DELTA_TIME;
         
         magazineRaised = Constants.MAGAZINE_STORED;
         triggerBack = true;
@@ -95,7 +98,7 @@ public class Magazine extends TorqueSubsystem
     {
         magazineRaised = true;
         triggerBack = false;
-        if(timeHasElapsed())
+        if(timeHasElapsed(deltaTimeForward))
         {
             magazineState = Constants.MAGAZINE_RESETTING_STATE;
         }
@@ -105,7 +108,7 @@ public class Magazine extends TorqueSubsystem
     {
         magazineRaised = true;
         triggerBack = true;
-        if(timeHasElapsed())
+        if(timeHasElapsed(deltaTimeReverse))
         {
             magazineState = Constants.MAGAZINE_READY_STATE;
         }
@@ -122,10 +125,10 @@ public class Magazine extends TorqueSubsystem
         return (magazineState == Constants.MAGAZINE_READY_STATE);
     }
     
-    private boolean timeHasElapsed()
+    private boolean timeHasElapsed(double dt)
     {
         double currentTime = Timer.getFPGATimestamp();
-        if((currentTime - previousTime) > deltaTime)
+        if((currentTime - previousTime) > dt)
         {
             previousTime = currentTime;
             return true;
@@ -152,7 +155,8 @@ public class Magazine extends TorqueSubsystem
     
     public void loadParameters()
     {
-        deltaTime = params.getAsDouble("M_DeltaTime", Constants.MAGAZINE_DELTA_TIME);
+        deltaTimeForward = params.getAsDouble("M_DeltaTimeForward", Constants.MAGAZINE_DELTA_TIME);
+        deltaTimeReverse = params.getAsDouble("M_DeltaTimeReverse", Constants.MAGAZINE_DELTA_TIME);
     }
     
 }

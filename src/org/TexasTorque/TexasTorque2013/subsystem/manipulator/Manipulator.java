@@ -335,6 +335,16 @@ public class Manipulator extends TorqueSubsystem
         {
             shooter.setTiltAngle(0.0);
         }
+        
+        if(driverInput.fireFrisbee())
+        {
+            shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
+            
+            if(shooter.isSpunUp())
+            {
+                magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+            }
+        }
     }
     
     public void restoreDefaultPositions()
