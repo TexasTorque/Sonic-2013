@@ -23,10 +23,6 @@ public class SevenFrisbeeAuto extends AutonomousBase
     
     public void run()
     {
-        while(ds.isAutonomous())
-        {
-            watchdog.feed();
-        }
     }
     
     public void end()

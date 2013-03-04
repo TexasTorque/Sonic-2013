@@ -72,64 +72,59 @@ public class FiveFrisbeeAuto extends AutonomousBase
     
     public void run()
     {
-        while(ds.isAutonomous())
+        if(autonomousState == FIRST_SHOOTING_STATE)
         {
-            watchdog.feed();
-            
-            if(autonomousState == FIRST_SHOOTING_STATE)
+            drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
+
+            manipulator.shootLowWithoutVision();
+
+            if(autoTimer.get() > 5.0)
+            {
+                autonomousState = WAITING_STATE;
+            }
+        }
+        else if(autonomousState == WAITING_STATE)
+        {
+            drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
+
+            manipulator.restoreDefaultPositions();
+
+            if(autoTimer.get() > 7.0)
+            {
+                autonomousState = DRIVE_STATE;
+            }
+        }
+        else if(autonomousState == DRIVE_STATE)
+        {
+
+            intake.setIntakeSpeed(Intake.intakeSpeed);
+
+            double leftEncoder = sensorInput.getLeftDriveEncoder();
+            double rightEncoder = sensorInput.getRightDriveEncoder();
+            double average = (leftEncoder + rightEncoder) / 2;
+            double gyroPosition = sensorInput.getGyroAngle();
+
+            double x = linearPID.calcPID(average);
+            double y = gyroPID.calcPID(gyroPosition);
+
+            double leftSpeed = y + x;
+            double rightSpeed = y - x;
+
+            drivebase.setDriveSpeeds(leftSpeed, rightSpeed);
+
+            intake.setIntakeSpeed(Intake.intakeSpeed);
+
+            if(linearPID.isDone() && gyroPID.isDone())
             {
                 drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
-                
-                manipulator.shootLowWithoutVision();
-                
-                if(autoTimer.get() > 5.0)
-                {
-                    autonomousState = WAITING_STATE;
-                }
+                autonomousState = SECOND_SHOOTING_STATE;
             }
-            else if(autonomousState == WAITING_STATE)
-            {
-                drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
-                
-                manipulator.restoreDefaultPositions();
-                
-                if(autoTimer.get() > 7.0)
-                {
-                    autonomousState = DRIVE_STATE;
-                }
-            }
-            else if(autonomousState == DRIVE_STATE)
-            {
-                
-                intake.setIntakeSpeed(Intake.intakeSpeed);
-                
-                double leftEncoder = sensorInput.getLeftDriveEncoder();
-                double rightEncoder = sensorInput.getRightDriveEncoder();
-                double average = (leftEncoder + rightEncoder) / 2;
-                double gyroPosition = sensorInput.getGyroAngle();
+        }
+        else if(autonomousState == SECOND_SHOOTING_STATE)
+        {
+            drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
 
-                double x = linearPID.calcPID(average);
-                double y = gyroPID.calcPID(gyroPosition);
-
-                double leftSpeed = y + x;
-                double rightSpeed = y - x;
-
-                drivebase.setDriveSpeeds(leftSpeed, rightSpeed);
-
-                intake.setIntakeSpeed(Intake.intakeSpeed);
-
-                if(linearPID.isDone() && gyroPID.isDone())
-                {
-                    drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
-                    autonomousState = SECOND_SHOOTING_STATE;
-                }
-            }
-            else if(autonomousState == SECOND_SHOOTING_STATE)
-            {
-                drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
-                
-                manipulator.shootHighWithVision();
-            }
+            manipulator.shootHighWithVision();
         }
     }
     
