@@ -174,7 +174,6 @@ public class RobotBase extends SimpleRobot
         logData = SmartDashboard.getBoolean("logData", false);
         if(logData)
         {
-            //logging.createNewFile();
             String data = "MatchTime,RobotTime,";
             data += drivebase.getKeyNames();
             data += manipulator.getKeyNames();

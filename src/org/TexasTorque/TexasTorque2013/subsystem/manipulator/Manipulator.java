@@ -92,13 +92,8 @@ public class Manipulator extends TorqueSubsystem
         
         SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
         SmartDashboard.putNumber("ElevatorPosition", sensorInput.getElevatorEncoder());
-        SmartDashboard.putNumber("TiltSpeed", shooter.tiltMotorSpeed);
         SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
         SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
-        SmartDashboard.putBoolean("FrontIsDone", shooter.isSpunUp());
-        SmartDashboard.putBoolean("TiltIsDone", shooter.isVerticallyLocked());
-        SmartDashboard.putBoolean("ElevatorIsDone", elevator.atDesiredPosition());
-        SmartDashboard.putNumber("TiltVoltage", sensorInput.getTiltVoltage());
         
     }
     
@@ -262,13 +257,13 @@ public class Manipulator extends TorqueSubsystem
         }
         
         System.err.println("Elevator: " + elevator.atDesiredPosition());
-        //if(elevator.atDesiredPosition()) DO NOT REMOVE
-        //{
+        if(elevator.atDesiredPosition())
+        {
             if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isReadyToFire()))
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
             }
-        //}
+        }
     }
     
     public void shootLowWithVision()

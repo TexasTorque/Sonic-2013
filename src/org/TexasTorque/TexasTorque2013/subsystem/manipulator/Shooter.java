@@ -25,7 +25,6 @@ public class Shooter extends TorqueSubsystem
     private double middleZoneSpeed;
     private double outerZoneSpeed;
     private double nullZoneSpeed;
-    private double zeroSpeed;
     
     private double innerZoneRange;
     private double middleZoneRange;
@@ -41,6 +40,7 @@ public class Shooter extends TorqueSubsystem
     public static double shootLowStandardAngle;
     public static double feederStationAngle;
     public static double shootLowAdditive;
+    public static double shootHighAdditive;
     public static double rearSpeedMultiplier;
     
     public static Shooter getInstance()
@@ -82,20 +82,17 @@ public class Shooter extends TorqueSubsystem
         
         frontShooterMotorSpeed = limitShooterSpeed(frontSpeed);
         middleShooterMotorSpeed = limitShooterSpeed(middleSpeed);
-        
-        double rearSpeed = middleShooterMotorSpeed * rearSpeedMultiplier;
-        
-        rearShooterMotorSpeed = rearSpeed;
+        rearShooterMotorSpeed = middleShooterMotorSpeed * rearSpeedMultiplier;
         
         tiltMotorSpeed = scheduledTiltSpeed();
         
         robotOutput.setTiltMotor(tiltMotorSpeed);
-        robotOutput.setShooterMotors(frontShooterMotorSpeed, middleSpeed, rearSpeed);
+        robotOutput.setShooterMotors(frontShooterMotorSpeed, middleShooterMotorSpeed, rearShooterMotorSpeed);
     }
     
     private double scheduledTiltSpeed()
     {
-        double motorSpeed = 0.0;
+        double motorSpeed = Constants.MOTOR_STOPPED;
         double currentAngle = sensorInput.getTiltAngle();
         double dAngle = Math.abs(desiredTiltPosition - currentAngle);
         
@@ -212,14 +209,16 @@ public class Shooter extends TorqueSubsystem
     {
         tiltOverrideSpeed = params.getAsDouble("S_TiltOverrideSpeed", 0.5);
         standardTiltPosition = params.getAsDouble("S_TiltStandardAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
-        frontShooterOverrideSpeed = params.getAsDouble("S_FrontShooterOverrideSpeed", 0.7);
-        rearShooterOverrideSpeed = params.getAsDouble("S_RearShooterOverrideSpeed", 0.5);
-        frontShooterRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
-        rearShooterRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
         shootHighStandardAngle = params.getAsDouble("S_ShootHighAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
         shootLowStandardAngle = params.getAsDouble("S_ShootLowAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
         feederStationAngle = params.getAsDouble("S_FeederStationAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
         shootLowAdditive = params.getAsDouble("S_ShootLowAdditive", 0.0);
+        shootHighAdditive = params.getAsDouble("S_ShootHighAdditive", 0.0);
+        
+        frontShooterOverrideSpeed = params.getAsDouble("S_FrontShooterOverrideSpeed", 0.7);
+        rearShooterOverrideSpeed = params.getAsDouble("S_RearShooterOverrideSpeed", 0.5);
+        frontShooterRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
+        rearShooterRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
         rearSpeedMultiplier = params.getAsDouble("S_RearSpeedMultiplier", 1.0);
         
         double p = params.getAsDouble("S_FrontShooterP", 0.0);
@@ -246,11 +245,10 @@ public class Shooter extends TorqueSubsystem
         rearShooterPID.resetErrorSum();
         rearShooterPID.resetPreviousVal();
         
-        innerZoneSpeed = params.getAsDouble("S_InnerZoneSpeed", 0.0);
-        middleZoneSpeed = params.getAsDouble("S_MiddleZoneSpeed", 0.0);
-        outerZoneSpeed = params.getAsDouble("S_OuterZoneSpeed", 0.0);
-        nullZoneSpeed = params.getAsDouble("S_NullZoneSpeed", 0.0);
-        zeroSpeed = params.getAsDouble("S_ZeroSpeed", -0.1);
+        innerZoneSpeed = params.getAsDouble("S_InnerZoneSpeed", Constants.MOTOR_STOPPED);
+        middleZoneSpeed = params.getAsDouble("S_MiddleZoneSpeed", Constants.MOTOR_STOPPED);
+        outerZoneSpeed = params.getAsDouble("S_OuterZoneSpeed", Constants.MOTOR_STOPPED);
+        nullZoneSpeed = params.getAsDouble("S_NullZoneSpeed", Constants.MOTOR_STOPPED);
         
         innerZoneRange = params.getAsDouble("S_InnerZoneRange", 0.0);
         middleZoneRange = params.getAsDouble("S_MiddleZoneRange", 0.0);
