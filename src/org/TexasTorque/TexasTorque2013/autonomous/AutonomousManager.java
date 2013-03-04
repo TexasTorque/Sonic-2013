@@ -39,6 +39,7 @@ public class AutonomousManager
         autoMapping.put(Integer.toString(Constants.DO_NOTHING_AUTO), new DoNothingAutonomous());
         autoMapping.put(Integer.toString(Constants.REAR_SHOOT_AUTO), new RearPyramidAutonomous());
         autoMapping.put(Integer.toString(Constants.REAR_DRIVE_FORWARD_AUTO), new FiveFrisbeeAuto());
+        autoMapping.put(Integer.toString(Constants.REAR_DRIVE_FORWARD_DOUBLE_AUTO), new SevenFrisbeeAuto());
     }
     
     public void initAutonomous()
