@@ -17,22 +17,22 @@ public class RearPyramidAutonomous extends AutonomousBase
     public void init() 
     {
         autonomousTimer.reset();
-        autonomousTimer.start();
     }
 
     public void run() 
     {
-            robotOutput.setDriveMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
-            manipulator.shootLowWithoutVision();
-            if(autonomousTimer.get() > 7.0)
-            {
-                manipulator.restoreDefaultPositions();
-            }
-            intake.run();
-            shooter.run();
-            elevator.run();
-            magazine.run();
-            drivebase.run();
+        autonomousTimer.start();
+        robotOutput.setDriveMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
+        manipulator.shootLowWithoutVision();
+        if(autonomousTimer.get() > 7.0)
+        {
+            manipulator.restoreDefaultPositions();
+        }
+        intake.run();
+        shooter.run();
+        elevator.run();
+        magazine.run();
+        drivebase.run();
     }
 
     public void end() 
