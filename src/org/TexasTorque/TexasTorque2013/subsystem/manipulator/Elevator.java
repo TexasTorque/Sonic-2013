@@ -77,7 +77,7 @@ public class Elevator extends TorqueSubsystem
             
             if(desiredPosition != 0)
             {
-                elevatorEpsilon = 0;
+                elevatorEpsilon = 3;
             }
             else
             {
