@@ -105,6 +105,7 @@ public class RobotBase extends SimpleRobot
         params.load();
         loadParameters();
         initLogging();
+        autoManager.reset();
         sensorInput.resetEncoders();
         autoManager.setAutonomousDelay(driverInput.getAutonomousDelay());
         autoManager.setAutoMode(Constants.REAR_SHOOT_AUTO);

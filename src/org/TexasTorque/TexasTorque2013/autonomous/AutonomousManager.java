@@ -21,9 +21,6 @@ public class AutonomousManager
         autoDelay = 0.0;
         queuedAutoMode = "0";
         autoMapping = new Hashtable();
-        autoMapping.put(Integer.toString(Constants.DO_NOTHING_AUTO), new DoNothingAutonomous());
-        autoMapping.put(Integer.toString(Constants.REAR_SHOOT_AUTO), new RearPyramidAutonomous());
-        autoMapping.put(Integer.toString(Constants.REAR_DRIVE_FORWARD_AUTO), new FiveFrisbeeAuto());
     }
     
     public void setAutonomousDelay(double delay)
@@ -34,6 +31,14 @@ public class AutonomousManager
     public void setAutoMode(int mode)
     {
         queuedAutoMode = Integer.toString(mode);
+    }
+    
+    public void reset()
+    {
+        autoMapping.clear();
+        autoMapping.put(Integer.toString(Constants.DO_NOTHING_AUTO), new DoNothingAutonomous());
+        autoMapping.put(Integer.toString(Constants.REAR_SHOOT_AUTO), new RearPyramidAutonomous());
+        autoMapping.put(Integer.toString(Constants.REAR_DRIVE_FORWARD_AUTO), new FiveFrisbeeAuto());
     }
     
     public void initAutonomous()
