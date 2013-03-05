@@ -10,6 +10,8 @@ public class Drivebase extends TorqueSubsystem
     private double leftDriveSpeed;
     private double rightDriveSpeed;
     
+    private boolean shiftState;
+    
     public static double highSensitivity;
     public static double lowSensitivity;
     
@@ -24,15 +26,19 @@ public class Drivebase extends TorqueSubsystem
         
         leftDriveSpeed = Constants.MOTOR_STOPPED;
         rightDriveSpeed = Constants.MOTOR_STOPPED;
+        
+        shiftState = Constants.LOW_GEAR;
     }
     
     public void run()
     {
-        if(!dashboardManager.getDS().isAutonomous())
+        if(dashboardManager.getDS().isOperatorControl())
         {
            mixChannels(driverInput.getThrottle(), driverInput.getTurn());
-           setShifters(driverInput.shiftHighGear());
+           shiftState = driverInput.shiftHighGear();
         }
+        
+        robotOutput.setShifters(shiftState);
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }
     
@@ -44,13 +50,9 @@ public class Drivebase extends TorqueSubsystem
     
     public void setShifters(boolean highGear)
     {
-         if(highGear)
+        if(highGear != shiftState)
         {
-            robotOutput.setShifters(true);
-        }
-        else
-        {
-            robotOutput.setShifters(false);
+            shiftState = highGear;
         }
     }
     
@@ -67,7 +69,6 @@ public class Drivebase extends TorqueSubsystem
         xAxis = driverInput.applyDeadband(xAxis, Constants.TURN_AXIS_DEADBAND);
         
         simpleDrive(yAxis, xAxis);
-        //cheesyDrive(yAxis, xAxis);
     }
     
     private void simpleDrive(double yAxis, double xAxis)
@@ -77,89 +78,6 @@ public class Drivebase extends TorqueSubsystem
         
         leftDriveSpeed = yAxis + xAxis;
         rightDriveSpeed = yAxis - xAxis;
-    }
-    
-    private void cheesyDrive(double throttle, double turn)
-    {
-        throttle = applySqrtCurve(throttle);
-        turn = applySqrtCurve(turn);
-        
-        double power;
-        double trueSpeed;
-        double RadiusOuter = Constants.MAX_DIAMETER / 2;
-        double RadiusInner = (Constants.MAX_DIAMETER - Constants.ROBOT_WIDTH) / 2;
-        double SpeedInner = 0.0;
-        if(!driverInput.shiftHighGear())
-        {
-            turn = turn * lowSensitivity;
-        }
-        else
-        {
-            turn = turn * highSensitivity;
-        }
-        if(turn == 0.0)
-        {
-            SpeedInner = throttle;
-        }
-        else
-        {
-            SpeedInner = throttle * (RadiusInner / RadiusOuter);
-        }
-        power = SpeedInner;
-        trueSpeed = throttle;
-        if(power > 1.0)
-        {
-            trueSpeed -= (power - 1.0);
-            power = 1.0;
-        }
-        if(trueSpeed > 1.0)
-        {
-            power -= (trueSpeed - 1.0);
-            trueSpeed = 1.0;
-        }
-        if(power < -1.0)
-        {
-            trueSpeed += (1.0 + power);
-            power = -1.0;
-        }
-        if(trueSpeed < -1.0)
-        {
-            power += (-1.0 - trueSpeed);
-            trueSpeed = -1.0;
-        }
-        if(throttle == 0 && Math.abs(turn) > 0.5)
-        {
-            power = turn;
-            leftDriveSpeed = power;
-            rightDriveSpeed = -power;
-        }
-        else if(throttle > 0)
-        {
-            if(turn > 0)
-            {
-                leftDriveSpeed = -power;
-                rightDriveSpeed = -trueSpeed;
-            }
-            else
-            {
-                leftDriveSpeed = -trueSpeed;
-                rightDriveSpeed = -power;
-            }
-        }
-        else
-        {
-            if(turn > 0)
-            {
-                leftDriveSpeed = -trueSpeed;
-                rightDriveSpeed = -power;
-            }
-            else
-            {
-                leftDriveSpeed = -power;
-                rightDriveSpeed = -trueSpeed;
-            }
-        }
-        
     }
     
     public String getKeyNames()

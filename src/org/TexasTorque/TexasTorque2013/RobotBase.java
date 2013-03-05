@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.SimpleRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DriverStation;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousManager;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.*;
@@ -67,11 +66,10 @@ public class RobotBase extends SimpleRobot
     public void autonomous()
     {
         autonomousInit();
-        while(isAutonomous())
+        while(isAutonomous() && isEnabled())
         {
             watchdog.feed();
             autonomousPeriodic();
-            dashboardManager.updateLCD();
             robotOutput.runLights();
         }
     }
@@ -84,7 +82,6 @@ public class RobotBase extends SimpleRobot
             double previousTime = Timer.getFPGATimestamp();
             watchdog.feed();
             teleopPeriodic();
-            dashboardManager.updateLCD();
             robotOutput.runLights();
             numCycles++;
             SmartDashboard.putNumber("NumCycles", numCycles);
@@ -99,14 +96,12 @@ public class RobotBase extends SimpleRobot
         {
             watchdog.feed();
             disabledPeriodic();
-            dashboardManager.updateLCD();
             robotOutput.runLights();
         }
     }
 
     public void autonomousInit()
     {
-        params.load();
         loadParameters();
         initLogging();
         autoManager.reset();
@@ -125,7 +120,6 @@ public class RobotBase extends SimpleRobot
 
     public void teleopInit()
     {
-        params.load();
         loadParameters();
         initLogging();
         driverInput.pullJoystickTypes();
@@ -143,8 +137,6 @@ public class RobotBase extends SimpleRobot
         drivebase.run();
         manipulator.run();
         logData();
-        
-        SmartDashboard.putNumber("Voltage", dashboardManager.getDS().getBatteryVoltage());
     }
     
     public void disabledInit()
@@ -171,6 +163,7 @@ public class RobotBase extends SimpleRobot
     
     public void loadParameters()
     {
+        params.load();
         manipulator.loadParameters();
         drivebase.loadParameters();
     }
