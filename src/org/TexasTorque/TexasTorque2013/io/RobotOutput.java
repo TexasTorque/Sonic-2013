@@ -21,11 +21,9 @@ public class RobotOutput
     //----- Pneumatics -----
     private Compressor compressor;
     private Solenoid driveShifter;
-    private Solenoid loader;
-    //private Solenoid levelTwoClimber;
+    private Solenoid firingPin;
     private DoubleSolenoid frisbeeLifter;
     private DoubleSolenoid passiveClimber;
-    //private Relay ptoShifter;
     //----- Drive Motors -----
     private Motor frontLeftDriveMotor;
     private Motor rearLeftDriveMotor;
@@ -54,11 +52,9 @@ public class RobotOutput
         //----- Pneumatics -----
         compressor = new Compressor(Ports.SIDECAR_ONE, Ports.PRESSURE_SWITCH_PORT, Ports.SIDECAR_ONE, Ports.COMPRESSOR_RELAY_PORT);
         driveShifter = new Solenoid(Ports.DRIVE_SHIFTER_PORT);
-        loader = new Solenoid(Ports.LOADER_SOLENOID_PORT);
-        //levelTwoClimber = new Solenoid(Ports.LEVEL_TWO_CLIMBER_PORT);
+        firingPin = new Solenoid(Ports.LOADER_SOLENOID_PORT);
         frisbeeLifter = new DoubleSolenoid(Ports.FRISBEE_LIFTER_SOLENOID_A_PORT, Ports.FRISBEE_LIFTER_SOLENOID_B_PORT);
         passiveClimber = new DoubleSolenoid(Ports.PASSIVE_CLIMBER_A_PORT, Ports.PASSIVE_CLIMBER_B_PORT);
-        //ptoShifter = new Relay(Ports.SIDECAR_ONE, Ports.PTO_RELAY_PORT, Relay.Direction.kBoth);
         //----- Drive Motors -----
         frontLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_LEFT_MOTOR_PORT), false, true);
         rearLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_LEFT_MOTOR_PORT), false, true);
@@ -124,20 +120,15 @@ public class RobotOutput
         shooterTiltMotor.Set(speed);
     }
     
-    public synchronized void setLoaderSolenoid(boolean extend)
+    public synchronized void setFiringPin(boolean ready)
     {
-        loader.set(!extend);
+        firingPin.set(!ready);
     }
     
     public synchronized void setShifters(boolean highGear)
     {
         driveShifter.set(highGear);
     }
-    
-    /*public synchronized void setLevelTwoClimber(boolean release)
-    {
-        levelTwoClimber.set(release);
-    }*/
     
     public synchronized void setFrisbeeLifter(boolean retracted)
     {
@@ -162,16 +153,4 @@ public class RobotOutput
             passiveClimber.set(DoubleSolenoid.Value.kReverse);
         }
     }
-    
-    /*public synchronized void setPTOShifters(boolean extend)
-    {
-        if(extend)
-        {
-            ptoShifter.set(Relay.Value.kForward);
-        }
-        else
-        {
-            ptoShifter.set(Relay.Value.kReverse);
-        }
-    }*/
 }

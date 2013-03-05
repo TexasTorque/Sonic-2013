@@ -23,7 +23,7 @@ public class DoNothingAutonomous extends AutonomousBase
         robotOutput.setTiltMotor(Constants.MOTOR_STOPPED);
         robotOutput.setIntakeMotor(Constants.MOTOR_STOPPED);
         robotOutput.setFrisbeeLifter(Constants.MAGAZINE_STORED);
-        robotOutput.setLoaderSolenoid(true);
+        robotOutput.setFiringPin(true);
     }
     
     public void end()
