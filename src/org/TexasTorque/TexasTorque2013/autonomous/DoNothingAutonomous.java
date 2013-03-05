@@ -15,7 +15,7 @@ public class DoNothingAutonomous extends AutonomousBase
        
     }
     
-    public void run()
+    public boolean run()
     {
         robotOutput.setDriveMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
         robotOutput.setElevatorMotors(Constants.MOTOR_STOPPED);
@@ -24,6 +24,7 @@ public class DoNothingAutonomous extends AutonomousBase
         robotOutput.setIntakeMotor(Constants.MOTOR_STOPPED);
         robotOutput.setFrisbeeLifter(Constants.MAGAZINE_STORED);
         robotOutput.setFiringPin(true);
+        return false;
     }
     
     public void end()

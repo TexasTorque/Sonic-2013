@@ -70,7 +70,7 @@ public class SevenFrisbeeAuto extends AutonomousBase
         autoTimer.start();
     }
     
-    public void run()
+    public boolean run()
     {
         if(autonomousState == FIRST_SHOOTING_STATE)
         {
@@ -126,6 +126,7 @@ public class SevenFrisbeeAuto extends AutonomousBase
 
             manipulator.shootHighWithVision();
         }
+        return false;
     }
     
     public void end()

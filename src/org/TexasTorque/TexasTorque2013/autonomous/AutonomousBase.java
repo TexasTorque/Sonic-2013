@@ -48,7 +48,7 @@ public abstract class AutonomousBase
     
     public abstract void init();
     
-    public abstract void run();
+    public abstract boolean run();
     
     public abstract void end();
     

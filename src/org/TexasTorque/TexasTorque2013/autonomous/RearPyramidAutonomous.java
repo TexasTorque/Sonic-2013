@@ -23,21 +23,24 @@ public class RearPyramidAutonomous extends AutonomousBase
         stopTime = params.getAsDouble("A_RearPyramidAutonomousStopTime", 5.0);
     }
 
-    public void run() 
+    public boolean run() 
     {
-        System.err.println("outside");
         drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
         manipulator.shootLowWithoutVision();
-        if(autonomousTimer.get() > (stopTime + AutonomousManager.getAutoDelay()));
+        if(autonomousTimer.get() > (stopTime + AutonomousManager.getAutoDelay()))
         {
-            System.err.println("inside");
             manipulator.restoreDefaultPositions();
+        }
+        else if(autonomousTimer.get() > 14.0)
+        {
+            return true;
         }
         intake.run();
         shooter.run();
         elevator.run();
         magazine.run();
         drivebase.run();
+        return false;
     }
 
     public void end() 
