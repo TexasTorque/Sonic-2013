@@ -63,6 +63,8 @@ public class RobotBase extends SimpleRobot
         numCycles = 0.0;
     }
     
+//---------------------------------------------------------------------------------------------------------------------------------
+    
     public void autonomous()
     {
         autonomousInit();
@@ -71,32 +73,7 @@ public class RobotBase extends SimpleRobot
             watchdog.feed();
             autonomousPeriodic();
             robotOutput.runLights();
-        }
-    }
-    
-    public void operatorControl()
-    {
-        teleopInit();
-        while(isOperatorControl() && isEnabled())
-        {
-            double previousTime = Timer.getFPGATimestamp();
-            watchdog.feed();
-            teleopPeriodic();
-            robotOutput.runLights();
-            numCycles++;
-            SmartDashboard.putNumber("NumCycles", numCycles);
-            SmartDashboard.putNumber("Hertz", 1.0/(Timer.getFPGATimestamp() - previousTime));
-        }
-    }
-    
-    public void disabled()
-    {
-        disabledInit();
-        while(isDisabled())
-        {
-            watchdog.feed();
-            disabledPeriodic();
-            robotOutput.runLights();
+            logData();
         }
     }
 
@@ -115,13 +92,33 @@ public class RobotBase extends SimpleRobot
     {
         dashboardManager.updateLCD();
         autoManager.runAutonomous();
-        logData();
+    }
+    
+//---------------------------------------------------------------------------------------------------------------------------------   
+    
+    public void operatorControl()
+    {
+        teleopInit();
+        while(isOperatorControl() && isEnabled())
+        {
+            double previousTime = Timer.getFPGATimestamp();
+            
+            watchdog.feed();
+            teleopPeriodic();
+            robotOutput.runLights();
+            logData();
+            
+            numCycles++;
+            SmartDashboard.putNumber("NumCycles", numCycles);
+            SmartDashboard.putNumber("Hertz", 1.0/(Timer.getFPGATimestamp() - previousTime));
+        }
     }
 
     public void teleopInit()
     {
         loadParameters();
         initLogging();
+        
         driverInput.pullJoystickTypes();
         
         manipulator.setLightsNormal();
@@ -136,7 +133,19 @@ public class RobotBase extends SimpleRobot
     {
         drivebase.run();
         manipulator.run();
-        logData();
+    }
+    
+//---------------------------------------------------------------------------------------------------------------------------------
+    
+    public void disabled()
+    {
+        disabledInit();
+        while(isDisabled())
+        {
+            watchdog.feed();
+            disabledPeriodic();
+            robotOutput.runLights();
+        }
     }
     
     public void disabledInit()
@@ -152,6 +161,8 @@ public class RobotBase extends SimpleRobot
             sensorInput.resetGyro();
         }
     }
+    
+//---------------------------------------------------------------------------------------------------------------------------------    
     
     public void initSmartDashboard()
     {

@@ -12,8 +12,8 @@ public class Drivebase extends TorqueSubsystem
     
     private boolean shiftState;
     
-    public static double highSensitivity;
-    public static double lowSensitivity;
+    public double highSensitivity;
+    public double lowSensitivity;
     
     public static Drivebase getInstance()
     {
