@@ -11,8 +11,8 @@ public class Constants
     
     //----- Lights -----
     public final static int WHITE_SOLID = 0;
-    public final static int RED_SOLID = 1;
-    public final static int BLUE_SOLID = 2;
+    public final static int BLUE_SOLID = 1;
+    public final static int RED_SOLID = 2;
     public final static int YELLOW_RED_ALLIANCE = 3;
     public final static int YELLOW_BLUE_ALLIANCE = 4;
     public final static int PARTY_MODE = 5;
@@ -20,6 +20,9 @@ public class Constants
     public final static int TRACKING_BLUE_ALLIANCE = 7;
     public final static int LOCKED_RED_ALLIANCE = 8;
     public final static int LOCKED_BLUE_ALLIANCE = 9;
+    
+    public final static int RED_ALLIANCE = 0;
+    public final static int BLUE_ALLIANCE = 1;
     
     //----- Autonomous -----
     public final static int DO_NOTHING_AUTO = 0;

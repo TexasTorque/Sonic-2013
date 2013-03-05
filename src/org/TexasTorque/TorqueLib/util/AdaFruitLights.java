@@ -9,8 +9,8 @@ public class AdaFruitLights
     private Watchdog watchdog;
     
     private Vector outputVector;
-    
     private int currentState;
+    private int desiredState;
     
     public AdaFruitLights(Vector outputs)
     {
@@ -18,14 +18,15 @@ public class AdaFruitLights
         outputVector = outputs;
     }
     
-    public void setDesiredState (int state)
+    public void setDesiredState(int state)
     {
-        currentState = state;
+        desiredState = state;
     }
     
-    public void setState()
+    private void setState()
     {
         String byteString = Integer.toBinaryString(currentState);
+        byteString = "0000" + byteString;
         for (int index = 0; index < outputVector.size(); index++)
         {
             watchdog.feed();
@@ -39,6 +40,15 @@ public class AdaFruitLights
             {
                 ((DigitalOutput)(outputVector.elementAt(index))).set(true);
             }
+        }
+    }
+    
+    public void run()
+    {
+        if(currentState != desiredState)
+        {
+            currentState = desiredState;
+            setState();
         }
     }
 }

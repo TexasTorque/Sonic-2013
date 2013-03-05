@@ -12,7 +12,7 @@ public class AutonomousManager
     
     private String queuedAutoMode;
     private Hashtable autoMapping;
-    private double autoDelay;
+    private static double autoDelay;
     private boolean firstCycle;
     
     public AutonomousManager()
@@ -33,6 +33,11 @@ public class AutonomousManager
         queuedAutoMode = Integer.toString(mode);
     }
     
+    public static double getAutoDelay()
+    {
+        return autoDelay;
+    }
+    
     public void reset()
     {
         autoMapping.clear();
@@ -44,8 +49,8 @@ public class AutonomousManager
     
     public void initAutonomous()
     {
-        ((AutonomousBase)autoMapping.get(queuedAutoMode)).init();
         Timer.delay(autoDelay * 1000);
+        ((AutonomousBase)autoMapping.get(queuedAutoMode)).init();
         firstCycle = true;
     }
     

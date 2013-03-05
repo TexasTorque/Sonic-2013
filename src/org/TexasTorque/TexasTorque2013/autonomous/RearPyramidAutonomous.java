@@ -8,6 +8,8 @@ public class RearPyramidAutonomous extends AutonomousBase
 
     Timer autonomousTimer;
     
+    double stopTime;
+    
     public RearPyramidAutonomous()
     {
         super();
@@ -17,15 +19,18 @@ public class RearPyramidAutonomous extends AutonomousBase
     public void init() 
     {
         autonomousTimer.reset();
+        autonomousTimer.start();
+        stopTime = params.getAsDouble("A_RearPyramidAutonomousStopTime", 5.0);
     }
 
     public void run() 
     {
-        autonomousTimer.start();
-        robotOutput.setDriveMotors(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
+        System.err.println("outside");
+        drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
         manipulator.shootLowWithoutVision();
-        if(autonomousTimer.get() > 7.0)
+        if(autonomousTimer.get() > (stopTime + AutonomousManager.getAutoDelay()));
         {
+            System.err.println("inside");
             manipulator.restoreDefaultPositions();
         }
         intake.run();

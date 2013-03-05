@@ -1,16 +1,24 @@
 package org.TexasTorque.TexasTorque2013.io;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
+import java.util.Vector;
+import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
+import org.TexasTorque.TorqueLib.util.AdaFruitLights;
 import org.TexasTorque.TorqueLib.util.Motor;
 
 public class RobotOutput
 {
     private static RobotOutput instance;
+    
+    private AdaFruitLights lights;
+    private Vector lightsVector;
+    
     //----- Pneumatics -----
     private Compressor compressor;
     private Solenoid driveShifter;
@@ -37,6 +45,13 @@ public class RobotOutput
     
     public RobotOutput()
     {   
+        
+        lightsVector = new Vector();
+        lightsVector.addElement(new DigitalOutput(Ports.SIDECAR_TWO, Ports.LIGHTS_A_PORT));
+        lightsVector.addElement(new DigitalOutput(Ports.SIDECAR_TWO, Ports.LIGHTS_B_PORT));
+        lightsVector.addElement(new DigitalOutput(Ports.SIDECAR_TWO, Ports.LIGHTS_C_PORT));
+        lightsVector.addElement(new DigitalOutput(Ports.SIDECAR_TWO, Ports.LIGHTS_D_PORT));
+        lights = new AdaFruitLights(lightsVector);
         //----- Pneumatics -----
         compressor = new Compressor(Ports.SIDECAR_ONE, Ports.PRESSURE_SWITCH_PORT, Ports.SIDECAR_ONE, Ports.COMPRESSOR_RELAY_PORT);
         driveShifter = new Solenoid(Ports.DRIVE_SHIFTER_PORT);
@@ -66,6 +81,16 @@ public class RobotOutput
     public synchronized static RobotOutput getInstance()
     {
         return (instance == null) ? instance = new RobotOutput() : instance;
+    }
+    
+    public synchronized void setLightsState(int state)
+    {
+        lights.setDesiredState(state);
+    }
+    
+    public synchronized void runLights()
+    {
+        lights.run();
     }
     
     public synchronized void setDriveMotors(double leftSpeed, double rightSpeed)

@@ -52,9 +52,9 @@ public class Manipulator extends TorqueSubsystem
             {
                 shootHighWithoutVision();
             }
-            else if(driverInput.shootLowWithVision())
+            else if(driverInput.shootMiddle())
             {
-                shootLowWithVision();
+                shootMiddle();
             }
             else if(driverInput.shootLowWithoutVision())
             {
@@ -78,6 +78,8 @@ public class Manipulator extends TorqueSubsystem
                 {
                     shooter.setTiltAngle(0.0);
                 }
+                
+                setNormalLights();
             }
             
             intake.run();
@@ -196,6 +198,7 @@ public class Manipulator extends TorqueSubsystem
         intake.setIntakeSpeed(Intake.intakeSpeed);
         magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+        setNormalLights();
     }
     
     public void reverseIntake()
@@ -203,6 +206,7 @@ public class Manipulator extends TorqueSubsystem
         intake.setIntakeSpeed(Intake.outtakeSpeed);
         magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+        setNormalLights();
     }
     
     public void shootHighWithVision()
@@ -211,6 +215,8 @@ public class Manipulator extends TorqueSubsystem
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
         elevator.setDesiredPosition(Elevator.elevatorTopPosition);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        
+        runChecks();
         
         if(sensorInput.getElevatorEncoder() > 100)
         {
@@ -247,6 +253,8 @@ public class Manipulator extends TorqueSubsystem
         shooter.setTiltAngle(Shooter.shootHighStandardAngle);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         
+        runChecks();
+        
         if(sensorInput.getElevatorEncoder() > 100)
         {
             shooter.setTiltAngle(Shooter.shootHighStandardAngle);
@@ -255,8 +263,6 @@ public class Manipulator extends TorqueSubsystem
         {
             shooter.setTiltAngle(0.0);
         }
-        
-        System.err.println("Elevator: " + elevator.atDesiredPosition());
         if(elevator.atDesiredPosition())
         {
             if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isReadyToFire()))
@@ -273,6 +279,8 @@ public class Manipulator extends TorqueSubsystem
         elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
         shooter.setTiltAngle(Shooter.shootLowStandardAngle);
+        
+        runChecks();
         
         if(elevator.atDesiredPosition() && SmartDashboard.getBoolean("found", false))
         {
@@ -301,8 +309,10 @@ public class Manipulator extends TorqueSubsystem
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
         shooter.setTiltAngle(Shooter.shootLowStandardAngle);
         
+        runChecks();
+        
         if(elevator.atDesiredPosition())
-        {   
+        {
             if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isReadyToFire()))
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
@@ -342,11 +352,31 @@ public class Manipulator extends TorqueSubsystem
         }
     }
     
+    public void shootMiddle()
+    {
+        intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
+        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        elevator.setDesiredPosition(Elevator.elevatorMiddlePosition);
+        shooter.setTiltAngle(Shooter.shootLowStandardAngle);
+        
+        runChecks();
+        
+        if(elevator.atDesiredPosition())
+        {
+            if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isReadyToFire()))
+            {
+                magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+            }
+        }
+    }
+    
     public void restoreDefaultPositions()
     {
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        setNormalLights();
         
         if(sensorInput.getElevatorEncoder() > 100)
         {
@@ -358,5 +388,59 @@ public class Manipulator extends TorqueSubsystem
         }
         
         elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
+    }
+    
+    public void setLightsTracking()
+    {
+        double currentAlliance = dashboardManager.getDS().getAlliance().value;
+        
+        if(currentAlliance == Constants.RED_ALLIANCE)
+        {
+            robotOutput.setLightsState(Constants.TRACKING_RED_ALLIANCE);
+        }
+        else if(currentAlliance == Constants.BLUE_ALLIANCE)
+        {
+            robotOutput.setLightsState(Constants.TRACKING_BLUE_ALLIANCE);
+        }
+    }
+    
+    public void setLightsLocked()
+    {
+        double currentAlliance = dashboardManager.getDS().getAlliance().value;
+        
+        if(currentAlliance == Constants.RED_ALLIANCE)
+        {
+            robotOutput.setLightsState(Constants.LOCKED_RED_ALLIANCE);
+        }
+        else if(currentAlliance == Constants.BLUE_ALLIANCE)
+        {
+            robotOutput.setLightsState(Constants.LOCKED_BLUE_ALLIANCE);
+        }
+    }
+    
+    public void setNormalLights()
+    {
+        double currentAlliance = dashboardManager.getDS().getAlliance().value;
+        
+        if(currentAlliance == Constants.RED_ALLIANCE)
+        {
+            robotOutput.setLightsState(Constants.RED_SOLID);
+        }
+        else if(currentAlliance == Constants.BLUE_ALLIANCE)
+        {
+            robotOutput.setLightsState(Constants.BLUE_SOLID);
+        }
+    }
+    
+    private void runChecks()
+    {
+        if(elevator.atDesiredPosition() && shooter.isReadyToFire())
+        {
+            setLightsLocked();
+        }
+        else
+        {
+            setLightsTracking();
+        }
     }
 }

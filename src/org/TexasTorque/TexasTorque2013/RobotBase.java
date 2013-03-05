@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.SimpleRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousManager;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.*;
@@ -71,6 +72,7 @@ public class RobotBase extends SimpleRobot
             watchdog.feed();
             autonomousPeriodic();
             dashboardManager.updateLCD();
+            robotOutput.runLights();
         }
     }
     
@@ -83,6 +85,7 @@ public class RobotBase extends SimpleRobot
             watchdog.feed();
             teleopPeriodic();
             dashboardManager.updateLCD();
+            robotOutput.runLights();
             numCycles++;
             SmartDashboard.putNumber("NumCycles", numCycles);
             SmartDashboard.putNumber("Hertz", 1.0/(Timer.getFPGATimestamp() - previousTime));
@@ -97,6 +100,7 @@ public class RobotBase extends SimpleRobot
             watchdog.feed();
             disabledPeriodic();
             dashboardManager.updateLCD();
+            robotOutput.runLights();
         }
     }
 
@@ -126,6 +130,8 @@ public class RobotBase extends SimpleRobot
         initLogging();
         driverInput.pullJoystickTypes();
         
+        setAllianceColor();
+        
         logCycles = Constants.CYCLES_PER_LOG;
         
         robotTime.reset();
@@ -137,22 +143,22 @@ public class RobotBase extends SimpleRobot
         drivebase.run();
         manipulator.run();
         logData();
+        
         SmartDashboard.putNumber("Voltage", dashboardManager.getDS().getBatteryVoltage());
     }
     
     public void disabledInit()
     {
+        robotOutput.setLightsState(Constants.PARTY_MODE);
     }
     
     public void disabledPeriodic()
     {
-        dashboardManager.updateLCD();
         if(driverInput.resetSensors())
         {
             sensorInput.resetEncoders();
             sensorInput.resetGyro();
         }
-        SmartDashboard.putNumber("TiltVoltage", sensorInput.getTiltVoltage());
     }
     
     public void initSmartDashboard()
@@ -199,6 +205,20 @@ public class RobotBase extends SimpleRobot
             }
             
             logCycles++;
+        }
+    }
+    
+    public void setAllianceColor()
+    {
+        double currentAlliance = dashboardManager.getDS().getAlliance().value;
+        
+        if(currentAlliance == Constants.RED_ALLIANCE)
+        {
+            robotOutput.setLightsState(Constants.RED_SOLID);
+        }
+        else if(currentAlliance == Constants.BLUE_ALLIANCE)
+        {
+            robotOutput.setLightsState(Constants.BLUE_SOLID);
         }
     }
 }
