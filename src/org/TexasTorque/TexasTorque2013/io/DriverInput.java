@@ -67,7 +67,7 @@ public class DriverInput
     
     public synchronized double getAutonomousDelay()
     {
-        return SmartDashboard.getNumber("Autonomous Delay", params.getAsDouble("Misc_AutonomousDelay", 0.0));
+        return SmartDashboard.getNumber("Autonomous Delay", 0.0);
     }
     
     public synchronized boolean resetSensors()

@@ -85,12 +85,12 @@ public class SensorInput
     
     public synchronized double getLeftDriveEncoder()
     {
-        return (/*leftDriveEncoder.get()*/ leftDriveEncoder.encoder.get() / 958.0) * 12; 
+        return (leftDriveEncoder.encoder.get() / 958.0) * 12; 
     }
     
     public synchronized double getRightDriveEncoder()
     {
-        return (/*rightDriveEncoder.get()*/ rightDriveEncoder.encoder.get() / 958.0) * 12;
+        return (rightDriveEncoder.encoder.get() / 958.0) * 12;
     }
     
     public synchronized double getLeftDriveEncoderRate()
