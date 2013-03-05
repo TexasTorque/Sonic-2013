@@ -280,7 +280,10 @@ public class Manipulator extends TorqueSubsystem
             double currentAngle = sensorInput.getTiltAngle();
             double elevation = SmartDashboard.getNumber("elevation", 0.0);
             elevation = sensorInput.limitGyroAngle(elevation);
-            shooter.setTiltAngle(currentAngle + elevation);
+            
+            SmartDashboard.putNumber("TempEle", elevation);
+            SmartDashboard.putNumber("TempEle2", currentAngle + elevation + Shooter.shootLowAdditive);
+            shooter.setTiltAngle(currentAngle + elevation/* + Shooter.shootLowAdditive*/);
             
             if(driverInput.fireFrisbee() || (shooter.isReadyToFire() && dashboardManager.getDS().isAutonomous()))
             {
@@ -296,7 +299,7 @@ public class Manipulator extends TorqueSubsystem
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
-        shooter.setTiltAngle(Shooter.shootLowStandardAngle);
+        shooter.setTiltAngle( (dashboardManager.getDS().isAutonomous()) ? Shooter.autonomousLowAngle : Shooter.shootLowStandardAngle );
         
         setLightsToChecks();
         

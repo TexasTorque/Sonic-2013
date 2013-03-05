@@ -1,6 +1,7 @@
 package org.TexasTorque.TexasTorque2013.autonomous;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 
 public class RearPyramidAutonomous extends AutonomousBase
@@ -40,6 +41,7 @@ public class RearPyramidAutonomous extends AutonomousBase
         elevator.run();
         magazine.run();
         drivebase.run();
+        SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
         return false;
     }
 

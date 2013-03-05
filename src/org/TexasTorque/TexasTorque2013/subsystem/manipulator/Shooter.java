@@ -42,6 +42,7 @@ public class Shooter extends TorqueSubsystem
     public static double shootLowAdditive;
     public static double shootHighAdditive;
     public static double rearSpeedMultiplier;
+    public static double autonomousLowAngle;
     
     public static Shooter getInstance()
     {
@@ -214,6 +215,7 @@ public class Shooter extends TorqueSubsystem
         feederStationAngle = params.getAsDouble("S_FeederStationAngle", Constants.DEFAULT_STANDARD_TILT_POSITION);
         shootLowAdditive = params.getAsDouble("S_ShootLowAdditive", 0.0);
         shootHighAdditive = params.getAsDouble("S_ShootHighAdditive", 0.0);
+        autonomousLowAngle = params.getAsDouble("A_RearStandardAngle", shootLowStandardAngle);
         
         frontShooterOverrideSpeed = params.getAsDouble("S_FrontShooterOverrideSpeed", 0.7);
         rearShooterOverrideSpeed = params.getAsDouble("S_RearShooterOverrideSpeed", 0.5);
