@@ -26,18 +26,13 @@ public class Constants
     
     //----- Autonomous -----
     public final static int DO_NOTHING_AUTO = 0;
-    public final static int DIAGNOSTIC_AUTO = 1;
-    public final static int FRONT_SHOOT_AUTO = 2;
-    public final static int FRONT_DRIVE_AUTO = 3;
-    public final static int REAR_SHOOT_AUTO = 4;
-    public final static int REAR_DRIVE_FORWARD_AUTO = 5;
-    public final static int REAR_DRIVE_FORWARD_DOUBLE_AUTO = 6;
-    public final static int REAR_DRIVE_REVERSE_AUTO = 7;
-    public final static int REAR_DRIVE_REVERSE_SHOOT_AUTO = 8;
+    public final static int REAR_SHOOT_AUTO = 1;
+    public final static int REAR_DRIVE_FORWARD_AUTO = 2;
+    public final static int REAR_DRIVE_FORWARD_DOUBLE_AUTO = 3;
+    public final static int REAR_DRIVE_REVERSE_AUTO = 4;
+    public final static int REAR_DRIVE_REVERSE_SHOOT_AUTO = 5;
     
     //----- Drivebase -----
-    public final static double MAX_DIAMETER = 1.5;
-    public final static double ROBOT_WIDTH = 1.0;
     public final static double DEFAULT_LOW_SENSITIVITY = 1.25;
     public final static double DEFAULT_HIGH_SENSITIVITY = 0.7;
     public final static boolean HIGH_GEAR = true;
@@ -54,10 +49,6 @@ public class Constants
     public final static double DEFAULT_FRONT_SHOOTER_RATE = 3000.0;
     public final static double DEFAULT_REAR_SHOOTER_RATE = 2000.0;
     public final static double SHOOTER_STOPPED_RATE = 0.0;
-    
-    //----- Intake -----
-    public final static boolean INTAKE_DOWN_POSITION = true;
-    public final static boolean INTAKE_UP_POSITION = false;
     
     //----- Elevator -----
     public final static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;

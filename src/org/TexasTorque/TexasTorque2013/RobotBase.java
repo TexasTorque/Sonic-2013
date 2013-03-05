@@ -124,7 +124,7 @@ public class RobotBase extends SimpleRobot
         initLogging();
         driverInput.pullJoystickTypes();
         
-        setAllianceColor();
+        manipulator.setNormalLights();
         
         logCycles = Constants.CYCLES_PER_LOG;
         
@@ -198,20 +198,6 @@ public class RobotBase extends SimpleRobot
             }
             
             logCycles++;
-        }
-    }
-    
-    public void setAllianceColor()
-    {
-        double currentAlliance = dashboardManager.getDS().getAlliance().value;
-        
-        if(currentAlliance == Constants.RED_ALLIANCE)
-        {
-            robotOutput.setLightsState(Constants.RED_SOLID);
-        }
-        else if(currentAlliance == Constants.BLUE_ALLIANCE)
-        {
-            robotOutput.setLightsState(Constants.BLUE_SOLID);
         }
     }
 }

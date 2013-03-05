@@ -56,13 +56,6 @@ public class Drivebase extends TorqueSubsystem
         }
     }
     
-    private double applySqrtCurve(double axisValue)
-    {
-        int sign = (axisValue > 0) ? 1 : -1;
-        axisValue = Math.sqrt(Math.abs(axisValue)) * sign;
-        return axisValue;
-    }
-    
     private void mixChannels(double yAxis, double xAxis)
     {
         yAxis = driverInput.applyDeadband(yAxis, Constants.SPEED_AXIS_DEADBAND);
@@ -76,15 +69,24 @@ public class Drivebase extends TorqueSubsystem
         yAxis = applySqrtCurve(yAxis);
         xAxis = applySqrtCurve(xAxis);
         
-        leftDriveSpeed = yAxis + xAxis;
-        rightDriveSpeed = yAxis - xAxis;
+        double leftSpeed = yAxis + xAxis;
+        double rightSpeed = yAxis - xAxis;
+        
+        setDriveSpeeds(leftSpeed, rightSpeed);
+    }
+    
+    private double applySqrtCurve(double axisValue)
+    {
+        int sign = (axisValue > 0) ? 1 : -1;
+        axisValue = Math.sqrt(Math.abs(axisValue)) * sign;
+        return axisValue;
     }
     
     public String getKeyNames()
     {
         String names = "LeftDriveSpeed,LeftDriveEncoderPosition,LeftDriveEncoderVelocity,"
                 + "RightDriveSpeed,RightDriveEncoderPosition,RightDriveEncoderVelocity,"
-                + "GyroAngle,";
+                + "GyroAngle,ShiftState";
         
         return names;
     }
@@ -100,6 +102,7 @@ public class Drivebase extends TorqueSubsystem
         data += sensorInput.getRightDriveEncoderRate() + ",";
         
         data += sensorInput.getGyroAngle() + ",";
+        data += shiftState + ",";
         
         return data;
     }
