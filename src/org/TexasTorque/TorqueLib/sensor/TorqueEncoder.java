@@ -7,14 +7,15 @@ import edu.wpi.first.wpilibj.Watchdog;
 
 public class TorqueEncoder extends Thread
 {
+    private Watchdog watchdog;
     
-    private int clicksPerRev;
+    public Encoder encoder;
+    
     private double currentRate;
     private double threadPeriod;
     private boolean resetData;
     private int current;
     private int previous;
-    public Encoder encoder;
     private double[] rateArray;
     private double[] accArray;
     private int arrayIndex;
@@ -25,31 +26,31 @@ public class TorqueEncoder extends Thread
     
     public TorqueEncoder(int aSlot, int aChannel, int bSlot, int bChannel, boolean reverseDirection)
     {
+        watchdog = Watchdog.getInstance();
+        
         encoder = new Encoder(aSlot, aChannel, bSlot, bChannel, reverseDirection);
+        
         initEncoder();
     }
     
     public TorqueEncoder(int aSlot, int aChannel, int bSlot, int bChannel, boolean reverseDireciton, EncodingType encodingType)
     {
+        watchdog = Watchdog.getInstance();
+        
         encoder = new Encoder(aSlot, aChannel, bSlot, bChannel, reverseDireciton, encodingType);
+        
         initEncoder();
     }
     
-    public void setOptions(double period, int clicks, boolean reset)
+    public void setOptions(double period, boolean reset)
     {
         setThreadPeriod(period);
-        setClicksPerRev(clicks);
         setResetData(reset);
     }
     
     public void setThreadPeriod(double period)
     {
         threadPeriod = period;
-    }
-    
-    public void setClicksPerRev(int clicks)
-    {
-        clicksPerRev = clicks;
     }
     
     public void setResetData(boolean reset)
@@ -74,7 +75,6 @@ public class TorqueEncoder extends Thread
     
     public void run()
     {
-        Watchdog watchdog = Watchdog.getInstance();
         encoder.reset();
         encoder.start();
         while(true)
@@ -90,7 +90,7 @@ public class TorqueEncoder extends Thread
             Timer.delay(threadPeriod / 1000);
             current = encoder.get();
             double finalTime = Timer.getFPGATimestamp();
-            rateArray[arrayIndex] = ((current - previous)/* * 60*/) / ((finalTime - initialTime)/* * clicksPerRev*/);
+            rateArray[arrayIndex] = ((current - previous)) / ((finalTime - initialTime));
             calcRate();
             currentVel = currentRate;
             accArray[arrayIndex] = (currentVel - previousVel) / (finalTime - initialTime);

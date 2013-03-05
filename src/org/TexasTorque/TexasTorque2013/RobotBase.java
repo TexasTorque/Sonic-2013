@@ -124,7 +124,7 @@ public class RobotBase extends SimpleRobot
         initLogging();
         driverInput.pullJoystickTypes();
         
-        manipulator.setNormalLights();
+        manipulator.setLightsNormal();
         
         logCycles = Constants.CYCLES_PER_LOG;
         

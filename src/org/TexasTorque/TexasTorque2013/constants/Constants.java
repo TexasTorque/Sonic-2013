@@ -9,7 +9,7 @@ public class Constants
     public final static boolean DEFAULT_FIRST_CONTROLLER_TYPE = true;
     public final static boolean DEFAULT_SECOND_CONTROLLER_TYPE = false;
     
-    //----- Lights -----
+    //----- Light States -----
     public final static int WHITE_SOLID = 0;
     public final static int BLUE_SOLID = 1;
     public final static int RED_SOLID = 2;
@@ -20,9 +20,6 @@ public class Constants
     public final static int TRACKING_BLUE_ALLIANCE = 7;
     public final static int LOCKED_RED_ALLIANCE = 8;
     public final static int LOCKED_BLUE_ALLIANCE = 9;
-    
-    public final static int RED_ALLIANCE = 0;
-    public final static int BLUE_ALLIANCE = 1;
     
     //----- Autonomous -----
     public final static int DO_NOTHING_AUTO = 0;
@@ -54,6 +51,7 @@ public class Constants
     public final static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;
     public final static int DEFAULT_ELEVATOR_TOP_POSITION = 750;
     public final static int DEFAULT_ELEVATOR_FEED_POSITION = 400;
+    public final static int DEFAULT_ELEVATOR_MIDDLE_POSTION = 150;
     
     //----- Magazine -----
     public final static boolean MAGAZINE_STORED = false;
@@ -69,5 +67,7 @@ public class Constants
     //----- Misc -----
     public final static int CYCLES_PER_LOG = 10;
     public final static double MOTOR_STOPPED = 0.0;
+    public final static int RED_ALLIANCE = 0;
+    public final static int BLUE_ALLIANCE = 1;
     
 }

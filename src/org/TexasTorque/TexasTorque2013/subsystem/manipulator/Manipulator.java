@@ -79,7 +79,7 @@ public class Manipulator extends TorqueSubsystem
                     shooter.setTiltAngle(0.0);
                 }
                 
-                setNormalLights();
+                setLightsNormal();
             }
             
             intake.run();
@@ -133,17 +133,11 @@ public class Manipulator extends TorqueSubsystem
     {
         if(driverInput.intakeOverride())
         {
-            intake.setIntakeSpeed(Intake.intakeSpeed);
-            magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
-            shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
-            shooter.setTiltAngle(0.0);
+            intakeFrisbees();
         }
         else if(driverInput.outtakeOverride())
         {
-            intake.setIntakeSpeed(Intake.outtakeSpeed);
-            magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
-            shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
-            shooter.setTiltAngle(0.0);
+            reverseIntake();
         }
         else if(driverInput.shootLowWithoutVisionOverride())
         {
@@ -198,7 +192,8 @@ public class Manipulator extends TorqueSubsystem
         intake.setIntakeSpeed(Intake.intakeSpeed);
         magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
-        setNormalLights();
+        shooter.setTiltAngle(0.0);
+        setLightsNormal();
     }
     
     public void reverseIntake()
@@ -206,7 +201,8 @@ public class Manipulator extends TorqueSubsystem
         intake.setIntakeSpeed(Intake.outtakeSpeed);
         magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
-        setNormalLights();
+        shooter.setTiltAngle(0.0);
+        setLightsNormal();
     }
     
     public void shootHighWithVision()
@@ -216,7 +212,7 @@ public class Manipulator extends TorqueSubsystem
         elevator.setDesiredPosition(Elevator.elevatorTopPosition);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         
-        runChecks();
+        setLightsToChecks();
         
         if(sensorInput.getElevatorEncoder() > 100)
         {
@@ -238,10 +234,6 @@ public class Manipulator extends TorqueSubsystem
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
             }
-            else
-            {
-                magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
-            }
         }
     }
     
@@ -253,7 +245,7 @@ public class Manipulator extends TorqueSubsystem
         shooter.setTiltAngle(Shooter.shootHighStandardAngle);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         
-        runChecks();
+        setLightsToChecks();
         
         if(sensorInput.getElevatorEncoder() > 100)
         {
@@ -263,6 +255,7 @@ public class Manipulator extends TorqueSubsystem
         {
             shooter.setTiltAngle(0.0);
         }
+        
         if(elevator.atDesiredPosition())
         {
             if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isReadyToFire()))
@@ -280,7 +273,7 @@ public class Manipulator extends TorqueSubsystem
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
         shooter.setTiltAngle(Shooter.shootLowStandardAngle);
         
-        runChecks();
+        setLightsToChecks();
         
         if(elevator.atDesiredPosition() && SmartDashboard.getBoolean("found", false))
         {
@@ -292,10 +285,6 @@ public class Manipulator extends TorqueSubsystem
             if(driverInput.fireFrisbee() || (shooter.isReadyToFire() && dashboardManager.getDS().isAutonomous()))
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
-            }
-            else
-            {
-                magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
             }
         }
         
@@ -309,17 +298,13 @@ public class Manipulator extends TorqueSubsystem
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
         shooter.setTiltAngle(Shooter.shootLowStandardAngle);
         
-        runChecks();
+        setLightsToChecks();
         
         if(elevator.atDesiredPosition())
         {
             if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isReadyToFire()))
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
-            }
-            else
-            {
-                magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
             }
         }
     }
@@ -329,6 +314,7 @@ public class Manipulator extends TorqueSubsystem
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        setLightsNormal();
         
         elevator.setDesiredPosition(Elevator.elevatorFeedPosition);
         
@@ -343,6 +329,7 @@ public class Manipulator extends TorqueSubsystem
         
         if(driverInput.fireFrisbee())
         {
+            setLightsToChecks();
             shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
             
             if(shooter.isSpunUp())
@@ -360,7 +347,7 @@ public class Manipulator extends TorqueSubsystem
         elevator.setDesiredPosition(Elevator.elevatorMiddlePosition);
         shooter.setTiltAngle(Shooter.shootLowStandardAngle);
         
-        runChecks();
+        setLightsToChecks();
         
         if(elevator.atDesiredPosition())
         {
@@ -376,7 +363,7 @@ public class Manipulator extends TorqueSubsystem
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
-        setNormalLights();
+        setLightsNormal();
         
         if(sensorInput.getElevatorEncoder() > 100)
         {
@@ -418,7 +405,7 @@ public class Manipulator extends TorqueSubsystem
         }
     }
     
-    public void setNormalLights()
+    public void setLightsNormal()
     {
         double currentAlliance = dashboardManager.getDS().getAlliance().value;
         
@@ -432,7 +419,7 @@ public class Manipulator extends TorqueSubsystem
         }
     }
     
-    private void runChecks()
+    private void setLightsToChecks()
     {
         if(elevator.atDesiredPosition() && shooter.isReadyToFire())
         {

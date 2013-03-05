@@ -10,13 +10,13 @@ public class TorqueCounter extends Thread
 {
     private Watchdog watchdog;
     
-    private int clicksPerRev;
+    private Counter counter;
+    
     private double currentRate;
     private double threadPeriod;
     private boolean resetData;
     private int current;
     private int previous;
-    private Counter counter;
     private double[] rateArray;
     private double[] accArray;
     private int arrayIndex;
@@ -28,32 +28,30 @@ public class TorqueCounter extends Thread
     public TorqueCounter(int sidecar, int port)
     {
         watchdog = Watchdog.getInstance();
+        
         counter = new Counter(sidecar, port);
+        
         initCounter();
     }
     
     public TorqueCounter(EncodingType encodingType, DigitalSource upSource, DigitalSource downSource, boolean reverse)
     {
         watchdog = Watchdog.getInstance();
+        
         counter = new Counter(encodingType, upSource, downSource, reverse);
+        
         initCounter();
     }
     
-    public void setOptions(double period, int clicks, boolean reset)
+    public void setOptions(double period, boolean reset)
     {
         setThreadPeriod(period);
-        setClicksPerRev(clicks);
         setResetData(reset);
     }
     
     public void setThreadPeriod(double period)
     {
         threadPeriod = period;
-    }
-    
-    public void setClicksPerRev(int clicks)
-    {
-        clicksPerRev = clicks;
     }
     
     public void setResetData(boolean reset)
@@ -93,7 +91,7 @@ public class TorqueCounter extends Thread
             Timer.delay(threadPeriod / 1000);
             current = counter.get();
             double finalTime = Timer.getFPGATimestamp();
-            rateArray[arrayIndex] = ((current - previous)/* * 60*/) / ((finalTime - initialTime)/* * clicksPerRev*/);
+            rateArray[arrayIndex] = ((current - previous)) / ((finalTime - initialTime));
             calcRate();
             currentVel = currentRate;
             accArray[arrayIndex] = (currentVel - previousVel) / (finalTime - initialTime);
