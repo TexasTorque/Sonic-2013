@@ -79,6 +79,7 @@ public class RobotBase extends SimpleRobot
 
     public void autonomousInit()
     {
+        System.err.println("init");
         loadParameters();
         initLogging();
         autoManager.reset();
@@ -90,6 +91,7 @@ public class RobotBase extends SimpleRobot
 
     public void autonomousPeriodic()
     {
+        System.err.println("periodic");
         dashboardManager.updateLCD();
         autoManager.runAutonomous();
     }
