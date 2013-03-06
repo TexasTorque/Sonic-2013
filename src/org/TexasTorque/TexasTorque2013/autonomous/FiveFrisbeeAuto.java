@@ -3,7 +3,6 @@ package org.TexasTorque.TexasTorque2013.autonomous;
 import edu.wpi.first.wpilibj.Timer;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Elevator;
-import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Intake;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Shooter;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 
