@@ -18,6 +18,8 @@ public class AutonomousBuilder
     
     public AutonomousCommand[] getAutonomousList()
     {
-        return null;
+        AutonomousCommand[] result = new AutonomousCommand[commands.size()];
+        commands.copyInto(result);
+        return result;
     }
 }
