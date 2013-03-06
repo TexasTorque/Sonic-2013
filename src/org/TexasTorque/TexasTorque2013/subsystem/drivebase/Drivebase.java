@@ -2,10 +2,14 @@ package org.TexasTorque.TexasTorque2013.subsystem.drivebase;
 
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
+import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 
 public class Drivebase extends TorqueSubsystem
 {   
     private static Drivebase instance;
+    
+    private SimPID encoderPID;
+    private SimPID gyroPID;
     
     private double leftDriveSpeed;
     private double rightDriveSpeed;
@@ -23,6 +27,9 @@ public class Drivebase extends TorqueSubsystem
     private Drivebase()
     {
         super();
+        
+        encoderPID = new SimPID();
+        gyroPID = new SimPID();
         
         leftDriveSpeed = Constants.MOTOR_STOPPED;
         rightDriveSpeed = Constants.MOTOR_STOPPED;
@@ -111,5 +118,29 @@ public class Drivebase extends TorqueSubsystem
     {
         highSensitivity = params.getAsDouble("D_HighSensitivity", Constants.DEFAULT_HIGH_SENSITIVITY);
         lowSensitivity = params.getAsDouble("D_LowSensitivity", Constants.DEFAULT_LOW_SENSITIVITY);
+        
+        double p = params.getAsDouble("D_DriveEncoderP", 0.0);
+        double i = params.getAsDouble("D_DriveEncoderI", 0.0);
+        double d = params.getAsDouble("D_DriveEncoderD", 0.0);
+        double e = params.getAsDouble("D_DriveEncoderEpsilon", 0.0);
+        double r = params.getAsDouble("D_DriveEncoderDoneRange", 0.0);
+        
+        encoderPID.setConstants(p, i, d);
+        encoderPID.setErrorEpsilon(e);
+        encoderPID.setDoneRange(r);
+        encoderPID.resetErrorSum();
+        encoderPID.resetPreviousVal();
+        
+        p = params.getAsDouble("D_DriveGyroP", 0.0);
+        i = params.getAsDouble("D_DriveGyroI", 0.0);
+        d = params.getAsDouble("D_DriveGyroD", 0.0);
+        e = params.getAsDouble("D_DriveGyroEpsilon", 0.0);
+        r = params.getAsDouble("D_DriveGyroDoneRange", 0.0);
+        
+        gyroPID.setConstants(p, i, d);
+        gyroPID.setErrorEpsilon(e);
+        gyroPID.setDoneRange(r);
+        gyroPID.resetErrorSum();
+        gyroPID.resetPreviousVal();
     }
 }
