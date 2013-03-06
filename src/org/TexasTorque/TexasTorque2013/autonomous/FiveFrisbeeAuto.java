@@ -2,7 +2,9 @@ package org.TexasTorque.TexasTorque2013.autonomous;
 
 import edu.wpi.first.wpilibj.Timer;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Elevator;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Intake;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Shooter;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 
 public class FiveFrisbeeAuto extends AutonomousBase
@@ -11,7 +13,8 @@ public class FiveFrisbeeAuto extends AutonomousBase
     private final int FIRST_SHOOTING_STATE = 0;
     private final int WAITING_STATE = 1;
     private final int DRIVE_STATE = 2;
-    private final int SECOND_SHOOTING_STATE = 3;
+    private final int SECOND_WAITING_STATE = 3;
+    private final int SECOND_SHOOTING_STATE = 4;
     
     private SimPID linearPID;
     private SimPID gyroPID;
@@ -20,6 +23,8 @@ public class FiveFrisbeeAuto extends AutonomousBase
     
     private int autonomousState;
     private int driveDistance;
+    private double shootTime;
+    private double tempTime;
     
     public FiveFrisbeeAuto()
     {
@@ -30,14 +35,15 @@ public class FiveFrisbeeAuto extends AutonomousBase
         
         autoTimer = new Timer();
         
-        autonomousState = 0;
+        autonomousState = FIRST_SHOOTING_STATE;
     }
     
     public void init()
     {
-        autonomousState = 0;
+        autonomousState = FIRST_SHOOTING_STATE;
         
         driveDistance = (int) params.getAsDouble("A_FiveFrisbeeDriveDistance", 0.0);
+        shootTime = params.getAsDouble("A_RearPyramidAutonomousStopTime", 5.0);
         
         linearPID.setDesiredValue(driveDistance);
         gyroPID.setDesiredValue(0.0);
@@ -78,7 +84,7 @@ public class FiveFrisbeeAuto extends AutonomousBase
 
             manipulator.shootLowWithoutVision();
 
-            if(autoTimer.get() > 5.0)
+            if(autoTimer.get() > shootTime)
             {
                 autonomousState = WAITING_STATE;
             }
@@ -89,43 +95,68 @@ public class FiveFrisbeeAuto extends AutonomousBase
 
             manipulator.restoreDefaultPositions();
 
-            if(autoTimer.get() > 7.0)
+            if(autoTimer.get() > shootTime + 1.5)
             {
                 autonomousState = DRIVE_STATE;
             }
         }
         else if(autonomousState == DRIVE_STATE)
         {
-
-            intake.setIntakeSpeed(Intake.intakeSpeed);
-
             double leftEncoder = sensorInput.getLeftDriveEncoder();
             double rightEncoder = sensorInput.getRightDriveEncoder();
             double average = (leftEncoder + rightEncoder) / 2;
             double gyroPosition = sensorInput.getGyroAngle();
-
-            double x = linearPID.calcPID(average);
-            double y = gyroPID.calcPID(gyroPosition);
+            
+            double y = linearPID.calcPID(average);
+            double x = -gyroPID.calcPID(gyroPosition);
 
             double leftSpeed = y + x;
             double rightSpeed = y - x;
 
             drivebase.setDriveSpeeds(leftSpeed, rightSpeed);
-
-            intake.setIntakeSpeed(Intake.intakeSpeed);
+            manipulator.intakeFrisbees();
 
             if(linearPID.isDone() && gyroPID.isDone())
             {
                 drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
+                autonomousState = SECOND_WAITING_STATE;
+                tempTime = autoTimer.get();
+            }
+        }
+        else if(autonomousState == SECOND_WAITING_STATE)
+        {
+            drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
+            manipulator.restoreDefaultPositions();
+            
+            if(autoTimer.get() > tempTime + 1.5)
+            {
                 autonomousState = SECOND_SHOOTING_STATE;
             }
         }
         else if(autonomousState == SECOND_SHOOTING_STATE)
         {
             drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
-
-            manipulator.shootHighWithVision();
+            intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+            elevator.setDesiredPosition(Elevator.elevatorTopPosition);
+            shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
+            
+            double tiltAngle = params.getAsDouble("A_FiveFrisbeeAutoSecondShotAngle", Shooter.shootHighStandardAngle);
+            
+            shooter.setTiltAngle(tiltAngle);
+            
+            if(elevator.atDesiredPosition() && shooter.isReadyToFire())
+            {
+                magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+            }
+            
         }
+        
+        intake.run();
+        shooter.run();
+        magazine.run();
+        elevator.run();
+        drivebase.run();
         return false;
     }
     

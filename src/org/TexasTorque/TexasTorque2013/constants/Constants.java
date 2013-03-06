@@ -37,7 +37,7 @@ public class Constants
     
     //----- Gyro -----
     public final static int GYRO_ACCUMULATOR_DEADBAND = 75;
-    public final static double GYRO_SENSITIVITY = 0.0136;
+    public final static double GYRO_SENSITIVITY = 0.00703; //0.0136;
     
     //----- Shooter -----
     public final static double DEFAULT_STANDARD_TILT_POSITION = 5.0;

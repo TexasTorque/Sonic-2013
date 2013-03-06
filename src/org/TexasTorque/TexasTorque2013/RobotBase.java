@@ -84,7 +84,7 @@ public class RobotBase extends SimpleRobot
         autoManager.reset();
         sensorInput.resetEncoders();
         autoManager.setAutonomousDelay(driverInput.getAutonomousDelay());
-        autoManager.setAutoMode(Constants.REAR_SHOOT_AUTO);
+        autoManager.setAutoMode(Constants.REAR_DRIVE_FORWARD_AUTO);
         autoManager.initAutonomous();
     }
 
@@ -92,6 +92,9 @@ public class RobotBase extends SimpleRobot
     {
         dashboardManager.updateLCD();
         autoManager.runAutonomous();
+        SmartDashboard.putNumber("LeftEncoder", sensorInput.getLeftDriveEncoder());
+        SmartDashboard.putNumber("RightEncoder", sensorInput.getRightDriveEncoder());
+        SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());
     }
     
 //---------------------------------------------------------------------------------------------------------------------------------   
@@ -111,6 +114,8 @@ public class RobotBase extends SimpleRobot
             numCycles++;
             SmartDashboard.putNumber("NumCycles", numCycles);
             SmartDashboard.putNumber("Hertz", 1.0/(Timer.getFPGATimestamp() - previousTime));
+            SmartDashboard.putNumber("GyroAngle", sensorInput.gyro.getAngle());
+            System.err.println(1.0/(Timer.getFPGATimestamp() - previousTime));
         }
     }
 

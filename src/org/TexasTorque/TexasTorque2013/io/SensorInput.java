@@ -23,7 +23,7 @@ public class SensorInput
     //----- Analog -----
     private AnalogChannel pressureSensor;
     private AnalogChannel gyroChannel;
-    private Gyro gyro;
+    public Gyro gyro;
     private TorquePotentiometer tiltPotentiometer;
 
     public SensorInput()
@@ -37,7 +37,7 @@ public class SensorInput
         elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_B_PORT, true);
         //----- Gyro -----
         gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
-        gyroChannel.setAccumulatorDeadband(Constants.GYRO_ACCUMULATOR_DEADBAND);
+        //gyroChannel.setAccumulatorDeadband(Constants.GYRO_ACCUMULATOR_DEADBAND);
         gyro = new Gyro(gyroChannel);
         gyro.reset();
         gyro.setSensitivity(Constants.GYRO_SENSITIVITY);

@@ -27,7 +27,6 @@ public class RearPyramidAutonomous extends AutonomousBase
     public boolean run() 
     {
         drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
-        manipulator.shootLowWithoutVision();
         if(autonomousTimer.get() > (stopTime + AutonomousManager.getAutoDelay()))
         {
             manipulator.restoreDefaultPositions();
@@ -35,6 +34,10 @@ public class RearPyramidAutonomous extends AutonomousBase
         else if(autonomousTimer.get() > 14.0)
         {
             return true;
+        }
+        else
+        {
+           manipulator.shootLowWithoutVision(); 
         }
         intake.run();
         shooter.run();
