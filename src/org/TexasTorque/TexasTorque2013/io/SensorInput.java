@@ -18,6 +18,7 @@ public class SensorInput
     private TorqueEncoder leftDriveEncoder;
     private TorqueEncoder rightDriveEncoder;
     private TorqueCounter frontShooterCounter;
+    private TorqueCounter middleShooterCounter;
     private TorqueCounter rearShooterCounter;
     private TorqueEncoder elevatorEncoder;
     //----- Analog -----
@@ -33,11 +34,11 @@ public class SensorInput
         leftDriveEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_B_PORT, false);
         rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
         frontShooterCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_COUNTER_PORT);
+        middleShooterCounter = new TorqueCounter(Ports.SIDECAR_ONE, Ports.MIDDLE_SHOOTER_COUNTER_PORT);
         rearShooterCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_COUNTER_PORT);
         elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_B_PORT, true);
         //----- Gyro -----
         gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
-        //gyroChannel.setAccumulatorDeadband(Constants.GYRO_ACCUMULATOR_DEADBAND);
         gyro = new Gyro(gyroChannel);
         gyro.reset();
         gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
@@ -59,11 +60,13 @@ public class SensorInput
         leftDriveEncoder.setOptions(10, false);
         rightDriveEncoder.setOptions(10, false);
         frontShooterCounter.setOptions(10, true);
+        middleShooterCounter.setOptions(10, true);
         rearShooterCounter.setOptions(10, true);
         elevatorEncoder.setOptions(10, false);
         leftDriveEncoder.start();
         rightDriveEncoder.start();        
         frontShooterCounter.start();
+        middleShooterCounter.start();
         rearShooterCounter.start();
         elevatorEncoder.start();
     }
@@ -73,6 +76,7 @@ public class SensorInput
         leftDriveEncoder.resetEncoder();
         rightDriveEncoder.resetEncoder();
         frontShooterCounter.resetCounter();
+        middleShooterCounter.resetCounter();
         rearShooterCounter.resetCounter();
         elevatorEncoder.resetEncoder();
     }
@@ -116,6 +120,11 @@ public class SensorInput
     public synchronized double getFrontShooterRate()
     {
         return Shooter.convertToRPM(frontShooterCounter.getRate());
+    }
+    
+    public synchronized double getMiddleShooterRate()
+    {
+        return Shooter.convertToRPM(middleShooterCounter.getRate());
     }
     
     public synchronized double getRearShooterRate()

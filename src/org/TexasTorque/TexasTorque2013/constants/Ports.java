@@ -42,6 +42,7 @@ public class Ports
         public final static int PRESSURE_SWITCH_PORT = 13;
         public final static int RIGHT_DRIVE_ENCODER_A_PORT = 1;
         public final static int RIGHT_DRIVE_ENCODER_B_PORT = 2;
+        public final static int MIDDLE_SHOOTER_COUNTER_PORT = 3;
         //----- Sidecar 2 -----
         public final static int LEFT_DRIVE_ENCODER_A_PORT = 1;
         public final static int LEFT_DRIVE_ENCODER_B_PORT = 2;
