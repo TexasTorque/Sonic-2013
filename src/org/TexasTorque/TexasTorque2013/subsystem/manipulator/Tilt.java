@@ -29,11 +29,6 @@ public class Tilt extends TorqueSubsystem
         robotOutput.setTiltMotor(tiltMotorSpeed);
     }
     
-    public void overrideTilt(double motorSpeed)
-    {
-        robotOutput.setTiltMotor(motorSpeed);
-    }
-    
     public void setTiltAngle(double angle)
     {
         if(angle != desiredTiltAngle)
