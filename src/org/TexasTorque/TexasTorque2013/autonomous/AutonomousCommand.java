@@ -7,6 +7,7 @@ import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Elevator;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Intake;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Magazine;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Shooter;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Tilt;
 import org.TexasTorque.TorqueLib.util.Parameters;
 
 public abstract class AutonomousCommand
@@ -20,6 +21,7 @@ public abstract class AutonomousCommand
     protected Elevator elevator;
     protected Magazine magazine;
     protected Shooter shooter;
+    protected Tilt tilt;
     
     protected AutonomousCommand()
     {
@@ -32,6 +34,7 @@ public abstract class AutonomousCommand
         elevator = Elevator.getInstance();
         magazine = Magazine.getInstance();
         shooter = Shooter.getInstance();
+        tilt = Tilt.getInstance();
     }
     
     public abstract void reset();
