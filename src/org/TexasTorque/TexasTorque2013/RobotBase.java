@@ -73,6 +73,7 @@ public class RobotBase extends SimpleRobot
             watchdog.feed();
             autonomousPeriodic();
             robotOutput.runLights();
+            dashboardManager.updateLCD();
             logData();
         }
     }
@@ -109,6 +110,7 @@ public class RobotBase extends SimpleRobot
             watchdog.feed();
             teleopPeriodic();
             robotOutput.runLights();
+            dashboardManager.updateLCD();
             logData();
             
             numCycles++;
@@ -150,6 +152,7 @@ public class RobotBase extends SimpleRobot
             watchdog.feed();
             disabledPeriodic();
             robotOutput.runLights();
+            dashboardManager.updateLCD();
         }
     }
     
