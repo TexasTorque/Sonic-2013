@@ -14,6 +14,10 @@ public class Tilt extends TorqueSubsystem
     private double desiredTiltAngle;
     private double tiltMotorSpeed;
     
+    public static double lowAngle;
+    public static double highAngle;
+    public static double feederStationAngle;
+    
     public static Tilt getInstance()
     {
         return (instance == null) ? instance = new Tilt() : instance;
