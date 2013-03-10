@@ -1,25 +1,22 @@
 package org.TexasTorque.TexasTorque2013.autonomous.elevator;
 
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousCommand;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Elevator;
 
-public class AutonomousSetElevator extends AutonomousCommand
+public class AutonomousElevatorBottom extends AutonomousCommand
 {
-    private int elevatorPosition;
-    
-    public AutonomousSetElevator(int position)
+    public AutonomousElevatorBottom()
     {
         super();
-        
-        elevatorPosition = position;
     }
     
     public void reset()
-    {   
+    {
     }
     
     public boolean run()
     {
-        elevator.setDesiredPosition(elevatorPosition);
+        elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
         return true;
     }
 }
