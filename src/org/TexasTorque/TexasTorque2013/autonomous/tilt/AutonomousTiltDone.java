@@ -11,7 +11,6 @@ public class AutonomousTiltDone extends AutonomousCommand
     
     public void reset()
     {
-        
     }
     
     public boolean run()
