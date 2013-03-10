@@ -15,6 +15,7 @@ public class AutonomousTiltDone extends AutonomousCommand
     
     public boolean run()
     {
-        return false;
+        boolean done = tilt.isLocked();
+        return done;
     }
 }

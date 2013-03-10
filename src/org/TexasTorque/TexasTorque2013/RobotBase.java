@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.SimpleRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.TexasTorque.TexasTorque2013.autonomous.AutonomousManager;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
@@ -24,7 +23,6 @@ public class RobotBase extends SimpleRobot
     RobotOutput robotOutput;
     Drivebase drivebase;
     Manipulator  manipulator;
-    AutonomousManager autoManager;
     
     Timer robotTime;
     
@@ -53,8 +51,6 @@ public class RobotBase extends SimpleRobot
         drivebase = Drivebase.getInstance();
         manipulator = Manipulator.getInstance();
         
-        autoManager = new AutonomousManager();
-        
         driverInput.pullJoystickTypes();
         
         robotTime = new Timer();
@@ -82,17 +78,12 @@ public class RobotBase extends SimpleRobot
     {
         loadParameters();
         initLogging();
-        autoManager.reset();
         sensorInput.resetEncoders();
-        autoManager.setAutonomousDelay(driverInput.getAutonomousDelay());
-        autoManager.setAutoMode(Constants.REAR_DRIVE_FORWARD_AUTO);
-        autoManager.initAutonomous();
     }
 
     public void autonomousPeriodic()
     {
         dashboardManager.updateLCD();
-        autoManager.runAutonomous();
         SmartDashboard.putNumber("LeftEncoder", sensorInput.getLeftDriveEncoder());
         SmartDashboard.putNumber("RightEncoder", sensorInput.getRightDriveEncoder());
         SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());

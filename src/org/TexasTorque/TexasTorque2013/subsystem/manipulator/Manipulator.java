@@ -12,6 +12,7 @@ public class Manipulator extends TorqueSubsystem
     private Elevator elevator;
     private Intake intake;
     private Magazine magazine;
+    private Tilt tilt;
     
     public static Manipulator getInstance()
     {
@@ -26,6 +27,7 @@ public class Manipulator extends TorqueSubsystem
         elevator = Elevator.getInstance();
         intake = Intake.getInstance();
         magazine = Magazine.getInstance();
+        tilt = Tilt.getInstance();
     }
     
     public void run()
@@ -86,6 +88,7 @@ public class Manipulator extends TorqueSubsystem
             shooter.run();
             elevator.run();
             magazine.run();
+            tilt.run();
         }
         else
         {
@@ -106,6 +109,7 @@ public class Manipulator extends TorqueSubsystem
         names += elevator.getKeyNames();
         names += magazine.getKeyNames();
         names += shooter.getKeyNames();
+        names += tilt.getKeyNames();
         
         return names;
     }
@@ -117,6 +121,7 @@ public class Manipulator extends TorqueSubsystem
         data += elevator.logData();
         data += magazine.logData();
         data += shooter.logData();
+        data += tilt.logData();
         
         return data;
     }
@@ -127,6 +132,7 @@ public class Manipulator extends TorqueSubsystem
         elevator.loadParameters();
         magazine.loadParameters();
         intake.loadParameters();
+        tilt.loadParameters();
     }
     
     private void calcOverrides()
