@@ -1,16 +1,13 @@
 package org.TexasTorque.TexasTorque2013.autonomous.intake;
 
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousCommand;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Intake;
 
-public class AutonomousSetIntake extends AutonomousCommand
-{
-    private double intakeSpeed;
-    
-    public AutonomousSetIntake(double motorSpeed)
+public class AutonomousIntake extends AutonomousCommand
+{   
+    public AutonomousIntake()
     {
         super();
-        
-        intakeSpeed = motorSpeed;
     }
     
     public void reset()
@@ -19,7 +16,7 @@ public class AutonomousSetIntake extends AutonomousCommand
     
     public boolean run()
     {
-        intake.setIntakeSpeed(intakeSpeed);
+        intake.setIntakeSpeed(Intake.intakeSpeed);
         return true;
     }
 }
