@@ -77,6 +77,11 @@ public class Shooter extends TorqueSubsystem
         }
     }
     
+    public void stopShooter()
+    {
+        setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+    }
+    
     public boolean isSpunUp()
     {
         return (frontShooterPID.isDone() && middleShooterPID.isDone() && rearShooterPID.isDone());

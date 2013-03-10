@@ -76,7 +76,7 @@ public class Parameters
     public synchronized boolean getAsBoolean(String name, boolean dflt)
     {
         String value = (String)map.get(name);
-        return (value==null)?dflt:Integer.parseInt(value)!=0;
+        return (value == null) ? dflt : Integer.parseInt(value) != 0;
     }
     
     private void clearList()
