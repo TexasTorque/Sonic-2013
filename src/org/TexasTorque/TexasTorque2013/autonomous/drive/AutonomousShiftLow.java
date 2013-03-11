@@ -1,17 +1,13 @@
 package org.TexasTorque.TexasTorque2013.autonomous.drive;
 
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousCommand;
+import org.TexasTorque.TexasTorque2013.constants.Constants;
 
-public class AutonomousDriveShift extends AutonomousCommand
+public class AutonomousShiftLow extends AutonomousCommand
 {
-    
-    private boolean shiftState;
-    
-    public AutonomousDriveShift(boolean highGear)
+    public AutonomousShiftLow()
     {
         super();
-        
-        shiftState = highGear;
     }
     
     public void reset()
@@ -20,7 +16,7 @@ public class AutonomousDriveShift extends AutonomousCommand
     
     public boolean run()
     {
-        drivebase.setShifters(shiftState);
+        drivebase.setShifters(Constants.LOW_GEAR);
         return true;
     }
 }

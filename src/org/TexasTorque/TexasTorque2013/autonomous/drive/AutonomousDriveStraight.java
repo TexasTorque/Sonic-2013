@@ -17,12 +17,13 @@ public class AutonomousDriveStraight extends AutonomousCommand
         encoderPID = new SimPID();
         gyroPID = new SimPID();
         
+        encoderPID.setMaxOutput(speed);
+        gyroPID.setMaxOutput(speed);
+        
         encoderPID.setDesiredValue(driveDistance);
         gyroPID.setDesiredValue(0.0);
         
         driveDistance = distance;
-        
-        reset();
     }
     
     public void reset()
@@ -54,13 +55,22 @@ public class AutonomousDriveStraight extends AutonomousCommand
     
     public boolean run()
     {
+        double averageDistance = (sensorInput.getLeftDriveEncoder() + sensorInput.getRightDriveEncoder()) / 2.0;
+        double currentAngle = sensorInput.getGyroAngle();
         
+        double y = encoderPID.calcPID(averageDistance);
+        double x = encoderPID.calcPID(currentAngle);
         
+        double leftSpeed = y + x;
+        double rightSpeed = y - x;
+        
+        drivebase.setDriveSpeeds(leftSpeed, rightSpeed);
         
         if(encoderPID.isDone() && gyroPID.isDone())
         {
             return true;
         }
+        
         return false;
     }
 }
