@@ -24,10 +24,8 @@ public class Constants
     //----- Autonomous -----
     public final static int DO_NOTHING_AUTO = 0;
     public final static int REAR_SHOOT_AUTO = 1;
-    public final static int REAR_DRIVE_FORWARD_AUTO = 2;
-    public final static int REAR_DRIVE_FORWARD_DOUBLE_AUTO = 3;
-    public final static int REAR_DRIVE_REVERSE_AUTO = 4;
-    public final static int REAR_DRIVE_REVERSE_SHOOT_AUTO = 5;
+    public final static int SIDE_SHOOT_AUTO = 2;
+    public final static int SEVEN_FRISBEE_AUTO = 3;
     
     //----- Drivebase -----
     public final static double DEFAULT_LOW_SENSITIVITY = 1.25;

@@ -6,6 +6,7 @@ import org.TexasTorque.TexasTorque2013.autonomous.elevator.AutonomousCustomEleva
 import org.TexasTorque.TexasTorque2013.autonomous.elevator.AutonomousElevatorBottom;
 import org.TexasTorque.TexasTorque2013.autonomous.elevator.AutonomousElevatorDone;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousFireOnce;
+import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousMagazineDone;
 import org.TexasTorque.TexasTorque2013.autonomous.shooter.AutonomousShooterDone;
 import org.TexasTorque.TexasTorque2013.autonomous.shooter.AutonomousSpinShooter;
 import org.TexasTorque.TexasTorque2013.autonomous.shooter.AutonomousStopShooter;
@@ -56,6 +57,7 @@ public class AutonomousBuilder
         {
             addCommand(new AutonomousTiltDone());
             addCommand(new AutonomousShooterDone());
+            addCommand(new AutonomousMagazineDone());
             addCommand(new AutonomousFireOnce());
         }
         
@@ -77,6 +79,7 @@ public class AutonomousBuilder
             addCommand(new AutonomousTiltDone());
             addCommand(new AutonomousShooterDone());
             addCommand(new AutonomousElevatorDone());
+            addCommand(new AutonomousMagazineDone());
             addCommand(new AutonomousFireOnce());
         }
         

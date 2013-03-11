@@ -92,6 +92,7 @@ public class RobotBase extends SimpleRobot
 
     public void autonomousPeriodic()
     {
+        autoManager.runAutonomous();
         SmartDashboard.putNumber("LeftEncoder", sensorInput.getLeftDriveEncoder());
         SmartDashboard.putNumber("RightEncoder", sensorInput.getRightDriveEncoder());
         SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());
