@@ -77,17 +77,17 @@ public class RobotOutput
         return (instance == null) ? instance = new RobotOutput() : instance;
     }
     
-    public synchronized void setLightsState(int state)
+    public void setLightsState(int state)
     {
         lights.setDesiredState(state);
     }
     
-    public synchronized void runLights()
+    public void runLights()
     {
         lights.run();
     }
     
-    public synchronized void setDriveMotors(double leftSpeed, double rightSpeed)
+    public void setDriveMotors(double leftSpeed, double rightSpeed)
     {
         frontLeftDriveMotor.Set(leftSpeed);
         rearLeftDriveMotor.Set(leftSpeed);
@@ -95,7 +95,7 @@ public class RobotOutput
         rearRightDriveMotor.Set(rightSpeed);
     }
     
-    public synchronized void setShooterMotors(double frontSpeed, double middleSpeed, double rearSpeed)
+    public void setShooterMotors(double frontSpeed, double middleSpeed, double rearSpeed)
     {
         frontShooterMotorA.Set(frontSpeed);
         frontShooterMotorB.Set(frontSpeed);
@@ -103,33 +103,33 @@ public class RobotOutput
         rearShooterMotor.Set(rearSpeed);
     }
     
-    public synchronized void setIntakeMotor(double speed)
+    public void setIntakeMotor(double speed)
     {
         intakeMotor.Set(speed);
     }
     
-    public synchronized void setElevatorMotors(double speed)
+    public void setElevatorMotors(double speed)
     {
         elevatorMotorLeft.Set(speed);
         elevatorMotorRight.Set(speed);
     }
     
-    public synchronized void setTiltMotor(double speed)
+    public void setTiltMotor(double speed)
     {
         shooterTiltMotor.Set(speed);
     }
     
-    public synchronized void setFiringPin(boolean ready)
+    public void setFiringPin(boolean ready)
     {
         firingPin.set(!ready);
     }
     
-    public synchronized void setShifters(boolean highGear)
+    public void setShifters(boolean highGear)
     {
         driveShifter.set(highGear);
     }
     
-    public synchronized void setFrisbeeLifter(boolean retracted)
+    public void setFrisbeeLifter(boolean retracted)
     {
         if(retracted)
         {
@@ -141,7 +141,7 @@ public class RobotOutput
         }
     }
     
-    public synchronized void setPassiveClimber(boolean raised)
+    public void setPassiveClimber(boolean raised)
     {
         if(raised)
         {

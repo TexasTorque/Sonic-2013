@@ -1,6 +1,7 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TorqueLib.controlLoop.FeedforwardPIV;
@@ -49,6 +50,8 @@ public class Elevator extends TorqueSubsystem
     
     public void run()
     {
+        double previous = Timer.getFPGATimestamp();
+        
         double currentTime = Timer.getFPGATimestamp();
         double dt = currentTime - previousTime;
         previousTime = currentTime;
@@ -64,6 +67,8 @@ public class Elevator extends TorqueSubsystem
         {
             elevatorMotorSpeed = 0.0;
         }
+        
+        SmartDashboard.putNumber("Elevator", Timer.getFPGATimestamp() - previous);
     }
     
     public void setToRobot()

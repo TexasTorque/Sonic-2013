@@ -1,5 +1,7 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
@@ -46,6 +48,7 @@ public class Shooter extends TorqueSubsystem
     
     public void run()
     {   
+        double previous = Timer.getFPGATimestamp();
         double frontSpeed = frontShooterPID.calcPID(sensorInput.getFrontShooterRate());
         double middleSpeed = middleShooterPID.calcPID(sensorInput.getMiddleShooterRate());
         double rearSpeed = rearShooterPID.calcPID(sensorInput.getRearShooterRate());
@@ -53,6 +56,7 @@ public class Shooter extends TorqueSubsystem
         frontShooterMotorSpeed = limitShooterSpeed(frontSpeed);
         middleShooterMotorSpeed = limitShooterSpeed(middleSpeed);
         rearShooterMotorSpeed = limitShooterSpeed(rearSpeed);
+        SmartDashboard.putNumber("Shooter", Timer.getFPGATimestamp() - previous);
     }
     
     public void setToRobot()

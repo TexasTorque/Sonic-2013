@@ -1,5 +1,7 @@
 package org.TexasTorque.TexasTorque2013.subsystem.drivebase;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
@@ -39,11 +41,13 @@ public class Drivebase extends TorqueSubsystem
     
     public void run()
     {
+        double previous = Timer.getFPGATimestamp();
         if(dashboardManager.getDS().isOperatorControl())
         {
            mixChannels(driverInput.getThrottle(), driverInput.getTurn());
            shiftState = driverInput.shiftHighGear();
         }
+        SmartDashboard.putNumber("Drive", Timer.getFPGATimestamp() - previous);
     }
     
     public void setToRobot()

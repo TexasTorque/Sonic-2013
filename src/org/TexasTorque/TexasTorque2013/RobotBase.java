@@ -9,6 +9,7 @@ import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Manipulator;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Tilt;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
@@ -24,6 +25,7 @@ public class RobotBase extends IterativeRobot implements Runnable
     RobotOutput robotOutput;
     Drivebase drivebase;
     Manipulator  manipulator;
+    Tilt tilt;
     
     AutonomousManager autoManager;
     
@@ -54,6 +56,7 @@ public class RobotBase extends IterativeRobot implements Runnable
         robotOutput = RobotOutput.getInstance();
         drivebase = Drivebase.getInstance();
         manipulator = Manipulator.getInstance();
+        tilt = Tilt.getInstance();
         
         autoManager = new AutonomousManager();
         
@@ -94,7 +97,8 @@ public class RobotBase extends IterativeRobot implements Runnable
             sensorInput.calcEncoders();
             
             double currentTime = Timer.getFPGATimestamp();
-            System.err.println(1.0 / (currentTime - previousTime));
+            System.err.println(1 / (currentTime - previousTime));
+            SmartDashboard.putNumber("Robot", currentTime - previousTime);
             previousTime = currentTime;
             numCycles++;
             
@@ -147,16 +151,22 @@ public class RobotBase extends IterativeRobot implements Runnable
 
     public void teleopPeriodic()
     {
+        double previous = Timer.getFPGATimestamp();
         watchdog.feed();
         
         robotOutput.runLights();
         dashboardManager.updateLCD();
         logData();
         
+        tilt.run();
+        
+        double p2 = Timer.getFPGATimestamp();
         drivebase.setToRobot();
         manipulator.setToRobot();
+        SmartDashboard.putNumber("Update", Timer.getFPGATimestamp() - p2);
         
         SmartDashboard.putNumber("NumCycles", numCycles);
+        SmartDashboard.putNumber("Periodic", Timer.getFPGATimestamp() - previous);
     }
     
     public void teleopContinuous()

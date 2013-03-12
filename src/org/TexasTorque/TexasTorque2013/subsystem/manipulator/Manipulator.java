@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
@@ -32,6 +33,7 @@ public class Manipulator extends TorqueSubsystem
     
     public void run()
     {
+        double previous = Timer.getFPGATimestamp();
         if(!driverInput.overrideState())
         {
             if(driverInput.restoreToDefault())
@@ -71,12 +73,13 @@ public class Manipulator extends TorqueSubsystem
                 
                 setLightsNormal();
             }
+            SmartDashboard.putNumber("Manipulator", Timer.getFPGATimestamp() - previous);
             
             intake.run();
             shooter.run();
             elevator.run();
             magazine.run();
-            tilt.run();
+            //tilt.run();
         }
         else
         {
