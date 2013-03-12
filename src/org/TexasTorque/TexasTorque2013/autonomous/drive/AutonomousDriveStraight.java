@@ -1,16 +1,20 @@
 package org.TexasTorque.TexasTorque2013.autonomous.drive;
 
+import edu.wpi.first.wpilibj.Timer;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousCommand;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 
 public class AutonomousDriveStraight extends AutonomousCommand
 {
     private double driveDistance;
+    private double timeoutSecs;
     
     private SimPID encoderPID;
     private SimPID gyroPID;
     
-    public AutonomousDriveStraight(double distance, double speed)
+    private Timer timeoutTimer;
+    
+    public AutonomousDriveStraight(double distance, double speed, double timeout)
     {
         super();
         
@@ -24,6 +28,9 @@ public class AutonomousDriveStraight extends AutonomousCommand
         gyroPID.setDesiredValue(0.0);
         
         driveDistance = distance;
+        timeoutSecs = timeout;
+        
+        timeoutTimer = new Timer();
     }
     
     public void reset()
@@ -51,6 +58,9 @@ public class AutonomousDriveStraight extends AutonomousCommand
         gyroPID.setDoneRange(r);
         gyroPID.resetErrorSum();
         gyroPID.resetPreviousVal();
+        
+        timeoutTimer.reset();
+        timeoutTimer.start();
     }
     
     public boolean run()
@@ -67,6 +77,11 @@ public class AutonomousDriveStraight extends AutonomousCommand
         drivebase.setDriveSpeeds(leftSpeed, rightSpeed);
         
         if(encoderPID.isDone() && gyroPID.isDone())
+        {
+            return true;
+        }
+        
+        if(timeoutTimer.get() > timeoutSecs)
         {
             return true;
         }
