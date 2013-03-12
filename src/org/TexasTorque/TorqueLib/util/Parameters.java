@@ -64,7 +64,7 @@ public class Parameters
     public synchronized int getAsInt(String name, int dflt)
     {
         String value = (String)map.get(name);
-        return (value == null) ? dflt : Integer.parseInt(value);
+        return (value == null) ? dflt : (int)Double.parseDouble(value);
     }
     
     public synchronized double getAsDouble(String name, double dflt)
