@@ -55,16 +55,16 @@ public class AutonomousBuilder
         
         for(double i = 0; i < numFires; i++)
         {
-            addCommand(new AutonomousTiltDone());
-            addCommand(new AutonomousShooterDone());
-            addCommand(new AutonomousMagazineDone());
+            addCommand(new AutonomousTiltDone(2));
+            addCommand(new AutonomousShooterDone(2));
+            addCommand(new AutonomousMagazineDone(2));
             addCommand(new AutonomousFireOnce());
         }
         
         addCommand(new AutonomousTiltParallel());
         addCommand(new AutonomousStopShooter());
         
-        addCommand(new AutonomousTiltDone());
+        addCommand(new AutonomousTiltDone(2));
     }
     
     public void addVariableFireSequence(double numFires, double angle, int elevation)
@@ -76,10 +76,10 @@ public class AutonomousBuilder
         
         for(double i = 0; i < numFires; i++)
         {
-            addCommand(new AutonomousTiltDone());
-            addCommand(new AutonomousShooterDone());
-            addCommand(new AutonomousElevatorDone());
-            addCommand(new AutonomousMagazineDone());
+            addCommand(new AutonomousTiltDone(2));
+            addCommand(new AutonomousShooterDone(2));
+            addCommand(new AutonomousElevatorDone(4));
+            addCommand(new AutonomousMagazineDone(2));
             addCommand(new AutonomousFireOnce());
         }
         
@@ -87,7 +87,7 @@ public class AutonomousBuilder
         addCommand(new AutonomousStopShooter());
         addCommand(new AutonomousElevatorBottom());
         
-        addCommand(new AutonomousTiltDone());
-        addCommand(new AutonomousElevatorDone());
+        addCommand(new AutonomousTiltDone(2));
+        addCommand(new AutonomousElevatorDone(4));
     }
 }
