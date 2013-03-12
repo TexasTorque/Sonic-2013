@@ -7,7 +7,9 @@ import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Shooter;
 import org.TexasTorque.TorqueLib.sensor.TorqueCounter;
+import org.TexasTorque.TorqueLib.sensor.TorqueCounterThread;
 import org.TexasTorque.TorqueLib.sensor.TorqueEncoder;
+import org.TexasTorque.TorqueLib.sensor.TorqueEncoderThread;
 import org.TexasTorque.TorqueLib.sensor.TorquePotentiometer;
 
 public class SensorInput
@@ -57,28 +59,22 @@ public class SensorInput
     private void startEncoders()
     {
         // 1 foot = 958 clicks
-        leftDriveEncoder.setOptions(10, false);
-        rightDriveEncoder.setOptions(10, false);
-        frontShooterCounter.setOptions(10, true);
-        middleShooterCounter.setOptions(10, true);
-        rearShooterCounter.setOptions(10, true);
-        elevatorEncoder.setOptions(10, false);
-        //leftDriveEncoder.start();
-        //rightDriveEncoder.start();        
-        //frontShooterCounter.start();
-        //middleShooterCounter.start();
-        //rearShooterCounter.start();
-        //elevatorEncoder.start();
+        leftDriveEncoder.start();
+        rightDriveEncoder.start();        
+        frontShooterCounter.start();
+        middleShooterCounter.start();
+        rearShooterCounter.start();
+        elevatorEncoder.start();
     }
     
     public synchronized void resetEncoders()
     {
-        leftDriveEncoder.resetEncoder();
-        rightDriveEncoder.resetEncoder();
-        frontShooterCounter.resetCounter();
-        middleShooterCounter.resetCounter();
-        rearShooterCounter.resetCounter();
-        elevatorEncoder.resetEncoder();
+        leftDriveEncoder.reset();
+        rightDriveEncoder.reset();
+        frontShooterCounter.reset();
+        middleShooterCounter.reset();
+        rearShooterCounter.reset();
+        elevatorEncoder.reset();
     }
     
     public synchronized void resetGyro()
@@ -89,12 +85,12 @@ public class SensorInput
     
     public synchronized double getLeftDriveEncoder()
     {
-        return (leftDriveEncoder.encoder.get() / 958.0) * 12; 
+        return (leftDriveEncoder.get() / 958.0) * 12; 
     }
     
     public synchronized double getRightDriveEncoder()
     {
-        return (rightDriveEncoder.encoder.get() / 958.0) * 12;
+        return (rightDriveEncoder.get() / 958.0) * 12;
     }
     
     public synchronized double getLeftDriveEncoderRate()
