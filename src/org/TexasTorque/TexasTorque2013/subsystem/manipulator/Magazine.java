@@ -41,6 +41,10 @@ public class Magazine extends TorqueSubsystem
     public void run()
     {
         calcMagazineState();
+    }
+    
+    public void setToRobot()
+    {
         robotOutput.setFrisbeeLifter(magazineRaised);
         robotOutput.setFiringPin(triggerBack);
     }

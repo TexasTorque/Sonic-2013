@@ -64,7 +64,10 @@ public class Elevator extends TorqueSubsystem
         {
             elevatorMotorSpeed = 0.0;
         }
-        
+    }
+    
+    public void setToRobot()
+    {
         robotOutput.setElevatorMotors(elevatorMotorSpeed);
     }
     

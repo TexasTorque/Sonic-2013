@@ -94,6 +94,15 @@ public class Manipulator extends TorqueSubsystem
         
     }
     
+    public void setToRobot()
+    {
+        elevator.setToRobot();
+        intake.setToRobot();
+        magazine.setToRobot();
+        shooter.setToRobot();
+        tilt.setToRobot();
+    }
+    
     public String getKeyNames()
     {
         String names = "InOverrideState,";

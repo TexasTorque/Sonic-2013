@@ -44,7 +44,10 @@ public class Drivebase extends TorqueSubsystem
            mixChannels(driverInput.getThrottle(), driverInput.getTurn());
            shiftState = driverInput.shiftHighGear();
         }
-        
+    }
+    
+    public void setToRobot()
+    {
         robotOutput.setShifters(shiftState);
         robotOutput.setDriveMotors(leftDriveSpeed, rightDriveSpeed);
     }

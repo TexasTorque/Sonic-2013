@@ -63,12 +63,12 @@ public class SensorInput
         middleShooterCounter.setOptions(10, true);
         rearShooterCounter.setOptions(10, true);
         elevatorEncoder.setOptions(10, false);
-        leftDriveEncoder.start();
-        rightDriveEncoder.start();        
-        frontShooterCounter.start();
-        middleShooterCounter.start();
-        rearShooterCounter.start();
-        elevatorEncoder.start();
+        //leftDriveEncoder.start();
+        //rightDriveEncoder.start();        
+        //frontShooterCounter.start();
+        //middleShooterCounter.start();
+        //rearShooterCounter.start();
+        //elevatorEncoder.start();
     }
     
     public synchronized void resetEncoders()

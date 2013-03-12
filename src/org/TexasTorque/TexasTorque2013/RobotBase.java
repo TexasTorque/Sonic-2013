@@ -32,6 +32,7 @@ public class RobotBase extends IterativeRobot implements Runnable
     boolean logData;
     int logCycles;
     double numCycles;
+    double previousTime;
     
     public void robotInit()
     {
@@ -63,11 +64,14 @@ public class RobotBase extends IterativeRobot implements Runnable
         logCycles = 0;
         numCycles = 0.0;
         
-        (new Thread(new RobotBase())).start();
+        (new Thread(this)).start();
     }
     
     public void run()
     {
+        
+        previousTime = Timer.getFPGATimestamp();
+        
         while(true)
         {
             watchdog.feed();
@@ -78,13 +82,21 @@ public class RobotBase extends IterativeRobot implements Runnable
             else if(isOperatorControl() && isEnabled())
             {
                 teleopContinuous();
+                Timer.delay(0.008);
             }
             else if(isDisabled())
             {
                 disabledContinuous();
+                
+                Timer.delay(0.05);
             }
             
-            Timer.delay(0.008);
+            double currentTime = Timer.getFPGATimestamp();
+            System.err.println(1.0/(currentTime - previousTime));
+            previousTime = currentTime;
+            numCycles++;
+            SmartDashboard.putNumber("NumCycles", numCycles);
+            
         }
     }
     
@@ -139,20 +151,15 @@ public class RobotBase extends IterativeRobot implements Runnable
         robotOutput.runLights();
         dashboardManager.updateLCD();
         logData();
+        
+        drivebase.setToRobot();
+        manipulator.setToRobot();
     }
     
     public void teleopContinuous()
-    {
-        double previousTime = Timer.getFPGATimestamp();
-        
+    {   
         drivebase.run();
         manipulator.run();
-        
-        numCycles++;
-        SmartDashboard.putNumber("NumCycles", numCycles);
-        SmartDashboard.putNumber("Hertz", 1.0/(Timer.getFPGATimestamp() - previousTime));
-        SmartDashboard.putNumber("GyroAngle", sensorInput.gyro.getAngle());
-        System.err.println(1.0/(Timer.getFPGATimestamp() - previousTime));
     }
     
 //---------------------------------------------------------------------------------------------------------------------------------

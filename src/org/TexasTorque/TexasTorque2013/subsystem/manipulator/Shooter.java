@@ -34,6 +34,7 @@ public class Shooter extends TorqueSubsystem
         super();
         
         frontShooterPID = new SimPID();
+        middleShooterPID = new SimPID();
         rearShooterPID = new SimPID();
         
         frontShooterMotorSpeed = Constants.MOTOR_STOPPED;
@@ -52,7 +53,10 @@ public class Shooter extends TorqueSubsystem
         frontShooterMotorSpeed = limitShooterSpeed(frontSpeed);
         middleShooterMotorSpeed = limitShooterSpeed(middleSpeed);
         rearShooterMotorSpeed = limitShooterSpeed(rearSpeed);
-        
+    }
+    
+    public void setToRobot()
+    {
         robotOutput.setShooterMotors(frontShooterMotorSpeed, middleShooterMotorSpeed, rearShooterMotorSpeed);
     }
     
