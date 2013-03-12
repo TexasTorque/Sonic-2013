@@ -1,7 +1,5 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
@@ -81,21 +79,23 @@ public class Tilt extends TorqueSubsystem
     
     public void loadParameters()
     {
-        lowAngle = params.getAsDouble("S_ShootLowAngle", 0.0);
-        highAngle = params.getAsDouble("S_ShootHighAngle", 0.0);
-        feederStationAngle = params.getAsDouble("S_FeederStationAngle", 0.0);
+        lowAngle = params.getAsDouble("T_ShootLowAngle", 0.0);
+        highAngle = params.getAsDouble("T_ShootHighAngle", 0.0);
+        feederStationAngle = params.getAsDouble("T_FeederStationAngle", 0.0);
         autonomousLowAngle = params.getAsDouble("A_RearLowAngle", lowAngle);
         
-        double p = params.getAsDouble("S_TiltP", 0.0);
-        double i = params.getAsDouble("S_TiltI", 0.0);
-        double d = params.getAsDouble("S_TiltD", 0.0);
-        double e = params.getAsDouble("S_TiltEpsilon", 0.0);
-        double r = params.getAsDouble("S_TiltDoneRange", 0.0);
+        double p = params.getAsDouble("T_TiltP", 0.0);
+        double i = params.getAsDouble("T_TiltI", 0.0);
+        double d = params.getAsDouble("T_TiltD", 0.0);
+        double e = params.getAsDouble("T_TiltEpsilon", 0.0);
+        double r = params.getAsDouble("T_TiltDoneRange", 0.0);
+        double maxOutput = params.getAsDouble("T_MaxOutput", 0.4);
         
         tiltPID.setConstants(p, i, d);
         tiltPID.setErrorEpsilon(e);
         tiltPID.setDoneRange(r);
         tiltPID.resetErrorSum();
         tiltPID.resetPreviousVal();
+        tiltPID.setMaxOutput(maxOutput);
     }
 }
