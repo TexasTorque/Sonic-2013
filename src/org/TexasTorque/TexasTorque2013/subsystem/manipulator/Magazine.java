@@ -41,9 +41,7 @@ public class Magazine extends TorqueSubsystem
     
     public void run()
     {
-        double previous = Timer.getFPGATimestamp();
         calcMagazineState();
-        SmartDashboard.putNumber("Magazine", Timer.getFPGATimestamp() - previous);
     }
     
     public void setToRobot()

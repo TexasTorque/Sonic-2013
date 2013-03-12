@@ -37,13 +37,9 @@ public class Tilt extends TorqueSubsystem
     }
     
     public void run()
-    {
-        double previous = Timer.getFPGATimestamp();
-        
+    {   
         double currentAngle = sensorInput.getTiltAngle();
         tiltMotorSpeed = tiltPID.calcPID(currentAngle);
-        
-        SmartDashboard.putNumber("Tilt", Timer.getFPGATimestamp() - previous);
     }
     
     public void setToRobot()

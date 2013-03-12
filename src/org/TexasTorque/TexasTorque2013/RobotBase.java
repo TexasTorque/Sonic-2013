@@ -90,16 +90,15 @@ public class RobotBase extends IterativeRobot implements Runnable
             else if(isDisabled())
             {
                 disabledContinuous();
-                
                 Timer.delay(0.05);
             }
             
             sensorInput.calcEncoders();
             
-            double currentTime = Timer.getFPGATimestamp();
-            System.err.println(1 / (currentTime - previousTime));
-            SmartDashboard.putNumber("Robot", currentTime - previousTime);
-            previousTime = currentTime;
+            //double currentTime = Timer.getFPGATimestamp();
+            //SmartDashboard.putNumber("Hertz", 1 / (currentTime - previousTime));
+            //previousTime = currentTime;
+            
             numCycles++;
             
         }
@@ -125,6 +124,11 @@ public class RobotBase extends IterativeRobot implements Runnable
         robotOutput.runLights();
         dashboardManager.updateLCD();
         logData();
+        
+        drivebase.setToRobot();
+        manipulator.setToRobot();
+        
+        //SmartDashboard.putNumber("NumCycles", numCycles);
     }
     
     public void autonomousContinuous()
@@ -151,22 +155,17 @@ public class RobotBase extends IterativeRobot implements Runnable
 
     public void teleopPeriodic()
     {
-        double previous = Timer.getFPGATimestamp();
         watchdog.feed();
-        
         robotOutput.runLights();
-        dashboardManager.updateLCD();
+        
         logData();
         
         tilt.run();
         
-        double p2 = Timer.getFPGATimestamp();
         drivebase.setToRobot();
         manipulator.setToRobot();
-        SmartDashboard.putNumber("Update", Timer.getFPGATimestamp() - p2);
         
-        SmartDashboard.putNumber("NumCycles", numCycles);
-        SmartDashboard.putNumber("Periodic", Timer.getFPGATimestamp() - previous);
+        //SmartDashboard.putNumber("NumCycles", numCycles);
     }
     
     public void teleopContinuous()
@@ -194,7 +193,7 @@ public class RobotBase extends IterativeRobot implements Runnable
         }
         dashboardManager.updateLCD();
         
-        SmartDashboard.putNumber("NumCycles", numCycles);
+        //SmartDashboard.putNumber("NumCycles", numCycles);
     }
     
     public void disabledContinuous()

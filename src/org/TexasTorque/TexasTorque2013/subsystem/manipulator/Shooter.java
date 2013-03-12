@@ -47,8 +47,7 @@ public class Shooter extends TorqueSubsystem
     }
     
     public void run()
-    {   
-        double previous = Timer.getFPGATimestamp();
+    {
         double frontSpeed = frontShooterPID.calcPID(sensorInput.getFrontShooterRate());
         double middleSpeed = middleShooterPID.calcPID(sensorInput.getMiddleShooterRate());
         double rearSpeed = rearShooterPID.calcPID(sensorInput.getRearShooterRate());
@@ -56,7 +55,6 @@ public class Shooter extends TorqueSubsystem
         frontShooterMotorSpeed = limitShooterSpeed(frontSpeed);
         middleShooterMotorSpeed = limitShooterSpeed(middleSpeed);
         rearShooterMotorSpeed = limitShooterSpeed(rearSpeed);
-        SmartDashboard.putNumber("Shooter", Timer.getFPGATimestamp() - previous);
     }
     
     public void setToRobot()

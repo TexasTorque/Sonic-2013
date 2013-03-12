@@ -13,6 +13,7 @@ public class TorqueCounter
     private double previousTime;
     private double prevoiusPosition;
     private double previousRate;
+    private int currentPosition;
     
     private double rate;
     private double acceleration;
@@ -40,16 +41,10 @@ public class TorqueCounter
     public void calc()
     {
         double currentTime = Timer.getFPGATimestamp();
-        double currentPosition = counter.get();
+        currentPosition = counter.get();
         
-        double dx = currentPosition - prevoiusPosition;
-        double dt = currentTime - previousTime;
-        
-        rate = dx / dt;
-        
-        double dr = rate - previousRate;
-        
-        acceleration = dr / dt;
+        rate = (currentPosition - prevoiusPosition) / (currentTime - previousTime);
+        acceleration = (rate - previousRate) / (currentTime - previousTime);
         
         previousTime = currentTime;
         prevoiusPosition = currentPosition;
@@ -58,7 +53,7 @@ public class TorqueCounter
     
     public int get()
     {
-        return counter.get();
+        return currentPosition;
     }
     
     public double getRate()
