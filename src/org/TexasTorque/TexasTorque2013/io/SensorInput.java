@@ -57,12 +57,6 @@ public class SensorInput
     private void startEncoders()
     {
         // 1 foot = 958 clicks
-        leftDriveEncoder.setOptions(10, false);
-        rightDriveEncoder.setOptions(10, false);
-        frontShooterCounter.setOptions(10, true);
-        middleShooterCounter.setOptions(10, true);
-        rearShooterCounter.setOptions(10, true);
-        elevatorEncoder.setOptions(10, false);
         leftDriveEncoder.start();
         rightDriveEncoder.start();        
         frontShooterCounter.start();
@@ -71,88 +65,98 @@ public class SensorInput
         elevatorEncoder.start();
     }
     
-    public synchronized void resetEncoders()
+    public void resetEncoders()
     {
-        leftDriveEncoder.resetEncoder();
-        rightDriveEncoder.resetEncoder();
-        frontShooterCounter.resetCounter();
-        middleShooterCounter.resetCounter();
-        rearShooterCounter.resetCounter();
-        elevatorEncoder.resetEncoder();
+        leftDriveEncoder.reset();
+        rightDriveEncoder.reset();
+        frontShooterCounter.reset();
+        middleShooterCounter.reset();
+        rearShooterCounter.reset();
+        elevatorEncoder.reset();
     }
     
-    public synchronized void resetGyro()
+    public void calcEncoders()
+    {
+        leftDriveEncoder.calc();
+        rightDriveEncoder.calc();
+        frontShooterCounter.calc();
+        middleShooterCounter.calc();
+        rearShooterCounter.calc();
+        elevatorEncoder.calc();
+    }
+    
+    public void resetGyro()
     {
         gyro.reset();
         gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
     }
     
-    public synchronized double getLeftDriveEncoder()
+    public double getLeftDriveEncoder()
     {
-        return (leftDriveEncoder.encoder.get() / 958.0) * 12; 
+        return (leftDriveEncoder.get() / 958.0) * 12; 
     }
     
-    public synchronized double getRightDriveEncoder()
+    public double getRightDriveEncoder()
     {
-        return (rightDriveEncoder.encoder.get() / 958.0) * 12;
+        return (rightDriveEncoder.get() / 958.0) * 12;
     }
     
-    public synchronized double getLeftDriveEncoderRate()
+    public double getLeftDriveEncoderRate()
     {
         return (leftDriveEncoder.getRate() / 958.0) * 12;
     }
     
-    public synchronized double getRightDriveEncoderRate()
+    public double getRightDriveEncoderRate()
     {
         return (rightDriveEncoder.getRate() / 958.0) * 12;
     }
     
-    public synchronized double getLeftDriveEncoderAcceleration()
+    public double getLeftDriveEncoderAcceleration()
     {
         return (leftDriveEncoder.getAcceleration() / 958.0) * 12;
     }
     
-    public synchronized double getRightDriveEncoderAcceleration()
+    public double getRightDriveEncoderAcceleration()
     {
         return (rightDriveEncoder.getAcceleration() / 958.0) * 12;
     }
     
-    public synchronized double getFrontShooterRate()
+    public double getFrontShooterRate()
     {
         return Shooter.convertToRPM(frontShooterCounter.getRate());
     }
     
-    public synchronized double getMiddleShooterRate()
+    public double getMiddleShooterRate()
     {
         return Shooter.convertToRPM(middleShooterCounter.getRate());
     }
     
-    public synchronized double getRearShooterRate()
+    public double getRearShooterRate()
     {
         return Shooter.convertToRPM(rearShooterCounter.getRate());
     }
     
-    public synchronized int getElevatorEncoder()
+    public int getElevatorEncoder()
     {
         return elevatorEncoder.get();
     }
     
-    public synchronized double getElevatorEncoderVelocity()
+    public double getElevatorEncoderVelocity()
     {
         return elevatorEncoder.getRate();
     }
     
-    public synchronized double getElevatorAcceleration()
+    public double getElevatorAcceleration()
     {
         return elevatorEncoder.getAcceleration();
     }
     
-    public synchronized double getGyroAngle()
+    public double getGyroAngle()
     {
         return limitGyroAngle(-gyro.getAngle() * 2);
     }
     
-    public synchronized double limitGyroAngle(double angle)
+    public double limitGyroAngle(double angle)
     {
         while(angle >= 360.0)
         {
@@ -171,22 +175,22 @@ public class SensorInput
         return angle;
     }
     
-    public synchronized double getPressure()
+    public double getPressure()
     {
         return pressureSensor.getVoltage();
     }
     
-    public synchronized double getTiltAngle()
+    public double getTiltAngle()
     {
         return getTiltPotentiometer() * 90;
     }
     
-    private synchronized double getTiltPotentiometer()
+    private double getTiltPotentiometer()
     {
         return tiltPotentiometer.get();
     }
     
-    public synchronized double getTiltVoltage()
+    public double getTiltVoltage()
     {
         return tiltPotentiometer.getRaw();
     }

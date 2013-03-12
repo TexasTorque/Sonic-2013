@@ -25,7 +25,11 @@ public class Intake extends TorqueSubsystem
     }
     
     public void run()
-    {   
+    {
+    }
+    
+    public void setToRobot()
+    {
         robotOutput.setIntakeMotor(intakeMotorSpeed);
     }
     

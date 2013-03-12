@@ -1,5 +1,7 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
@@ -35,11 +37,13 @@ public class Tilt extends TorqueSubsystem
     }
     
     public void run()
-    {
+    {   
         double currentAngle = sensorInput.getTiltAngle();
-        
         tiltMotorSpeed = tiltPID.calcPID(currentAngle);
-        
+    }
+    
+    public void setToRobot()
+    {
         robotOutput.setTiltMotor(tiltMotorSpeed);
     }
     

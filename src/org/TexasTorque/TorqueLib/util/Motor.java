@@ -5,10 +5,12 @@ import edu.wpi.first.wpilibj.Victor;
 
 public class Motor
 {
-    Jaguar jaguar;
-    Victor victor;
-    boolean reverse;
-    boolean vic888;
+    private Jaguar jaguar;
+    private Victor victor;
+    private boolean reverse;
+    private boolean vic888;
+    
+    private double previousSpeed;
     
     public Motor(Jaguar jag, boolean rev)
     {
@@ -27,25 +29,30 @@ public class Motor
     
     public void Set(double speed)
     {
-        if(reverse)
+        if(speed != previousSpeed)
         {
-            speed *= -1;
-        }
-        speed = LimitSpeed((float)speed, (float)1.0);
-        if(jaguar == null)
-        {
-            if(vic888)
+            if(reverse)
             {
-                victor.set(speed);
+                speed *= -1;
+            }
+            speed = LimitSpeed((float)speed, (float)1.0);
+            if(jaguar == null)
+            {
+                if(vic888)
+                {
+                    victor.set(speed);
+                }
+                else
+                {
+                    victor.set(LinearizeVictor(speed));
+                }
             }
             else
             {
-                victor.set(LinearizeVictor(speed));
+                jaguar.set(speed);
             }
-        }
-        else
-        {
-            jaguar.set(speed);
+            
+            previousSpeed = speed;
         }
     }
     

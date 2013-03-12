@@ -1,6 +1,6 @@
 package org.TexasTorque.TexasTorque2013;
 
-import edu.wpi.first.wpilibj.SimpleRobot;
+import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -9,11 +9,12 @@ import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.io.*;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Manipulator;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Tilt;
 import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
 
-public class RobotBase extends SimpleRobot
+public class RobotBase extends IterativeRobot implements Runnable
 {
     Watchdog watchdog;
     Parameters params;
@@ -24,6 +25,7 @@ public class RobotBase extends SimpleRobot
     RobotOutput robotOutput;
     Drivebase drivebase;
     Manipulator  manipulator;
+    Tilt tilt;
     
     AutonomousManager autoManager;
     
@@ -32,6 +34,7 @@ public class RobotBase extends SimpleRobot
     boolean logData;
     int logCycles;
     double numCycles;
+    double previousTime;
     
     public void robotInit()
     {
@@ -53,6 +56,7 @@ public class RobotBase extends SimpleRobot
         robotOutput = RobotOutput.getInstance();
         drivebase = Drivebase.getInstance();
         manipulator = Manipulator.getInstance();
+        tilt = Tilt.getInstance();
         
         autoManager = new AutonomousManager();
         
@@ -62,22 +66,45 @@ public class RobotBase extends SimpleRobot
         
         logCycles = 0;
         numCycles = 0.0;
+        
+        (new Thread(this)).start();
+    }
+    
+    public void run()
+    {
+        
+        previousTime = Timer.getFPGATimestamp();
+        
+        while(true)
+        {
+            watchdog.feed();
+            if(isAutonomous() && isEnabled())
+            {
+                autonomousContinuous();
+            }
+            else if(isOperatorControl() && isEnabled())
+            {
+                teleopContinuous();
+                Timer.delay(0.004);
+            }
+            else if(isDisabled())
+            {
+                disabledContinuous();
+                Timer.delay(0.05);
+            }
+            
+            sensorInput.calcEncoders();
+            
+            //double currentTime = Timer.getFPGATimestamp();
+            //SmartDashboard.putNumber("Hertz", 1 / (currentTime - previousTime));
+            //previousTime = currentTime;
+            
+            numCycles++;
+            
+        }
     }
     
 //---------------------------------------------------------------------------------------------------------------------------------
-    
-    public void autonomous()
-    {
-        autonomousInit();
-        while(isAutonomous() && isEnabled())
-        {
-            watchdog.feed();
-            autonomousPeriodic();
-            robotOutput.runLights();
-            dashboardManager.updateLCD();
-            logData();
-        }
-    }
 
     public void autonomousInit()
     {
@@ -92,34 +119,24 @@ public class RobotBase extends SimpleRobot
 
     public void autonomousPeriodic()
     {
+        watchdog.feed();
+        
+        robotOutput.runLights();
+        dashboardManager.updateLCD();
+        logData();
+        
+        drivebase.setToRobot();
+        manipulator.setToRobot();
+        
+        //SmartDashboard.putNumber("NumCycles", numCycles);
+    }
+    
+    public void autonomousContinuous()
+    {
         autoManager.runAutonomous();
-        SmartDashboard.putNumber("LeftEncoder", sensorInput.getLeftDriveEncoder());
-        SmartDashboard.putNumber("RightEncoder", sensorInput.getRightDriveEncoder());
-        SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());
     }
     
 //---------------------------------------------------------------------------------------------------------------------------------   
-    
-    public void operatorControl()
-    {
-        teleopInit();
-        while(isOperatorControl() && isEnabled())
-        {
-            double previousTime = Timer.getFPGATimestamp();
-            
-            watchdog.feed();
-            teleopPeriodic();
-            robotOutput.runLights();
-            dashboardManager.updateLCD();
-            logData();
-            
-            numCycles++;
-            SmartDashboard.putNumber("NumCycles", numCycles);
-            SmartDashboard.putNumber("Hertz", 1.0/(Timer.getFPGATimestamp() - previousTime));
-            SmartDashboard.putNumber("GyroAngle", sensorInput.gyro.getAngle());
-            System.err.println(1.0/(Timer.getFPGATimestamp() - previousTime));
-        }
-    }
 
     public void teleopInit()
     {
@@ -138,36 +155,49 @@ public class RobotBase extends SimpleRobot
 
     public void teleopPeriodic()
     {
+        watchdog.feed();
+        robotOutput.runLights();
+        
+        logData();
+        
+        tilt.run();
+        
+        drivebase.setToRobot();
+        manipulator.setToRobot();
+        
+        //SmartDashboard.putNumber("NumCycles", numCycles);
+    }
+    
+    public void teleopContinuous()
+    {   
         drivebase.run();
         manipulator.run();
     }
     
 //---------------------------------------------------------------------------------------------------------------------------------
-    
-    public void disabled()
-    {
-        disabledInit();
-        while(isDisabled())
-        {
-            watchdog.feed();
-            disabledPeriodic();
-            robotOutput.runLights();
-            dashboardManager.updateLCD();
-        }
-    }
-    
+
     public void disabledInit()
     {
         robotOutput.setLightsState(Constants.PARTY_MODE);
+        robotOutput.runLights();
     }
     
     public void disabledPeriodic()
     {
+        watchdog.feed();
+        
         if(driverInput.resetSensors())
         {
             sensorInput.resetEncoders();
             sensorInput.resetGyro();
         }
+        dashboardManager.updateLCD();
+        
+        //SmartDashboard.putNumber("NumCycles", numCycles);
+    }
+    
+    public void disabledContinuous()
+    {
     }
     
 //---------------------------------------------------------------------------------------------------------------------------------    
