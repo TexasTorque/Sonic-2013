@@ -46,10 +46,6 @@ public class Manipulator extends TorqueSubsystem
             {
                 reverseIntake();
             }
-            else if(driverInput.shootHighWithVision())
-            {
-                //shootHighWithVision();
-            }
             else if(driverInput.shootHighWithoutVision())
             {
                 shootHighWithoutVision();
@@ -87,10 +83,10 @@ public class Manipulator extends TorqueSubsystem
             calcOverrides();
         }
         
-        SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
+        /*SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
         SmartDashboard.putNumber("ElevatorPosition", sensorInput.getElevatorEncoder());
         SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
-        SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
+        SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());*/
         
     }
     
@@ -212,38 +208,6 @@ public class Manipulator extends TorqueSubsystem
         setLightsNormal();
     }
     
-    /*public void shootHighWithVision()
-    {
-        intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
-        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
-        elevator.setDesiredPosition(Elevator.elevatorTopPosition);
-        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
-        
-        setLightsToChecks();
-        
-        if(sensorInput.getElevatorEncoder() > 100)
-        {
-            shooter.setTiltAngle(Shooter.shootHighStandardAngle);
-        }
-        else
-        {
-            shooter.setTiltAngle(0.0);
-        }
-        
-        if(elevator.atDesiredPosition() && SmartDashboard.getBoolean("found", false))
-        {
-            double currentAngle = sensorInput.getTiltAngle();
-            double elevation = SmartDashboard.getNumber("elevation", 0.0);
-            elevation = sensorInput.limitGyroAngle(elevation);
-            shooter.setTiltAngle(currentAngle + elevation + Shooter.shootLowAdditive);
-            
-            if(driverInput.fireFrisbee() || (shooter.isReadyToFire() && dashboardManager.getDS().isAutonomous()))
-            {
-                magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
-            }
-        }
-    }*/
-    
     public void shootHighWithoutVision()
     {
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
@@ -270,33 +234,6 @@ public class Manipulator extends TorqueSubsystem
             }
         }
     }
-    
-    /*public void shootLowWithVision()
-    {
-        intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
-        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
-        elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
-        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
-        shooter.setTiltAngle(Shooter.shootLowStandardAngle);
-        
-        setLightsToChecks();
-        
-        if(elevator.atDesiredPosition() && SmartDashboard.getBoolean("found", false))
-        {
-            double currentAngle = sensorInput.getTiltAngle();
-            double elevation = SmartDashboard.getNumber("elevation", 0.0);
-            elevation = sensorInput.limitGyroAngle(elevation);
-            
-            SmartDashboard.putNumber("TempEle", elevation);
-            SmartDashboard.putNumber("TempEle2", currentAngle + elevation + Shooter.shootLowAdditive);
-            //shooter.setTiltAngle(currentAngle + elevation/* + Shooter.shootLowAdditive*///);
-            
-            //if(driverInput.fireFrisbee() || (shooter.isReadyToFire() && dashboardManager.getDS().isAutonomous()))
-            //{
-            //    magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
-            //}
-        //}  
-    //}
     
     public void shootLowWithoutVision()
     {

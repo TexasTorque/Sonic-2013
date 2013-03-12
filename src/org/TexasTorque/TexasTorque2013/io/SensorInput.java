@@ -77,6 +77,16 @@ public class SensorInput
         elevatorEncoder.reset();
     }
     
+    public synchronized void calcEncoders()
+    {
+        leftDriveEncoder.calc();
+        rightDriveEncoder.calc();
+        frontShooterCounter.calc();
+        middleShooterCounter.calc();
+        rearShooterCounter.calc();
+        elevatorEncoder.calc();
+    }
+    
     public synchronized void resetGyro()
     {
         gyro.reset();

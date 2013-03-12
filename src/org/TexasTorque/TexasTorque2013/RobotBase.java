@@ -82,7 +82,7 @@ public class RobotBase extends IterativeRobot implements Runnable
             else if(isOperatorControl() && isEnabled())
             {
                 teleopContinuous();
-                Timer.delay(0.008);
+                Timer.delay(0.004);
             }
             else if(isDisabled())
             {
@@ -91,11 +91,12 @@ public class RobotBase extends IterativeRobot implements Runnable
                 Timer.delay(0.05);
             }
             
+            sensorInput.calcEncoders();
+            
             double currentTime = Timer.getFPGATimestamp();
-            System.err.println(1.0/(currentTime - previousTime));
+            System.err.println(1.0 / (currentTime - previousTime));
             previousTime = currentTime;
             numCycles++;
-            SmartDashboard.putNumber("NumCycles", numCycles);
             
         }
     }
@@ -115,13 +116,11 @@ public class RobotBase extends IterativeRobot implements Runnable
 
     public void autonomousPeriodic()
     {
+        watchdog.feed();
+        
         robotOutput.runLights();
         dashboardManager.updateLCD();
         logData();
-        
-        SmartDashboard.putNumber("LeftEncoder", sensorInput.getLeftDriveEncoder());
-        SmartDashboard.putNumber("RightEncoder", sensorInput.getRightDriveEncoder());
-        SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());
     }
     
     public void autonomousContinuous()
@@ -148,12 +147,16 @@ public class RobotBase extends IterativeRobot implements Runnable
 
     public void teleopPeriodic()
     {
+        watchdog.feed();
+        
         robotOutput.runLights();
         dashboardManager.updateLCD();
         logData();
         
         drivebase.setToRobot();
         manipulator.setToRobot();
+        
+        SmartDashboard.putNumber("NumCycles", numCycles);
     }
     
     public void teleopContinuous()
@@ -167,17 +170,21 @@ public class RobotBase extends IterativeRobot implements Runnable
     public void disabledInit()
     {
         robotOutput.setLightsState(Constants.PARTY_MODE);
+        robotOutput.runLights();
     }
     
     public void disabledPeriodic()
     {
+        watchdog.feed();
+        
         if(driverInput.resetSensors())
         {
             sensorInput.resetEncoders();
             sensorInput.resetGyro();
         }
-        robotOutput.runLights();
         dashboardManager.updateLCD();
+        
+        SmartDashboard.putNumber("NumCycles", numCycles);
     }
     
     public void disabledContinuous()
