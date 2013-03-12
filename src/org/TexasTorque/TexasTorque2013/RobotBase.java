@@ -165,7 +165,7 @@ public class RobotBase extends IterativeRobot implements Runnable
         drivebase.setToRobot();
         manipulator.setToRobot();
         
-        //SmartDashboard.putNumber("NumCycles", numCycles);
+        SmartDashboard.putNumber("NumCycles", numCycles);
     }
     
     public void teleopContinuous()

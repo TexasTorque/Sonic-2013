@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 
@@ -80,6 +81,9 @@ public class Manipulator extends TorqueSubsystem
         {
             calcOverrides();
         }
+        
+        SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
+        SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
     }
     
     public void setToRobot()
