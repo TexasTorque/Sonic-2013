@@ -139,7 +139,7 @@ public class Manipulator extends TorqueSubsystem
         }
         else if(driverInput.shootLowWithoutVisionOverride())
         {
-            double frontSpeed = Shooter.frontShooterRate;
+            /*double frontSpeed = Shooter.frontShooterRate;
             double rearSpeed = Shooter.rearShooterRate;
             double angle = Shooter.shootLowStandardAngle;
             
@@ -151,29 +151,29 @@ public class Manipulator extends TorqueSubsystem
             if(driverInput.magazineShootOverride())
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
-            }
+            }*/
         }
         else if(driverInput.restoreToDefaultOverride())
         {
-            intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+            /*intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
             magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
             shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
-            shooter.setTiltAngle(0.0);
+            shooter.setTiltAngle(0.0);*/
         }
         else
         {
-            intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+            /*intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
             shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
-            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);*/
         }
         
         if(driverInput.elevatorTopOverride())
         {
-            robotOutput.setElevatorMotors(Elevator.elevatorOverrideSpeed);
+            //robotOutput.setElevatorMotors(Elevator.elevatorOverrideSpeed);
         }
         else if(driverInput.elevatorBottomOverride())
         {
-            robotOutput.setElevatorMotors(-1 * Elevator.elevatorOverrideSpeed);
+            //robotOutput.setElevatorMotors(-1 * Elevator.elevatorOverrideSpeed);
         }
         else
         {

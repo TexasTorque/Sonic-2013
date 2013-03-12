@@ -1,6 +1,6 @@
 package org.TexasTorque.TexasTorque2013;
 
-import edu.wpi.first.wpilibj.SimpleRobot;
+import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,7 +13,7 @@ import org.TexasTorque.TorqueLib.util.DashboardManager;
 import org.TexasTorque.TorqueLib.util.Parameters;
 import org.TexasTorque.TorqueLib.util.TorqueLogging;
 
-public class RobotBase extends SimpleRobot
+public class RobotBase extends IterativeRobot implements Runnable
 {
     Watchdog watchdog;
     Parameters params;
@@ -62,22 +62,33 @@ public class RobotBase extends SimpleRobot
         
         logCycles = 0;
         numCycles = 0.0;
+        
+        (new Thread(new RobotBase())).start();
+    }
+    
+    public void run()
+    {
+        while(true)
+        {
+            watchdog.feed();
+            if(isAutonomous() && isEnabled())
+            {
+                autonomousContinuous();
+            }
+            else if(isOperatorControl() && isEnabled())
+            {
+                teleopContinuous();
+            }
+            else if(isDisabled())
+            {
+                disabledContinuous();
+            }
+            
+            Timer.delay(0.008);
+        }
     }
     
 //---------------------------------------------------------------------------------------------------------------------------------
-    
-    public void autonomous()
-    {
-        autonomousInit();
-        while(isAutonomous() && isEnabled())
-        {
-            watchdog.feed();
-            autonomousPeriodic();
-            robotOutput.runLights();
-            dashboardManager.updateLCD();
-            logData();
-        }
-    }
 
     public void autonomousInit()
     {
@@ -92,34 +103,21 @@ public class RobotBase extends SimpleRobot
 
     public void autonomousPeriodic()
     {
-        autoManager.runAutonomous();
+        robotOutput.runLights();
+        dashboardManager.updateLCD();
+        logData();
+        
         SmartDashboard.putNumber("LeftEncoder", sensorInput.getLeftDriveEncoder());
         SmartDashboard.putNumber("RightEncoder", sensorInput.getRightDriveEncoder());
         SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());
     }
     
-//---------------------------------------------------------------------------------------------------------------------------------   
-    
-    public void operatorControl()
+    public void autonomousContinuous()
     {
-        teleopInit();
-        while(isOperatorControl() && isEnabled())
-        {
-            double previousTime = Timer.getFPGATimestamp();
-            
-            watchdog.feed();
-            teleopPeriodic();
-            robotOutput.runLights();
-            dashboardManager.updateLCD();
-            logData();
-            
-            numCycles++;
-            SmartDashboard.putNumber("NumCycles", numCycles);
-            SmartDashboard.putNumber("Hertz", 1.0/(Timer.getFPGATimestamp() - previousTime));
-            SmartDashboard.putNumber("GyroAngle", sensorInput.gyro.getAngle());
-            System.err.println(1.0/(Timer.getFPGATimestamp() - previousTime));
-        }
+        autoManager.runAutonomous();
     }
+    
+//---------------------------------------------------------------------------------------------------------------------------------   
 
     public void teleopInit()
     {
@@ -138,24 +136,27 @@ public class RobotBase extends SimpleRobot
 
     public void teleopPeriodic()
     {
+        robotOutput.runLights();
+        dashboardManager.updateLCD();
+        logData();
+    }
+    
+    public void teleopContinuous()
+    {
+        double previousTime = Timer.getFPGATimestamp();
+        
         drivebase.run();
         manipulator.run();
+        
+        numCycles++;
+        SmartDashboard.putNumber("NumCycles", numCycles);
+        SmartDashboard.putNumber("Hertz", 1.0/(Timer.getFPGATimestamp() - previousTime));
+        SmartDashboard.putNumber("GyroAngle", sensorInput.gyro.getAngle());
+        System.err.println(1.0/(Timer.getFPGATimestamp() - previousTime));
     }
     
 //---------------------------------------------------------------------------------------------------------------------------------
-    
-    public void disabled()
-    {
-        disabledInit();
-        while(isDisabled())
-        {
-            watchdog.feed();
-            disabledPeriodic();
-            robotOutput.runLights();
-            dashboardManager.updateLCD();
-        }
-    }
-    
+
     public void disabledInit()
     {
         robotOutput.setLightsState(Constants.PARTY_MODE);
@@ -168,6 +169,12 @@ public class RobotBase extends SimpleRobot
             sensorInput.resetEncoders();
             sensorInput.resetGyro();
         }
+        robotOutput.runLights();
+        dashboardManager.updateLCD();
+    }
+    
+    public void disabledContinuous()
+    {
     }
     
 //---------------------------------------------------------------------------------------------------------------------------------    
