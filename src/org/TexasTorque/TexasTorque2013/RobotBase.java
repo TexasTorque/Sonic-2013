@@ -16,6 +16,9 @@ import org.TexasTorque.TorqueLib.util.TorqueLogging;
 
 public class RobotBase extends IterativeRobot implements Runnable
 {
+    
+    Thread continuousThread;
+    
     Watchdog watchdog;
     Parameters params;
     TorqueLogging logging;
@@ -67,7 +70,11 @@ public class RobotBase extends IterativeRobot implements Runnable
         logCycles = 0;
         numCycles = 0.0;
         
-        (new Thread(this)).start();
+        //(new Thread(this)).start();
+        
+        continuousThread = new Thread(this);
+        continuousThread.start();
+        
     }
     
     public void run()

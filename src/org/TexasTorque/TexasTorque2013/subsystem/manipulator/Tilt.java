@@ -12,7 +12,7 @@ public class Tilt extends TorqueSubsystem
     private SimPID tiltPID;
     
     private double desiredTiltAngle;
-    private double tiltMotorSpeed;
+    public double tiltMotorSpeed;
     
     public static double lowAngle;
     public static double highAngle;
