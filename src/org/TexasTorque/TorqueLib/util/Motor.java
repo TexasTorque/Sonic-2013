@@ -1,12 +1,14 @@
 package org.TexasTorque.TorqueLib.util;
 
 import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 
 public class Motor
 {
     private Jaguar jaguar;
     private Victor victor;
+    private Talon talon;
     private boolean reverse;
     private boolean vic888;
     
@@ -16,15 +18,24 @@ public class Motor
     {
         jaguar = jag;
         victor = null;
+        talon = null;
         reverse = rev;
     }
     
     public Motor(Victor vic, boolean rev, boolean v888)
     {
         jaguar = null;
+        talon = null;
         victor = vic;
         reverse = rev;
         vic888 = v888;
+    }
+    
+    public Motor(Talon tal, boolean rev)
+    {
+        jaguar = null;
+        victor = null;
+        talon = tal;
     }
     
     public void Set(double speed)
@@ -36,7 +47,7 @@ public class Motor
                 speed *= -1;
             }
             speed = LimitSpeed((float)speed, (float)1.0);
-            if(jaguar == null)
+            if(jaguar == null && talon == null)
             {
                 if(vic888)
                 {
@@ -46,6 +57,10 @@ public class Motor
                 {
                     victor.set(LinearizeVictor(speed));
                 }
+            }
+            else if(jaguar == null && victor == null)
+            {
+                talon.set(speed);
             }
             else
             {
