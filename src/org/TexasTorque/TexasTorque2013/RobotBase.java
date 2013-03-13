@@ -88,6 +88,7 @@ public class RobotBase extends IterativeRobot implements Runnable
             if(isAutonomous() && isEnabled())
             {
                 autonomousContinuous();
+                Timer.delay(0.004);
             }
             else if(isOperatorControl() && isEnabled())
             {
@@ -134,8 +135,6 @@ public class RobotBase extends IterativeRobot implements Runnable
         dashboardManager.updateLCD();
         logData();
         
-        
-        
         drivebase.setToRobot();
         manipulator.setToRobot();
         
@@ -145,6 +144,7 @@ public class RobotBase extends IterativeRobot implements Runnable
         SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());*/
         
         SmartDashboard.putNumber("Distance", (sensorInput.getLeftDriveEncoder() + sensorInput.getRightDriveEncoder()) / 2.0);
+        SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());
         
         SmartDashboard.putNumber("NumCycles", numCycles);
     }

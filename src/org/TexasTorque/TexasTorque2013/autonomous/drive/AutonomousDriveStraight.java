@@ -22,20 +22,20 @@ public class AutonomousDriveStraight extends AutonomousCommand
         gyroPID = new SimPID();
         
         encoderPID.setMaxOutput(speed);
-        gyroPID.setMaxOutput(speed);
-        
-        encoderPID.setDesiredValue(driveDistance);
-        gyroPID.setDesiredValue(0.0);
         
         driveDistance = distance;
         timeoutSecs = timeout;
+        
+        encoderPID.setDesiredValue(driveDistance);
+        gyroPID.setDesiredValue(0.0);
         
         timeoutTimer = new Timer();
     }
     
     public void reset()
     {
-        double p = params.getAsDouble("D_DriveEncoderP", 0.0);
+        System.err.println("reset");
+        double p = params.getAsDouble("D_DriveEncoderP", 0.05);
         double i = params.getAsDouble("D_DriveEncoderI", 0.0);
         double d = params.getAsDouble("D_DriveEncoderD", 0.0);
         double e = params.getAsDouble("D_DriveEncoderEpsilon", 0.0);
@@ -69,16 +69,14 @@ public class AutonomousDriveStraight extends AutonomousCommand
         double currentAngle = sensorInput.getGyroAngle();
         
         double y = encoderPID.calcPID(averageDistance);
-        double x = gyroPID.calcPID(currentAngle);
+        double x = -gyroPID.calcPID(currentAngle);
         
         double leftSpeed = y + x;
         double rightSpeed = y - x;
         
-        System.err.println(-leftSpeed + "," + rightSpeed + "," + y + "," + x);
+        drivebase.setDriveSpeeds(leftSpeed, rightSpeed);
         
-        drivebase.setDriveSpeeds(-leftSpeed, rightSpeed);
-        
-        if(encoderPID.isDone() && gyroPID.isDone())
+        if(encoderPID.isDone() && gyroPID.isDone() && timeoutTimer.get() > timeoutSecs)
         {
             return true;
         }

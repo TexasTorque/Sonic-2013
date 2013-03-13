@@ -1,15 +1,16 @@
 package org.TexasTorque.TexasTorque2013.autonomous;
 
-import org.TexasTorque.TexasTorque2013.constants.Constants;
-import org.TexasTorque.TexasTorque2013.autonomous.*;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStop;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraight;
+import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftLow;
 import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousIntake;
 import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousStopIntake;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousMagazineLoad;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousMagazineStop;
 import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousStop;
 import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousStopAll;
+import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousWait;
+import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Elevator;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Intake;
@@ -164,15 +165,17 @@ public class AutonomousManager
         
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);
+        autoBuilder.addCommand(new AutonomousShiftLow());
         autoBuilder.addLowFireSequence(3);
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousMagazineLoad());
-        autoBuilder.addCommand(new AutonomousDriveStraight(driveDistance, driveSpeed, 7.0));
+        autoBuilder.addCommand(new AutonomousDriveStraight(driveDistance, driveSpeed, 3.5));
+        autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousStopIntake());
         autoBuilder.addCommand(new AutonomousMagazineStop());
-        autoBuilder.addCommand(new AutonomousDriveStraight(0.0, driveSpeed, 7.0));
+        autoBuilder.addCommand(new AutonomousDriveStraight(0.0, driveSpeed, 3.5));
         autoBuilder.addCommand(new AutonomousDriveStop());
-        autoBuilder.addLowFireSequence(4);
+        autoBuilder.addLowFireSequence(3);
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
     }

@@ -41,13 +41,11 @@ public class Drivebase extends TorqueSubsystem
     
     public void run()
     {
-        double previous = Timer.getFPGATimestamp();
         if(dashboardManager.getDS().isOperatorControl())
         {
            mixChannels(driverInput.getThrottle(), driverInput.getTurn());
            shiftState = driverInput.shiftHighGear();
         }
-        SmartDashboard.putNumber("Drive", Timer.getFPGATimestamp() - previous);
     }
     
     public void setToRobot()
