@@ -69,12 +69,14 @@ public class AutonomousDriveStraight extends AutonomousCommand
         double currentAngle = sensorInput.getGyroAngle();
         
         double y = encoderPID.calcPID(averageDistance);
-        double x = encoderPID.calcPID(currentAngle);
+        double x = gyroPID.calcPID(currentAngle);
         
         double leftSpeed = y + x;
         double rightSpeed = y - x;
         
-        drivebase.setDriveSpeeds(leftSpeed, rightSpeed);
+        System.err.println(-leftSpeed + "," + rightSpeed + "," + y + "," + x);
+        
+        drivebase.setDriveSpeeds(-leftSpeed, rightSpeed);
         
         if(encoderPID.isDone() && gyroPID.isDone())
         {

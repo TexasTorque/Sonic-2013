@@ -56,7 +56,7 @@ public class AutonomousBuilder
         
         for(double i = 0; i < numFires; i++)
         {
-            addCommand(new AutonomousTiltDone(2));
+            addCommand(new AutonomousTiltDone(0.0));
             addCommand(new AutonomousShooterDone(2));
             addCommand(new AutonomousMagazineDone(2));
             addCommand(new AutonomousFireOnce());
