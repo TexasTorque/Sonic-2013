@@ -25,12 +25,13 @@ public class RobotOutput
     private DoubleSolenoid passiveClimber;
     //----- Drive Motors -----
     private Motor frontLeftDriveMotor;
+    private Motor middleLeftDriveMotor;
     private Motor rearLeftDriveMotor;
     private Motor frontRightDriveMotor;
+    private Motor middleRightDriveMotor;
     private Motor rearRightDriveMotor;
     //----- Shooter Motors -----
-    private Motor frontShooterMotorA;
-    private Motor frontShooterMotorB;
+    private Motor frontShooterMotor;
     private Motor middleShooterMotor;
     private Motor rearShooterMotor;
     private Motor shooterTiltMotor;
@@ -55,15 +56,16 @@ public class RobotOutput
         frisbeeLifter = new DoubleSolenoid(Ports.FRISBEE_LIFTER_SOLENOID_A_PORT, Ports.FRISBEE_LIFTER_SOLENOID_B_PORT);
         passiveClimber = new DoubleSolenoid(Ports.PASSIVE_CLIMBER_A_PORT, Ports.PASSIVE_CLIMBER_B_PORT);
         //----- Drive Motors -----
-        frontLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_LEFT_MOTOR_PORT), false, true);
-        rearLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_LEFT_MOTOR_PORT), false, true);
-        frontRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_RIGHT_MOTOR_PORT), true, true);
-        rearRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.REAR_RIGHT_MOTOR_PORT), true, true);
+        frontLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_LEFT_DRIVE_MOTOR_PORT), false, true);
+        middleLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.MIDDLE_LEFT_DRIVE_MOTOR_PORT), false, true);
+        rearLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_LEFT_DRIVE_MOTOR_PORT), false, true);
+        frontRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_RIGHT_DRIVE_MOTOR_PORT), true, true);
+        middleRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.MIDDLE_RIGHT_DRIVE_MOTOR_PORT), true, true);
+        rearRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.REAR_RIGHT_DRIVE_MOTOR_PORT), true, true);
         //----- Shooter Subsystem Motors-----
-        frontShooterMotorA = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_MOTOR_A_PORT), false, true);
-        frontShooterMotorB = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_MOTOR_B_PORT), false, true);
-        middleShooterMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_MOTOR_A_PORT), false, true);
-        rearShooterMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_MOTOR_B_PORT), false, true);
+        frontShooterMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_MOTOR_PORT), false, true);
+        middleShooterMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.MIDDLE_SHOOTER_PORT), false, true);
+        rearShooterMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_PORT), false, true);
         shooterTiltMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.SHOOTER_TILT_MOTOR_PORT), false, true);
         //----- Misc Motors -----
         intakeMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.INTAKE_MOTOR_PORT), false, true);
@@ -90,16 +92,17 @@ public class RobotOutput
     public void setDriveMotors(double leftSpeed, double rightSpeed)
     {
         frontLeftDriveMotor.Set(leftSpeed);
+        middleLeftDriveMotor.Set(leftSpeed * 0.8);
         rearLeftDriveMotor.Set(leftSpeed);
         frontRightDriveMotor.Set(rightSpeed);
+        middleRightDriveMotor.Set(rightSpeed * 0.8);
         rearRightDriveMotor.Set(rightSpeed);
     }
     
     public void setShooterMotors(double frontSpeed, double middleSpeed, double rearSpeed)
     {
-        frontShooterMotorA.Set(frontSpeed);
-        frontShooterMotorB.Set(frontSpeed);
-        middleShooterMotor.Set(frontSpeed);
+        frontShooterMotor.Set(frontSpeed);
+        middleShooterMotor.Set(middleSpeed);
         rearShooterMotor.Set(rearSpeed);
     }
     

@@ -12,18 +12,19 @@ public class Ports
     
     //----- Motors -----
         //----- Sidecar 1 -----
-        public final static int FRONT_RIGHT_MOTOR_PORT = 2;
-        public final static int REAR_RIGHT_MOTOR_PORT = 3;
+        public final static int MIDDLE_RIGHT_DRIVE_MOTOR_PORT = 1;
+        public final static int FRONT_RIGHT_DRIVE_MOTOR_PORT = 2;
+        public final static int REAR_RIGHT_DRIVE_MOTOR_PORT = 3;
         public final static int ELEVATOR_MOTOR_PORT_LEFT = 4;
         public final static int INTAKE_MOTOR_PORT = 5;
         
         //----- Sidecar 2 -----
-        public final static int REAR_SHOOTER_MOTOR_A_PORT = 1;
-        public final static int REAR_SHOOTER_MOTOR_B_PORT = 2;
-        public final static int FRONT_SHOOTER_MOTOR_A_PORT = 3;
-        public final static int FRONT_SHOOTER_MOTOR_B_PORT = 4;
-        public final static int FRONT_LEFT_MOTOR_PORT = 5;
-        public final static int REAR_LEFT_MOTOR_PORT = 6;
+        public final static int REAR_SHOOTER_PORT = 1;
+        public final static int MIDDLE_SHOOTER_PORT = 2;
+        public final static int FRONT_SHOOTER_MOTOR_PORT = 3;
+        public final static int MIDDLE_LEFT_DRIVE_MOTOR_PORT = 4;
+        public final static int FRONT_LEFT_DRIVE_MOTOR_PORT = 5;
+        public final static int REAR_LEFT_DRIVE_MOTOR_PORT = 6;
         public final static int ELEVATOR_MOTOR_PORT_RIGHT = 7;
         public final static int SHOOTER_TILT_MOTOR_PORT = 8;
     
@@ -42,7 +43,6 @@ public class Ports
         public final static int PRESSURE_SWITCH_PORT = 13;
         public final static int RIGHT_DRIVE_ENCODER_A_PORT = 1;
         public final static int RIGHT_DRIVE_ENCODER_B_PORT = 2;
-        public final static int MIDDLE_SHOOTER_COUNTER_PORT = 3;
         //----- Sidecar 2 -----
         public final static int LEFT_DRIVE_ENCODER_A_PORT = 1;
         public final static int LEFT_DRIVE_ENCODER_B_PORT = 2;

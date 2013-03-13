@@ -83,6 +83,8 @@ public class Manipulator extends TorqueSubsystem
         }
         
         SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
+        SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
+        SmartDashboard.putNumber("MiddleRate", sensorInput.getMiddleShooterRate());
         SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
     }
     

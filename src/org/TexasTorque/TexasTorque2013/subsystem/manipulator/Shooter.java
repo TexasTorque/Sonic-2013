@@ -1,7 +1,5 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
@@ -26,6 +24,10 @@ public class Shooter extends TorqueSubsystem
     public static double middleShooterRate;
     public static double rearShooterRate;
     
+    private double frontShooterKV;
+    private double middleShooterKV;
+    private double rearShooterKV;
+    
     public static Shooter getInstance()
     {
         return (instance == null) ? instance = new Shooter() : instance;
@@ -48,13 +50,26 @@ public class Shooter extends TorqueSubsystem
     
     public void run()
     {
-        double frontSpeed = frontShooterPID.calcPID(sensorInput.getFrontShooterRate());
-        double middleSpeed = middleShooterPID.calcPID(sensorInput.getMiddleShooterRate());
-        double rearSpeed = rearShooterPID.calcPID(sensorInput.getRearShooterRate());
+        double frontSpeed = desiredFrontShooterRate * frontShooterKV + frontShooterPID.calcPID(sensorInput.getFrontShooterRate());
+        double middleSpeed = desiredMiddleShooterRate * middleShooterKV + middleShooterPID.calcPID(sensorInput.getMiddleShooterRate());
+        double rearSpeed = desiredRearShooterRate * rearShooterKV + rearShooterPID.calcPID(sensorInput.getRearShooterRate());
         
         frontShooterMotorSpeed = limitShooterSpeed(frontSpeed);
         middleShooterMotorSpeed = limitShooterSpeed(middleSpeed);
         rearShooterMotorSpeed = limitShooterSpeed(rearSpeed);
+        
+        if(desiredFrontShooterRate == Constants.SHOOTER_STOPPED_RATE)
+        {
+            frontShooterMotorSpeed = Constants.MOTOR_STOPPED;
+        }
+        if(desiredMiddleShooterRate == Constants.SHOOTER_STOPPED_RATE)
+        {
+            middleShooterMotorSpeed = Constants.MOTOR_STOPPED;
+        }
+        if(desiredRearShooterRate == Constants.SHOOTER_STOPPED_RATE)
+        {
+            rearShooterMotorSpeed = Constants.MOTOR_STOPPED;
+        }
     }
     
     public void setToRobot()
@@ -143,37 +158,28 @@ public class Shooter extends TorqueSubsystem
         rearShooterRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
         
         double p = params.getAsDouble("S_FrontShooterP", 0.0);
-        double i = params.getAsDouble("S_FrontShooterI", 0.0);
-        double d = params.getAsDouble("S_FrontShooterD", 0.0);
-        double e = params.getAsDouble("S_FrontShooterEpsilon", 0.0);
         double r = params.getAsDouble("S_FrontShooterDoneRange", 0.0);
+        frontShooterKV = params.getAsDouble("S_FrontShooterKV", 0.0);
         
-        frontShooterPID.setConstants(p, i, d);
-        frontShooterPID.setErrorEpsilon(e);
+        frontShooterPID.setConstants(p, 0.0, 0.0);
         frontShooterPID.setDoneRange(r);
         frontShooterPID.resetErrorSum();
         frontShooterPID.resetPreviousVal();
         
         p = params.getAsDouble("S_MiddleShooterP", 0.0);
-        i = params.getAsDouble("S_MiddleShooterI", 0.0);
-        d = params.getAsDouble("S_MiddleShooterD", 0.0);
-        e = params.getAsDouble("S_MiddleShooterEpsilon", 0.0);
         r = params.getAsDouble("S_MiddleShooterDoneRange", 0.0);
+        middleShooterKV = params.getAsDouble("S_MiddleShooterKV", 0.0);
         
-        middleShooterPID.setConstants(p, i, d);
-        middleShooterPID.setErrorEpsilon(e);
+        middleShooterPID.setConstants(p, 0.0, 0.0);
         middleShooterPID.setDoneRange(r);
         middleShooterPID.resetErrorSum();
         middleShooterPID.resetPreviousVal();
         
         p = params.getAsDouble("S_RearShooterP", 0.0);
-        i = params.getAsDouble("S_RearShooterI", 0.0);
-        d = params.getAsDouble("S_RearShooterD", 0.0);
-        e = params.getAsDouble("S_RearShooterEpsilon", 0.0);
         r = params.getAsDouble("S_RearShooterDoneRange", 0.0);
+        rearShooterKV = params.getAsDouble("S_RearShooterKV", 0.0);
         
-        rearShooterPID.setConstants(p, i, d);
-        rearShooterPID.setErrorEpsilon(e);
+        rearShooterPID.setConstants(p, 0.0, 0.0);
         rearShooterPID.setDoneRange(r);
         rearShooterPID.resetErrorSum();
         rearShooterPID.resetPreviousVal();
