@@ -158,7 +158,7 @@ public class Shooter extends TorqueSubsystem
         rearShooterRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
         
         double p = params.getAsDouble("S_FrontShooterP", 0.0);
-        double r = params.getAsDouble("S_FrontShooterDoneRange", 0.0);
+        double r = params.getAsDouble("S_FrontShooterDoneRange", 300.0);
         frontShooterKV = params.getAsDouble("S_FrontShooterKV", 0.0);
         
         frontShooterPID.setConstants(p, 0.0, 0.0);
@@ -167,7 +167,7 @@ public class Shooter extends TorqueSubsystem
         frontShooterPID.resetPreviousVal();
         
         p = params.getAsDouble("S_MiddleShooterP", 0.0);
-        r = params.getAsDouble("S_MiddleShooterDoneRange", 0.0);
+        r = params.getAsDouble("S_MiddleShooterDoneRange", 300.0);
         middleShooterKV = params.getAsDouble("S_MiddleShooterKV", 0.0);
         
         middleShooterPID.setConstants(p, 0.0, 0.0);
@@ -176,7 +176,7 @@ public class Shooter extends TorqueSubsystem
         middleShooterPID.resetPreviousVal();
         
         p = params.getAsDouble("S_RearShooterP", 0.0);
-        r = params.getAsDouble("S_RearShooterDoneRange", 0.0);
+        r = params.getAsDouble("S_RearShooterDoneRange", 300.0);
         rearShooterKV = params.getAsDouble("S_RearShooterKV", 0.0);
         
         rearShooterPID.setConstants(p, 0.0, 0.0);

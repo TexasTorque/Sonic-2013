@@ -81,11 +81,6 @@ public class Manipulator extends TorqueSubsystem
         {
             calcOverrides();
         }
-        
-        SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
-        SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
-        SmartDashboard.putNumber("MiddleRate", sensorInput.getMiddleShooterRate());
-        SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
     }
     
     public void setToRobot()

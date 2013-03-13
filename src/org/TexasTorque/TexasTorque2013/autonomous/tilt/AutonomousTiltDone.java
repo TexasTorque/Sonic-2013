@@ -28,6 +28,7 @@ public class AutonomousTiltDone extends AutonomousCommand
     {
         if(timeoutTimer.get() > timeoutSecs)
         {
+            System.err.println("Tilt timed out");
             return true;
         }
         

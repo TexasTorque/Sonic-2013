@@ -29,6 +29,7 @@ public class AutonomousShooterDone extends AutonomousCommand
     {
         if(timeoutTimer.get() > timeoutSecs)
         {
+            System.err.println("Shooter Timed out");
             return true;
         }
         

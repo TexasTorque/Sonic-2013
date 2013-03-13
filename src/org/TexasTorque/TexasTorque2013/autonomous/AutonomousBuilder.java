@@ -32,6 +32,7 @@ public class AutonomousBuilder
     
     public AutonomousCommand[] getAutonomousList()
     {
+        System.err.println("getAutonomousList");
         AutonomousCommand[] result = new AutonomousCommand[commands.size()];
         commands.copyInto(result);
         return result;

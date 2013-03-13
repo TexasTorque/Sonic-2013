@@ -36,6 +36,7 @@ public class AutonomousManager
     private double autoDelay;
     private int currentIndex;
     private boolean firstCycle;
+    private boolean loaded;
     
     public AutonomousManager()
     {
@@ -55,6 +56,12 @@ public class AutonomousManager
         autoDelay = 0.0;
         currentIndex = 0;
         firstCycle = true;
+        loaded = false;
+    }
+    
+    public void reset()
+    {
+        loaded = false;
     }
     
     public void setAutoMode(int mode)
@@ -69,6 +76,7 @@ public class AutonomousManager
     
     public void loadAutonomous()
     {
+        System.err.println("loadAutonomous");
         switch(autoMode)
         {
             case Constants.DO_NOTHING_AUTO:
@@ -91,40 +99,47 @@ public class AutonomousManager
         firstCycle = true;
         currentIndex = 0;
         autoList = autoBuilder.getAutonomousList();
+        loaded = true;
     }
     
     public void runAutonomous()
     {
-        if(firstCycle)
+        if(loaded)
         {
-            firstCycle = false;
-            autoList[currentIndex].reset();
+            if(firstCycle)
+            {
+                firstCycle = false;
+                autoList[currentIndex].reset();
+            }
+
+            boolean commandFinished = autoList[currentIndex].run();
+
+            if(commandFinished)
+            {
+                currentIndex++;
+                autoList[currentIndex].reset();
+            }
+
+            drivebase.run();
+            intake.run();
+            elevator.run();
+            shooter.run();
+            magazine.run();
+            tilt.run();
         }
-        
-        boolean commandFinished = autoList[currentIndex].run();
-        
-        if(commandFinished)
-        {
-            currentIndex++;
-            autoList[currentIndex].reset();
-        }
-        
-        drivebase.run();
-        intake.run();
-        elevator.run();
-        shooter.run();
-        magazine.run();
-        tilt.run();
     }
     
     public void doNothingAuto()
     {
+        System.err.println("doNothingAuto");
         autoBuilder.clearCommands();
+        autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousStop());
     }
     
     public void rearAuto()
     {
+        System.err.println("rearAuto");
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);
         autoBuilder.addLowFireSequence(3);

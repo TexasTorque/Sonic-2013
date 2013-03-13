@@ -118,8 +118,10 @@ public class RobotBase extends IterativeRobot implements Runnable
         loadParameters();
         initLogging();
         
-        autoManager.setAutoMode((int) SmartDashboard.getNumber("Autonomous Mode", Constants.DO_NOTHING_AUTO));
+        autoManager.setAutoMode((int) SmartDashboard.getNumber("AutonomousMode", Constants.DO_NOTHING_AUTO));
         autoManager.addAutoDelay(driverInput.getAutonomousDelay());
+        autoManager.reset();
+        autoManager.loadAutonomous();
         
         sensorInput.resetEncoders();
     }
@@ -132,10 +134,16 @@ public class RobotBase extends IterativeRobot implements Runnable
         dashboardManager.updateLCD();
         logData();
         
+        
+        
         drivebase.setToRobot();
         manipulator.setToRobot();
         
-        //SmartDashboard.putNumber("NumCycles", numCycles);
+        SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
+        SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
+        SmartDashboard.putNumber("MiddleRate", sensorInput.getMiddleShooterRate());
+        SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
+        SmartDashboard.putNumber("NumCycles", numCycles);
     }
     
     public void autonomousContinuous()
@@ -212,6 +220,7 @@ public class RobotBase extends IterativeRobot implements Runnable
     public void initSmartDashboard()
     {
         SmartDashboard.putNumber("Autonomous Delay", 0.0);
+        SmartDashboard.putNumber("AutonomousMode", Constants.REAR_SHOOT_AUTO);
         SmartDashboard.putBoolean("logData", false);
         SmartDashboard.putBoolean("firstControllerIsLogitech", Constants.DEFAULT_FIRST_CONTROLLER_TYPE);
         SmartDashboard.putBoolean("secondControllerIsLogitech", Constants.DEFAULT_SECOND_CONTROLLER_TYPE);
