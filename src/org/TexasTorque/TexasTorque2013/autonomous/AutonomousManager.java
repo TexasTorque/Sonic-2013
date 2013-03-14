@@ -134,7 +134,6 @@ public class AutonomousManager
     
     public void doNothingAuto()
     {
-        System.err.println("doNothingAuto");
         autoBuilder.clearCommands();
         autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousStop());
@@ -142,7 +141,6 @@ public class AutonomousManager
     
     public void rearAuto()
     {
-        System.err.println("rearAuto");
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);
         autoBuilder.addLowFireSequence(3);
@@ -152,11 +150,11 @@ public class AutonomousManager
     
     public void sideAuto()
     {
+        double sideTiltAngle = params.getAsDouble("A_SideAutoAngle", Tilt.lowAngle);
+        
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);
-        
-        
-        
+        autoBuilder.addVariableFireSequence(3, sideTiltAngle, Elevator.elevatorBottomPosition);
         autoBuilder.addCommand(new AutonomousStop());
     }
     
@@ -185,6 +183,8 @@ public class AutonomousManager
     public void centerLineAuto()
     {
         double reverseDistance = params.getAsDouble("A_CenterLineReverseDistance", 100);
+        double firstTurnAngle = params.getAsDouble("A_CenterLineFirstAngle", 35.0);
+        double secondTurnAngle = params.getAsDouble("A_CenterLineSecondAngle", 90.0);
         double centerLineDistance = params.getAsDouble("A_CenterLineDistance", 100);
         double centerLineTiltAngle = params.getAsDouble("A_CenterLineTiltAngle", Tilt.lowAngle);
         
@@ -197,14 +197,18 @@ public class AutonomousManager
         // turn
         
         autoBuilder.addCommand(new AutonomousResetEncoders());
+        autoBuilder.addCommand(new AutonomousMagazineLoad());
         autoBuilder.addCommand(new AutonomousIntake());
-        autoBuilder.addCommand(new AutonomousDriveStraight(centerLineDistance, 0.5, 5)); //  will need to be changed for intaking
+        autoBuilder.addCommand(new AutonomousDriveStraight(centerLineDistance, 0.5, 5));
         
         // turn
         
+        autoBuilder.addCommand(new AutonomousMagazineStop());
+        autoBuilder.addCommand(new AutonomousStopIntake());
         autoBuilder.addCommand(new AutonomousDriveStop());
-        
         autoBuilder.addVariableFireSequence(4, centerLineTiltAngle, Elevator.elevatorBottomPosition);
+        autoBuilder.addCommand(new AutonomousStopAll());
+        autoBuilder.addCommand(new AutonomousStop());
     }
     
     
