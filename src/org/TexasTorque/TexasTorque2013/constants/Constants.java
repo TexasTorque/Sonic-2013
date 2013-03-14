@@ -26,6 +26,7 @@ public class Constants
     public final static int REAR_SHOOT_AUTO = 1;
     public final static int SIDE_SHOOT_AUTO = 2;
     public final static int SEVEN_FRISBEE_AUTO = 3;
+    public final static int CENTER_LINE_AUTO = 4;
     
     //----- Drivebase -----
     public final static double DEFAULT_LOW_SENSITIVITY = 1.25;

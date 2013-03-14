@@ -7,9 +7,9 @@ import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousIntake;
 import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousStopIntake;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousMagazineLoad;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousMagazineStop;
+import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousResetEncoders;
 import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousStop;
 import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousStopAll;
-import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousWait;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Elevator;
@@ -91,6 +91,8 @@ public class AutonomousManager
                 break;
             case Constants.SEVEN_FRISBEE_AUTO:
                 sevenFrisbeeAuto();
+                break;
+            case Constants.CENTER_LINE_AUTO:
                 break;
             default:
                 doNothingAuto();
@@ -178,6 +180,31 @@ public class AutonomousManager
         autoBuilder.addLowFireSequence(3);
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
+    }
+    
+    public void centerLineAuto()
+    {
+        double reverseDistance = params.getAsDouble("A_CenterLineReverseDistance", 100);
+        double centerLineDistance = params.getAsDouble("A_CenterLineDistance", 100);
+        double centerLineTiltAngle = params.getAsDouble("A_CenterLineTiltAngle", Tilt.lowAngle);
+        
+        autoBuilder.clearCommands();
+        autoBuilder.addAutonomousDelay(autoDelay);
+        autoBuilder.addCommand(new AutonomousShiftLow());
+        autoBuilder.addLowFireSequence(3);
+        autoBuilder.addCommand(new AutonomousDriveStraight(reverseDistance, 0.5, 5));
+        
+        // turn
+        
+        autoBuilder.addCommand(new AutonomousResetEncoders());
+        autoBuilder.addCommand(new AutonomousIntake());
+        autoBuilder.addCommand(new AutonomousDriveStraight(centerLineDistance, 0.5, 5)); //  will need to be changed for intaking
+        
+        // turn
+        
+        autoBuilder.addCommand(new AutonomousDriveStop());
+        
+        autoBuilder.addVariableFireSequence(4, centerLineTiltAngle, Elevator.elevatorBottomPosition);
     }
     
     
