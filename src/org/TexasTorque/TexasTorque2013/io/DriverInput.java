@@ -69,7 +69,10 @@ public class DriverInput
     {
         return SmartDashboard.getNumber("Autonomous Delay", 0.0);
     }
-    
+    public synchronized int getAutonomousMode()
+    {
+        return (int) SmartDashboard.getNumber("AutonomousMode", Constants.DO_NOTHING_AUTO);
+    }
     public synchronized boolean resetSensors()
     {
         return operatorController.getBottomActionButton();

@@ -119,7 +119,7 @@ public class RobotBase extends IterativeRobot implements Runnable
         loadParameters();
         initLogging();
         
-        autoManager.setAutoMode((int) SmartDashboard.getNumber("AutonomousMode", Constants.DO_NOTHING_AUTO));
+        autoManager.setAutoMode(driverInput.getAutonomousMode());
         autoManager.addAutoDelay(driverInput.getAutonomousDelay());
         autoManager.reset();
         autoManager.loadAutonomous();
