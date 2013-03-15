@@ -125,6 +125,8 @@ public class RobotBase extends IterativeRobot implements Runnable
         autoManager.loadAutonomous();
         
         sensorInput.resetEncoders();
+        
+        drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
     }
 
     public void autonomousPeriodic()
@@ -138,8 +140,8 @@ public class RobotBase extends IterativeRobot implements Runnable
         drivebase.setToRobot();
         manipulator.setToRobot();
         
-        /*SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
-        SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
+        //SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
+        /*SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
         SmartDashboard.putNumber("MiddleRate", sensorInput.getMiddleShooterRate());
         SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());*/
         
@@ -183,6 +185,8 @@ public class RobotBase extends IterativeRobot implements Runnable
         drivebase.setToRobot();
         manipulator.setToRobot();
         
+        SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
+        SmartDashboard.putNumber("TiltVoltage", sensorInput.getTiltVoltage());
         SmartDashboard.putNumber("NumCycles", numCycles);
     }
     

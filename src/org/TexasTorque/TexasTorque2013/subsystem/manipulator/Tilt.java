@@ -38,6 +38,11 @@ public class Tilt extends TorqueSubsystem
     {   
         double currentAngle = sensorInput.getTiltAngle();
         tiltMotorSpeed = tiltPID.calcPID(currentAngle);
+        
+        if(desiredTiltAngle == 0.0 && tiltPID.isDone())
+        {
+            tiltMotorSpeed = 0.0;
+        }
     }
     
     public void setToRobot()

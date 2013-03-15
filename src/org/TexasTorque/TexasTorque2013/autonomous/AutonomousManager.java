@@ -169,13 +169,13 @@ public class AutonomousManager
         autoBuilder.addLowFireSequence(3);
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousMagazineLoad());
-        autoBuilder.addCommand(new AutonomousDriveStraight(driveDistance, driveSpeed, 3.5));
+        autoBuilder.addCommand(new AutonomousDriveStraight(driveDistance, driveSpeed, 5.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousStopIntake());
         autoBuilder.addCommand(new AutonomousMagazineStop());
-        autoBuilder.addCommand(new AutonomousDriveStraight(0.0, driveSpeed, 3.5));
+        autoBuilder.addCommand(new AutonomousDriveStraight(-3.0, driveSpeed, 5.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
-        autoBuilder.addLowFireSequence(3);
+        autoBuilder.addLowFireSequence(4);
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
     }
