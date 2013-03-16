@@ -18,8 +18,9 @@ public class AutonomousPivotTurn extends AutonomousCommand
     public AutonomousPivotTurn(double degrees, double leftSpeed, double rightSpeed, double timeout)
     {
         super();
+        
         goal = degrees;
-        this.firstCycle = true;
+        firstCycle = true;
         
         pivotTurnLeft = leftSpeed;
         pivotTurnRight = rightSpeed;
@@ -28,17 +29,18 @@ public class AutonomousPivotTurn extends AutonomousCommand
         timeoutTimer = new Timer();
     }
 
-    public void reset() {
-        System.err.println("reset");
-        
+    public void reset()
+    {
         timeoutTimer.reset();
         timeoutTimer.start();
     }
 
-    public boolean run() {
-        if ( this.firstCycle){
+    public boolean run()
+    {
+        if( this.firstCycle)
+        {
             this.firstCycle = false;
-            turnPositive = (goal>0) ? true: false;
+            turnPositive = (goal > 0.0);
             goal += this.sensorInput.getGyroAngle();
         }
 
@@ -49,11 +51,12 @@ public class AutonomousPivotTurn extends AutonomousCommand
             return true;
         }
         
-        if (turnPositive && sensorInput.getGyroAngle()>=goal || !turnPositive && sensorInput.getGyroAngle()<=goal){
+        if (turnPositive && sensorInput.getGyroAngle() >= goal || !turnPositive && sensorInput.getGyroAngle() <= goal)
+        {
             return true;
-        }else{
-            return false;
         }
+        
+        return false;
     }
     
 }

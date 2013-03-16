@@ -137,19 +137,23 @@ public class Manipulator extends TorqueSubsystem
         }
         else if(driverInput.shootLowWithoutVisionOverride())
         {
-            /*double frontSpeed = Shooter.frontShooterRate;
+            double frontSpeed = Shooter.frontShooterRate;
+            double middleSpeed = Shooter.middleShooterRate;
             double rearSpeed = Shooter.rearShooterRate;
-            double angle = Shooter.shootLowStandardAngle;
+            double angle = Tilt.lowAngle;
             
-            shooter.setShooterRates(frontSpeed, rearSpeed);
-            shooter.setTiltAngle(angle);
+            shooter.setShooterRates(frontSpeed, middleSpeed, rearSpeed);
+            tilt.setTiltAngle(angle);
             intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
-            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
             
             if(driverInput.magazineShootOverride())
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
-            }*/
+            }
+            else
+            {
+                magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+            }
         }
         else if(driverInput.restoreToDefaultOverride())
         {
@@ -160,9 +164,9 @@ public class Manipulator extends TorqueSubsystem
         }
         else
         {
-            /*intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
-            shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
-            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);*/
+            intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+            shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         }
         
         if(driverInput.elevatorTopOverride())
@@ -181,6 +185,7 @@ public class Manipulator extends TorqueSubsystem
         intake.run();
         magazine.run();
         shooter.run();
+        tilt.run();
     }
     
     public void intakeFrisbees()

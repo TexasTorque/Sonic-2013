@@ -185,7 +185,7 @@ public class DriverInput
     
     public synchronized boolean magazineShootOverride()
     {
-        return operatorController.getBottomLeftBumper();
+        return operatorController.getBottomRightBumper();
     }
     
     public synchronized boolean restoreToDefaultOverride()

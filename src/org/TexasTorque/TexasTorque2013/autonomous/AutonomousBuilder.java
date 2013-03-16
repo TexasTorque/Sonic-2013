@@ -48,7 +48,7 @@ public class AutonomousBuilder
         addCommand(new AutonomousWait(seconds));
     }
     
-    public void addLowFireSequence(double numFires)
+    public void addLowFireSequence(double numFires, double delay)
     {
         addCommand(new AutonomousDriveStop());
         addCommand(new AutonomousLowAngle());
@@ -56,19 +56,21 @@ public class AutonomousBuilder
         
         for(double i = 0; i < numFires; i++)
         {
-            addCommand(new AutonomousTiltDone(0.0));
+            addCommand(new AutonomousWait(delay));
+            addCommand(new AutonomousTiltDone(2));
             addCommand(new AutonomousShooterDone(2));
             addCommand(new AutonomousMagazineDone(2));
             addCommand(new AutonomousFireOnce());
         }
         
+        addCommand(new AutonomousWait(0.5));
         addCommand(new AutonomousTiltParallel());
         addCommand(new AutonomousStopShooter());
         
         addCommand(new AutonomousTiltDone(2));
     }
     
-    public void addVariableFireSequence(double numFires, double angle, int elevation)
+    public void addVariableFireSequence(double numFires, double angle, int elevation, double delay)
     {
         addCommand(new AutonomousDriveStop());
         addCommand(new AutonomousCustomTilt(angle));
@@ -77,6 +79,7 @@ public class AutonomousBuilder
         
         for(double i = 0; i < numFires; i++)
         {
+            addCommand(new AutonomousWait(delay));
             addCommand(new AutonomousTiltDone(2));
             addCommand(new AutonomousShooterDone(2));
             addCommand(new AutonomousElevatorDone(4));
@@ -84,6 +87,7 @@ public class AutonomousBuilder
             addCommand(new AutonomousFireOnce());
         }
         
+        addCommand(new AutonomousWait(0.5));
         addCommand(new AutonomousTiltParallel());
         addCommand(new AutonomousStopShooter());
         addCommand(new AutonomousElevatorBottom());
