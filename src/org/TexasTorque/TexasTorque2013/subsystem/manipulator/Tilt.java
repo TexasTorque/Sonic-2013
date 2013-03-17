@@ -16,6 +16,7 @@ public class Tilt extends TorqueSubsystem
     
     public static double lowAngle;
     public static double highAngle;
+    public static double sideAngle;
     public static double feederStationAngle;
     public static double autonomousLowAngle;
     
@@ -86,6 +87,7 @@ public class Tilt extends TorqueSubsystem
     {
         lowAngle = params.getAsDouble("T_ShootLowAngle", 0.0);
         highAngle = params.getAsDouble("T_ShootHighAngle", 0.0);
+        sideAngle = params.getAsDouble("T_ShootSideAngle", 0.0);
         feederStationAngle = params.getAsDouble("T_FeederStationAngle", 0.0);
         autonomousLowAngle = params.getAsDouble("A_RearLowAngle", lowAngle);
         

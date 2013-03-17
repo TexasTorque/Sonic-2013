@@ -37,13 +37,6 @@ public class AutonomousPivotTurn extends AutonomousCommand
 
     public boolean run()
     {
-        if( this.firstCycle)
-        {
-            this.firstCycle = false;
-            turnPositive = (goal > 0.0);
-            goal += this.sensorInput.getGyroAngle();
-        }
-
         drivebase.setDriveSpeeds(pivotTurnLeft, pivotTurnRight);
         
         if(timeoutTimer.get() > timeoutSecs)
@@ -51,7 +44,9 @@ public class AutonomousPivotTurn extends AutonomousCommand
             return true;
         }
         
-        if (turnPositive && sensorInput.getGyroAngle() >= goal || !turnPositive && sensorInput.getGyroAngle() <= goal)
+        double currentAngle = sensorInput.getGyroAngle();
+        
+        if(currentAngle < goal + 0.1 && currentAngle > goal + 0.1)
         {
             return true;
         }

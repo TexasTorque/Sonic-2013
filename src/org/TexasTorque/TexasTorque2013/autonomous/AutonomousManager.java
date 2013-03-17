@@ -95,6 +95,7 @@ public class AutonomousManager
                 sevenFrisbeeAuto();
                 break;
             case Constants.CENTER_LINE_AUTO:
+                centerLineAuto();
                 break;
             default:
                 doNothingAuto();
@@ -164,14 +165,15 @@ public class AutonomousManager
     {
         double driveSpeed = params.getAsDouble("A_SevenFrisbeeSpeed", 0.5);
         double driveDistance = params.getAsDouble("A_SevenFrisbeeDistance", 100);
+        double timeout = params.getAsDouble("A_SevenFrisbeeTimeout", 5.0);
         
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);
         autoBuilder.addCommand(new AutonomousShiftLow());
-        autoBuilder.addLowFireSequence(3, 0.0);
+        autoBuilder.addLowFireSequence(4, 0.0);
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousMagazineLoad());
-        autoBuilder.addCommand(new AutonomousDriveStraight(driveDistance, driveSpeed, 5.0));
+        autoBuilder.addCommand(new AutonomousDriveStraight(driveDistance, driveSpeed, timeout));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousStopIntake());

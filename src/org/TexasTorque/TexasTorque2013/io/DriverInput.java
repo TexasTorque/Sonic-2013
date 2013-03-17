@@ -117,7 +117,7 @@ public class DriverInput
         return operatorController.getRightActionButton();
     }
     
-    public synchronized boolean shootMiddle()
+    public synchronized boolean shootSide()
     {
         return operatorController.getBottomActionButton();
     }

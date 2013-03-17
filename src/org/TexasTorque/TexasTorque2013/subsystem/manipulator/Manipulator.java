@@ -50,9 +50,9 @@ public class Manipulator extends TorqueSubsystem
             {
                 shootHighWithoutVision();
             }
-            else if(driverInput.shootMiddle())
+            else if(driverInput.shootSide())
             {
-                shootMiddle();
+                shootSide();
             }
             else if(driverInput.shootLowWithoutVision())
             {
@@ -282,13 +282,13 @@ public class Manipulator extends TorqueSubsystem
         }
     }
     
-    public void shootMiddle()
+    public void shootSide()
     {
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.middleShooterRate, Shooter.rearShooterRate);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
-        elevator.setDesiredPosition(Elevator.elevatorMiddlePosition);
-        tilt.setTiltAngle(Tilt.lowAngle);
+        elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
+        tilt.setTiltAngle(Tilt.sideAngle);
         
         setLightsToChecks();
         
