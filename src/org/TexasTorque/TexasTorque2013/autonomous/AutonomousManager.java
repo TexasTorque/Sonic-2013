@@ -200,7 +200,7 @@ public class AutonomousManager
         autoBuilder.addLowFireSequence(3, 0.0);
         autoBuilder.addCommand(new AutonomousDriveStraight(reverseDistance, 0.5, 5));
         autoBuilder.addCommand(new AutonomousPivotTurn(firstTurnAngle, pivotLeftSpeed, pivotRightSpeed, 5.0));
-        autoBuilder.addCommand(new AutonomousResetEncoders());
+        /*autoBuilder.addCommand(new AutonomousResetEncoders());
         autoBuilder.addCommand(new AutonomousMagazineLoad());
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousDriveStraight(centerLineDistance, 0.5, 5));
@@ -208,7 +208,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousStopIntake());
         autoBuilder.addCommand(new AutonomousDriveStop());
-        autoBuilder.addVariableFireSequence(4, centerLineTiltAngle, Elevator.elevatorBottomPosition, 0.0);
+        autoBuilder.addVariableFireSequence(4, centerLineTiltAngle, Elevator.elevatorBottomPosition, 0.0);*/
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
     }
