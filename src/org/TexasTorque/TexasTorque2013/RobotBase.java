@@ -169,6 +169,8 @@ public class RobotBase extends IterativeRobot implements Runnable
         
         logCycles = Constants.CYCLES_PER_LOG;
         
+        sensorInput.resetEncoders();
+        
         robotTime.reset();
         robotTime.start();
     }

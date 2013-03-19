@@ -14,6 +14,8 @@ public class Manipulator extends TorqueSubsystem
     private Magazine magazine;
     private Tilt tilt;
     
+    private double savedTiltAngle;
+    
     public static Manipulator getInstance()
     {
         return (instance == null) ? instance = new Manipulator() : instance;
@@ -45,6 +47,10 @@ public class Manipulator extends TorqueSubsystem
             else if(driverInput.reverseIntake())
             {
                 reverseIntake();
+            }
+            else if(driverInput.shootLowWithVision())
+            {
+                shootLowWithVision();
             }
             else if(driverInput.shootHighWithoutVision())
             {
@@ -123,6 +129,8 @@ public class Manipulator extends TorqueSubsystem
         magazine.loadParameters();
         intake.loadParameters();
         tilt.loadParameters();
+        
+        savedTiltAngle = 0.0;
     }
     
     private void calcOverrides()
@@ -204,6 +212,35 @@ public class Manipulator extends TorqueSubsystem
         shooter.stopShooter();
         tilt.setTiltAngle(0.0);
         setLightsNormal();
+    }
+    
+    public void shootLowWithVision()
+    {
+        intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.middleShooterRate, Shooter.rearShooterRate);
+        elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
+        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        
+        setLightsToChecks();
+        
+        tilt.setTiltAngle(Tilt.lowAngle);
+        
+        if(elevator.atDesiredPosition())
+        {
+            if(SmartDashboard.getBoolean("found", false))
+            {
+                savedTiltAngle = SmartDashboard.getNumber("elevation", 0.0);
+            }
+            
+            double desiredPosition = sensorInput.getTiltAngle() + savedTiltAngle + Tilt.shootLowAdditive;
+            
+            tilt.setTiltAngle(desiredPosition);
+            
+            if(driverInput.fireFrisbee())
+            {
+                magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+            }
+        }
     }
     
     public void shootHighWithoutVision()

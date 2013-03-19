@@ -2,6 +2,7 @@ package org.TexasTorque.TexasTorque2013.autonomous.drive;
 
 import edu.wpi.first.wpilibj.Timer;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousCommand;
+import org.TexasTorque.TexasTorque2013.constants.Constants;
 
 public class AutonomousPivotTurn extends AutonomousCommand
 {
@@ -48,6 +49,7 @@ public class AutonomousPivotTurn extends AutonomousCommand
         
         if(timeoutTimer.get() > timeoutSecs)
         {
+            System.err.println("Turn timed out");
             return true;
         }
         
@@ -55,6 +57,7 @@ public class AutonomousPivotTurn extends AutonomousCommand
         
         if(turnPositive && currentAngle >= goal || !turnPositive && currentAngle<= goal)
         {
+            drivebase.setDriveSpeeds(Constants.MOTOR_STOPPED, Constants.MOTOR_STOPPED);
             return true;
         }
         

@@ -122,6 +122,11 @@ public class DriverInput
         return operatorController.getBottomActionButton();
     }
     
+    public synchronized boolean shootLowWithVision()
+    {
+        return operatorController.getTopActionButton();
+    }
+    
     public synchronized boolean shootLowWithoutVision()
     {
         return operatorController.getLeftActionButton();
