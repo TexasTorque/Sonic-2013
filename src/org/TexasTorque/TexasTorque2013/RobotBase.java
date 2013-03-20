@@ -70,8 +70,6 @@ public class RobotBase extends IterativeRobot implements Runnable
         logCycles = 0;
         numCycles = 0.0;
         
-        //(new Thread(this)).start();
-        
         continuousThread = new Thread(this);
         continuousThread.start();
         
