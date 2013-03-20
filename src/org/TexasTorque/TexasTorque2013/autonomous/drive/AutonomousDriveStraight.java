@@ -83,6 +83,7 @@ public class AutonomousDriveStraight extends AutonomousCommand
         
         if(timeoutTimer.get() > timeoutSecs)
         {
+            System.err.println("Drive timeout");
             return true;
         }
         

@@ -87,7 +87,7 @@ public class AutonomousBuilder
             addCommand(new AutonomousFireOnce());
         }
         
-        addCommand(new AutonomousWait(0.5));
+        addCommand(new AutonomousWait(0.25));
         addCommand(new AutonomousTiltParallel());
         addCommand(new AutonomousStopShooter());
         addCommand(new AutonomousElevatorBottom());
