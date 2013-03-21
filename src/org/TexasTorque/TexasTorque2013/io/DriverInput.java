@@ -152,6 +152,11 @@ public class DriverInput
         return operatorController.getRightDPAD();
     }
     
+    public synchronized boolean passiveHang()
+    {
+        return operatorController.getRightStickClick();
+    }
+    
 //---------- Overrides ----------
     
     public synchronized boolean overrideState()
