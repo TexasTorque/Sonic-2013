@@ -98,6 +98,9 @@ public class AutonomousManager
             case Constants.CENTER_LINE_AUTO:
                 centerLineAuto();
                 break;
+            case Constants.SIDE_DRIVE_AUTO:
+                sideAuto();
+                break;
             default:
                 doNothingAuto();
                 break;
