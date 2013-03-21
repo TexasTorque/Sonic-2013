@@ -107,11 +107,6 @@ public class DriverInput
         return operatorController.getTopRightBumper();
     }
     
-    public synchronized boolean shootHighWithVision()
-    {
-        return operatorController.getTopActionButton();
-    }
-    
     public synchronized boolean shootHighWithoutVision()
     {
         return operatorController.getRightActionButton();
@@ -145,6 +140,16 @@ public class DriverInput
     public synchronized boolean gotoSlotHeight()
     {
         return operatorController.getLeftStickClick();
+    }
+    
+    public synchronized boolean incrementAngle()
+    {
+        return operatorController.getLeftDPAD();
+    }
+    
+    public synchronized boolean decrementAngle()
+    {
+        return operatorController.getRightDPAD();
     }
     
 //---------- Overrides ----------

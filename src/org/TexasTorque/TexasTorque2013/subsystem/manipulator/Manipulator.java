@@ -15,6 +15,8 @@ public class Manipulator extends TorqueSubsystem
     private Tilt tilt;
     
     private double savedTiltAngle;
+    private double incrementSize;
+    private double decrementSize;
     
     public static Manipulator getInstance()
     {
@@ -30,12 +32,39 @@ public class Manipulator extends TorqueSubsystem
         intake = Intake.getInstance();
         magazine = Magazine.getInstance();
         tilt = Tilt.getInstance();
+        
+        incrementSize = 0.5;
+        decrementSize = 0.5;
     }
     
     public void run()
     {
         if(!driverInput.overrideState())
         {
+            
+            //----- Angle Incrementation/Decrementation -----
+            if(driverInput.incrementAngle())
+            {
+                Tilt.lowAngle += incrementSize;
+                incrementSize = 0.0;
+            }
+            else
+            {
+                incrementSize = 0.5;
+            }
+            
+            if(driverInput.decrementAngle())
+            {
+                Tilt.lowAngle -= decrementSize;
+                decrementSize = 0.0;
+            }
+            else
+            {
+                decrementSize = 0.5;
+            }
+            
+            //----- Normal Ops -----
+            
             if(driverInput.restoreToDefault())
             {
                 restoreDefaultPositions();
@@ -47,10 +76,6 @@ public class Manipulator extends TorqueSubsystem
             else if(driverInput.reverseIntake())
             {
                 reverseIntake();
-            }
-            else if(driverInput.shootLowWithVision())
-            {
-                shootLowWithVision();
             }
             else if(driverInput.shootHighWithoutVision())
             {
