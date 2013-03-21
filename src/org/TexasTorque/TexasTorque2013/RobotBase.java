@@ -143,8 +143,8 @@ public class RobotBase extends IterativeRobot implements Runnable
         SmartDashboard.putNumber("MiddleRate", sensorInput.getMiddleShooterRate());
         SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());*/
         
-        /*SmartDashboard.putNumber("Distance", (sensorInput.getLeftDriveEncoder() + sensorInput.getRightDriveEncoder()) / 2.0);
-        SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());
+        SmartDashboard.putNumber("Distance", (sensorInput.getLeftDriveEncoder() + sensorInput.getRightDriveEncoder()) / 2.0);
+        /*SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());
         
         SmartDashboard.putNumber("NumCycles", numCycles);*/
     }
@@ -185,13 +185,13 @@ public class RobotBase extends IterativeRobot implements Runnable
         drivebase.setToRobot();
         manipulator.setToRobot();
         
-        /*SmartDashboard.putNumber("ElevatorPosition", sensorInput.getElevatorEncoder());
+        SmartDashboard.putNumber("ElevatorPosition", sensorInput.getElevatorEncoder());
         SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
         SmartDashboard.putNumber("MiddleRate", sensorInput.getMiddleShooterRate());
         SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
         SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
         SmartDashboard.putNumber("TiltVoltage", sensorInput.getTiltVoltage());
-        SmartDashboard.putNumber("NumCycles", numCycles);*/
+        SmartDashboard.putNumber("NumCycles", numCycles);
     }
     
     public void teleopContinuous()
