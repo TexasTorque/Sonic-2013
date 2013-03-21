@@ -187,6 +187,7 @@ public class AutonomousManager
     
     public void centerLineAuto()
     {
+        double sideTiltAngle = params.getAsDouble("A_SideAutoAngle", Tilt.lowAngle);
         double reverseDistance = params.getAsDouble("A_CenterLineReverseDistance", 100);
         double firstTurnAngle = params.getAsDouble("A_CenterLineFirstAngle", 35.0);
         double secondTurnAngle = params.getAsDouble("A_CenterLineSecondAngle", 90.0);
@@ -199,7 +200,8 @@ public class AutonomousManager
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);
         autoBuilder.addCommand(new AutonomousShiftLow());
-        autoBuilder.addLowFireSequence(3, 0.0);
+        //autoBuilder.addLowFireSequence(3, 0.0);
+        autoBuilder.addVariableFireSequence(3, sideTiltAngle, Elevator.elevatorBottomPosition, 0.0);
         autoBuilder.addCommand(new AutonomousDriveStraight(reverseDistance, 0.7, 2.0));
         autoBuilder.addCommand(new AutonomousPivotTurn(firstTurnAngle, -pivotLeftSpeed, pivotRightSpeed, 2.5));
         autoBuilder.addCommand(new AutonomousWait(0.25));
@@ -215,6 +217,21 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousPivotTurn(secondTurnAngle, pivotLeftSpeed, -pivotRightSpeed, 5.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addVariableFireSequence(4, centerLineTiltAngle, Elevator.elevatorBottomPosition, 0.0);
+        autoBuilder.addCommand(new AutonomousStopAll());
+        autoBuilder.addCommand(new AutonomousStop());
+    }
+    
+    public void sideDriveAuto()
+    {
+        double sideTiltAngle = params.getAsDouble("A_SideAutoAngle", Tilt.lowAngle);
+        double distance = params.getAsDouble("A_SideAutoDistance", 100);
+        double speed = params.getAsDouble("A_SideAutoSpeed", 0.5);
+        
+        autoBuilder.clearCommands();
+        autoBuilder.addAutonomousDelay(autoDelay);
+        autoBuilder.addCommand(new AutonomousShiftLow());
+        autoBuilder.addVariableFireSequence(4, sideTiltAngle, Elevator.elevatorBottomPosition, 1.0);
+        autoBuilder.addCommand(new AutonomousDriveStraight(distance, speed, 5.0));
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
     }
