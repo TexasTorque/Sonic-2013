@@ -5,6 +5,7 @@ import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraight;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousPivotTurn;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftLow;
 import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousIntake;
+import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousOuttake;
 import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousStopIntake;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousMagazineLoad;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousMagazineStop;
@@ -99,7 +100,7 @@ public class AutonomousManager
                 centerLineAuto();
                 break;
             case Constants.SIDE_DRIVE_AUTO:
-                sideAuto();
+                sideDriveAuto();
                 break;
             default:
                 doNothingAuto();
@@ -212,13 +213,13 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousResetGyro());
         autoBuilder.addCommand(new AutonomousMagazineLoad());
         autoBuilder.addCommand(new AutonomousIntake());
-        autoBuilder.addCommand(new AutonomousDriveStraight(centerLineDistance, 0.5, 3.25));
+        autoBuilder.addCommand(new AutonomousDriveStraight(centerLineDistance, 0.7, 3.25));
         autoBuilder.addCommand(new AutonomousResetEncoders());
-        autoBuilder.addCommand(new AutonomousMagazineStop());
-        autoBuilder.addCommand(new AutonomousStopIntake());
         autoBuilder.addCommand(new AutonomousDriveStraight(centerReverse, 0.7, 1.25));
+        autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousPivotTurn(secondTurnAngle, pivotLeftSpeed, -pivotRightSpeed, 5.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
+        autoBuilder.addCommand(new AutonomousOuttake());
         autoBuilder.addVariableFireSequence(4, centerLineTiltAngle, Elevator.elevatorBottomPosition, 0.0);
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
@@ -227,8 +228,8 @@ public class AutonomousManager
     public void sideDriveAuto()
     {
         double sideTiltAngle = params.getAsDouble("A_SideAutoAngle", Tilt.lowAngle);
-        double distance = params.getAsDouble("A_SideAutoDistance", 100);
-        double speed = params.getAsDouble("A_SideAutoSpeed", 0.5);
+        double distance = params.getAsDouble("A_SideAutoDistance", -115);
+        double speed = params.getAsDouble("A_SideAutoSpeed", 0.7);
         
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);

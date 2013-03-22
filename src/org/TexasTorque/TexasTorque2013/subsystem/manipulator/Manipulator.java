@@ -322,12 +322,9 @@ public class Manipulator extends TorqueSubsystem
         
         setLightsToChecks();
         
-        if(elevator.atDesiredPosition())
+        if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isSpunUp() && tilt.isLocked()))
         {
-            if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isSpunUp() && tilt.isLocked()))
-            {
-                magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
-            }
+            magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
         }
     }
     
