@@ -235,6 +235,8 @@ public class AutonomousManager
         autoBuilder.addAutonomousDelay(autoDelay);
         autoBuilder.addCommand(new AutonomousShiftLow());
         autoBuilder.addVariableFireSequence(4, sideTiltAngle, Elevator.elevatorBottomPosition, 1.0);
+        autoBuilder.addCommand(new AutonomousResetGyro());
+        autoBuilder.addCommand(new AutonomousWait(0.25));
         autoBuilder.addCommand(new AutonomousDriveStraight(distance, speed, 5.0));
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
