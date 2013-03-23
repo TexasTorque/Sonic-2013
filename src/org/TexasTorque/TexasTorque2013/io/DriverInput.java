@@ -144,12 +144,12 @@ public class DriverInput
     
     public synchronized boolean incrementAngle()
     {
-        return operatorController.getLeftDPAD();
+        return operatorController.getRightDPAD();
     }
     
     public synchronized boolean decrementAngle()
     {
-        return operatorController.getRightDPAD();
+        return operatorController.getLeftDPAD();
     }
     
     public synchronized boolean passiveHang()
