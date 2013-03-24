@@ -16,6 +16,7 @@ import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousStopAll;
 import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousWait;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Climber;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Elevator;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Intake;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Magazine;
@@ -35,6 +36,7 @@ public class AutonomousManager
     private Magazine magazine;
     private Shooter shooter;
     private Tilt tilt;
+    private Climber climber;
     private Parameters params;
     
     private int autoMode;
@@ -55,6 +57,7 @@ public class AutonomousManager
         magazine = Magazine.getInstance();
         shooter = Shooter.getInstance();
         tilt = Tilt.getInstance();
+        climber = Climber.getInstance();
         params = Parameters.getInstance();
         
         autoMode = Constants.DO_NOTHING_AUTO;
@@ -143,6 +146,7 @@ public class AutonomousManager
             shooter.run();
             magazine.run();
             tilt.run();
+            climber.run();
         }
     }
     

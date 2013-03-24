@@ -3,6 +3,7 @@ package org.TexasTorque.TexasTorque2013.autonomous;
 import org.TexasTorque.TexasTorque2013.io.RobotOutput;
 import org.TexasTorque.TexasTorque2013.io.SensorInput;
 import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Climber;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Elevator;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Intake;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Magazine;
@@ -22,6 +23,7 @@ public abstract class AutonomousCommand
     protected Magazine magazine;
     protected Shooter shooter;
     protected Tilt tilt;
+    protected Climber climber;
     
     protected AutonomousCommand()
     {
@@ -35,6 +37,7 @@ public abstract class AutonomousCommand
         magazine = Magazine.getInstance();
         shooter = Shooter.getInstance();
         tilt = Tilt.getInstance();
+        climber = Climber.getInstance();
     }
     
     public abstract void reset();
