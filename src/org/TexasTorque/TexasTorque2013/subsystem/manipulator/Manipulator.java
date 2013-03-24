@@ -3,7 +3,6 @@ package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
-import org.TexasTorque.TorqueLib.util.TorqueToggle;
 
 public class Manipulator extends TorqueSubsystem
 {   
@@ -14,8 +13,7 @@ public class Manipulator extends TorqueSubsystem
     private Intake intake;
     private Magazine magazine;
     private Tilt tilt;
-    
-    private TorqueToggle passiveClimberToggle;
+    private Climber climber;
     
     private double savedTiltAngle;
     
@@ -33,27 +31,13 @@ public class Manipulator extends TorqueSubsystem
         intake = Intake.getInstance();
         magazine = Magazine.getInstance();
         tilt = Tilt.getInstance();
-        
-        passiveClimberToggle = new TorqueToggle();
+        climber = Climber.getInstance();
     }
     
     public void run()
     {
         if(!driverInput.overrideState())
-        {
-            
-            //----- Hanging -----
-            passiveClimberToggle.calc(driverInput.passiveHang());
-            
-            if(passiveClimberToggle.get())
-            {
-                robotOutput.setPassiveClimber(Constants.PASSIVE_HANG_UP);
-            }
-            else
-            {
-                robotOutput.setPassiveClimber(Constants.PASSIVE_HANG_DOWN);
-            }
-            
+        {   
             //----- Normal Ops -----
             
             if(driverInput.restoreToDefault())
@@ -103,6 +87,7 @@ public class Manipulator extends TorqueSubsystem
             shooter.run();
             elevator.run();
             magazine.run();
+            climber.run();
         }
         else
         {
@@ -117,6 +102,7 @@ public class Manipulator extends TorqueSubsystem
         magazine.setToRobot();
         shooter.setToRobot();
         tilt.setToRobot();
+        climber.setToRobot();
     }
     
     public String getKeyNames()
@@ -127,6 +113,7 @@ public class Manipulator extends TorqueSubsystem
         names += magazine.getKeyNames();
         names += shooter.getKeyNames();
         names += tilt.getKeyNames();
+        names += climber.getKeyNames();
         
         return names;
     }
@@ -139,6 +126,7 @@ public class Manipulator extends TorqueSubsystem
         data += magazine.logData();
         data += shooter.logData();
         data += tilt.logData();
+        data += climber.logData();
         
         return data;
     }
@@ -150,6 +138,7 @@ public class Manipulator extends TorqueSubsystem
         magazine.loadParameters();
         intake.loadParameters();
         tilt.loadParameters();
+        climber.loadParameters();
         
         savedTiltAngle = 0.0;
     }
