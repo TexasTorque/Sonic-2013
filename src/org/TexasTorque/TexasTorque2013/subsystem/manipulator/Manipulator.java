@@ -18,8 +18,6 @@ public class Manipulator extends TorqueSubsystem
     private TorqueToggle passiveClimberToggle;
     
     private double savedTiltAngle;
-    private double incrementSize;
-    private double decrementSize;
     
     public static Manipulator getInstance()
     {
@@ -37,9 +35,6 @@ public class Manipulator extends TorqueSubsystem
         tilt = Tilt.getInstance();
         
         passiveClimberToggle = new TorqueToggle();
-        
-        incrementSize = 0.5;
-        decrementSize = 0.5;
     }
     
     public void run()
@@ -57,27 +52,6 @@ public class Manipulator extends TorqueSubsystem
             else
             {
                 robotOutput.setPassiveClimber(Constants.PASSIVE_HANG_DOWN);
-            }
-            
-            //----- Angle Incrementation/Decrementation -----
-            if(driverInput.incrementAngle())
-            {
-                Tilt.lowAngle += incrementSize;
-                incrementSize = 0.0;
-            }
-            else
-            {
-                incrementSize = 0.5;
-            }
-            
-            if(driverInput.decrementAngle())
-            {
-                Tilt.lowAngle -= decrementSize;
-                decrementSize = 0.0;
-            }
-            else
-            {
-                decrementSize = 0.5;
             }
             
             //----- Normal Ops -----
@@ -119,6 +93,11 @@ public class Manipulator extends TorqueSubsystem
                 
                 setLightsNormal();
             }
+            
+            
+            boolean incrementAngle = driverInput.incrementAngle();
+            boolean decrementAngle = driverInput.decrementAngle();
+            tilt.tiltAdjustments(incrementAngle, decrementAngle);
             
             intake.run();
             shooter.run();

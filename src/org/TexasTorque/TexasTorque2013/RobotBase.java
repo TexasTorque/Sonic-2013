@@ -245,7 +245,7 @@ public class RobotBase extends IterativeRobot implements Runnable
     public void initSmartDashboard()
     {
         SmartDashboard.putNumber("Autonomous Delay", 0.0);
-        SmartDashboard.putNumber("AutonomousMode", Constants.REAR_SHOOT_AUTO);
+        SmartDashboard.putNumber("AutonomousMode", Constants.MIDDLE_THREE_AUTO);
         SmartDashboard.putBoolean("logData", false);
         SmartDashboard.putBoolean("firstControllerIsLogitech", Constants.DEFAULT_FIRST_CONTROLLER_TYPE);
         SmartDashboard.putBoolean("secondControllerIsLogitech", Constants.DEFAULT_SECOND_CONTROLLER_TYPE);

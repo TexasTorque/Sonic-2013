@@ -14,6 +14,9 @@ public class Tilt extends TorqueSubsystem
     private double desiredTiltAngle;
     private double tiltMotorSpeed;
     
+    private double incrementSize;
+    private double decrementSize;
+    
     public static double lowAngle;
     public static double highAngle;
     public static double sideAngle;
@@ -34,6 +37,9 @@ public class Tilt extends TorqueSubsystem
         
         desiredTiltAngle = 0.0;
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
+        
+        incrementSize = 0.5;
+        decrementSize = 0.5;
     }
     
     public void run()
@@ -50,6 +56,29 @@ public class Tilt extends TorqueSubsystem
     public void setToRobot()
     {
         robotOutput.setTiltMotor(tiltMotorSpeed);
+    }
+    
+    public void tiltAdjustments(boolean increment, boolean decrement)
+    {
+        if(increment)
+        {
+            lowAngle += incrementSize;
+            incrementSize = 0.0;
+        }
+        else
+        {
+            incrementSize = 0.5;
+        }
+
+        if(decrement)
+        {
+            lowAngle -= decrementSize;
+            decrementSize = 0.0;
+        }
+        else
+        {
+            decrementSize = 0.5;
+        }
     }
     
     public void setTiltAngle(double angle)
@@ -106,5 +135,8 @@ public class Tilt extends TorqueSubsystem
         tiltPID.resetErrorSum();
         tiltPID.resetPreviousVal();
         tiltPID.setMaxOutput(maxOutput);
+        
+        incrementSize = 0.5;
+        decrementSize = 0.5;
     }
 }

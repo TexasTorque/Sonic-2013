@@ -23,11 +23,15 @@ public class Constants
     
     //----- Autonomous -----
     public final static int DO_NOTHING_AUTO = 0;
-    public final static int REAR_SHOOT_AUTO = 1;
-    public final static int SIDE_SHOOT_AUTO = 2;
-    public final static int SEVEN_FRISBEE_AUTO = 3;
-    public final static int CENTER_LINE_AUTO = 4;
-    public final static int SIDE_DRIVE_AUTO = 5;
+    public final static int MIDDLE_THREE_AUTO = 1;
+    public final static int SIDE_THREE_AUTO = 2;
+    public final static int MIDDLE_SEVEN_AUTO = 3;
+    public final static int RIGHT_SEVEN_AUTO = 4;
+    public final static int RIGHT_THREE_DRIVE_AUTO = 5;
+    public final static int RIGHT_THREE_PRELOAD_AUTO = 6;
+    public final static int RIGHT_THREE_PRIMER_AUTO = 7;
+    public final static int MIDDLE_THREE_PRELOAD_AUTO = 8;
+    public final static int MIDLE_THREE_PRIMER_AUTO = 9;
     
     //----- Drivebase -----
     public final static double DEFAULT_LOW_SENSITIVITY = 1.25;

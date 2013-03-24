@@ -87,20 +87,26 @@ public class AutonomousManager
             case Constants.DO_NOTHING_AUTO:
                 doNothingAuto();
                 break;
-            case Constants.REAR_SHOOT_AUTO:
+            case Constants.MIDDLE_THREE_AUTO:
                 rearAuto();
                 break;
-            case Constants.SIDE_SHOOT_AUTO:
+            case Constants.SIDE_THREE_AUTO:
                 sideAuto();
                 break;
-            case Constants.SEVEN_FRISBEE_AUTO:
+            case Constants.MIDDLE_SEVEN_AUTO:
                 sevenFrisbeeAuto();
                 break;
-            case Constants.CENTER_LINE_AUTO:
+            case Constants.RIGHT_SEVEN_AUTO:
                 centerLineAuto();
                 break;
-            case Constants.SIDE_DRIVE_AUTO:
+            case Constants.RIGHT_THREE_DRIVE_AUTO:
                 sideDriveAuto();
+                break;
+            case Constants.RIGHT_THREE_PRELOAD_AUTO:
+                rightThreePreload();
+                break;
+            case Constants.RIGHT_THREE_PRIMER_AUTO:
+                rightThreePrimer();
                 break;
             default:
                 doNothingAuto();
@@ -204,7 +210,6 @@ public class AutonomousManager
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);
         autoBuilder.addCommand(new AutonomousShiftLow());
-        //autoBuilder.addLowFireSequence(3, 0.0);
         autoBuilder.addVariableFireSequence(3, sideTiltAngle, Elevator.elevatorBottomPosition, 0.0);
         autoBuilder.addCommand(new AutonomousDriveStraight(reverseDistance, 0.7, 2.0));
         autoBuilder.addCommand(new AutonomousPivotTurn(firstTurnAngle, -pivotLeftSpeed, pivotRightSpeed, 2.5));
@@ -242,5 +247,54 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousStop());
     }
     
+    public void rightThreePreload()
+    {
+        double sideTiltAngle = params.getAsDouble("A_SideAutoAngle", Tilt.lowAngle);
+        double reverseDistance = params.getAsDouble("A_CenterLineReverseDistance", 100);
+        double firstTurnAngle = params.getAsDouble("A_CenterLineFirstAngle", 35.0);
+        double secondTurnAngle = params.getAsDouble("A_CenterLineSecondAngle", 90.0);
+        double centerLineDistance = params.getAsDouble("A_CenterLineDistance", 100);
+        double centerReverse = params.getAsDouble("A_CenterLineCenterReverse", 50);
+        double pivotLeftSpeed = params.getAsDouble("A_CenterLinePivotLeftSpeed", 0.5);
+        double pivotRightSpeed = params.getAsDouble("A_CenterLinePivotRightSpeed", -0.5);
+        
+        autoBuilder.clearCommands();
+        autoBuilder.addAutonomousDelay(autoDelay);
+        autoBuilder.addCommand(new AutonomousShiftLow());
+        autoBuilder.addVariableFireSequence(3, sideTiltAngle, Elevator.elevatorBottomPosition, 0.0);
+        autoBuilder.addCommand(new AutonomousDriveStraight(reverseDistance, 0.7, 2.0));
+        autoBuilder.addCommand(new AutonomousPivotTurn(firstTurnAngle, -pivotLeftSpeed, pivotRightSpeed, 2.5));
+        autoBuilder.addCommand(new AutonomousWait(0.25));
+        autoBuilder.addCommand(new AutonomousResetEncoders());
+        autoBuilder.addCommand(new AutonomousResetGyro());
+        autoBuilder.addCommand(new AutonomousMagazineLoad());
+        autoBuilder.addCommand(new AutonomousIntake());
+        autoBuilder.addCommand(new AutonomousDriveStraight(centerLineDistance, 0.7, 3.25));
+        autoBuilder.addCommand(new AutonomousResetEncoders());
+        autoBuilder.addCommand(new AutonomousDriveStraight(centerReverse, 0.7, 1.25));
+        autoBuilder.addCommand(new AutonomousMagazineStop());
+        autoBuilder.addCommand(new AutonomousPivotTurn(secondTurnAngle, pivotLeftSpeed, -pivotRightSpeed, 5.0));
+        autoBuilder.addCommand(new AutonomousDriveStop());
+        autoBuilder.addCommand(new AutonomousOuttake());
+        autoBuilder.addCommand(new AutonomousStop());
+    }
+    
+    public void rightThreePrimer()
+    {
+        double sideTiltAngle = params.getAsDouble("A_SideAutoAngle", Tilt.lowAngle);
+        double reverseDistance = params.getAsDouble("A_CenterLineReverseDistance", 100);
+        double firstTurnAngle = params.getAsDouble("A_CenterLineFirstAngle", 35.0);
+        double pivotLeftSpeed = params.getAsDouble("A_CenterLinePivotLeftSpeed", 0.5);
+        double pivotRightSpeed = params.getAsDouble("A_CenterLinePivotRightSpeed", -0.5);
+        
+        autoBuilder.clearCommands();
+        autoBuilder.addAutonomousDelay(autoDelay);
+        autoBuilder.addCommand(new AutonomousShiftLow());
+        autoBuilder.addVariableFireSequence(3, sideTiltAngle, Elevator.elevatorBottomPosition, 0.0);
+        autoBuilder.addCommand(new AutonomousDriveStraight(reverseDistance, 0.7, 2.0));
+        autoBuilder.addCommand(new AutonomousPivotTurn(firstTurnAngle, -pivotLeftSpeed, pivotRightSpeed, 2.5));
+        autoBuilder.addCommand(new AutonomousStopAll());
+        autoBuilder.addCommand(new AutonomousStop());
+    }
     
 }
