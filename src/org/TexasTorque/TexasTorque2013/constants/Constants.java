@@ -69,12 +69,14 @@ public class Constants
     
     public final static double MAGAZINE_DELTA_TIME = 1.0;
     
+    //----- Climber -----
+    public final static boolean PASSIVE_HANG_UP = true;
+    public final static boolean PASSIVE_HANG_DOWN = false;
+    
     //----- Misc -----
     public final static int CYCLES_PER_LOG = 10;
     public final static double MOTOR_STOPPED = 0.0;
     public final static int RED_ALLIANCE = 0;
     public final static int BLUE_ALLIANCE = 1;
-    public final static boolean PASSIVE_HANG_UP = true;
-    public final static boolean PASSIVE_HANG_DOWN = false;
     
 }

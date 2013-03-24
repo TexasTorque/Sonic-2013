@@ -84,7 +84,6 @@ public class AutonomousManager
     
     public void loadAutonomous()
     {
-        System.err.println("loadAutonomous");
         switch(autoMode)
         {
             case Constants.DO_NOTHING_AUTO:
