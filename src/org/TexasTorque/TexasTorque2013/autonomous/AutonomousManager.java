@@ -7,7 +7,6 @@ import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftHigh;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftLow;
 import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousIntake;
 import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousOuttake;
-import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousStopIntake;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousMagazineLoad;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousMagazineStop;
 import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousResetEncoders;
