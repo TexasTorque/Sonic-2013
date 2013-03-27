@@ -139,14 +139,14 @@ public class RobotBase extends IterativeRobot implements Runnable
         manipulator.setToRobot();
         
         //SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
-        SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
+        /*SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
         SmartDashboard.putNumber("MiddleRate", sensorInput.getMiddleShooterRate());
         SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
         
         SmartDashboard.putNumber("Distance", (sensorInput.getLeftDriveEncoder() + sensorInput.getRightDriveEncoder()) / 2.0);
         SmartDashboard.putNumber("LeftDrive", sensorInput.getLeftDriveEncoder());
         SmartDashboard.putNumber("RightDrive", sensorInput.getRightDriveEncoder());
-        SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());
+        SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());*/
         
         //SmartDashboard.putNumber("NumCycles", numCycles);
     }
