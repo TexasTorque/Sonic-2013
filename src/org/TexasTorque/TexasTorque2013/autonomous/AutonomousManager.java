@@ -198,7 +198,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousDriveStraight(-3.0, 1.0, 3.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousMagazineStop());
-        autoBuilder.addCommand(new AutonomousWait(1.0));
+        autoBuilder.addCommand(new AutonomousWait(1.0)); // this will need to be shortened
         autoBuilder.addCommand(new AutonomousOuttake());
         autoBuilder.addLowFireSequence(4, 0.0);
         autoBuilder.addCommand(new AutonomousPivotTurn(turnAngle, -pivotLeftSpeed, pivotRightSpeed, 5.0));
