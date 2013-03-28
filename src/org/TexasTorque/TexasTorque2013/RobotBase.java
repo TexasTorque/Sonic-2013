@@ -203,7 +203,7 @@ public class RobotBase extends IterativeRobot implements Runnable
         drivebase.run();
         manipulator.run();
         
-       /* SmartDashboard.putNumber("ElevatorPosition", sensorInput.getElevatorEncoder());
+        /*SmartDashboard.putNumber("ElevatorPosition", sensorInput.getElevatorEncoder());
         SmartDashboard.putNumber("LeftDrive", sensorInput.getLeftDriveEncoder());
         SmartDashboard.putNumber("RightDrive", sensorInput.getRightDriveEncoder());
         SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());

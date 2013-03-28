@@ -204,6 +204,7 @@ public class Manipulator extends TorqueSubsystem
         magazine.run();
         shooter.run();
         tilt.run();
+        climber.run();
     }
     
     public void intakeFrisbees()

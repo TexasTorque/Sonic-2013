@@ -63,6 +63,8 @@ public class Tilt extends TorqueSubsystem
         if(increment)
         {
             lowAngle += incrementSize;
+            sideAngle += incrementSize;
+            highAngle += incrementSize;
             incrementSize = 0.0;
         }
         else
@@ -73,6 +75,8 @@ public class Tilt extends TorqueSubsystem
         if(decrement)
         {
             lowAngle -= decrementSize;
+            sideAngle -= decrementSize;
+            highAngle -= decrementSize;
             decrementSize = 0.0;
         }
         else
