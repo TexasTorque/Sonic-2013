@@ -184,12 +184,14 @@ public class AutonomousManager
         double pivotLeftSpeed = params.getAsDouble("A_CenterLinePivotLeftSpeed", 0.5);
         double pivotRightSpeed = params.getAsDouble("A_CenterLinePivotRightSpeed", -0.5);
         double reverseDistance = params.getAsDouble("A_SevenFrisbeeReverseDistance", -55.0);
+        double secondShotAngle = params.getAsDouble("A_SevenFrisbeeSecondTiltAngle", Tilt.lowAngle);
         
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);
         autoBuilder.addCommand(new AutonomousShiftLow());
         autoBuilder.addCommand(new AutonomousIntake());
-        autoBuilder.addLowFireSequence(3, 0.0);
+        //autoBuilder.addLowFireSequence(3, 0.0);
+        autoBuilder.addVariableFireSequence(3, secondShotAngle, Elevator.elevatorBottomPosition, 0.0);
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousMagazineLoad());
         autoBuilder.addCommand(new AutonomousDriveStraight(driveDistance, driveSpeed, timeout));
