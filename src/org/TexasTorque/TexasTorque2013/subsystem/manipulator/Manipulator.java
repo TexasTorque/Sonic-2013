@@ -214,6 +214,16 @@ public class Manipulator extends TorqueSubsystem
         magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
         shooter.stopShooter();
         tilt.setTiltAngle(0.0);
+        
+        if(driverInput.fireFrisbee())
+        {
+            magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+        }
+        else
+        {
+            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        }
+        
         setLightsNormal();
     }
     
