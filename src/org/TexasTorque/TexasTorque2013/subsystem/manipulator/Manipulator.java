@@ -191,10 +191,12 @@ public class Manipulator extends TorqueSubsystem
         if(driverInput.elevatorTopOverride())
         {
             //robotOutput.setElevatorMotors(Elevator.elevatorOverrideSpeed);
+            robotOutput.setElevatorMotors(-1 * driverInput.getElevatorJoystick());
         }
         else if(driverInput.elevatorBottomOverride())
         {
             //robotOutput.setElevatorMotors(-1 * Elevator.elevatorOverrideSpeed);
+            robotOutput.setElevatorMotors(-1 * driverInput.getElevatorJoystick());
         }
         else
         {
@@ -214,15 +216,6 @@ public class Manipulator extends TorqueSubsystem
         magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
         shooter.stopShooter();
         tilt.setTiltAngle(0.0);
-        
-        if(driverInput.fireFrisbee())
-        {
-            magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
-        }
-        else
-        {
-            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
-        }
         
         setLightsNormal();
     }

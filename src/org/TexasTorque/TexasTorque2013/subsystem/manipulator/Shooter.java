@@ -70,6 +70,13 @@ public class Shooter extends TorqueSubsystem
         {
             rearShooterMotorSpeed = Constants.MOTOR_STOPPED;
         }
+        
+        if(driverInput.backFeed())
+        {
+            frontShooterMotorSpeed = Constants.MOTOR_STOPPED;
+            middleShooterMotorSpeed = Constants.MOTOR_STOPPED;
+            rearShooterMotorSpeed = -0.5;
+        }
     }
     
     public void setToRobot()

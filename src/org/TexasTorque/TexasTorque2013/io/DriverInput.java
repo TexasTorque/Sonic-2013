@@ -119,7 +119,7 @@ public class DriverInput
     
     public synchronized boolean shootLowWithVision()
     {
-        return operatorController.getTopActionButton();
+        return false;//operatorController.getTopActionButton();
     }
     
     public synchronized boolean shootLowWithoutVision()
@@ -150,6 +150,11 @@ public class DriverInput
     public synchronized boolean decrementAngle()
     {
         return operatorController.getLeftDPAD();
+    }
+    
+    public synchronized boolean backFeed()
+    {
+        return operatorController.getTopActionButton();
     }
     
     public synchronized boolean passiveHang()
@@ -216,5 +221,10 @@ public class DriverInput
     public synchronized boolean elevatorBottomOverride()
     {
         return (operatorController.getLeftYAxis() > 0.5);
+    }
+    
+    public synchronized double getElevatorJoystick()
+    {
+        return (operatorController.getLeftYAxis());
     }
 }

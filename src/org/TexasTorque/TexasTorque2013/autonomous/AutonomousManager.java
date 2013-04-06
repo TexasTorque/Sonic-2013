@@ -333,7 +333,7 @@ public class AutonomousManager
         autoBuilder.addAutonomousDelay(autoDelay);
         autoBuilder.addCommand(new AutonomousShiftLow());
         autoBuilder.addCommand(new AutonomousIntake());
-        autoBuilder.addVariableFireSequence(3, secondShotAngle, Elevator.elevatorBottomPosition, 0.0);
+        autoBuilder.addVariableFireSequence(4, secondShotAngle, Elevator.elevatorBottomPosition, 0.0);
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousMagazineLoad());
         autoBuilder.addCommand(new AutonomousHang());
