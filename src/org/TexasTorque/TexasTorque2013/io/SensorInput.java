@@ -9,6 +9,7 @@ import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Shooter;
 import org.TexasTorque.TorqueLib.component.TorqueCounter;
 import org.TexasTorque.TorqueLib.component.TorqueEncoder;
 import org.TexasTorque.TorqueLib.component.TorquePotentiometer;
+import org.TexasTorque.TorqueLib.util.TorqueUtil;
 
 public class SensorInput
 {
@@ -123,17 +124,17 @@ public class SensorInput
     
     public double getFrontShooterRate()
     {
-        return Shooter.convertToRPM(frontShooterCounter.getRate());
+        return TorqueUtil.convertToRMP(frontShooterCounter.getRate(), 100);
     }
     
     public double getMiddleShooterRate()
     {
-        return Shooter.convertToRPM(middleShooterCounter.getRate());
+        return TorqueUtil.convertToRMP(middleShooterCounter.getRate(), 100);
     }
     
     public double getRearShooterRate()
     {
-        return Shooter.convertToRPM(rearShooterCounter.getRate());
+        return TorqueUtil.convertToRMP(rearShooterCounter.getRate(), 100);
     }
     
     public int getElevatorEncoder()

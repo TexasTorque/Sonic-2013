@@ -125,11 +125,6 @@ public class Shooter extends TorqueSubsystem
         }
     }
     
-    public static double convertToRPM(double clicksPerSec)
-    {
-        return (clicksPerSec * 60) / 100;
-    }
-    
     public String getKeyNames()
     {
         String names = "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,"
