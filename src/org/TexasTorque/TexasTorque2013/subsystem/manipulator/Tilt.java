@@ -2,14 +2,14 @@ package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
-import org.TexasTorque.TorqueLib.controlLoop.SimPID;
+import org.TexasTorque.TorqueLib.controlLoop.TorquePID;
 
 public class Tilt extends TorqueSubsystem
 {
     
     private static Tilt instance;
     
-    private SimPID tiltPID;
+    private TorquePID tiltPID;
     
     private double desiredTiltAngle;
     private double tiltMotorSpeed;
@@ -33,7 +33,7 @@ public class Tilt extends TorqueSubsystem
     {
         super();
         
-        tiltPID = new SimPID();
+        tiltPID = new TorquePID();
         
         desiredTiltAngle = 0.0;
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
@@ -45,7 +45,7 @@ public class Tilt extends TorqueSubsystem
     public void run()
     {   
         double currentAngle = sensorInput.getTiltAngle();
-        tiltMotorSpeed = tiltPID.calcPID(currentAngle);
+        tiltMotorSpeed = tiltPID.calculate(currentAngle);
         
         if(desiredTiltAngle == 0.0 && tiltPID.isDone())
         {
@@ -90,7 +90,7 @@ public class Tilt extends TorqueSubsystem
         if(angle != desiredTiltAngle)
         {
             desiredTiltAngle = angle;
-            tiltPID.setDesiredValue(desiredTiltAngle);
+            tiltPID.setSetpoint(desiredTiltAngle);
         }
     }
     
@@ -133,12 +133,12 @@ public class Tilt extends TorqueSubsystem
         double r = params.getAsDouble("T_TiltDoneRange", 0.0);
         double maxOutput = params.getAsDouble("T_MaxOutput", 0.4);
         
-        tiltPID.setConstants(p, i, d);
-        tiltPID.setErrorEpsilon(e);
+        tiltPID.setPIDGains(p, i, d);
+        tiltPID.setEpsilon(e);
         tiltPID.setDoneRange(r);
-        tiltPID.resetErrorSum();
-        tiltPID.resetPreviousVal();
         tiltPID.setMaxOutput(maxOutput);
+        tiltPID.setMinDonecycles(0);
+        tiltPID.reset();
         
         incrementSize = 0.5;
         decrementSize = 0.5;
