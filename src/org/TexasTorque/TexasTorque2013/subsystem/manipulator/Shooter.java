@@ -2,15 +2,15 @@ package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
-import org.TexasTorque.TorqueLib.controlLoop.SimPID;
+import org.TexasTorque.TorqueLib.controlLoop.TorquePID;
 
 public class Shooter extends TorqueSubsystem
 {   
     private static Shooter instance;
     
-    private SimPID frontShooterPID;
-    private SimPID middleShooterPID;
-    private SimPID rearShooterPID;
+    private TorquePID frontShooterPID;
+    private TorquePID middleShooterPID;
+    private TorquePID rearShooterPID;
     
     private double frontShooterMotorSpeed;
     private double middleShooterMotorSpeed;
@@ -24,10 +24,6 @@ public class Shooter extends TorqueSubsystem
     public static double middleShooterRate;
     public static double rearShooterRate;
     
-    private double frontShooterKV;
-    private double middleShooterKV;
-    private double rearShooterKV;
-    
     public static Shooter getInstance()
     {
         return (instance == null) ? instance = new Shooter() : instance;
@@ -37,22 +33,24 @@ public class Shooter extends TorqueSubsystem
     {
         super();
         
-        frontShooterPID = new SimPID();
-        middleShooterPID = new SimPID();
-        rearShooterPID = new SimPID();
+        frontShooterPID = new TorquePID();
+        middleShooterPID = new TorquePID();
+        rearShooterPID = new TorquePID();
         
         frontShooterMotorSpeed = Constants.MOTOR_STOPPED;
         middleShooterMotorSpeed = Constants.MOTOR_STOPPED;
         rearShooterMotorSpeed = Constants.MOTOR_STOPPED;
+        
         desiredFrontShooterRate = Constants.SHOOTER_STOPPED_RATE;
+        desiredMiddleShooterRate = Constants.SHOOTER_STOPPED_RATE;
         desiredRearShooterRate = Constants.SHOOTER_STOPPED_RATE;
     }
     
     public void run()
     {
-        double frontSpeed = desiredFrontShooterRate * frontShooterKV + frontShooterPID.calcPID(sensorInput.getFrontShooterRate());
-        double middleSpeed = desiredMiddleShooterRate * middleShooterKV + middleShooterPID.calcPID(sensorInput.getMiddleShooterRate());
-        double rearSpeed = desiredRearShooterRate * rearShooterKV + rearShooterPID.calcPID(sensorInput.getRearShooterRate());
+        double frontSpeed = frontShooterPID.calculate(sensorInput.getFrontShooterRate());
+        double middleSpeed = middleShooterPID.calculate(sensorInput.getMiddleShooterRate());
+        double rearSpeed = rearShooterPID.calculate(sensorInput.getRearShooterRate());
         
         frontShooterMotorSpeed = limitShooterSpeed(frontSpeed);
         middleShooterMotorSpeed = limitShooterSpeed(middleSpeed);
@@ -89,19 +87,19 @@ public class Shooter extends TorqueSubsystem
         if(frontRate != desiredFrontShooterRate)
         {
             desiredFrontShooterRate = frontRate;
-            frontShooterPID.setDesiredValue(desiredFrontShooterRate);
+            frontShooterPID.setSetpoint(desiredFrontShooterRate);
         }
         
         if(middleRate != desiredMiddleShooterRate)
         {
             desiredMiddleShooterRate = middleRate;
-            middleShooterPID.setDesiredValue(desiredMiddleShooterRate);
+            middleShooterPID.setSetpoint(desiredMiddleShooterRate);
         }
         
         if(rearRate != desiredRearShooterRate)
         {
             desiredRearShooterRate = rearRate;
-            rearShooterPID.setDesiredValue(desiredRearShooterRate);
+            rearShooterPID.setSetpoint(desiredRearShooterRate);
         }
     }
     
@@ -165,31 +163,34 @@ public class Shooter extends TorqueSubsystem
         rearShooterRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
         
         double p = params.getAsDouble("S_FrontShooterP", 0.0);
+        double ff = params.getAsDouble("S_FrontShooterKV", 0.0);
         double r = params.getAsDouble("S_FrontShooterDoneRange", 300.0);
-        frontShooterKV = params.getAsDouble("S_FrontShooterKV", 0.0);
         
-        frontShooterPID.setConstants(p, 0.0, 0.0);
+        frontShooterPID.setPIDGains(p, 0.0, 0.0);
+        frontShooterPID.setFeedForward(ff);
         frontShooterPID.setDoneRange(r);
-        frontShooterPID.resetErrorSum();
-        frontShooterPID.resetPreviousVal();
+        frontShooterPID.setMinDonecycles(0);
+        frontShooterPID.reset();
         
         p = params.getAsDouble("S_MiddleShooterP", 0.0);
+        ff = params.getAsDouble("S_MiddleShooterKV", 0.0);
         r = params.getAsDouble("S_MiddleShooterDoneRange", 300.0);
-        middleShooterKV = params.getAsDouble("S_MiddleShooterKV", 0.0);
         
-        middleShooterPID.setConstants(p, 0.0, 0.0);
+        middleShooterPID.setPIDGains(p, 0.0, 0.0);
+        middleShooterPID.setFeedForward(ff);
         middleShooterPID.setDoneRange(r);
-        middleShooterPID.resetErrorSum();
-        middleShooterPID.resetPreviousVal();
+        middleShooterPID.setMinDonecycles(0);
+        middleShooterPID.reset();
         
         p = params.getAsDouble("S_RearShooterP", 0.0);
+        ff = params.getAsDouble("S_RearShooterKV", 0.0);
         r = params.getAsDouble("S_RearShooterDoneRange", 300.0);
-        rearShooterKV = params.getAsDouble("S_RearShooterKV", 0.0);
         
-        rearShooterPID.setConstants(p, 0.0, 0.0);
+        rearShooterPID.setPIDGains(p, 0.0, 0.0);
+        rearShooterPID.setFeedForward(ff);
         rearShooterPID.setDoneRange(r);
-        rearShooterPID.resetErrorSum();
-        rearShooterPID.resetPreviousVal();
+        rearShooterPID.setMinDonecycles(0);
+        rearShooterPID.reset();
     }
     
 }
