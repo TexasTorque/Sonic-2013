@@ -18,4 +18,11 @@ public class TorqueUtil
             return value;
         }
     }
+    
+    public static double sqrtHoldSign(double val)
+    {
+        int sign = (val > 0) ? 1 : -1;
+        val = Math.sqrt(Math.abs(val)) * sign;
+        return val;
+    }
 }

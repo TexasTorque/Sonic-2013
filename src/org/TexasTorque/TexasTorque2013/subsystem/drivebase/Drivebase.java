@@ -77,20 +77,13 @@ public class Drivebase extends TorqueSubsystem
     
     private void simpleDrive(double yAxis, double xAxis)
     {
-        yAxis = applySqrtCurve(yAxis);
-        xAxis = applySqrtCurve(xAxis);
+        yAxis = TorqueUtil.sqrtHoldSign(yAxis);
+        xAxis = TorqueUtil.sqrtHoldSign(xAxis);
         
         double leftSpeed = yAxis + xAxis;
         double rightSpeed = yAxis - xAxis;
         
         setDriveSpeeds(leftSpeed, rightSpeed);
-    }
-    
-    private double applySqrtCurve(double axisValue)
-    {
-        int sign = (axisValue > 0) ? 1 : -1;
-        axisValue = Math.sqrt(Math.abs(axisValue)) * sign;
-        return axisValue;
     }
     
     public String getKeyNames()
