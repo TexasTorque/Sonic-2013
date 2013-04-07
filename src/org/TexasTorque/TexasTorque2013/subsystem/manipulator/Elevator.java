@@ -54,7 +54,14 @@ public class Elevator extends TorqueSubsystem
         double dt = currentTime - previousTime;
         previousTime = currentTime;
         
-        double error = desiredPosition - sensorInput.getElevatorEncoder();
+        int encoderPosition = sensorInput.getElevatorEncoder();
+        
+        if(encoderPosition < 0)
+        {
+            encoderPosition = 0;
+        }
+        
+        double error = desiredPosition - encoderPosition;
         double velocity = sensorInput.getElevatorEncoderVelocity();
         
         trajectory.update(error, velocity , 0.0, dt);
@@ -66,12 +73,12 @@ public class Elevator extends TorqueSubsystem
             elevatorMotorSpeed = 0.0;
         }
         
-        int encoderPosition = sensorInput.getElevatorEncoder();
+        /*int encoderPosition = sensorInput.getElevatorEncoder();
         
-        if(desiredPosition == elevatorBottomPosition && encoderPosition < elevatorEpsilon)
+        if(desiredPosition == elevatorBottomPosition && !driverInput.restoreToDefault())
         {
             elevatorMotorSpeed = 0.0;
-        }
+        }*/
     }
     
     public void setToRobot()

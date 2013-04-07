@@ -195,7 +195,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousShiftLow());
         autoBuilder.addCommand(new AutonomousIntake());
         //autoBuilder.addLowFireSequence(3, 0.0);
-        autoBuilder.addVariableFireSequence(3, secondShotAngle, Elevator.elevatorBottomPosition, 0.0);
+        autoBuilder.addVariableFireSequence(4, secondShotAngle, Elevator.elevatorBottomPosition, 0.0);
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousMagazineLoad());
         autoBuilder.addCommand(new AutonomousDriveStraight(driveDistance, driveSpeed, timeout));

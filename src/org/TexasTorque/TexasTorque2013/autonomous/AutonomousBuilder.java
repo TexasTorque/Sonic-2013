@@ -57,8 +57,8 @@ public class AutonomousBuilder
         for(double i = 0; i < numFires; i++)
         {
             addCommand(new AutonomousWait(delay));
-            addCommand(new AutonomousTiltDone(2));
-            addCommand(new AutonomousShooterDone(2));
+            addCommand(new AutonomousTiltDone(1));
+            addCommand(new AutonomousShooterDone(1));
             addCommand(new AutonomousMagazineDone(2));
             addCommand(new AutonomousFireOnce());
         }
@@ -80,8 +80,8 @@ public class AutonomousBuilder
         for(double i = 0; i < numFires; i++)
         {
             addCommand(new AutonomousWait(delay));
-            addCommand(new AutonomousTiltDone(2));
-            addCommand(new AutonomousShooterDone(2));
+            addCommand(new AutonomousTiltDone(1));
+            addCommand(new AutonomousShooterDone(1));
             addCommand(new AutonomousElevatorDone(4));
             addCommand(new AutonomousMagazineDone(2));
             addCommand(new AutonomousFireOnce());
