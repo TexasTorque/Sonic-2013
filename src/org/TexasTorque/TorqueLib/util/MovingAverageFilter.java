@@ -17,7 +17,7 @@ public class MovingAverageFilter
     {
         for( int i = 0; i < vals.length; i++ )
         {
-            vals[i]=0.0;
+            vals[i] = 0.0;
         }
         ptr = 0;
         average = 0.0;
@@ -26,7 +26,7 @@ public class MovingAverageFilter
     public synchronized void setInput(double val)
     {
         vals[ptr] = val;
-        ++ptr;
+        ptr++;
 
         if( ptr >= vals.length )
         {
@@ -42,7 +42,7 @@ public class MovingAverageFilter
     public synchronized double run()
     {
         average = 0.0;
-        for( int i = 0; i < vals.length; i++ )
+        for( int i = 0; i < vals.length; i++)
         {
             average += vals[i];
         }
