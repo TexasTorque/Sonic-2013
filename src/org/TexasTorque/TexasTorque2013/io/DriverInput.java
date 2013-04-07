@@ -53,18 +53,6 @@ public class DriverInput
         }
     }
     
-    public synchronized double applyDeadband(double axisValue, double deadband)
-    {
-        if(Math.abs(axisValue) <= deadband)
-        {
-            return 0.0;
-        }
-        else
-        {
-            return axisValue;
-        }
-    }
-    
     public synchronized double getAutonomousDelay()
     {
         return SmartDashboard.getNumber("Autonomous Delay", 0.0);

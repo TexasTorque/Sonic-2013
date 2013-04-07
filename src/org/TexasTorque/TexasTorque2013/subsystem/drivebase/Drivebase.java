@@ -3,6 +3,7 @@ package org.TexasTorque.TexasTorque2013.subsystem.drivebase;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
+import org.TexasTorque.TorqueLib.util.TorqueUtil;
 
 public class Drivebase extends TorqueSubsystem
 {   
@@ -68,8 +69,8 @@ public class Drivebase extends TorqueSubsystem
     
     private void mixChannels(double yAxis, double xAxis)
     {
-        yAxis = driverInput.applyDeadband(yAxis, Constants.SPEED_AXIS_DEADBAND);
-        xAxis = driverInput.applyDeadband(xAxis, Constants.TURN_AXIS_DEADBAND);
+        yAxis = TorqueUtil.applyDeadband(yAxis, Constants.SPEED_AXIS_DEADBAND);
+        xAxis = TorqueUtil.applyDeadband(xAxis, Constants.TURN_AXIS_DEADBAND);
         
         simpleDrive(yAxis, xAxis);
     }
