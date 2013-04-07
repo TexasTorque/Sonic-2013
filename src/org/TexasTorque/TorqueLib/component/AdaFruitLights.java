@@ -1,4 +1,4 @@
-package org.TexasTorque.TorqueLib.util;
+package org.TexasTorque.TorqueLib.component;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Watchdog;

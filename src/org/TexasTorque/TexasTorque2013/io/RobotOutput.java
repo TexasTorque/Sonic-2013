@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import java.util.Vector;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
-import org.TexasTorque.TorqueLib.util.AdaFruitLights;
-import org.TexasTorque.TorqueLib.util.Motor;
+import org.TexasTorque.TorqueLib.component.AdaFruitLights;
+import org.TexasTorque.TorqueLib.component.Motor;
 
 public class RobotOutput
 {

@@ -1,15 +1,16 @@
-package org.TexasTorque.TorqueLib.sensor;
+package org.TexasTorque.TorqueLib.component;
 
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Watchdog;
 
-public class TorqueEncoderThread extends Thread
+public class TorqueCounterThread extends Thread
 {
     private Watchdog watchdog;
     
-    public Encoder encoder;
+    private Counter counter;
     
     private double currentRate;
     private double threadPeriod;
@@ -22,24 +23,24 @@ public class TorqueEncoderThread extends Thread
     private double currentAcceleration;
     private double currentVel;
     private double previousVel;
-    private final int filterSize = 1;
+    private final int filterSize = 10;
     
-    public TorqueEncoderThread(int aSlot, int aChannel, int bSlot, int bChannel, boolean reverseDirection)
+    public TorqueCounterThread(int sidecar, int port)
     {
         watchdog = Watchdog.getInstance();
         
-        encoder = new Encoder(aSlot, aChannel, bSlot, bChannel, reverseDirection);
+        counter = new Counter(sidecar, port);
         
-        initEncoder();
+        initCounter();
     }
     
-    public TorqueEncoderThread(int aSlot, int aChannel, int bSlot, int bChannel, boolean reverseDireciton, EncodingType encodingType)
+    public TorqueCounterThread(EncodingType encodingType, DigitalSource upSource, DigitalSource downSource, boolean reverse)
     {
         watchdog = Watchdog.getInstance();
         
-        encoder = new Encoder(aSlot, aChannel, bSlot, bChannel, reverseDireciton, encodingType);
+        counter = new Counter(encodingType, upSource, downSource, reverse);
         
-        initEncoder();
+        initCounter();
     }
     
     public void setOptions(double period, boolean reset)
@@ -58,7 +59,7 @@ public class TorqueEncoderThread extends Thread
         resetData = reset;
     }
     
-    private void initEncoder()
+    private void initCounter()
     {
         currentRate = 0.0;
         threadPeriod = 20;
@@ -75,20 +76,20 @@ public class TorqueEncoderThread extends Thread
     
     public void run()
     {
-        encoder.reset();
-        encoder.start();
+        counter.reset();
+        counter.start();
         while(true)
         {
             watchdog.feed();
             if(resetData)
             {
-                encoder.reset();
+                counter.reset();
             }
             double initialTime = Timer.getFPGATimestamp();
-            previous = encoder.get();
+            previous = counter.get();
             previousVel = currentRate;
             Timer.delay(threadPeriod / 1000);
-            current = encoder.get();
+            current = counter.get();
             double finalTime = Timer.getFPGATimestamp();
             rateArray[arrayIndex] = ((current - previous)) / ((finalTime - initialTime));
             calcRate();
@@ -125,7 +126,7 @@ public class TorqueEncoderThread extends Thread
     
     public int get()
     {
-        return encoder.get();
+        return counter.get();
     }
     
     public double getRate()
@@ -138,9 +139,8 @@ public class TorqueEncoderThread extends Thread
         return currentAcceleration;
     }
     
-    public void resetEncoder()
+    public void resetCounter()
     {
-        encoder.reset();
+        counter.reset();
     }
-    
 }

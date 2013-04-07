@@ -183,14 +183,12 @@ public class AutonomousManager
         double turnAngle = params.getAsDouble("A_SevenFrisbeeTurnAngle", 40.0);
         double pivotLeftSpeed = params.getAsDouble("A_CenterLinePivotLeftSpeed", 0.5);
         double pivotRightSpeed = params.getAsDouble("A_CenterLinePivotRightSpeed", -0.5);
-        double reverseDistance = params.getAsDouble("A_SevenFrisbeeReverseDistance", -55.0);
         double secondShotAngle = params.getAsDouble("A_SevenFrisbeeSecondTiltAngle", Tilt.lowAngle);
         
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);
         autoBuilder.addCommand(new AutonomousShiftLow());
         autoBuilder.addCommand(new AutonomousIntake());
-        //autoBuilder.addLowFireSequence(3, 0.0);
         autoBuilder.addVariableFireSequence(4, secondShotAngle, Elevator.elevatorBottomPosition, 0.0);
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousMagazineLoad());
@@ -200,14 +198,10 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousDriveStraight(-3.0, 1.0, 3.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousMagazineStop());
-        autoBuilder.addCommand(new AutonomousWait(0.125)); // this will need to be shortened
+        autoBuilder.addCommand(new AutonomousWait(0.125));
         autoBuilder.addCommand(new AutonomousOuttake());
         autoBuilder.addLowFireSequence(6, 0.0);
         autoBuilder.addCommand(new AutonomousPivotTurn(turnAngle, -pivotLeftSpeed, pivotRightSpeed, 5.0));
-        /*autoBuilder.addCommand(new AutonomousResetEncoders());
-        autoBuilder.addCommand(new AutonomousResetGyro());
-        autoBuilder.addCommand(new AutonomousWait(0.25));
-        autoBuilder.addCommand(new AutonomousDriveStraight(reverseDistance, 1.0, 2.0));*/
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
     }

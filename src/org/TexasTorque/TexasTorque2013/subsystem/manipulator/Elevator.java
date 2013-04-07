@@ -24,7 +24,6 @@ public class Elevator extends TorqueSubsystem
     
     public static int elevatorTopPosition;
     public static int elevatorBottomPosition;
-    public static int elevatorMiddlePosition;
     public static int elevatorFeedPosition;
     public static double elevatorOverrideSpeed;
     
@@ -72,13 +71,6 @@ public class Elevator extends TorqueSubsystem
         {
             elevatorMotorSpeed = 0.0;
         }
-        
-        /*int encoderPosition = sensorInput.getElevatorEncoder();
-        
-        if(desiredPosition == elevatorBottomPosition && !driverInput.restoreToDefault())
-        {
-            elevatorMotorSpeed = 0.0;
-        }*/
     }
     
     public void setToRobot()
@@ -138,7 +130,6 @@ public class Elevator extends TorqueSubsystem
         elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
         elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
         elevatorFeedPosition = params.getAsInt("E_ElevatorFeedPosition", Constants.DEFAULT_ELEVATOR_FEED_POSITION);
-        elevatorMiddlePosition = params.getAsInt("E_ElevatorMiddlePosition", Constants.DEFAULT_ELEVATOR_MIDDLE_POSTION);
         
         elevatorOverrideSpeed = params.getAsDouble("E_ElevatorOverrideSpeed", 0.6);
         

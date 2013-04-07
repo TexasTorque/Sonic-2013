@@ -1,4 +1,4 @@
-package org.TexasTorque.TorqueLib.sensor;
+package org.TexasTorque.TorqueLib.component;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
 

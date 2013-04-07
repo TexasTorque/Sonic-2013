@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.Watchdog;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Shooter;
-import org.TexasTorque.TorqueLib.sensor.TorqueCounter;
-import org.TexasTorque.TorqueLib.sensor.TorqueEncoder;
-import org.TexasTorque.TorqueLib.sensor.TorquePotentiometer;
+import org.TexasTorque.TorqueLib.component.TorqueCounter;
+import org.TexasTorque.TorqueLib.component.TorqueEncoder;
+import org.TexasTorque.TorqueLib.component.TorquePotentiometer;
 
 public class SensorInput
 {

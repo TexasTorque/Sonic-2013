@@ -69,10 +69,12 @@ public class DriverInput
     {
         return SmartDashboard.getNumber("Autonomous Delay", 0.0);
     }
+    
     public synchronized int getAutonomousMode()
     {
         return (int) SmartDashboard.getNumber("AutonomousMode", Constants.DO_NOTHING_AUTO);
     }
+    
     public synchronized boolean resetSensors()
     {
         return operatorController.getBottomActionButton();
@@ -107,6 +109,11 @@ public class DriverInput
         return operatorController.getTopRightBumper();
     }
     
+    public synchronized boolean restoreToDefault()
+    {
+        return operatorController.getBottomLeftBumper();
+    }
+    
     public synchronized boolean shootHighWithoutVision()
     {
         return operatorController.getRightActionButton();
@@ -119,17 +126,12 @@ public class DriverInput
     
     public synchronized boolean shootLowWithVision()
     {
-        return false;//operatorController.getTopActionButton();
+        return false;
     }
     
     public synchronized boolean shootLowWithoutVision()
     {
         return operatorController.getLeftActionButton();
-    }
-    
-    public synchronized boolean restoreToDefault()
-    {
-        return operatorController.getBottomLeftBumper();
     }
     
     public synchronized boolean fireFrisbee()
