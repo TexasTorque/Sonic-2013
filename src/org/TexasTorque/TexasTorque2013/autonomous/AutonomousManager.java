@@ -107,9 +107,6 @@ public class AutonomousManager
             case Constants.RIGHT_THREE_PRELOAD_AUTO:
                 rightThreePreload();
                 break;
-            case Constants.RIGHT_THREE_PRIMER_AUTO:
-                rightThreePrimer();
-                break;
             default:
                 doNothingAuto();
                 break;
@@ -287,24 +284,6 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousPivotTurn(secondTurnAngle, pivotLeftSpeed, -pivotRightSpeed, 5.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousOuttake());
-        autoBuilder.addCommand(new AutonomousStop());
-    }
-    
-    public void rightThreePrimer()
-    {
-        double sideTiltAngle = params.getAsDouble("A_SideAutoAngle", Tilt.lowAngle);
-        double reverseDistance = params.getAsDouble("A_CenterLineReverseDistance", 100);
-        double firstTurnAngle = params.getAsDouble("A_CenterLineFirstAngle", 35.0);
-        double pivotLeftSpeed = params.getAsDouble("A_CenterLinePivotLeftSpeed", 0.5);
-        double pivotRightSpeed = params.getAsDouble("A_CenterLinePivotRightSpeed", -0.5);
-        
-        autoBuilder.clearCommands();
-        autoBuilder.addAutonomousDelay(autoDelay);
-        autoBuilder.addCommand(new AutonomousShiftLow());
-        autoBuilder.addVariableFireSequence(3, sideTiltAngle, Elevator.elevatorBottomPosition, 0.0);
-        autoBuilder.addCommand(new AutonomousDriveStraight(reverseDistance, 0.7, 2.0));
-        autoBuilder.addCommand(new AutonomousPivotTurn(firstTurnAngle, -pivotLeftSpeed, pivotRightSpeed, 2.5));
-        autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
     }
     
