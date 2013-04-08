@@ -52,17 +52,17 @@ public class Manipulator extends TorqueSubsystem
             {
                 reverseIntake();
             }
-            else if(driverInput.shootHighWithoutVision())
+            else if(driverInput.shootHigh())
             {
-                shootHighWithoutVision();
+                shootHigh();
             }
             else if(driverInput.shootSide())
             {
                 shootSide();
             }
-            else if(driverInput.shootLowWithoutVision())
+            else if(driverInput.shootLow())
             {
-                shootLowWithoutVision();
+                shootLow();
             }
             else if(driverInput.gotoSlotHeight())
             {
@@ -230,36 +230,7 @@ public class Manipulator extends TorqueSubsystem
         setLightsNormal();
     }
     
-    public void shootLowWithVision()
-    {
-        intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
-        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.middleShooterRate, Shooter.rearShooterRate);
-        elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
-        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
-        
-        setLightsToChecks();
-        
-        tilt.setTiltAngle(Tilt.lowAngle);
-        
-        if(elevator.atDesiredPosition())
-        {
-            if(SmartDashboard.getBoolean("found", false))
-            {
-                savedTiltAngle = SmartDashboard.getNumber("elevation", 0.0);
-            }
-            
-            double desiredPosition = sensorInput.getTiltAngle() + savedTiltAngle + Tilt.shootLowAdditive;
-            
-            tilt.setTiltAngle(desiredPosition);
-            
-            if(driverInput.fireFrisbee())
-            {
-                magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
-            }
-        }
-    }
-    
-    public void shootHighWithoutVision()
+    public void shootHigh()
     {
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.middleShooterRate, Shooter.rearShooterRate);
@@ -286,7 +257,7 @@ public class Manipulator extends TorqueSubsystem
         }
     }
     
-    public void shootLowWithoutVision()
+    public void shootLow()
     {
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);

@@ -23,15 +23,31 @@ public class TorqueCounter2
         counter = new Counter(encodingType, upSource, downSource, reverse);
         
         filter = new MovingAverageFilter(1);
+        filter.reset();
+    }
+    
+    public void setFilterSize(int size)
+    {
+        filter = new MovingAverageFilter(size);
+        filter.reset();
+    }
+    
+    public void calc()
+    {
+        double rate = 1.0 / counter.getPeriod();
+        filter.setInput(rate);
+        filter.run();
     }
     
     public void start()
     {
+        filter.reset();
         counter.start();
     }
     
     public void reset()
     {
+        filter.reset();
         counter.reset();
     }
     
@@ -42,6 +58,6 @@ public class TorqueCounter2
     
     public double getRate()
     {
-        return 1.0 / counter.getPeriod();
+        return filter.getAverage();
     }
 }

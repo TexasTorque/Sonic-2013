@@ -102,7 +102,7 @@ public class DriverInput
         return operatorController.getBottomLeftBumper();
     }
     
-    public synchronized boolean shootHighWithoutVision()
+    public synchronized boolean shootHigh()
     {
         return operatorController.getRightActionButton();
     }
@@ -112,12 +112,7 @@ public class DriverInput
         return operatorController.getBottomActionButton();
     }
     
-    public synchronized boolean shootLowWithVision()
-    {
-        return false;
-    }
-    
-    public synchronized boolean shootLowWithoutVision()
+    public synchronized boolean shootLow()
     {
         return operatorController.getLeftActionButton();
     }
