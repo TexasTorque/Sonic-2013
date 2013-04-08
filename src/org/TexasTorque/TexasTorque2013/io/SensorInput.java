@@ -55,9 +55,9 @@ public class SensorInput
     
     private void startEncoders()
     {
-        frontShooterCounter.setFilterSize(6);
-        middleShooterCounter.setFilterSize(6);
-        rearShooterCounter.setFilterSize(6);
+        frontShooterCounter.setFilterSize(Constants.SHOOTER_FILTER_SIZE);
+        middleShooterCounter.setFilterSize(Constants.SHOOTER_FILTER_SIZE);
+        rearShooterCounter.setFilterSize(Constants.SHOOTER_FILTER_SIZE);
         
         // 1 foot = 958 clicks
         leftDriveEncoder.start();

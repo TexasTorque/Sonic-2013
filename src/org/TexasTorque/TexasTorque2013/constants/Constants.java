@@ -75,6 +75,7 @@ public class Constants
     //----- Misc -----
     public final static int CYCLES_PER_LOG = 10;
     public final static double MOTOR_STOPPED = 0.0;
+    public final static int SHOOTER_FILTER_SIZE = 6;
     public final static int RED_ALLIANCE = 0;
     public final static int BLUE_ALLIANCE = 1;
     
