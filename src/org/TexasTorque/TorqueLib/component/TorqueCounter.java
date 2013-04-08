@@ -61,6 +61,11 @@ public class TorqueCounter
         return rate;
     }
     
+    public double getRatePeriod()
+    {
+        return 1.0 / counter.getPeriod();
+    }
+    
     public double getAcceleration()
     {
         return acceleration;
