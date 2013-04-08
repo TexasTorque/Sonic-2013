@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.Timer;
 
-public class TorqueCounter
+public class TorqueCounterOld
 {
     
     private Counter counter;
@@ -18,12 +18,12 @@ public class TorqueCounter
     private double rate;
     private double acceleration;
     
-    public TorqueCounter(int sidecar, int port)
+    public TorqueCounterOld(int sidecar, int port)
     {
         counter = new Counter(sidecar, port);
     }
     
-    public TorqueCounter(EncodingType encodingType, DigitalSource upSource, DigitalSource downSource, boolean reverse)
+    public TorqueCounterOld(EncodingType encodingType, DigitalSource upSource, DigitalSource downSource, boolean reverse)
     {
         counter = new Counter(encodingType, upSource, downSource, reverse);
     }

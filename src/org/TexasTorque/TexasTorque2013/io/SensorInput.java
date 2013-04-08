@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Watchdog;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
-import org.TexasTorque.TorqueLib.component.TorqueCounter;
+import org.TexasTorque.TorqueLib.component.TorqueCounterNew;
+import org.TexasTorque.TorqueLib.component.TorqueCounterOld;
 import org.TexasTorque.TorqueLib.component.TorqueEncoder;
 import org.TexasTorque.TorqueLib.component.TorquePotentiometer;
 import org.TexasTorque.TorqueLib.util.TorqueUtil;
@@ -17,9 +18,9 @@ public class SensorInput
     //----- Encoder -----
     private TorqueEncoder leftDriveEncoder;
     private TorqueEncoder rightDriveEncoder;
-    private TorqueCounter frontShooterCounter;
-    private TorqueCounter middleShooterCounter;
-    private TorqueCounter rearShooterCounter;
+    private TorqueCounterNew frontShooterCounter;
+    private TorqueCounterNew middleShooterCounter;
+    private TorqueCounterNew rearShooterCounter;
     private TorqueEncoder elevatorEncoder;
     //----- Analog -----
     private AnalogChannel gyroChannel;
@@ -32,9 +33,9 @@ public class SensorInput
         //----- Encoders/Counters -----
         leftDriveEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_B_PORT, false);
         rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
-        frontShooterCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_COUNTER_PORT);
-        middleShooterCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.MIDDLE_SHOOOTER_COUNTER_PORT);
-        rearShooterCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_COUNTER_PORT);
+        frontShooterCounter = new TorqueCounterNew(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_COUNTER_PORT);
+        middleShooterCounter = new TorqueCounterNew(Ports.SIDECAR_TWO, Ports.MIDDLE_SHOOOTER_COUNTER_PORT);
+        rearShooterCounter = new TorqueCounterNew(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_COUNTER_PORT);
         elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_B_PORT, true);
         //----- Gyro -----
         gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
@@ -54,6 +55,10 @@ public class SensorInput
     
     private void startEncoders()
     {
+        frontShooterCounter.setFilterSize(6);
+        middleShooterCounter.setFilterSize(6);
+        rearShooterCounter.setFilterSize(6);
+        
         // 1 foot = 958 clicks
         leftDriveEncoder.start();
         rightDriveEncoder.start();        

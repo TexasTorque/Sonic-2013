@@ -5,20 +5,20 @@ import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalSource;
 import org.TexasTorque.TorqueLib.util.MovingAverageFilter;
 
-public class TorqueCounter2
+public class TorqueCounterNew
 {
     private Counter counter;
     
     private MovingAverageFilter filter;
     
-    public TorqueCounter2(int sidecar, int port)
+    public TorqueCounterNew(int sidecar, int port)
     {
         counter = new Counter(sidecar, port);
         
         filter = new MovingAverageFilter(1);
     }
     
-    public TorqueCounter2(CounterBase.EncodingType encodingType, DigitalSource upSource, DigitalSource downSource, boolean reverse)
+    public TorqueCounterNew(CounterBase.EncodingType encodingType, DigitalSource upSource, DigitalSource downSource, boolean reverse)
     {
         counter = new Counter(encodingType, upSource, downSource, reverse);
         
