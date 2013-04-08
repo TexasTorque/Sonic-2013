@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Watchdog;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
-import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Shooter;
 import org.TexasTorque.TorqueLib.component.TorqueCounter;
 import org.TexasTorque.TorqueLib.component.TorqueEncoder;
 import org.TexasTorque.TorqueLib.component.TorquePotentiometer;
@@ -23,7 +22,6 @@ public class SensorInput
     private TorqueCounter rearShooterCounter;
     private TorqueEncoder elevatorEncoder;
     //----- Analog -----
-    private AnalogChannel pressureSensor;
     private AnalogChannel gyroChannel;
     public Gyro gyro;
     private TorquePotentiometer tiltPotentiometer;
@@ -44,7 +42,6 @@ public class SensorInput
         gyro.reset();
         gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
         //----- Misc -----
-        pressureSensor = new AnalogChannel(Ports.PRESSURE_SENSOR_PORT);
         tiltPotentiometer = new TorquePotentiometer(Ports.TILT_POTENTIOMETER_PORT);
         tiltPotentiometer.setRange(Constants.POTENTIOMETER_LOW_VOLTAGE, Constants.POTENTIOMETER_HIGH_VOLTAGE);
         startEncoders();
@@ -174,11 +171,6 @@ public class SensorInput
             angle -= 360;
         }
         return angle;
-    }
-    
-    public double getPressure()
-    {
-        return pressureSensor.getVoltage();
     }
     
     public double getTiltAngle()
