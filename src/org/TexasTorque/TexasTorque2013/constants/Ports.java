@@ -35,8 +35,6 @@ public class Ports
     public final static int FRISBEE_LIFTER_SOLENOID_B_PORT = 4;
     public final static int LOADER_SOLENOID_PORT = 5;
     public final static int DRIVE_SHIFTER_PORT = 6;
-    public final static int INTAKE_DROPDOWN_PORT = 7;
-    public final static int LEVEL_TWO_CLIMBER_PORT = 8;
     
     //----- Digital Inputs -----
         //----- Sidecar 1 -----
@@ -60,13 +58,11 @@ public class Ports
     
     //----- Analog Inputs -----
     public final static int GYRO_PORT = 1;
-    public final static int PRESSURE_SENSOR_PORT = 2;
     public final static int TILT_POTENTIOMETER_PORT = 3;
     
     //----- Relays -----
         //----- Sidecar 1 -----
         public final static int COMPRESSOR_RELAY_PORT = 1;
-        public final static int PTO_RELAY_PORT = 2;
         //----- Sidecar 2 -----
     
 }
