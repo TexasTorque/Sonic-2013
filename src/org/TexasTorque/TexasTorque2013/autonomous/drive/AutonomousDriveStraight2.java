@@ -3,6 +3,7 @@ package org.TexasTorque.TexasTorque2013.autonomous.drive;
 import edu.wpi.first.wpilibj.Timer;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousCommand;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
+import org.TexasTorque.TorqueLib.controlLoop.TorquePID;
 
 public class AutonomousDriveStraight2 extends AutonomousCommand
 {
@@ -13,8 +14,8 @@ public class AutonomousDriveStraight2 extends AutonomousCommand
     private double angleSetpoint;
     private boolean zeroLock;
     
-    private SimPID encoderPID;
-    private SimPID gyroPID;
+    private TorquePID encoderPID;
+    private TorquePID gyroPID;
     
     private Timer timeoutTimer;
     
@@ -22,8 +23,8 @@ public class AutonomousDriveStraight2 extends AutonomousCommand
     {
         super();
         
-        encoderPID = new SimPID();
-        gyroPID = new SimPID();
+        encoderPID = new TorquePID();
+        gyroPID = new TorquePID();
         
         encoderPID.setMaxOutput(speed);
         encoderPID.setMinDoneCycles(10);
@@ -43,11 +44,10 @@ public class AutonomousDriveStraight2 extends AutonomousCommand
         double e = params.getAsDouble("D_DriveEncoderEpsilon", 0.0);
         double r = params.getAsDouble("D_DriveEncoderDoneRange", 0.0);
         
-        encoderPID.setConstants(p, i, d);
-        encoderPID.setErrorEpsilon(e);
+        encoderPID.setPIDGains(p, i, d);
+        encoderPID.setEpsilon(e);
         encoderPID.setDoneRange(r);
-        encoderPID.resetErrorSum();
-        encoderPID.resetPreviousVal();
+        encoderPID.reset();
         
         p = params.getAsDouble("D_DriveGyroP", 0.0);
         i = params.getAsDouble("D_DriveGyroI", 0.0);
@@ -55,11 +55,10 @@ public class AutonomousDriveStraight2 extends AutonomousCommand
         e = params.getAsDouble("D_DriveGyroEpsilon", 0.0);
         r = params.getAsDouble("D_DriveGyroDoneRange", 0.0);
         
-        gyroPID.setConstants(p, i, d);
-        gyroPID.setErrorEpsilon(e);
+        gyroPID.setPIDGains(p, i, d);
+        gyroPID.setEpsilon(e);
         gyroPID.setDoneRange(r);
-        gyroPID.resetErrorSum();
-        gyroPID.resetPreviousVal();
+        gyroPID.reset();
         
         distanceSetpoint = ((sensorInput.getLeftDriveEncoder() + sensorInput.getRightDriveEncoder()) / 2) + driveDistance;
         
@@ -72,8 +71,8 @@ public class AutonomousDriveStraight2 extends AutonomousCommand
             angleSetpoint = sensorInput.getGyroAngle();
         }
         
-        encoderPID.setDesiredValue(distanceSetpoint);
-        gyroPID.setDesiredValue(angleSetpoint);
+        encoderPID.setSetpoint(distanceSetpoint);
+        gyroPID.setSetpoint(angleSetpoint);
         
         timeoutTimer.reset();
         timeoutTimer.start();
@@ -84,8 +83,8 @@ public class AutonomousDriveStraight2 extends AutonomousCommand
         double averageDistance = (sensorInput.getLeftDriveEncoder() + sensorInput.getRightDriveEncoder()) / 2.0;
         double currentAngle = sensorInput.getGyroAngle();
         
-        double y = encoderPID.calcPID(averageDistance);
-        double x = -gyroPID.calcPID(currentAngle);
+        double y = encoderPID.calculate(averageDistance);
+        double x = -gyroPID.calculate(currentAngle);
         
         double leftSpeed = y + x;
         double rightSpeed = y - x;

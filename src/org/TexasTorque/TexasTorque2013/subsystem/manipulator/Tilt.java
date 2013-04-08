@@ -137,7 +137,7 @@ public class Tilt extends TorqueSubsystem
         tiltPID.setEpsilon(e);
         tiltPID.setDoneRange(r);
         tiltPID.setMaxOutput(maxOutput);
-        tiltPID.setMinDonecycles(0);
+        tiltPID.setMinDoneCycles(0);
         tiltPID.reset();
         
         incrementSize = 0.5;

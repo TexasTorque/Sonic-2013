@@ -164,7 +164,7 @@ public class Shooter extends TorqueSubsystem
         frontShooterPID.setPIDGains(p, 0.0, 0.0);
         frontShooterPID.setFeedForward(ff);
         frontShooterPID.setDoneRange(r);
-        frontShooterPID.setMinDonecycles(0);
+        frontShooterPID.setMinDoneCycles(0);
         frontShooterPID.reset();
         
         p = params.getAsDouble("S_MiddleShooterP", 0.0);
@@ -174,7 +174,7 @@ public class Shooter extends TorqueSubsystem
         middleShooterPID.setPIDGains(p, 0.0, 0.0);
         middleShooterPID.setFeedForward(ff);
         middleShooterPID.setDoneRange(r);
-        middleShooterPID.setMinDonecycles(0);
+        middleShooterPID.setMinDoneCycles(0);
         middleShooterPID.reset();
         
         p = params.getAsDouble("S_RearShooterP", 0.0);
@@ -184,7 +184,7 @@ public class Shooter extends TorqueSubsystem
         rearShooterPID.setPIDGains(p, 0.0, 0.0);
         rearShooterPID.setFeedForward(ff);
         rearShooterPID.setDoneRange(r);
-        rearShooterPID.setMinDonecycles(0);
+        rearShooterPID.setMinDoneCycles(0);
         rearShooterPID.reset();
     }
     

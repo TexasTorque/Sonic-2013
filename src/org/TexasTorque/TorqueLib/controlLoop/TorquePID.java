@@ -83,7 +83,7 @@ public class TorquePID
         }
     }
     
-    public void setMinDonecycles(int num)
+    public void setMinDoneCycles(int num)
     {
         minCycleCount = num;
     }
