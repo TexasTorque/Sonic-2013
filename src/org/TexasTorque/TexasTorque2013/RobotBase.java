@@ -148,7 +148,12 @@ public class RobotBase extends IterativeRobot implements Runnable
         SmartDashboard.putNumber("RightDrive", sensorInput.getRightDriveEncoder());
         SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());*/
         
-        //SmartDashboard.putNumber("NumCycles", numCycles);
+        
+        SmartDashboard.putNumber("LeftDrive", sensorInput.getLeftDriveEncoder());
+        SmartDashboard.putNumber("RightDrive", sensorInput.getRightDriveEncoder());
+        SmartDashboard.putNumber("NumCycles", numCycles);
+        
+        
     }
     
     public void autonomousContinuous()

@@ -27,8 +27,8 @@ public class AutonomousDriveStraight2 extends AutonomousCommand
         gyroPID = new TorquePID();
         
         encoderPID.setMaxOutput(speed);
-        encoderPID.setMinDoneCycles(10);
-        gyroPID.setMinDoneCycles(10);
+        encoderPID.setMinDoneCycles(50);
+        gyroPID.setMinDoneCycles(50);
         
         driveDistance = distance;
         
@@ -98,6 +98,7 @@ public class AutonomousDriveStraight2 extends AutonomousCommand
         
         if(timeoutTimer.get() > timeoutSecs)
         {
+            System.err.println("Drive timed out");
             return true;
         }
         
