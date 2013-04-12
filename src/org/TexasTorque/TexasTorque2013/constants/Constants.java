@@ -27,10 +27,9 @@ public class Constants
     public final static int SIDE_THREE_AUTO = 2;
     public final static int MIDDLE_SEVEN_AUTO = 3;
     public final static int RIGHT_SEVEN_AUTO = 4;
-    public final static int RIGHT_THREE_DRIVE_AUTO = 5;
-    public final static int RIGHT_THREE_PRELOAD_AUTO = 6;
-    public final static int MIDDLE_THREE_PRELOAD_AUTO = 8;
-    public final static int MIDLE_THREE_PRIMER_AUTO = 9;
+    public final static int LEFT_SEVEN_AUTO = 5;
+    public final static int RIGHT_THREE_DRIVE_AUTO = 6;
+    public final static int RIGHT_THREE_PRELOAD_AUTO = 7;
     
     //----- Drivebase -----
     public final static double DEFAULT_LOW_SENSITIVITY = 1.25;
@@ -76,6 +75,7 @@ public class Constants
     public final static int CYCLES_PER_LOG = 10;
     public final static double MOTOR_STOPPED = 0.0;
     public final static int SHOOTER_FILTER_SIZE = 6;
+    public final static double PRESSURE_THRESHOLD = 0.5;
     public final static int RED_ALLIANCE = 0;
     public final static int BLUE_ALLIANCE = 1;
     

@@ -157,7 +157,7 @@ public class SensorInput
     
     public double getPSI()
     {
-        return pressureSensor.getValue();
+        return pressureSensor.getVoltage();
     }
     
     public double getGyroAngle()

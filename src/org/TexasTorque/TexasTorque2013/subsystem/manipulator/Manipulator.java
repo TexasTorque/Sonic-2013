@@ -380,11 +380,25 @@ public class Manipulator extends TorqueSubsystem
         
         if(currentAlliance == Constants.RED_ALLIANCE)
         {
-            robotOutput.setLightsState(Constants.RED_SOLID);
+            if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD)
+            {
+                robotOutput.setLightsState(Constants.YELLOW_RED_ALLIANCE);
+            }
+            else
+            {
+                robotOutput.setLightsState(Constants.RED_SOLID);
+            }
         }
         else if(currentAlliance == Constants.BLUE_ALLIANCE)
         {
-            robotOutput.setLightsState(Constants.BLUE_SOLID);
+            if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD)
+            {
+                robotOutput.setLightsState(Constants.YELLOW_BLUE_ALLIANCE);
+            }
+            else
+            {
+                robotOutput.setLightsState(Constants.BLUE_SOLID);
+            }
         }
     }
     
