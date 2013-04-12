@@ -1,6 +1,5 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 
@@ -14,8 +13,6 @@ public class Manipulator extends TorqueSubsystem
     private Magazine magazine;
     private Tilt tilt;
     private Climber climber;
-    
-    private double savedTiltAngle;
     
     public static Manipulator getInstance()
     {
@@ -139,8 +136,6 @@ public class Manipulator extends TorqueSubsystem
         intake.loadParameters();
         tilt.loadParameters();
         climber.loadParameters();
-        
-        savedTiltAngle = 0.0;
     }
     
     private void calcOverrides()
@@ -190,12 +185,10 @@ public class Manipulator extends TorqueSubsystem
         
         if(driverInput.elevatorTopOverride())
         {
-            //robotOutput.setElevatorMotors(Elevator.elevatorOverrideSpeed);
             robotOutput.setElevatorMotors(-1 * driverInput.getElevatorJoystick());
         }
         else if(driverInput.elevatorBottomOverride())
         {
-            //robotOutput.setElevatorMotors(-1 * Elevator.elevatorOverrideSpeed);
             robotOutput.setElevatorMotors(-1 * driverInput.getElevatorJoystick());
         }
         else
@@ -250,7 +243,7 @@ public class Manipulator extends TorqueSubsystem
         
         if(elevator.atDesiredPosition())
         {
-            if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isSpunUp() && tilt.isLocked()))
+            if(driverInput.fireFrisbee())
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
             }
@@ -263,11 +256,11 @@ public class Manipulator extends TorqueSubsystem
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.middleShooterRate, Shooter.rearShooterRate);
-        tilt.setTiltAngle( (dashboardManager.getDS().isAutonomous()) ? Tilt.autonomousLowAngle : Tilt.lowAngle );
+        tilt.setTiltAngle(Tilt.lowAngle);
         
         setLightsToChecks();
         
-        if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isSpunUp() && tilt.isLocked()))
+        if(driverInput.fireFrisbee())
         {
             magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
         }
@@ -315,7 +308,7 @@ public class Manipulator extends TorqueSubsystem
         
         if(elevator.atDesiredPosition())
         {
-            if(driverInput.fireFrisbee() || (dashboardManager.getDS().isAutonomous() && shooter.isSpunUp() && tilt.isLocked()))
+            if(driverInput.fireFrisbee())
             {
                 magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
             }
