@@ -1,16 +1,11 @@
 package org.TexasTorque.TexasTorque2013.autonomous;
 
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStop;
-import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraight;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraight2;
-import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousPivotTurn;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftHigh;
-import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftLow;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousTurn;
-import org.TexasTorque.TexasTorque2013.autonomous.elevator.AutonomousElevatorDone;
 import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousIntake;
 import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousOuttake;
-import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousStopIntake;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousFireOnce;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousMagazineDone;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousMagazineLoad;
@@ -21,8 +16,6 @@ import org.TexasTorque.TexasTorque2013.autonomous.shooter.AutonomousStopShooter;
 import org.TexasTorque.TexasTorque2013.autonomous.tilt.AutonomousCustomTilt;
 import org.TexasTorque.TexasTorque2013.autonomous.tilt.AutonomousTiltDone;
 import org.TexasTorque.TexasTorque2013.autonomous.tilt.AutonomousTiltParallel;
-import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousResetEncoders;
-import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousResetGyro;
 import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousStop;
 import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousStopAll;
 import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousWait;
