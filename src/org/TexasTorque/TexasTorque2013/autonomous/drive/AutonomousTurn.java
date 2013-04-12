@@ -2,11 +2,11 @@ package org.TexasTorque.TexasTorque2013.autonomous.drive;
 
 import edu.wpi.first.wpilibj.Timer;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousCommand;
-import org.TexasTorque.TorqueLib.controlLoop.SimPID;
+import org.TexasTorque.TorqueLib.controlLoop.TorquePID;
 
 public class AutonomousTurn extends AutonomousCommand
 {
-    private SimPID gyroPID;
+    private TorquePID gyroPID;
     private Timer timeoutTimer;
     private double timeoutSecs;
     private boolean firstCycle;
@@ -15,56 +15,62 @@ public class AutonomousTurn extends AutonomousCommand
     public AutonomousTurn(double degrees, double timeout)
     {
         super();
-        goal = degrees;
-        this.firstCycle = true;
         
-        gyroPID = new SimPID();
-        gyroPID.setDesiredValue(goal);
+        goal = degrees;
+        firstCycle = true;
+        
+        gyroPID = new TorquePID();
+        
         timeoutSecs = timeout;
         timeoutTimer = new Timer();
     }
 
-    public void reset() {
-        System.err.println("reset");
-        
+    public void reset()
+    {   
         double p = params.getAsDouble("D_TurnGyroP", 0.0);
         double i = params.getAsDouble("D_TurnGyroI", 0.0);
         double d = params.getAsDouble("D_TurnGyroD", 0.0);
         double e = params.getAsDouble("D_TurnGyroEpsilon", 0.0);
         double r = params.getAsDouble("D_TurnGyroDoneRange", 0.0);
         
-        gyroPID.setConstants(p, i, d);
-        gyroPID.setErrorEpsilon(e);
+        gyroPID.setPIDGains(p, i, d);
+        gyroPID.setEpsilon(e);
         gyroPID.setDoneRange(r);
-        gyroPID.resetErrorSum();
-        gyroPID.resetPreviousVal();
+        gyroPID.setMinDoneCycles(10);
+        gyroPID.reset();
         
         timeoutTimer.reset();
         timeoutTimer.start();
     }
 
-    public boolean run() {
-        if ( this.firstCycle){
-            this.firstCycle = false;
-            this.gyroPID.setDesiredValue(this.sensorInput.getGyroAngle()+ this.goal);
+    public boolean run()
+    {
+        if(firstCycle)
+        {
+            firstCycle = false;
+            gyroPID.setSetpoint(this.sensorInput.getGyroAngle() + goal);
         }
 
-        double xVal = -this.gyroPID.calcPID(this.sensorInput.getGyroAngle());
+        double xVal = -gyroPID.calculate(sensorInput.getGyroAngle());
         double yVal = 0.0;
         
-        double leftDrive = xVal+yVal;
-        double rightDrive = xVal-yVal;
+        double leftDrive = xVal + yVal;
+        double rightDrive = xVal - yVal;
         
         drivebase.setDriveSpeeds(leftDrive, rightDrive);
         
         if(timeoutTimer.get() > timeoutSecs)
         {
+            System.err.println("Turn timed out");
             return true;
         }
         
-        if (this.gyroPID.isDone()){
+        if(gyroPID.isDone())
+        {
             return true;
-        }else{
+        }
+        else
+        {
             return false;
         }
     }
