@@ -17,9 +17,6 @@ public class Drivebase extends TorqueSubsystem
     
     private boolean shiftState;
     
-    private double highSensitivity;
-    private double lowSensitivity;
-    
     public static Drivebase getInstance()
     {
         return (instance == null) ? instance = new Drivebase() : instance;
@@ -112,10 +109,7 @@ public class Drivebase extends TorqueSubsystem
     }
     
     public void loadParameters()
-    {
-        highSensitivity = params.getAsDouble("D_HighSensitivity", Constants.DEFAULT_HIGH_SENSITIVITY);
-        lowSensitivity = params.getAsDouble("D_LowSensitivity", Constants.DEFAULT_LOW_SENSITIVITY);
-        
+    {   
         double p = params.getAsDouble("D_DriveEncoderP", 0.0);
         double i = params.getAsDouble("D_DriveEncoderI", 0.0);
         double d = params.getAsDouble("D_DriveEncoderD", 0.0);
