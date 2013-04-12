@@ -183,9 +183,14 @@ public class DriverInput
         return (operatorController.getRightYAxis() > 0.5);
     }
     
-    public synchronized boolean shootLowWithoutVisionOverride()
+    public synchronized boolean shootLowOverride()
     {
         return operatorController.getLeftActionButton();
+    }
+    
+    public synchronized boolean shootSideOverride()
+    {
+        return operatorController.getRightActionButton();
     }
     
     public synchronized boolean magazineShootOverride()

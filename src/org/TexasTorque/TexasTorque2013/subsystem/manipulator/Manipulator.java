@@ -148,12 +148,32 @@ public class Manipulator extends TorqueSubsystem
         {
             reverseIntake();
         }
-        else if(driverInput.shootLowWithoutVisionOverride())
+        else if(driverInput.shootLowOverride())
         {
             double frontSpeed = Shooter.frontShooterRate;
             double middleSpeed = Shooter.middleShooterRate;
             double rearSpeed = Shooter.rearShooterRate;
             double angle = Tilt.lowAngle;
+            
+            shooter.setShooterRates(frontSpeed, middleSpeed, rearSpeed);
+            tilt.setTiltAngle(angle);
+            intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+            
+            if(driverInput.magazineShootOverride())
+            {
+                magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+            }
+            else
+            {
+                magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+            }
+        }
+        else if(driverInput.shootSideOverride())
+        {
+            double frontSpeed = Shooter.frontShooterRate;
+            double middleSpeed = Shooter.middleShooterRate;
+            double rearSpeed = Shooter.rearShooterRate;
+            double angle = Tilt.sideAngle;
             
             shooter.setShooterRates(frontSpeed, middleSpeed, rearSpeed);
             tilt.setTiltAngle(angle);
