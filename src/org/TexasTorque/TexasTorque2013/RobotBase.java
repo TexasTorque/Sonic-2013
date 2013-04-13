@@ -48,6 +48,8 @@ public class RobotBase extends IterativeRobot implements Runnable
         params = Parameters.getInstance();
         params.load();
         
+        Constants.GYRO_SENSITIVITY = params.getAsDouble("D_GyroSensitivity", Constants.GYRO_SENSITIVITY);
+        
         initSmartDashboard();
         
         logging = TorqueLogging.getInstance();
@@ -151,6 +153,8 @@ public class RobotBase extends IterativeRobot implements Runnable
         
         SmartDashboard.putNumber("LeftDrive", sensorInput.getLeftDriveEncoder());
         SmartDashboard.putNumber("RightDrive", sensorInput.getRightDriveEncoder());
+         SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());
+        SmartDashboard.putNumber("Distance", (sensorInput.getLeftDriveEncoder() + sensorInput.getRightDriveEncoder()) / 2);
         SmartDashboard.putNumber("NumCycles", numCycles);
         
         

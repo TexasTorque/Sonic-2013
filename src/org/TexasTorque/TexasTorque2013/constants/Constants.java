@@ -39,12 +39,12 @@ public class Constants
     
     //----- Gyro -----
     public final static int GYRO_ACCUMULATOR_DEADBAND = 75;
-    public final static double GYRO_SENSITIVITY = 0.00703; //0.0136;
+    public static double GYRO_SENSITIVITY = 0.014; //0.0136;
     
     //----- Shooter -----
     public final static double DEFAULT_STANDARD_TILT_POSITION = 5.0;
-    public final static double POTENTIOMETER_LOW_VOLTAGE = 0.355;
-    public final static double POTENTIOMETER_HIGH_VOLTAGE = 6.593;
+    public final static double POTENTIOMETER_LOW_VOLTAGE = 0.530;
+    public final static double POTENTIOMETER_HIGH_VOLTAGE = 6.768;
     public final static double DEFAULT_FRONT_SHOOTER_RATE = 3000.0;
     public final static double DEFAULT_MIDDLE_SHOOTER_RATE = 2000.0;
     public final static double DEFAULT_REAR_SHOOTER_RATE = 2000.0;
@@ -74,8 +74,8 @@ public class Constants
     //----- Misc -----
     public final static int CYCLES_PER_LOG = 10;
     public final static double MOTOR_STOPPED = 0.0;
-    public final static int SHOOTER_FILTER_SIZE = 6;
-    public final static double PRESSURE_THRESHOLD = 0.5;
+    public final static int SHOOTER_FILTER_SIZE = 10;
+    public final static double PRESSURE_THRESHOLD = 2.35;
     public final static int RED_ALLIANCE = 0;
     public final static int BLUE_ALLIANCE = 1;
     

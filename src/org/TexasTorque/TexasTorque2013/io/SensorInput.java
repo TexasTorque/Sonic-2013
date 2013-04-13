@@ -43,7 +43,7 @@ public class SensorInput
         gyro.reset();
         gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
         //----- Misc -----
-        pressureSensor = new AnalogChannel(Ports.PRESSURE_SWITCH_PORT);
+        pressureSensor = new AnalogChannel(Ports.ANALOG_PRESSURE_PORT);
         tiltPotentiometer = new TorquePotentiometer(Ports.TILT_POTENTIOMETER_PORT);
         tiltPotentiometer.setRange(Constants.POTENTIOMETER_LOW_VOLTAGE, Constants.POTENTIOMETER_HIGH_VOLTAGE);
         startEncoders();

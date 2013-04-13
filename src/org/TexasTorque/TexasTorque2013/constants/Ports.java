@@ -58,6 +58,7 @@ public class Ports
     
     //----- Analog Inputs -----
     public final static int GYRO_PORT = 1;
+    public final static int ANALOG_PRESSURE_PORT = 2;
     public final static int TILT_POTENTIOMETER_PORT = 3;
     
     //----- Relays -----

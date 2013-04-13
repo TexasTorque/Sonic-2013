@@ -14,6 +14,8 @@ public class Tilt extends TorqueSubsystem
     private double desiredTiltAngle;
     private double tiltMotorSpeed;
     
+    private double tiltThreshold;
+    
     private double incrementSize;
     private double decrementSize;
     
@@ -38,6 +40,8 @@ public class Tilt extends TorqueSubsystem
         desiredTiltAngle = 0.0;
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
         
+        tiltThreshold = 0.0;
+        
         incrementSize = 0.5;
         decrementSize = 0.5;
     }
@@ -47,10 +51,15 @@ public class Tilt extends TorqueSubsystem
         double currentAngle = sensorInput.getTiltAngle();
         tiltMotorSpeed = tiltPID.calculate(currentAngle);
         
-        if(desiredTiltAngle == 0.0 && tiltPID.isDone())
+        if(desiredTiltAngle != 0.0)
+        {
+            tiltMotorSpeed += tiltThreshold;
+        }
+        
+        /*if(desiredTiltAngle == 0.0 && tiltPID.isDone())
         {
             tiltMotorSpeed = 0.0;
-        }
+        }*/
     }
     
     public void setToRobot()
@@ -125,6 +134,8 @@ public class Tilt extends TorqueSubsystem
         feederStationAngle = params.getAsDouble("T_FeederStationAngle", 0.0);
         autonomousLowAngle = params.getAsDouble("A_RearLowAngle", lowAngle);
         shootLowAdditive = params.getAsDouble("T_ShootLowAdditive", 0.0);
+        
+        tiltThreshold = params.getAsDouble("T_TiltMotorAdditive", 0.15);
         
         double p = params.getAsDouble("T_TiltP", 0.0);
         double i = params.getAsDouble("T_TiltI", 0.0);
