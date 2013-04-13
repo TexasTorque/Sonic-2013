@@ -30,6 +30,7 @@ public class Constants
     public final static int LEFT_SEVEN_AUTO = 5;
     public final static int RIGHT_THREE_DRIVE_AUTO = 6;
     public final static int RIGHT_THREE_PRELOAD_AUTO = 7;
+    public final static int GOD_AUTO = 8;
     
     //----- Drivebase -----
     public final static double DEFAULT_LOW_SENSITIVITY = 1.25;

@@ -4,29 +4,32 @@ import edu.wpi.first.wpilibj.Timer;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousCommand;
 import org.TexasTorque.TorqueLib.controlLoop.TorquePID;
 
-public class AutonomousTurn extends AutonomousCommand
+public class AutonomousPivotPIDTurn extends AutonomousCommand
 {
+    
     private TorquePID gyroPID;
     private Timer timeoutTimer;
     private double timeoutSecs;
     private boolean firstCycle;
     private double goal;
+    private double leftSpeed;
+    private double rightSpeed;
+    private double setpoint;
     
-    public AutonomousTurn(double degrees, double timeout)
+    public AutonomousPivotPIDTurn(double goal, double left, double right, double timeout)
     {
         super();
         
-        goal = degrees;
-        firstCycle = true;
-        
         gyroPID = new TorquePID();
-        
-        timeoutSecs = timeout;
         timeoutTimer = new Timer();
+        
+        leftSpeed = left;
+        rightSpeed = right;
+        timeoutSecs = timeout;
     }
-
+    
     public void reset()
-    {   
+    {
         double p = params.getAsDouble("D_TurnGyroP", 0.0);
         double i = params.getAsDouble("D_TurnGyroI", 0.0);
         double d = params.getAsDouble("D_TurnGyroD", 0.0);
@@ -42,37 +45,22 @@ public class AutonomousTurn extends AutonomousCommand
         timeoutTimer.reset();
         timeoutTimer.start();
     }
-
+    
     public boolean run()
     {
         if(firstCycle)
         {
             firstCycle = false;
-            gyroPID.setSetpoint(this.sensorInput.getGyroAngle() + goal);
-        }
-
-        double xVal = -gyroPID.calculate(sensorInput.getGyroAngle());
-        double yVal = 0.0;
-        
-        double leftDrive = xVal + yVal;
-        double rightDrive = xVal - yVal;
-        
-        drivebase.setDriveSpeeds(leftDrive, -rightDrive);
-        
-        if(timeoutTimer.get() > timeoutSecs)
-        {
-            System.err.println("Turn timed out");
-            return true;
+            setpoint = this.sensorInput.getGyroAngle() + goal;
+            gyroPID.setSetpoint(setpoint);
         }
         
-        if(gyroPID.isDone())
+        double currentAngle = sensorInput.getGyroAngle();
+        double errorAbs = Math.abs(setpoint) - Math.abs(currentAngle);
+        
+        if(errorAbs < 5.0)
         {
-            return true;
-        }
-        else
-        {
-            return false;
+            
         }
     }
-    
 }

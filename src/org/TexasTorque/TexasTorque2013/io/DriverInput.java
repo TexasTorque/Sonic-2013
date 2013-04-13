@@ -10,7 +10,7 @@ public class DriverInput
 {
     private static DriverInput instance;
     private Parameters params;
-    private GenericController driveController;
+    public GenericController driveController;
     private GenericController operatorController;
     
     private boolean inOverrideState;
@@ -77,7 +77,9 @@ public class DriverInput
     
     public synchronized double getTurn()
     {
-        return driveController.getRightXAxis();
+        //return driveController.getRightXAxis();
+        
+        return driveController.getLeftXAxis();
     }
     
     public synchronized boolean shiftHighGear()
