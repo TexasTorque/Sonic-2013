@@ -41,6 +41,11 @@ public class Climber extends TorqueSubsystem
         robotOutput.setPassiveClimber(passiveClimberState);
     }
     
+    public boolean isHanging()
+    {
+        return passiveClimberState;
+    }
+    
     public String getKeyNames()
     {
         String names = "ClimberState,";

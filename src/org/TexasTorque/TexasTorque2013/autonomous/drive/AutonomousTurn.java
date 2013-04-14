@@ -51,13 +51,13 @@ public class AutonomousTurn extends AutonomousCommand
             gyroPID.setSetpoint(this.sensorInput.getGyroAngle() + goal);
         }
 
-        double xVal = -gyroPID.calculate(sensorInput.getGyroAngle());
+        double xVal = gyroPID.calculate(sensorInput.getGyroAngle());
         double yVal = 0.0;
         
-        double leftDrive = xVal + yVal;
-        double rightDrive = xVal - yVal;
+        double leftDrive = yVal + xVal;
+        double rightDrive = yVal - xVal;
         
-        drivebase.setDriveSpeeds(leftDrive, -rightDrive);
+        drivebase.setDriveSpeeds(-leftDrive, -rightDrive);
         
         if(timeoutTimer.get() > timeoutSecs)
         {

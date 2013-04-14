@@ -9,14 +9,16 @@ public class AutonomousPivotPIDTurn extends AutonomousCommand
     
     private TorquePID gyroPID;
     private Timer timeoutTimer;
+    
     private double timeoutSecs;
     private boolean firstCycle;
     private double goal;
     private double leftSpeed;
     private double rightSpeed;
     private double setpoint;
+    private boolean inPIDControl;
     
-    public AutonomousPivotPIDTurn(double goal, double left, double right, double timeout)
+    public AutonomousPivotPIDTurn(double dAngle, double left, double right, double timeout)
     {
         super();
         
@@ -26,6 +28,9 @@ public class AutonomousPivotPIDTurn extends AutonomousCommand
         leftSpeed = left;
         rightSpeed = right;
         timeoutSecs = timeout;
+        inPIDControl = false;
+        goal = dAngle;
+        firstCycle = true;
     }
     
     public void reset()
@@ -58,9 +63,39 @@ public class AutonomousPivotPIDTurn extends AutonomousCommand
         double currentAngle = sensorInput.getGyroAngle();
         double errorAbs = Math.abs(setpoint) - Math.abs(currentAngle);
         
-        if(errorAbs < 5.0)
+        if(errorAbs > 10.0)
         {
-            
+            System.err.println("pivot");
+            drivebase.setDriveSpeeds(leftSpeed, rightSpeed);
+            inPIDControl = false;
+        }
+        else
+        {
+            System.err.println("pid");
+            double xVal = -gyroPID.calculate(sensorInput.getGyroAngle());
+            double yVal = 0.0;
+
+            double leftDrive = xVal + yVal;
+            double rightDrive = xVal - yVal;
+
+            drivebase.setDriveSpeeds(leftDrive, -rightDrive);
+            inPIDControl = true;
+        }
+        
+        if(timeoutTimer.get() > timeoutSecs)
+        {
+            System.err.println("Timed out");
+            return true;
+        }
+        
+        if(inPIDControl && gyroPID.isDone())
+        {
+            System.err.println("done turning");
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

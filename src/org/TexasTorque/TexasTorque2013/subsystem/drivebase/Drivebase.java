@@ -2,6 +2,7 @@ package org.TexasTorque.TexasTorque2013.subsystem.drivebase;
 
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
+import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Climber;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 import org.TexasTorque.TorqueLib.util.TorqueUtil;
 
@@ -11,6 +12,8 @@ public class Drivebase extends TorqueSubsystem
     
     private SimPID encoderPID;
     private SimPID gyroPID;
+    
+    private Climber climber;
     
     private double leftDriveSpeed;
     private double rightDriveSpeed;
@@ -29,6 +32,8 @@ public class Drivebase extends TorqueSubsystem
         encoderPID = new SimPID();
         gyroPID = new SimPID();
         
+        climber = Climber.getInstance();
+        
         leftDriveSpeed = Constants.MOTOR_STOPPED;
         rightDriveSpeed = Constants.MOTOR_STOPPED;
         
@@ -41,6 +46,14 @@ public class Drivebase extends TorqueSubsystem
         {
            mixChannels(driverInput.getThrottle(), driverInput.getTurn());
            shiftState = driverInput.shiftHighGear();
+           
+           if(climber.isHanging())
+           {
+               shiftState = Constants.LOW_GEAR;
+               
+               leftDriveSpeed *= 0.5;
+               rightDriveSpeed *= 0.5;
+           }
         }
     }
     

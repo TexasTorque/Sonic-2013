@@ -2,6 +2,7 @@ package org.TexasTorque.TexasTorque2013.autonomous;
 
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStop;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraight2;
+import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousPivotPIDTurn;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftHigh;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousTurn;
 import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousIntake;
@@ -221,7 +222,6 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousMagazineLoad());
         autoBuilder.addCommand(new AutonomousDriveStraight2(driveDistance, driveSpeed, true, timeout));
         autoBuilder.addCommand(new AutonomousDriveStop());
-        autoBuilder.addCommand(new AutonomousWait(0.375));
         autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousWait(0.125));
         autoBuilder.addCommand(new AutonomousOuttake());
@@ -241,7 +241,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousWait(0.25));
         autoBuilder.addCommand(new AutonomousStopShooter());
         autoBuilder.addCommand(new AutonomousTiltParallel());
-        autoBuilder.addCommand(new AutonomousTurn(turnAngle, 2.0));
+        autoBuilder.addCommand(new AutonomousTurn(turnAngle, 1.5));
         autoBuilder.addCommand(new AutonomousDriveStraight2(reverseDistance, 1.0, false, 2.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousStopAll());
@@ -292,6 +292,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousCustomTilt(secondShotAngle));
         autoBuilder.addCommand(new AutonomousSpinShooter());
         autoBuilder.addCommand(new AutonomousTurn(secondTurnAngle, 2.0));
+        autoBuilder.addCommand(new AutonomousDriveStop());
         
         numFires = 4;
         for(int i = 0; i < numFires; i++)
@@ -473,12 +474,11 @@ public class AutonomousManager
     
     public void randomTestAuto()
     {
-        double driveSpeed = params.getAsDouble("A_MiddleSevenSpeed", 0.5);
-        double driveDistance = params.getAsDouble("A_MiddleSevenDistance", 100);
+        double leftSpeed = params.getAsDouble("A_PivotLeftSpeed", 0.8);
+        double rightSpeed = params.getAsDouble("A_PivotRightSpeed", 0.8);
         
         autoBuilder.clearCommands();
         autoBuilder.addCommand(new AutonomousShiftHigh());
-        //autoBuilder.addCommand(new AutonomousDriveStraight2(driveDistance, driveSpeed, true, 5.0));
         autoBuilder.addCommand(new AutonomousTurn(90, 5.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousStopAll());

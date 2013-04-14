@@ -77,9 +77,7 @@ public class DriverInput
     
     public synchronized double getTurn()
     {
-        //return driveController.getRightXAxis();
-        
-        return driveController.getLeftXAxis();
+        return driveController.getRightXAxis();
     }
     
     public synchronized boolean shiftHighGear()
