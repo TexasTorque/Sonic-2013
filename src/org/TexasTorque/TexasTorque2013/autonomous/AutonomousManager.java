@@ -2,7 +2,6 @@ package org.TexasTorque.TexasTorque2013.autonomous;
 
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStop;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraight2;
-import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousPivotPIDTurn;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftHigh;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousTurn;
 import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousIntake;
