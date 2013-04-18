@@ -142,12 +142,6 @@ public class DriverInput
         return operatorController.getLeftDPAD();
     }
     
-    public synchronized boolean backFeed()
-    {
-        //return operatorController.getTopActionButton();
-        return false;
-    }
-    
     public synchronized boolean passiveHang()
     {
         return operatorController.getRightStickClick();

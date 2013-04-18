@@ -151,7 +151,6 @@ public class RobotBase extends IterativeRobot implements Runnable
         SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());*/
         
         SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
-        SmartDashboard.putNumber("MiddleRate", sensorInput.getMiddleShooterRate());
         SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
         SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
         SmartDashboard.putNumber("LeftDrive", sensorInput.getLeftDriveEncoder());
@@ -219,7 +218,6 @@ public class RobotBase extends IterativeRobot implements Runnable
         SmartDashboard.putNumber("LeftDrive", sensorInput.getLeftDriveEncoder());
         SmartDashboard.putNumber("RightDrive", sensorInput.getRightDriveEncoder());
         SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
-        SmartDashboard.putNumber("MiddleRate", sensorInput.getMiddleShooterRate());
         SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
         SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
         SmartDashboard.putNumber("TiltVoltage", sensorInput.getTiltVoltage());

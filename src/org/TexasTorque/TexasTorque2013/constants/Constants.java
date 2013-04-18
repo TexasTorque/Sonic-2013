@@ -46,11 +46,10 @@ public class Constants
     public final static double DEFAULT_STANDARD_TILT_POSITION = 5.0;
     public final static double POTENTIOMETER_LOW_VOLTAGE = 0.590;
     public final static double POTENTIOMETER_HIGH_VOLTAGE = 6.828;
-    public final static double DEFAULT_FRONT_SHOOTER_RATE = 3000.0;
-    public final static double DEFAULT_MIDDLE_SHOOTER_RATE = 2000.0;
-    public final static double DEFAULT_REAR_SHOOTER_RATE = 2000.0;
-    public final static double FULL_FIELD_FRONT_RATE = 5200.0;
-    public final static double FULL_FIELD_REAR_RATE = 5200.0;
+    public final static double DEFAULT_FRONT_SHOOTER_RATE = 4800.0;
+    public final static double DEFAULT_REAR_SHOOTER_RATE = 4800.0;
+    public final static double FULL_FIELD_FRONT_RATE = 4800.0;
+    public final static double FULL_FIELD_REAR_RATE = 4800.0;
     public final static double SHOOTER_STOPPED_RATE = 0.0;
     
     //----- Elevator -----

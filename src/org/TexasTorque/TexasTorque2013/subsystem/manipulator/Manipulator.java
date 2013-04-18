@@ -155,11 +155,10 @@ public class Manipulator extends TorqueSubsystem
         else if(driverInput.shootLowOverride())
         {
             double frontSpeed = Shooter.frontShooterRate;
-            double middleSpeed = Shooter.middleShooterRate;
             double rearSpeed = Shooter.rearShooterRate;
             double angle = Tilt.lowAngle;
             
-            shooter.setShooterRates(frontSpeed, middleSpeed, rearSpeed);
+            shooter.setShooterRates(frontSpeed, rearSpeed);
             tilt.setTiltAngle(angle);
             intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
             
@@ -175,11 +174,10 @@ public class Manipulator extends TorqueSubsystem
         else if(driverInput.shootSideOverride())
         {
             double frontSpeed = Shooter.frontShooterRate;
-            double middleSpeed = Shooter.middleShooterRate;
             double rearSpeed = Shooter.rearShooterRate;
             double angle = Tilt.sideAngle;
             
-            shooter.setShooterRates(frontSpeed, middleSpeed, rearSpeed);
+            shooter.setShooterRates(frontSpeed, rearSpeed);
             tilt.setTiltAngle(angle);
             intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
             
@@ -250,7 +248,7 @@ public class Manipulator extends TorqueSubsystem
     public void shootHigh()
     {
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
-        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.middleShooterRate, Shooter.rearShooterRate);
+        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
         elevator.setDesiredPosition(Elevator.elevatorTopPosition);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         
@@ -279,7 +277,7 @@ public class Manipulator extends TorqueSubsystem
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
-        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.middleShooterRate, Shooter.rearShooterRate);
+        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
         tilt.setTiltAngle(Tilt.lowAngle);
         
         setLightsToChecks();
@@ -295,7 +293,7 @@ public class Manipulator extends TorqueSubsystem
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
-        shooter.setShooterRates(Shooter.frontFarRate, Shooter.rearFarRate, Constants.SHOOTER_STOPPED_RATE);
+        shooter.setShooterRates(Shooter.frontFarRate, Shooter.rearFarRate);
         tilt.setTiltAngle(Tilt.farAngle);
         
         setLightsToChecks();
@@ -327,7 +325,7 @@ public class Manipulator extends TorqueSubsystem
         if(driverInput.fireFrisbee())
         {
             setLightsToChecks();
-            shooter.setShooterRates(Shooter.frontShooterRate, Shooter.middleShooterRate, Shooter.rearShooterRate);
+            shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
             
             if(shooter.isSpunUp())
             {
@@ -339,7 +337,7 @@ public class Manipulator extends TorqueSubsystem
     public void shootSide()
     {
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
-        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.middleShooterRate, Shooter.rearShooterRate);
+        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
         tilt.setTiltAngle(Tilt.sideAngle);

@@ -17,10 +17,9 @@ public class AutonomousSpinShooter extends AutonomousCommand
     public boolean run()
     {
         double frontRate = Shooter.frontShooterRate;
-        double middleRate = Shooter.middleShooterRate;
         double rearRate = Shooter.rearShooterRate;
         
-        shooter.setShooterRates(frontRate, middleRate, rearRate);
+        shooter.setShooterRates(frontRate, rearRate);
         
         return true;
     }

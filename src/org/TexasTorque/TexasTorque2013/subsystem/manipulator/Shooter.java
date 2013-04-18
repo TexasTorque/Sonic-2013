@@ -9,19 +9,15 @@ public class Shooter extends TorqueSubsystem
     private static Shooter instance;
     
     private TorquePID frontShooterPID;
-    private TorquePID middleShooterPID;
     private TorquePID rearShooterPID;
     
     private double frontShooterMotorSpeed;
-    private double middleShooterMotorSpeed;
     private double rearShooterMotorSpeed;
     
     private double desiredFrontShooterRate;
-    private double desiredMiddleShooterRate;
     private double desiredRearShooterRate;
     
     public static double frontShooterRate;
-    public static double middleShooterRate;
     public static double rearShooterRate;
     
     public static double frontFarRate;
@@ -37,66 +33,44 @@ public class Shooter extends TorqueSubsystem
         super();
         
         frontShooterPID = new TorquePID();
-        middleShooterPID = new TorquePID();
         rearShooterPID = new TorquePID();
         
         frontShooterMotorSpeed = Constants.MOTOR_STOPPED;
-        middleShooterMotorSpeed = Constants.MOTOR_STOPPED;
         rearShooterMotorSpeed = Constants.MOTOR_STOPPED;
         
         desiredFrontShooterRate = Constants.SHOOTER_STOPPED_RATE;
-        desiredMiddleShooterRate = Constants.SHOOTER_STOPPED_RATE;
         desiredRearShooterRate = Constants.SHOOTER_STOPPED_RATE;
     }
     
     public void run()
     {
         double frontSpeed = frontShooterPID.calculate(sensorInput.getFrontShooterRate());
-        double middleSpeed = middleShooterPID.calculate(sensorInput.getMiddleShooterRate());
-        double rearSpeed = rearShooterPID.calculate(sensorInput.getRearShooterRate());
+        double middleSpeed = rearShooterPID.calculate(sensorInput.getRearShooterRate());
         
         frontShooterMotorSpeed = limitShooterSpeed(frontSpeed);
-        middleShooterMotorSpeed = limitShooterSpeed(middleSpeed);
-        rearShooterMotorSpeed = limitShooterSpeed(rearSpeed);
+        rearShooterMotorSpeed = limitShooterSpeed(middleSpeed);
         
         if(desiredFrontShooterRate == Constants.SHOOTER_STOPPED_RATE)
         {
             frontShooterMotorSpeed = Constants.MOTOR_STOPPED;
         }
-        if(desiredMiddleShooterRate == Constants.SHOOTER_STOPPED_RATE)
-        {
-            middleShooterMotorSpeed = Constants.MOTOR_STOPPED;
-        }
         if(desiredRearShooterRate == Constants.SHOOTER_STOPPED_RATE)
         {
             rearShooterMotorSpeed = Constants.MOTOR_STOPPED;
-        }
-        
-        if(driverInput.backFeed())
-        {
-            frontShooterMotorSpeed = Constants.MOTOR_STOPPED;
-            middleShooterMotorSpeed = Constants.MOTOR_STOPPED;
-            rearShooterMotorSpeed = -0.5;
         }
     }
     
     public void setToRobot()
     {
-        robotOutput.setShooterMotors(frontShooterMotorSpeed, middleShooterMotorSpeed, rearShooterMotorSpeed);
+        robotOutput.setShooterMotors(frontShooterMotorSpeed, rearShooterMotorSpeed);
     }
     
-    public void setShooterRates(double frontRate, double middleRate, double rearRate)
+    public void setShooterRates(double frontRate, double rearRate)
     {
         if(frontRate != desiredFrontShooterRate)
         {
             desiredFrontShooterRate = frontRate;
             frontShooterPID.setSetpoint(desiredFrontShooterRate);
-        }
-        
-        if(middleRate != desiredMiddleShooterRate)
-        {
-            desiredMiddleShooterRate = middleRate;
-            middleShooterPID.setSetpoint(desiredMiddleShooterRate);
         }
         
         if(rearRate != desiredRearShooterRate)
@@ -108,12 +82,12 @@ public class Shooter extends TorqueSubsystem
     
     public void stopShooter()
     {
-        setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+        setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
     }
     
     public boolean isSpunUp()
     {
-        return (frontShooterPID.isDone() && middleShooterPID.isDone() && rearShooterPID.isDone());
+        return (frontShooterPID.isDone() && rearShooterPID.isDone());
     }
     
     private double limitShooterSpeed(double shooterSpeed)
@@ -131,7 +105,6 @@ public class Shooter extends TorqueSubsystem
     public String getKeyNames()
     {
         String names = "DesiredFrontShooterRate,FrontShooterMotorSpeed,ActualFrontShooterRate,"
-                + "DesiredMiddleShooterRate,MiddleShooterMotorSpeed,ActualMiddleShooterRate,"
                 + "DesiredRearShooterRate,RearShooterMotorSpeed,ActualRearShooterRate,";
         
         return names;
@@ -143,12 +116,8 @@ public class Shooter extends TorqueSubsystem
         data += frontShooterMotorSpeed + ",";
         data += sensorInput.getFrontShooterRate() + ",";
         
-        data += desiredMiddleShooterRate + ",";
-        data += middleShooterMotorSpeed + ",";
-        data += sensorInput.getMiddleShooterRate();
-        
         data += desiredRearShooterRate + ",";
-        data += middleShooterMotorSpeed + ",";
+        data += rearShooterMotorSpeed + ",";
         data += sensorInput.getRearShooterRate() + ",";
         
         return data;
@@ -157,8 +126,7 @@ public class Shooter extends TorqueSubsystem
     public void loadParameters()
     {   
         frontShooterRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
-        middleShooterRate = params.getAsDouble("S_MiddleShooterRate", Constants.DEFAULT_MIDDLE_SHOOTER_RATE);
-        rearShooterRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
+        rearShooterRate = params.getAsDouble("S_MiddleShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
         
         frontFarRate = params.getAsDouble("S_FrontFarRate", Constants.FULL_FIELD_FRONT_RATE);
         rearFarRate = params.getAsDouble("S_RearFarRate", Constants.FULL_FIELD_REAR_RATE);
@@ -176,16 +144,6 @@ public class Shooter extends TorqueSubsystem
         p = params.getAsDouble("S_MiddleShooterP", 0.0);
         ff = params.getAsDouble("S_MiddleShooterKV", 0.0);
         r = params.getAsDouble("S_MiddleShooterDoneRange", 300.0);
-        
-        middleShooterPID.setPIDGains(p, 0.0, 0.0);
-        middleShooterPID.setFeedForward(ff);
-        middleShooterPID.setDoneRange(r);
-        middleShooterPID.setMinDoneCycles(0);
-        middleShooterPID.reset();
-        
-        p = params.getAsDouble("S_RearShooterP", 0.0);
-        ff = params.getAsDouble("S_RearShooterKV", 0.0);
-        r = params.getAsDouble("S_RearShooterDoneRange", 300.0);
         
         rearShooterPID.setPIDGains(p, 0.0, 0.0);
         rearShooterPID.setFeedForward(ff);

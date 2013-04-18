@@ -16,7 +16,7 @@ public class AutonomousStopShooter extends AutonomousCommand
     
     public boolean run()
     {
-        shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
+        shooter.setShooterRates(Constants.SHOOTER_STOPPED_RATE, Constants.SHOOTER_STOPPED_RATE);
         return true;
     }
 }

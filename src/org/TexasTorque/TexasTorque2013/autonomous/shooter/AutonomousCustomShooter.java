@@ -5,15 +5,13 @@ import org.TexasTorque.TexasTorque2013.autonomous.AutonomousCommand;
 public class AutonomousCustomShooter extends AutonomousCommand
 {
     private double frontRate;
-    private double middleRate;
     private double rearRate;
     
-    public AutonomousCustomShooter(double front, double middle, double rear)
+    public AutonomousCustomShooter(double front, double rear)
     {
         super();
         
         frontRate = front;
-        middleRate = middle;
         rearRate = rear;
     }
     
@@ -23,7 +21,7 @@ public class AutonomousCustomShooter extends AutonomousCommand
     
     public boolean run()
     {
-        shooter.setShooterRates(frontRate, middleRate, rearRate);
+        shooter.setShooterRates(frontRate, rearRate);
         return true;
     }
 }
