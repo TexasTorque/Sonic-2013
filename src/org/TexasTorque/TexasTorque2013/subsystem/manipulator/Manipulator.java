@@ -214,7 +214,6 @@ public class Manipulator extends TorqueSubsystem
             intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
             magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
             shooter.stopShooter();
-            magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
             tilt.setTiltAngle(0.0);
         }
         else
