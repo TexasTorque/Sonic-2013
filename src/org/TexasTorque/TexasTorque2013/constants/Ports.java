@@ -19,8 +19,7 @@ public class Ports
         public final static int INTAKE_MOTOR_PORT = 5;
         
         //----- Sidecar 2 -----
-        public final static int REAR_SHOOTER_PORT = 1;
-        public final static int MIDDLE_SHOOTER_PORT = 2;
+        public final static int REAR_SHOOTER_MOTOR_PORT = 1;
         public final static int FRONT_SHOOTER_MOTOR_PORT = 3;
         public final static int MIDDLE_LEFT_DRIVE_MOTOR_PORT = 4;
         public final static int FRONT_LEFT_DRIVE_MOTOR_PORT = 5;
@@ -47,8 +46,7 @@ public class Ports
         public final static int ELEVATOR_ENCODER_A_PORT = 3;
         public final static int ELEVATOR_ENCODER_B_PORT = 4;
         public final static int FRONT_SHOOTER_COUNTER_PORT = 5;
-        public final static int MIDDLE_SHOOOTER_COUNTER_PORT = 6;
-        public final static int REAR_SHOOTER_COUNTER_PORT = 7;
+        public final static int REAR_SHOOTER_COUNTER_PORT = 6;
         public final static int LIGHTS_A_PORT = 8;
         public final static int LIGHTS_B_PORT = 9;
         public final static int LIGHTS_C_PORT = 10;

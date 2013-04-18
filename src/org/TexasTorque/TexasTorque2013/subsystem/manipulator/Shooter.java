@@ -45,10 +45,10 @@ public class Shooter extends TorqueSubsystem
     public void run()
     {
         double frontSpeed = frontShooterPID.calculate(sensorInput.getFrontShooterRate());
-        double middleSpeed = rearShooterPID.calculate(sensorInput.getRearShooterRate());
+        double rearSpeed = rearShooterPID.calculate(sensorInput.getRearShooterRate());
         
         frontShooterMotorSpeed = limitShooterSpeed(frontSpeed);
-        rearShooterMotorSpeed = limitShooterSpeed(middleSpeed);
+        rearShooterMotorSpeed = limitShooterSpeed(rearSpeed);
         
         if(desiredFrontShooterRate == Constants.SHOOTER_STOPPED_RATE)
         {

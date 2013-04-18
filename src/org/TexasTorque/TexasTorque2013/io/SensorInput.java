@@ -33,7 +33,7 @@ public class SensorInput
         leftDriveEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_B_PORT, false);
         rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
         frontShooterCounter = new TorqueCounterNew(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_COUNTER_PORT);
-        rearShooterCounter = new TorqueCounterNew(Ports.SIDECAR_TWO, Ports.MIDDLE_SHOOOTER_COUNTER_PORT);
+        rearShooterCounter = new TorqueCounterNew(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_COUNTER_PORT);
         elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_B_PORT, true);
         //----- Gyro -----
         gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
