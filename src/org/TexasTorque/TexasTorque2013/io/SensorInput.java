@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Watchdog;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.constants.Ports;
-import org.TexasTorque.TorqueLib.component.TorqueCounterNew;
+import org.TexasTorque.TorqueLib.component.TorqueCounter;
 import org.TexasTorque.TorqueLib.component.TorqueEncoder;
 import org.TexasTorque.TorqueLib.component.TorquePotentiometer;
 import org.TexasTorque.TorqueLib.util.TorqueUtil;
@@ -17,8 +17,8 @@ public class SensorInput
     //----- Encoder -----
     private TorqueEncoder leftDriveEncoder;
     private TorqueEncoder rightDriveEncoder;
-    private TorqueCounterNew frontShooterCounter;
-    private TorqueCounterNew rearShooterCounter;
+    private TorqueCounter frontShooterCounter;
+    private TorqueCounter rearShooterCounter;
     private TorqueEncoder elevatorEncoder;
     //----- Analog -----
     private AnalogChannel pressureSensor;
@@ -32,8 +32,8 @@ public class SensorInput
         //----- Encoders/Counters -----
         leftDriveEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.LEFT_DRIVE_ENCODER_B_PORT, false);
         rightDriveEncoder = new TorqueEncoder(Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_A_PORT, Ports.SIDECAR_ONE, Ports.RIGHT_DRIVE_ENCODER_B_PORT, false);
-        frontShooterCounter = new TorqueCounterNew(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_COUNTER_PORT);
-        rearShooterCounter = new TorqueCounterNew(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_COUNTER_PORT);
+        frontShooterCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_COUNTER_PORT);
+        rearShooterCounter = new TorqueCounter(Ports.SIDECAR_TWO, Ports.REAR_SHOOTER_COUNTER_PORT);
         elevatorEncoder = new TorqueEncoder(Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_A_PORT, Ports.SIDECAR_TWO, Ports.ELEVATOR_ENCODER_B_PORT, true);
         //----- Gyro -----
         gyroChannel = new AnalogChannel(Ports.GYRO_PORT);
