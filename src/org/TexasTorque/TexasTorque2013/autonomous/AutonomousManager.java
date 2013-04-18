@@ -240,8 +240,8 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousWait(0.25));
         autoBuilder.addCommand(new AutonomousStopShooter());
         autoBuilder.addCommand(new AutonomousTiltParallel());
-        autoBuilder.addCommand(new AutonomousTurn(turnAngle, 1.5));
-        autoBuilder.addCommand(new AutonomousDriveStraight2(reverseDistance, 1.0, false, 2.0));
+        //autoBuilder.addCommand(new AutonomousTurn(turnAngle, 1.5));
+        //autoBuilder.addCommand(new AutonomousDriveStraight2(reverseDistance, 1.0, false, 2.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
@@ -279,11 +279,11 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousWait(0.25));
         autoBuilder.addCommand(new AutonomousStopShooter());
         autoBuilder.addCommand(new AutonomousTiltParallel());
-        autoBuilder.addCommand(new AutonomousDriveStraight2(distanceToCenter, distanceToCenterSpeed, false, 2.0));
+        autoBuilder.addCommand(new AutonomousDriveStraight2(distanceToCenter, distanceToCenterSpeed, false, 5.0));
         autoBuilder.addCommand(new AutonomousTiltDone(genericTimeout));
         autoBuilder.addCommand(new AutonomousMagazineLoad());
-        autoBuilder.addCommand(new AutonomousTurn(firstTurnAngle, 2.0));
-        autoBuilder.addCommand(new AutonomousDriveStraight2(straddleDistance, straddleSpeed, false, 3.0));
+        autoBuilder.addCommand(new AutonomousTurn(firstTurnAngle, 30.0));
+        autoBuilder.addCommand(new AutonomousDriveStraight2(straddleDistance, straddleSpeed, false, 5.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousOuttake());
         autoBuilder.addCommand(new AutonomousMagazineStop());

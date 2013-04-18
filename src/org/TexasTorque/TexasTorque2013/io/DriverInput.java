@@ -117,6 +117,11 @@ public class DriverInput
         return operatorController.getLeftActionButton();
     }
     
+    public synchronized boolean shootFar()
+    {
+        return operatorController.getTopActionButton();
+    }
+    
     public synchronized boolean fireFrisbee()
     {
         return operatorController.getBottomRightBumper();
@@ -139,7 +144,8 @@ public class DriverInput
     
     public synchronized boolean backFeed()
     {
-        return operatorController.getTopActionButton();
+        //return operatorController.getTopActionButton();
+        return false;
     }
     
     public synchronized boolean passiveHang()

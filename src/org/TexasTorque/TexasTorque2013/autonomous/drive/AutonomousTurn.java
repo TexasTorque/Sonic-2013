@@ -11,6 +11,7 @@ public class AutonomousTurn extends AutonomousCommand
     private double timeoutSecs;
     private boolean firstCycle;
     private double goal;
+    private double cee;
     
     public AutonomousTurn(double degrees, double timeout)
     {
@@ -30,6 +31,7 @@ public class AutonomousTurn extends AutonomousCommand
         double p = params.getAsDouble("D_TurnGyroP", 0.0);
         double i = params.getAsDouble("D_TurnGyroI", 0.0);
         double d = params.getAsDouble("D_TurnGyroD", 0.0);
+        double c = params.getAsDouble("D_TurnGyroAdditive", 0.0);
         double e = params.getAsDouble("D_TurnGyroEpsilon", 0.0);
         double r = params.getAsDouble("D_TurnGyroDoneRange", 0.0);
         
@@ -38,6 +40,8 @@ public class AutonomousTurn extends AutonomousCommand
         gyroPID.setDoneRange(r);
         gyroPID.setMinDoneCycles(10);
         gyroPID.reset();
+        
+        cee = c;
         
         timeoutTimer.reset();
         timeoutTimer.start();
@@ -52,6 +56,7 @@ public class AutonomousTurn extends AutonomousCommand
         }
 
         double xVal = gyroPID.calculate(sensorInput.getGyroAngle());
+        xVal += cee * ((xVal < 0.0) ? -1.0 : 1.0);
         double yVal = 0.0;
         
         double leftDrive = yVal + xVal;

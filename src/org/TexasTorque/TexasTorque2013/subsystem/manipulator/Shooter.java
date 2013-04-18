@@ -24,6 +24,9 @@ public class Shooter extends TorqueSubsystem
     public static double middleShooterRate;
     public static double rearShooterRate;
     
+    public static double frontFarRate;
+    public static double rearFarRate;
+    
     public static Shooter getInstance()
     {
         return (instance == null) ? instance = new Shooter() : instance;
@@ -156,6 +159,9 @@ public class Shooter extends TorqueSubsystem
         frontShooterRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
         middleShooterRate = params.getAsDouble("S_MiddleShooterRate", Constants.DEFAULT_MIDDLE_SHOOTER_RATE);
         rearShooterRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
+        
+        frontFarRate = params.getAsDouble("S_FrontFarRate", Constants.FULL_FIELD_FRONT_RATE);
+        rearFarRate = params.getAsDouble("S_RearFarRate", Constants.FULL_FIELD_REAR_RATE);
         
         double p = params.getAsDouble("S_FrontShooterP", 0.0);
         double ff = params.getAsDouble("S_FrontShooterKV", 0.0);

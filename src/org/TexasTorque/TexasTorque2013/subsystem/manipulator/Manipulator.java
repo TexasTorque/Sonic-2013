@@ -61,6 +61,10 @@ public class Manipulator extends TorqueSubsystem
             {
                 shootLow();
             }
+            else if(driverInput.shootFar())
+            {
+                shootFar();
+            }
             else if(driverInput.gotoSlotHeight())
             {
                 feedFromSlot();
@@ -277,6 +281,22 @@ public class Manipulator extends TorqueSubsystem
         elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.middleShooterRate, Shooter.rearShooterRate);
         tilt.setTiltAngle(Tilt.lowAngle);
+        
+        setLightsToChecks();
+        
+        if(driverInput.fireFrisbee())
+        {
+            magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+        }
+    }
+    
+    public void shootFar()
+    {
+        intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
+        shooter.setShooterRates(Shooter.frontFarRate, Shooter.rearFarRate, Constants.SHOOTER_STOPPED_RATE);
+        tilt.setTiltAngle(Tilt.farAngle);
         
         setLightsToChecks();
         

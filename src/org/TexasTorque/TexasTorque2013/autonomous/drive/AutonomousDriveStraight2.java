@@ -27,8 +27,8 @@ public class AutonomousDriveStraight2 extends AutonomousCommand
         gyroPID = new TorquePID();
         
         encoderPID.setMaxOutput(speed);
-        encoderPID.setMinDoneCycles(50);
-        gyroPID.setMinDoneCycles(50);
+        encoderPID.setMinDoneCycles(10);
+        gyroPID.setMinDoneCycles(10);
         
         driveDistance = distance;
         

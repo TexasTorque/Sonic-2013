@@ -49,6 +49,8 @@ public class Constants
     public final static double DEFAULT_FRONT_SHOOTER_RATE = 3000.0;
     public final static double DEFAULT_MIDDLE_SHOOTER_RATE = 2000.0;
     public final static double DEFAULT_REAR_SHOOTER_RATE = 2000.0;
+    public final static double FULL_FIELD_FRONT_RATE = 5200.0;
+    public final static double FULL_FIELD_REAR_RATE = 5200.0;
     public final static double SHOOTER_STOPPED_RATE = 0.0;
     
     //----- Elevator -----
