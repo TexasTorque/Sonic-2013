@@ -190,7 +190,12 @@ public class DriverInput
     
     public synchronized boolean shootSideOverride()
     {
-        return operatorController.getRightActionButton();
+        return operatorController.getBottomActionButton();
+    }
+    
+    public synchronized boolean shootFarOverride()
+    {
+        return operatorController.getTopActionButton();
     }
     
     public synchronized boolean magazineShootOverride()
