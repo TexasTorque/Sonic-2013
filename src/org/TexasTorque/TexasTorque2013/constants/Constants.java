@@ -33,13 +33,11 @@ public class Constants
     public final static int GOD_AUTO = 8;
     
     //----- Drivebase -----
-    public final static double DEFAULT_LOW_SENSITIVITY = 1.25;
     public final static double DEFAULT_HIGH_SENSITIVITY = 0.7;
     public final static boolean HIGH_GEAR = true;
     public final static boolean LOW_GEAR = false;
     
     //----- Gyro -----
-    public final static int GYRO_ACCUMULATOR_DEADBAND = 75;
     public static double GYRO_SENSITIVITY = 0.014; //0.0136;
     
     //----- Shooter -----
