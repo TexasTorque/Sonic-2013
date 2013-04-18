@@ -25,10 +25,8 @@ public class RobotOutput
     private DoubleSolenoid passiveClimber;
     //----- Drive Motors -----
     private Motor frontLeftDriveMotor;
-    private Motor middleLeftDriveMotor;
     private Motor rearLeftDriveMotor;
     private Motor frontRightDriveMotor;
-    private Motor middleRightDriveMotor;
     private Motor rearRightDriveMotor;
     //----- Shooter Motors -----
     private Motor frontShooterMotor;
@@ -56,10 +54,8 @@ public class RobotOutput
         passiveClimber = new DoubleSolenoid(Ports.PASSIVE_CLIMBER_A_PORT, Ports.PASSIVE_CLIMBER_B_PORT);
         //----- Drive Motors -----
         frontLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_LEFT_DRIVE_MOTOR_PORT), false, true);
-        middleLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.MIDDLE_LEFT_DRIVE_MOTOR_PORT), false, true);
         rearLeftDriveMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.REAR_LEFT_DRIVE_MOTOR_PORT), false, true);
         frontRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.FRONT_RIGHT_DRIVE_MOTOR_PORT), true, true);
-        middleRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.MIDDLE_RIGHT_DRIVE_MOTOR_PORT), true, true);
         rearRightDriveMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.REAR_RIGHT_DRIVE_MOTOR_PORT), true, true);
         //----- Shooter Subsystem Motors-----
         frontShooterMotor = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.FRONT_SHOOTER_MOTOR_PORT), false, true);
@@ -90,10 +86,8 @@ public class RobotOutput
     public void setDriveMotors(double leftSpeed, double rightSpeed)
     {
         frontLeftDriveMotor.Set(leftSpeed);
-        middleLeftDriveMotor.Set(leftSpeed * 0.8);
         rearLeftDriveMotor.Set(leftSpeed);
         frontRightDriveMotor.Set(rightSpeed);
-        middleRightDriveMotor.Set(rightSpeed * 0.8);
         rearRightDriveMotor.Set(rightSpeed);
     }
     
