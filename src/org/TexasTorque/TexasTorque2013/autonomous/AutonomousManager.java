@@ -312,7 +312,7 @@ public class AutonomousManager
     public void leftCenterAuto()
     {
         double firstShotAngle = params.getAsDouble("A_SideAutoAngle", Tilt.sideAngle);
-        double secondShotAngle = params.getAsDouble("A_LeftsSevenSecondShotAngle", Tilt.sideAngle);
+        double secondShotAngle = params.getAsDouble("A_LeftSevenSecondShotAngle", Tilt.sideAngle);
         double firstTurnAngle = params.getAsDouble("A_LeftSevenFirstTurnAngle", -35.0);
         double secondTurnAngle = params.getAsDouble("A_LeftSevenSecondTurnAngle", -55.0);
         double distanceToCenter = params.getAsDouble("A_LeftSevenDistanceToCenter", 50.0);

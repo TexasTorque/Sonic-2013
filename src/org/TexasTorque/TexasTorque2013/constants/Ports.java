@@ -18,7 +18,7 @@ public class Ports
         public final static int INTAKE_MOTOR_PORT = 5;
         
         //----- Sidecar 2 -----
-        public final static int REAR_SHOOTER_MOTOR_PORT = 1;
+        public final static int REAR_SHOOTER_MOTOR_PORT = 2;
         public final static int FRONT_SHOOTER_MOTOR_PORT = 3;
         public final static int FRONT_LEFT_DRIVE_MOTOR_PORT = 5;
         public final static int REAR_LEFT_DRIVE_MOTOR_PORT = 6;

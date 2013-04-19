@@ -310,7 +310,7 @@ public class Manipulator extends TorqueSubsystem
     {
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
-        elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
+        elevator.setDesiredPosition(Elevator.elevatorFeedPosition);
         shooter.setShooterRates(Shooter.frontFarRate, Shooter.rearFarRate);
         tilt.setTiltAngle(Tilt.farAngle);
         

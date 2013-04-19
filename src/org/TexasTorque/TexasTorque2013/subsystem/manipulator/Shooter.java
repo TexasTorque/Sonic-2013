@@ -126,7 +126,7 @@ public class Shooter extends TorqueSubsystem
     public void loadParameters()
     {   
         frontShooterRate = params.getAsDouble("S_FrontShooterRate", Constants.DEFAULT_FRONT_SHOOTER_RATE);
-        rearShooterRate = params.getAsDouble("S_MiddleShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
+        rearShooterRate = params.getAsDouble("S_RearShooterRate", Constants.DEFAULT_REAR_SHOOTER_RATE);
         
         frontFarRate = params.getAsDouble("S_FrontFarRate", Constants.FULL_FIELD_FRONT_RATE);
         rearFarRate = params.getAsDouble("S_RearFarRate", Constants.FULL_FIELD_REAR_RATE);
@@ -141,9 +141,9 @@ public class Shooter extends TorqueSubsystem
         frontShooterPID.setMinDoneCycles(0);
         frontShooterPID.reset();
         
-        p = params.getAsDouble("S_MiddleShooterP", 0.0);
-        ff = params.getAsDouble("S_MiddleShooterKV", 0.0);
-        r = params.getAsDouble("S_MiddleShooterDoneRange", 300.0);
+        p = params.getAsDouble("S_RearShooterP", 0.0);
+        ff = params.getAsDouble("S_RearShooterKV", 0.0);
+        r = params.getAsDouble("S_RearShooterDoneRange", 300.0);
         
         rearShooterPID.setPIDGains(p, 0.0, 0.0);
         rearShooterPID.setFeedForward(ff);
