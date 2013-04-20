@@ -80,5 +80,7 @@ public class Constants
     public final static double PRESSURE_THRESHOLD = 2.35;
     public final static int RED_ALLIANCE = 0;
     public final static int BLUE_ALLIANCE = 1;
+    public final static boolean FLASHLIGHT_ON = true;
+    public final static boolean FLASHLIGHT_OFF = false;
     
 }

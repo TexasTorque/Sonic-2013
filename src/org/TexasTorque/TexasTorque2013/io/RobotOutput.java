@@ -3,6 +3,7 @@ package org.TexasTorque.TexasTorque2013.io;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import java.util.Vector;
@@ -37,6 +38,8 @@ public class RobotOutput
     private Motor intakeMotor;
     private Motor elevatorMotorLeft;
     private Motor elevatorMotorRight;
+    //----- Misc Misc -----
+    private Relay flashlightRelay;
     
     public RobotOutput()
     {   
@@ -67,6 +70,9 @@ public class RobotOutput
         intakeMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.INTAKE_MOTOR_PORT), false, true);
         elevatorMotorLeft = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.ELEVATOR_MOTOR_PORT_LEFT), false, true);
         elevatorMotorRight = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.ELEVATOR_MOTOR_PORT_RIGHT), true, true);
+        //----- Misc Misc -----
+        flashlightRelay = new Relay(Ports.SIDECAR_ONE, Ports.FLASHLIGHT_RELAY_PORT);
+        flashlightRelay.setDirection(Relay.Direction.kForward);
         compressor.start();
     }
  
@@ -152,5 +158,17 @@ public class RobotOutput
     public void setBackFeed(boolean extended)
     {
         backFeed.set(extended);
+    }
+    
+    public void setFlashlight(boolean on)
+    {
+        if(on)
+        {
+            flashlightRelay.set(Relay.Value.kOn);
+        }
+        else
+        {
+            flashlightRelay.set(Relay.Value.kOff);
+        }
     }
 }

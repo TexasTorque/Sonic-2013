@@ -14,6 +14,7 @@ public class Tilt extends TorqueSubsystem
     private double desiredTiltAngle;
     private double tiltMotorSpeed;
     private boolean backFeedState;
+    private boolean flashlightState;
     
     private double tiltThreshold;
     
@@ -42,7 +43,8 @@ public class Tilt extends TorqueSubsystem
         
         desiredTiltAngle = 0.0;
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
-        backFeedState = false;
+        backFeedState = Constants.BACK_FEED_DOWN;
+        flashlightState = Constants.FLASHLIGHT_OFF;
         
         tiltThreshold = 0.0;
         
@@ -60,16 +62,14 @@ public class Tilt extends TorqueSubsystem
             tiltMotorSpeed += tiltThreshold;
         }
         
-        /*if(desiredTiltAngle == 0.0 && tiltPID.isDone())
-        {
-            tiltMotorSpeed = 0.0;
-        }*/
+        handleFlashlight();
     }
     
     public void setToRobot()
     {
         robotOutput.setTiltMotor(tiltMotorSpeed);
         robotOutput.setBackFeed(backFeedState);
+        robotOutput.setFlashlight(flashlightState);
     }
     
     public void tiltAdjustments(boolean increment, boolean decrement)
@@ -101,6 +101,11 @@ public class Tilt extends TorqueSubsystem
         {
             decrementSize = 0.5;
         }
+    }
+    
+    private void handleFlashlight()
+    {
+        flashlightState = (isLocked() && (desiredTiltAngle != 0.0 && desiredTiltAngle != farAngle) ? Constants.FLASHLIGHT_ON : Constants.FLASHLIGHT_OFF);
     }
     
     public void setTiltAngle(double angle)
