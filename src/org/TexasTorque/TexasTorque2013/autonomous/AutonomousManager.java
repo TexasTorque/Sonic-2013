@@ -286,14 +286,14 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousTiltDone(genericTimeout));
         autoBuilder.addCommand(new AutonomousMagazineLoad());
         autoBuilder.addCommand(new AutonomousTurn(firstTurnAngle, 2.0));
-        autoBuilder.addCommand(new AutonomousDriveStraight2(straddleDistance, straddleSpeed, false, 5.0));
+        autoBuilder.addCommand(new AutonomousDriveStraight2(straddleDistance, straddleSpeed, false, 3.5));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousOuttake());
         autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousWait(0.125));
         autoBuilder.addCommand(new AutonomousCustomTilt(secondShotAngle));
         autoBuilder.addCommand(new AutonomousSpinShooter());
-        autoBuilder.addCommand(new AutonomousTurn(secondTurnAngle, 2.0));
+        autoBuilder.addCommand(new AutonomousTurn(secondTurnAngle, 1.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousStopIntake());
         autoBuilder.addCommand(new AutonomousTiltDone(0.75));
