@@ -102,6 +102,11 @@ public class Elevator extends TorqueSubsystem
         return feedForward.onTarget(elevatorEpsilon);
     }
     
+    public double getDesiredPosition()
+    {
+        return desiredPosition;
+    }
+    
     public String getKeyNames()
     {
         String names = "ElevatorMotorSpeed,ElevatorVelocity,ElevatorPosition,ElevatorGoalVelocity,";

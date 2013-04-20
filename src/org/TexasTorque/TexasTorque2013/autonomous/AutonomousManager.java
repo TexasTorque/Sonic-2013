@@ -2,10 +2,13 @@ package org.TexasTorque.TexasTorque2013.autonomous;
 
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStop;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraight2;
+import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraightLow;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftHigh;
+import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftLow;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousTurn;
 import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousIntake;
 import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousOuttake;
+import org.TexasTorque.TexasTorque2013.autonomous.intake.AutonomousStopIntake;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousFireOnce;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousMagazineDone;
 import org.TexasTorque.TexasTorque2013.autonomous.magazine.AutonomousMagazineLoad;
@@ -182,7 +185,7 @@ public class AutonomousManager
         
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);
-        autoBuilder.addVariableFireSequence(3, sideTiltAngle, Elevator.elevatorBottomPosition, 1.0);
+        autoBuilder.addVariableFireSequence(5, sideTiltAngle, Elevator.elevatorBottomPosition, 1.0);
         autoBuilder.addCommand(new AutonomousStop());
     }
     
@@ -195,32 +198,34 @@ public class AutonomousManager
         double firstShotAngle = params.getAsDouble("A_RearLowAngle", Tilt.lowAngle);
         double secondShotAngle = params.getAsDouble("A_MiddleSevenSecondTiltAngle", Tilt.lowAngle);
         double reverseDistance = params.getAsDouble("A_MiddleSevenReverseDistance", -57.0);
-        double genericTimeout = 1.0;
+        double genericTimeout = 0.25;
         
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);  
-        autoBuilder.addCommand(new AutonomousShiftHigh());
+        autoBuilder.addCommand(new AutonomousShiftLow());
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousCustomTilt(firstShotAngle));
         autoBuilder.addCommand(new AutonomousSpinShooter());
+        autoBuilder.addCommand(new AutonomousTiltDone(1.5));
         
         int numFires = 4;
         for(int i = 0; i < numFires; i++)
         {
             autoBuilder.addCommand(new AutonomousTiltDone(genericTimeout));
             autoBuilder.addCommand(new AutonomousShooterDone(genericTimeout));
-            autoBuilder.addCommand(new AutonomousMagazineDone(genericTimeout));
+            autoBuilder.addCommand(new AutonomousMagazineDone(magazine.deltaTimeForward + magazine.deltaTimeReverse));
             autoBuilder.addCommand(new AutonomousFireOnce());
         }
         
         autoBuilder.addCommand(new AutonomousWait(0.25));
         autoBuilder.addCommand(new AutonomousStopShooter());
         autoBuilder.addCommand(new AutonomousTiltParallel());
-        autoBuilder.addCommand(new AutonomousTiltDone(genericTimeout));
+        autoBuilder.addCommand(new AutonomousTiltDone(1.0));
         autoBuilder.addCommand(new AutonomousMagazineLoad());
-        autoBuilder.addCommand(new AutonomousDriveStraight2(driveDistance, driveSpeed, true, timeout));
+        autoBuilder.addCommand(new AutonomousDriveStraightLow(driveDistance, driveSpeed, true, timeout));
         autoBuilder.addCommand(new AutonomousDriveStop());
+        autoBuilder.addCommand(new AutonomousShiftHigh());
         autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousWait(0.125));
         autoBuilder.addCommand(new AutonomousOuttake());
@@ -233,15 +238,13 @@ public class AutonomousManager
         {
             autoBuilder.addCommand(new AutonomousTiltDone(genericTimeout));
             autoBuilder.addCommand(new AutonomousShooterDone(genericTimeout));
-            autoBuilder.addCommand(new AutonomousMagazineDone(genericTimeout));
+            autoBuilder.addCommand(new AutonomousMagazineDone(magazine.deltaTimeForward + magazine.deltaTimeReverse));
             autoBuilder.addCommand(new AutonomousFireOnce());
         }
         
         autoBuilder.addCommand(new AutonomousWait(0.25));
         autoBuilder.addCommand(new AutonomousStopShooter());
         autoBuilder.addCommand(new AutonomousTiltParallel());
-        //autoBuilder.addCommand(new AutonomousTurn(turnAngle, 1.5));
-        //autoBuilder.addCommand(new AutonomousDriveStraight2(reverseDistance, 1.0, false, 2.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
@@ -250,7 +253,7 @@ public class AutonomousManager
     public void rightCenterAuto()
     {
         double firstShotAngle = params.getAsDouble("A_SideAutoAngle", Tilt.sideAngle);
-        double secondShotAngle = params.getAsDouble("A_RightSevenSecondShotAngle", Tilt.sideAngle);
+        double secondShotAngle = params.getAsDouble("A_RightSevenSecondShotAngle", 0.0);
         double firstTurnAngle = params.getAsDouble("A_RightSevenFirstTurnAngle", 35.0);
         double secondTurnAngle = params.getAsDouble("A_RightSevenSecondTurnAngle", 55.0);
         double distanceToCenter = params.getAsDouble("A_RightSevenDistanceToCenter", 50.0);
@@ -279,10 +282,10 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousWait(0.25));
         autoBuilder.addCommand(new AutonomousStopShooter());
         autoBuilder.addCommand(new AutonomousTiltParallel());
-        autoBuilder.addCommand(new AutonomousDriveStraight2(distanceToCenter, distanceToCenterSpeed, false, 5.0));
+        autoBuilder.addCommand(new AutonomousDriveStraight2(distanceToCenter, distanceToCenterSpeed, false, 2.0));
         autoBuilder.addCommand(new AutonomousTiltDone(genericTimeout));
         autoBuilder.addCommand(new AutonomousMagazineLoad());
-        autoBuilder.addCommand(new AutonomousTurn(firstTurnAngle, 30.0));
+        autoBuilder.addCommand(new AutonomousTurn(firstTurnAngle, 2.0));
         autoBuilder.addCommand(new AutonomousDriveStraight2(straddleDistance, straddleSpeed, false, 5.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousOuttake());
@@ -292,13 +295,15 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousSpinShooter());
         autoBuilder.addCommand(new AutonomousTurn(secondTurnAngle, 2.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
+        autoBuilder.addCommand(new AutonomousStopIntake());
+        autoBuilder.addCommand(new AutonomousTiltDone(0.75));
         
         numFires = 4;
         for(int i = 0; i < numFires; i++)
         {
-            autoBuilder.addCommand(new AutonomousTiltDone(genericTimeout));
-            autoBuilder.addCommand(new AutonomousShooterDone(genericTimeout));
-            autoBuilder.addCommand(new AutonomousMagazineDone(genericTimeout));
+            autoBuilder.addCommand(new AutonomousTiltDone(0.25));
+            autoBuilder.addCommand(new AutonomousShooterDone(0.25));
+            autoBuilder.addCommand(new AutonomousMagazineDone(Magazine.deltaTimeForward + Magazine.deltaTimeReverse));
             autoBuilder.addCommand(new AutonomousFireOnce());
         }
         
@@ -530,12 +535,18 @@ public class AutonomousManager
     
     public void randomTestAuto()
     {
-        double leftSpeed = params.getAsDouble("A_PivotLeftSpeed", 0.8);
-        double rightSpeed = params.getAsDouble("A_PivotRightSpeed", 0.8);
+        
+        double driveSpeed = params.getAsDouble("A_MiddleSevenSpeed", 0.5);
+        double driveDistance = params.getAsDouble("A_MiddleSevenDistance", 100);
+        double timeout = params.getAsDouble("A_MiddleSevenTimeout", 5.0);
+        double turnAngle = params.getAsDouble("A_MiddleSevenTurnAngle", 40.0);
+        double firstShotAngle = params.getAsDouble("A_RearLowAngle", Tilt.lowAngle);
+        double secondShotAngle = params.getAsDouble("A_MiddleSevenSecondTiltAngle", Tilt.lowAngle);
+        double reverseDistance = params.getAsDouble("A_MiddleSevenReverseDistance", -57.0);
+        double genericTimeout = 0.25;
         
         autoBuilder.clearCommands();
-        autoBuilder.addCommand(new AutonomousShiftHigh());
-        autoBuilder.addCommand(new AutonomousTurn(90, 5.0));
+        autoBuilder.addCommand(new AutonomousDriveStraightLow(driveDistance, driveSpeed, true, timeout));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());

@@ -122,6 +122,11 @@ public class DriverInput
         return operatorController.getTopActionButton();
     }
     
+    public synchronized boolean shootClose()
+    {
+        return operatorController.getTopActionButton();
+    }
+    
     public synchronized boolean fireFrisbee()
     {
         return operatorController.getBottomRightBumper();
