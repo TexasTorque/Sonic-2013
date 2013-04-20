@@ -13,6 +13,7 @@ public class Tilt extends TorqueSubsystem
     
     private double desiredTiltAngle;
     private double tiltMotorSpeed;
+    private boolean backFeedState;
     
     private double tiltThreshold;
     
@@ -41,6 +42,7 @@ public class Tilt extends TorqueSubsystem
         
         desiredTiltAngle = 0.0;
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
+        backFeedState = false;
         
         tiltThreshold = 0.0;
         
@@ -67,6 +69,7 @@ public class Tilt extends TorqueSubsystem
     public void setToRobot()
     {
         robotOutput.setTiltMotor(tiltMotorSpeed);
+        robotOutput.setBackFeed(backFeedState);
     }
     
     public void tiltAdjustments(boolean increment, boolean decrement)
@@ -107,6 +110,10 @@ public class Tilt extends TorqueSubsystem
             desiredTiltAngle = angle;
             tiltPID.setSetpoint(desiredTiltAngle);
         }
+    }
+    public void setBackFeed(boolean desiredState)
+    {
+        backFeedState = desiredState;
     }
     
     public boolean isLocked()

@@ -49,6 +49,8 @@ public class Constants
     public final static double FULL_FIELD_FRONT_RATE = 4800.0;
     public final static double FULL_FIELD_REAR_RATE = 4800.0;
     public final static double SHOOTER_STOPPED_RATE = 0.0;
+    public final static boolean BACK_FEED_DOWN = false;
+    public final static boolean BACK_FEED_OUT = true;
     
     //----- Elevator -----
     public final static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;
