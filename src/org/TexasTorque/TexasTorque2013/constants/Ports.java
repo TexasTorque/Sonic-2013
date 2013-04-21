@@ -61,7 +61,6 @@ public class Ports
     //----- Relays -----
         //----- Sidecar 1 -----
         public final static int COMPRESSOR_RELAY_PORT = 1;
-        public final static int FLASHLIGHT_RELAY_PORT = 2;
         //----- Sidecar 2 -----
     
 }

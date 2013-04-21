@@ -38,8 +38,6 @@ public class RobotOutput
     private Motor intakeMotor;
     private Motor elevatorMotorLeft;
     private Motor elevatorMotorRight;
-    //----- Misc Misc -----
-    private Relay flashlightRelay;
     
     public RobotOutput()
     {   
@@ -71,8 +69,6 @@ public class RobotOutput
         elevatorMotorLeft = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.ELEVATOR_MOTOR_PORT_LEFT), false, true);
         elevatorMotorRight = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.ELEVATOR_MOTOR_PORT_RIGHT), true, true);
         //----- Misc Misc -----
-        flashlightRelay = new Relay(Ports.SIDECAR_ONE, Ports.FLASHLIGHT_RELAY_PORT);
-        flashlightRelay.setDirection(Relay.Direction.kForward);
         compressor.start();
     }
  
@@ -158,17 +154,5 @@ public class RobotOutput
     public void setBackFeed(boolean extended)
     {
         backFeed.set(extended);
-    }
-    
-    public void setFlashlight(boolean on)
-    {
-        if(on)
-        {
-            flashlightRelay.set(Relay.Value.kOn);
-        }
-        else
-        {
-            flashlightRelay.set(Relay.Value.kOff);
-        }
     }
 }
