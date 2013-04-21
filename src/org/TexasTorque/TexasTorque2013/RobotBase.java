@@ -119,6 +119,8 @@ public class RobotBase extends IterativeRobot implements Runnable
         loadParameters();
         initLogging();
         
+        SmartDashboard.putBoolean("Auto", true);
+        
         autoManager.setAutoMode(driverInput.getAutonomousMode());
         autoManager.addAutoDelay(driverInput.getAutonomousDelay());
         autoManager.reset();
@@ -164,6 +166,8 @@ public class RobotBase extends IterativeRobot implements Runnable
         loadParameters();
         initLogging();
         
+        SmartDashboard.putBoolean("Auto", false);
+        
         driverInput.pullJoystickTypes();
         
         manipulator.setLightsNormal();
@@ -208,6 +212,7 @@ public class RobotBase extends IterativeRobot implements Runnable
 
     public void disabledInit()
     {
+        SmartDashboard.putBoolean("Auto", true);
         robotOutput.setLightsState(Constants.PARTY_MODE);
         robotOutput.runLights();
     }
@@ -239,6 +244,7 @@ public class RobotBase extends IterativeRobot implements Runnable
         SmartDashboard.putBoolean("logData", false);
         SmartDashboard.putBoolean("firstControllerIsLogitech", Constants.DEFAULT_FIRST_CONTROLLER_TYPE);
         SmartDashboard.putBoolean("secondControllerIsLogitech", Constants.DEFAULT_SECOND_CONTROLLER_TYPE);
+        SmartDashboard.putBoolean("Auto", true);
     }
     
     public void loadParameters()
