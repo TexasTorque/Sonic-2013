@@ -79,7 +79,7 @@ public class Tilt extends TorqueSubsystem
             lowAngle += incrementSize;
             sideAngle += incrementSize;
             highAngle += incrementSize;
-            farAngle += incrementSize;
+            farAngle += incrementSize / 2;
             closeAngle += incrementSize;
             incrementSize = 0.0;
         }
@@ -94,7 +94,7 @@ public class Tilt extends TorqueSubsystem
             sideAngle -= decrementSize;
             highAngle -= decrementSize;
             farAngle -= decrementSize;
-            closeAngle -= decrementSize;
+            closeAngle -= decrementSize / 2;
             decrementSize = 0.0;
         }
         else

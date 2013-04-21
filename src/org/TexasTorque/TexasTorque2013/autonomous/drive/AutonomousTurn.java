@@ -12,13 +12,15 @@ public class AutonomousTurn extends AutonomousCommand
     private boolean firstCycle;
     private double goal;
     private double cee;
+    private double dr;
     
-    public AutonomousTurn(double degrees, double timeout)
+    public AutonomousTurn(double degrees, double timeout, double doneRange)
     {
         super();
         
         goal = degrees;
         firstCycle = true;
+        dr = doneRange;
         
         gyroPID = new TorquePID();
         
@@ -33,11 +35,10 @@ public class AutonomousTurn extends AutonomousCommand
         double d = params.getAsDouble("D_TurnGyroD", 0.0);
         double c = params.getAsDouble("D_TurnGyroAdditive", 0.0);
         double e = params.getAsDouble("D_TurnGyroEpsilon", 0.0);
-        double r = params.getAsDouble("D_TurnGyroDoneRange", 0.0);
         
         gyroPID.setPIDGains(p, i, d);
         gyroPID.setEpsilon(e);
-        gyroPID.setDoneRange(r);
+        gyroPID.setDoneRange(dr);
         gyroPID.setMinDoneCycles(10);
         gyroPID.reset();
         
