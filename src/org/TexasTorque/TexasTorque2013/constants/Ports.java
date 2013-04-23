@@ -12,6 +12,7 @@ public class Ports
     
     //----- Motors -----
         //----- Sidecar 1 -----
+        public final static int GATE_SERVO_PORT = 1;
         public final static int FRONT_RIGHT_DRIVE_MOTOR_PORT = 2;
         public final static int REAR_RIGHT_DRIVE_MOTOR_PORT = 3;
         public final static int ELEVATOR_MOTOR_PORT_LEFT = 4;
@@ -32,7 +33,8 @@ public class Ports
     public final static int FRISBEE_LIFTER_SOLENOID_B_PORT = 4;
     public final static int LOADER_SOLENOID_PORT = 5;
     public final static int DRIVE_SHIFTER_PORT = 6;
-    public final static int BACK_FEED_PORT = 7;
+    public final static int GATE_SOLENOID_PORT = 7;
+    public final static int BACK_FEED_PORT = 8;
     
     //----- Digital Inputs -----
         //----- Sidecar 1 -----

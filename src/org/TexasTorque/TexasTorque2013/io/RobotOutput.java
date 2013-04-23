@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import java.util.Vector;
@@ -23,6 +24,7 @@ public class RobotOutput
     private Solenoid driveShifter;
     private Solenoid firingPin;
     private Solenoid backFeed;
+    private Solenoid gate;
     private DoubleSolenoid frisbeeLifter;
     private DoubleSolenoid passiveClimber;
     //----- Drive Motors -----
@@ -38,6 +40,7 @@ public class RobotOutput
     private Motor intakeMotor;
     private Motor elevatorMotorLeft;
     private Motor elevatorMotorRight;
+    private Servo gateServo;
     
     public RobotOutput()
     {   
@@ -53,6 +56,7 @@ public class RobotOutput
         driveShifter = new Solenoid(Ports.DRIVE_SHIFTER_PORT);
         firingPin = new Solenoid(Ports.LOADER_SOLENOID_PORT);
         backFeed = new Solenoid(Ports.BACK_FEED_PORT);
+        gate = new Solenoid(Ports.GATE_SOLENOID_PORT);
         frisbeeLifter = new DoubleSolenoid(Ports.FRISBEE_LIFTER_SOLENOID_A_PORT, Ports.FRISBEE_LIFTER_SOLENOID_B_PORT);
         passiveClimber = new DoubleSolenoid(Ports.PASSIVE_CLIMBER_A_PORT, Ports.PASSIVE_CLIMBER_B_PORT);
         //----- Drive Motors -----
@@ -68,6 +72,7 @@ public class RobotOutput
         intakeMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.INTAKE_MOTOR_PORT), false, true);
         elevatorMotorLeft = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.ELEVATOR_MOTOR_PORT_LEFT), false, true);
         elevatorMotorRight = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.ELEVATOR_MOTOR_PORT_RIGHT), true, true);
+        gateServo = new Servo(Ports.SIDECAR_ONE, Ports.GATE_SERVO_PORT);
         //----- Misc Misc -----
         compressor.start();
     }
@@ -154,5 +159,15 @@ public class RobotOutput
     public void setBackFeed(boolean extended)
     {
         backFeed.set(extended);
+    }
+    
+    public void setGate(boolean retract)
+    {
+        gate.set(retract);
+    }
+    
+    public void setGateDegree(double degree)
+    {
+        gateServo.setAngle(degree);
     }
 }

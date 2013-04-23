@@ -51,6 +51,8 @@ public class Constants
     public final static double SHOOTER_STOPPED_RATE = 0.0;
     public final static boolean BACK_FEED_DOWN = false;
     public final static boolean BACK_FEED_OUT = true;
+    public final static boolean GATE_EXTENDED = false;
+    public final static boolean GATE_RETRACTED = true;
     
     //----- Elevator -----
     public final static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;
