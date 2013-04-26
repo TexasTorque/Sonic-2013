@@ -205,6 +205,7 @@ public class RobotBase extends IterativeRobot implements Runnable
         SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
         SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
         SmartDashboard.putNumber("TiltVoltage", sensorInput.getTiltVoltage());
+        SmartDashboard.putNumber("PressureVoltage", sensorInput.getPSI());
         SmartDashboard.putNumber("NumCycles", numCycles);
     }
     

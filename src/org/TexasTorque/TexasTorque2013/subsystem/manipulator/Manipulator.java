@@ -471,6 +471,8 @@ public class Manipulator extends TorqueSubsystem
     
     private void setLightsToChecks()
     {
+        double currentAlliance = dashboardManager.getDS().getAlliance().value;
+        
         if(elevator.atDesiredPosition() && shooter.isSpunUp() && tilt.isLocked())
         {
             setLightsLocked();
@@ -478,6 +480,21 @@ public class Manipulator extends TorqueSubsystem
         else
         {
             setLightsTracking();
+        }
+        
+        if(currentAlliance == Constants.RED_ALLIANCE)
+        {
+            if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD)
+            {
+                robotOutput.setLightsState(Constants.YELLOW_RED_ALLIANCE);
+            }
+        }
+        else if(currentAlliance == Constants.BLUE_ALLIANCE)
+        {
+            if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD)
+            {
+                robotOutput.setLightsState(Constants.YELLOW_BLUE_ALLIANCE);
+            }
         }
     }
 }

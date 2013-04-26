@@ -13,8 +13,8 @@ public class Constants
     public final static int WHITE_SOLID = 0;
     public final static int BLUE_SOLID = 1;
     public final static int RED_SOLID = 2;
-    public final static int YELLOW_RED_ALLIANCE = 3;
-    public final static int YELLOW_BLUE_ALLIANCE = 4;
+    public final static int YELLOW_RED_ALLIANCE = 4;
+    public final static int YELLOW_BLUE_ALLIANCE = 3;
     public final static int PARTY_MODE = 5;
     public final static int TRACKING_RED_ALLIANCE = 6;
     public final static int TRACKING_BLUE_ALLIANCE = 7;
@@ -42,8 +42,8 @@ public class Constants
     
     //----- Shooter -----
     public final static double DEFAULT_STANDARD_TILT_POSITION = 5.0;
-    public final static double POTENTIOMETER_LOW_VOLTAGE = 0.590;
-    public final static double POTENTIOMETER_HIGH_VOLTAGE = 6.828;
+    public final static double POTENTIOMETER_LOW_VOLTAGE = 0.34;
+    public final static double POTENTIOMETER_HIGH_VOLTAGE = 6.578;
     public final static double DEFAULT_FRONT_SHOOTER_RATE = 4800.0;
     public final static double DEFAULT_REAR_SHOOTER_RATE = 4800.0;
     public final static double FULL_FIELD_FRONT_RATE = 4800.0;
@@ -79,7 +79,7 @@ public class Constants
     public final static int CYCLES_PER_LOG = 10;
     public final static double MOTOR_STOPPED = 0.0;
     public final static int SHOOTER_FILTER_SIZE = 10;
-    public final static double PRESSURE_THRESHOLD = 2.35;
+    public final static double PRESSURE_THRESHOLD = 2.0;
     public final static int RED_ALLIANCE = 0;
     public final static int BLUE_ALLIANCE = 1;
     

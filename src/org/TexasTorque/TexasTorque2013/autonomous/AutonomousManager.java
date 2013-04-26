@@ -19,6 +19,8 @@ import org.TexasTorque.TexasTorque2013.autonomous.shooter.AutonomousStopShooter;
 import org.TexasTorque.TexasTorque2013.autonomous.tilt.AutonomousCustomTilt;
 import org.TexasTorque.TexasTorque2013.autonomous.tilt.AutonomousTiltDone;
 import org.TexasTorque.TexasTorque2013.autonomous.tilt.AutonomousTiltParallel;
+import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousResetEncoders;
+import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousResetGyro;
 import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousStop;
 import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousStopAll;
 import org.TexasTorque.TexasTorque2013.autonomous.util.AutonomousWait;
@@ -201,7 +203,8 @@ public class AutonomousManager
         double genericTimeout = 0.25;
         
         autoBuilder.clearCommands();
-        autoBuilder.addAutonomousDelay(autoDelay);  
+        autoBuilder.addAutonomousDelay(autoDelay);
+        autoBuilder.addCommand(new AutonomousResetGyro());
         autoBuilder.addCommand(new AutonomousShiftLow());
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousDriveStop());
@@ -264,6 +267,7 @@ public class AutonomousManager
         
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);
+        autoBuilder.addCommand(new AutonomousResetEncoders());
         autoBuilder.addCommand(new AutonomousShiftHigh());
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousDriveStop());
@@ -328,6 +332,7 @@ public class AutonomousManager
         
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);
+        autoBuilder.addCommand(new AutonomousResetGyro());
         autoBuilder.addCommand(new AutonomousShiftHigh());
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousDriveStop());

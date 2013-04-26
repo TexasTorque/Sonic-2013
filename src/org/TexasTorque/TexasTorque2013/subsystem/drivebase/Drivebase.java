@@ -51,8 +51,8 @@ public class Drivebase extends TorqueSubsystem
            {
                shiftState = Constants.LOW_GEAR;
                
-               leftDriveSpeed *= 0.5;
-               rightDriveSpeed *= 0.5;
+               leftDriveSpeed *= 0.4;
+               rightDriveSpeed *= 0.4;
            }
         }
     }
