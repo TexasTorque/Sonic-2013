@@ -62,13 +62,18 @@ public class Tilt extends TorqueSubsystem
             tiltMotorSpeed += tiltThreshold;
         }
         
-        if(desiredTiltAngle != 0.0)
+        if(desiredTiltAngle != 0.0 && Math.abs(desiredTiltAngle - currentAngle) <= 5)
         {
             gateState = Constants.GATE_RETRACTED;
         }
         else
         {
             gateState = Constants.GATE_EXTENDED;
+        }
+        
+        if(driverInput.fireFrisbee())
+        {
+            gateState = Constants.GATE_RETRACTED;
         }
     }
     
