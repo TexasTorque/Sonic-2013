@@ -29,6 +29,7 @@ public class Tilt extends TorqueSubsystem
     public static double feederStationAngle;
     public static double autonomousLowAngle;
     public static double shootLowAdditive;
+    public static double madtownAngle;
     
     public static Tilt getInstance()
     {
@@ -62,7 +63,7 @@ public class Tilt extends TorqueSubsystem
             tiltMotorSpeed += tiltThreshold;
         }
         
-        if(desiredTiltAngle != 0.0 && Math.abs(desiredTiltAngle - currentAngle) <= 5)
+        if(desiredTiltAngle != 0.0 && Math.abs(desiredTiltAngle - currentAngle) <= 15)
         {
             gateState = Constants.GATE_RETRACTED;
         }
@@ -170,6 +171,7 @@ public class Tilt extends TorqueSubsystem
         feederStationAngle = params.getAsDouble("T_FeederStationAngle", 0.0);
         autonomousLowAngle = params.getAsDouble("A_RearLowAngle", lowAngle);
         shootLowAdditive = params.getAsDouble("T_ShootLowAdditive", 0.0);
+        madtownAngle = params.getAsDouble("T_MadtownAngle", lowAngle);
         
         tiltThreshold = params.getAsDouble("T_TiltMotorAdditive", 0.15);
         

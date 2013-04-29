@@ -211,6 +211,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousCustomTilt(firstShotAngle));
         autoBuilder.addCommand(new AutonomousSpinShooter());
         autoBuilder.addCommand(new AutonomousTiltDone(1.5));
+        autoBuilder.addCommand(new AutonomousWait(0.5));
         
         int numFires = 4;
         for(int i = 0; i < numFires; i++)
@@ -229,12 +230,13 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousDriveStraightLow(driveDistance, driveSpeed, true, timeout));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousShiftHigh());
-        autoBuilder.addCommand(new AutonomousMagazineStop());
-        autoBuilder.addCommand(new AutonomousWait(0.125));
-        autoBuilder.addCommand(new AutonomousOuttake());
-        autoBuilder.addCommand(new AutonomousCustomTilt(secondShotAngle));
         autoBuilder.addCommand(new AutonomousSpinShooter());
         autoBuilder.addCommand(new AutonomousDriveStraight2(-(driveDistance + 3), 1.0, true, timeout));
+        autoBuilder.addCommand(new AutonomousMagazineStop());
+        autoBuilder.addCommand(new AutonomousWait(0.125));
+        autoBuilder.addCommand(new AutonomousCustomTilt(secondShotAngle));
+        autoBuilder.addCommand(new AutonomousWait(0.75));
+        autoBuilder.addCommand(new AutonomousOuttake());
         
         numFires = 4;
         for(int i = 0; i < numFires; i++)
@@ -292,15 +294,14 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousTurn(firstTurnAngle, 2.0, 0.5));
         autoBuilder.addCommand(new AutonomousDriveStraight2(straddleDistance, straddleSpeed, false, 3.5));
         autoBuilder.addCommand(new AutonomousDriveStop());
+        autoBuilder.addCommand(new AutonomousSpinShooter());
+        autoBuilder.addCommand(new AutonomousTurn(secondTurnAngle, 2.5, 0.5));
+        autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousOuttake());
         autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousWait(0.125));
         autoBuilder.addCommand(new AutonomousCustomTilt(secondShotAngle));
-        autoBuilder.addCommand(new AutonomousSpinShooter());
-        autoBuilder.addCommand(new AutonomousTurn(secondTurnAngle, 2.5, 0.5));
-        autoBuilder.addCommand(new AutonomousDriveStop());
-        autoBuilder.addCommand(new AutonomousStopIntake());
-        autoBuilder.addCommand(new AutonomousTiltDone(0.75));
+        autoBuilder.addCommand(new AutonomousWait(0.5));
         
         numFires = 4;
         for(int i = 0; i < numFires; i++)

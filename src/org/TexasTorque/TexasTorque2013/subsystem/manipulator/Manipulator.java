@@ -95,6 +95,8 @@ public class Manipulator extends TorqueSubsystem
             boolean decrementAngle = driverInput.decrementAngle();
             tilt.tiltAdjustments(incrementAngle, decrementAngle);
             
+            magazine.setFireOverride(false);
+            
             intake.run();
             shooter.run();
             elevator.run();
@@ -220,9 +222,15 @@ public class Manipulator extends TorqueSubsystem
                 magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
             }
         }
+        else if(driverInput.fireUnjam())
+        {
+            magazine.setFireOverride(true);
+            magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+        }
         else if(driverInput.restoreToDefaultOverride())
         {
             intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+            magazine.setFireOverride(false);
             magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
             shooter.stopShooter();
             tilt.setTiltAngle(0.0);
@@ -231,6 +239,7 @@ public class Manipulator extends TorqueSubsystem
         {
             intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
             shooter.stopShooter();
+            magazine.setFireOverride(false);
             magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         }
         
@@ -245,6 +254,19 @@ public class Manipulator extends TorqueSubsystem
         else
         {
             robotOutput.setElevatorMotors(Constants.MOTOR_STOPPED);
+        }
+        
+        if(driverInput.getMadtownUnjam())
+        {
+            tilt.setTiltAngle(Tilt.madtownAngle);
+            if(Math.abs(Tilt.madtownAngle - sensorInput.getTiltAngle()) < 15)
+            {
+                 magazine.setDesiredState(Constants.MAGAZINE_LOADING_STATE);
+            }
+            else
+            {
+                magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+            }
         }
         
         intake.run();

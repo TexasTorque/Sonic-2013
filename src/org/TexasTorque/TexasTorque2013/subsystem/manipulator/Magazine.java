@@ -17,6 +17,7 @@ public class Magazine extends TorqueSubsystem
     private boolean triggerBack;
     private int magazineState;
     private int desiredState;
+    private boolean fireOverride;
     
     private Magazine()
     {
@@ -31,6 +32,8 @@ public class Magazine extends TorqueSubsystem
         triggerBack = true;
         magazineState = Constants.MAGAZINE_READY_STATE;
         desiredState = Constants.MAGAZINE_READY_STATE;
+        
+        fireOverride = false;
     }
     
     public static Magazine getInstance()
@@ -52,6 +55,11 @@ public class Magazine extends TorqueSubsystem
     public void setDesiredState(int state)
     {
         desiredState = state;
+    }
+    
+    public void setFireOverride(boolean on)
+    {
+        fireOverride = on;
     }
     
     private void calcMagazineState()
@@ -94,13 +102,15 @@ public class Magazine extends TorqueSubsystem
     
     private void calcReadyState()
     {
-        magazineRaised = true;
+        magazineRaised = !fireOverride;
+        //magazineRaised = true;
         triggerBack = true;
     }
     
     private void calcShootingState()
     {
-        magazineRaised = true;
+        magazineRaised = !fireOverride;
+        //magazineRaised = true;
         triggerBack = false;
         if(timeHasElapsed(deltaTimeForward))
         {
@@ -110,7 +120,8 @@ public class Magazine extends TorqueSubsystem
     
     private void calcResettingState()
     {
-        magazineRaised = true;
+        magazineRaised = !fireOverride;
+        //magazineRaised = true;
         triggerBack = true;
         if(timeHasElapsed(deltaTimeReverse))
         {
@@ -161,6 +172,8 @@ public class Magazine extends TorqueSubsystem
     {
         deltaTimeForward = params.getAsDouble("M_DeltaTimeForward", Constants.MAGAZINE_DELTA_TIME);
         deltaTimeReverse = params.getAsDouble("M_DeltaTimeReverse", Constants.MAGAZINE_DELTA_TIME);
+        
+        fireOverride = false;
     }
     
 }

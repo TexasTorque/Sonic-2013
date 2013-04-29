@@ -200,7 +200,7 @@ public class DriverInput
     
     public synchronized boolean shootFarOverride()
     {
-        return operatorController.getTopActionButton();
+        return false;
     }
     
     public synchronized boolean magazineShootOverride()
@@ -226,5 +226,15 @@ public class DriverInput
     public synchronized double getElevatorJoystick()
     {
         return (operatorController.getLeftYAxis());
+    }
+    
+    public synchronized boolean getMadtownUnjam()
+    {
+        return operatorController.getTopActionButton();
+    }
+    
+    public synchronized boolean fireUnjam()
+    {
+        return operatorController.getLeftStickClick();
     }
 }
