@@ -10,7 +10,8 @@ import javax.microedition.io.*;
 
 public class Parameters
 {
-    private static Parameters instance;
+    private static Parameters teleopInstance;
+    private static Parameters autonInstance;
     private Watchdog watchdog;
     private Hashtable map;
     private String fileName;
@@ -18,9 +19,14 @@ public class Parameters
     private FileConnection fileConnection = null;
     private BufferedReader fileIO = null;
     
-    public synchronized static Parameters getInstance()
+    public synchronized static Parameters getTeleopInstance()
     {
-        return (instance == null) ? instance = new Parameters("params.txt") : instance;
+        return (teleopInstance == null) ? teleopInstance = new Parameters("params.txt") : teleopInstance;
+    }
+    
+    public synchronized static Parameters getAutonInstance()
+    {
+        return (autonInstance == null) ? autonInstance = new Parameters("autonParams.txt") : autonInstance;
     }
   
     public Parameters(String fileNm)

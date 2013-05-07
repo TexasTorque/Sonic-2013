@@ -17,7 +17,7 @@ public class DriverInput
         
     public DriverInput()
     {
-        params = Parameters.getInstance();
+        params = Parameters.getTeleopInstance();
         driveController = new GenericController(Ports.DRIVE_CONTROLLER_PORT, Constants.DEFAULT_FIRST_CONTROLLER_TYPE);
         operatorController = new GenericController(Ports.OPERATOR_CONTROLLER_PORT, Constants.DEFAULT_SECOND_CONTROLLER_TYPE);
         

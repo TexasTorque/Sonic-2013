@@ -29,7 +29,7 @@ public abstract class AutonomousCommand
     {
         robotOutput = RobotOutput.getInstance();
         sensorInput = SensorInput.getInstance();
-        params = Parameters.getInstance();
+        params = Parameters.getTeleopInstance();
         
         drivebase = Drivebase.getInstance();
         intake = Intake.getInstance();

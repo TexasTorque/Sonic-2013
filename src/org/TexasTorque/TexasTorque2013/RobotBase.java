@@ -45,7 +45,7 @@ public class RobotBase extends IterativeRobot implements Runnable
         watchdog.setEnabled(true);
         watchdog.setExpiration(0.5);
         
-        params = Parameters.getInstance();
+        params = Parameters.getTeleopInstance();
         params.load();
         
         Constants.GYRO_SENSITIVITY = params.getAsDouble("D_GyroSensitivity", Constants.GYRO_SENSITIVITY);

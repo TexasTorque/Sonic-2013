@@ -21,7 +21,7 @@ public abstract class TorqueSubsystem
         robotOutput = RobotOutput.getInstance();
         driverInput = DriverInput.getInstance();
         sensorInput = SensorInput.getInstance();
-        params = Parameters.getInstance();
+        params = Parameters.getTeleopInstance();
     }
     
     

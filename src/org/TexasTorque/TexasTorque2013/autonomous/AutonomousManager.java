@@ -68,7 +68,7 @@ public class AutonomousManager
         shooter = Shooter.getInstance();
         tilt = Tilt.getInstance();
         climber = Climber.getInstance();
-        params = Parameters.getInstance();
+        params = Parameters.getTeleopInstance();
         
         autoMode = Constants.DO_NOTHING_AUTO;
         autoDelay = 0.0;
