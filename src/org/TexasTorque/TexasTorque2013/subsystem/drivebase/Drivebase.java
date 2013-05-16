@@ -6,6 +6,7 @@ import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Climber;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 import org.TexasTorque.TorqueLib.controlLoop.TorquePID;
+import org.TexasTorque.TorqueLib.controlLoop.TorquePIDThread;
 import org.TexasTorque.TorqueLib.util.TorqueUtil;
 
 public class Drivebase extends TorqueSubsystem
@@ -14,7 +15,7 @@ public class Drivebase extends TorqueSubsystem
     
     private SimPID encoderPID;
     private SimPID gyroPID;
-    private TorquePID visionCorrect;
+    private TorquePIDThread visionCorrect;
     
     private Climber climber;
     
@@ -42,7 +43,7 @@ public class Drivebase extends TorqueSubsystem
         
         shiftState = Constants.LOW_GEAR;
         
-        visionCorrect = new TorquePID();
+        visionCorrect = new TorquePIDThread();
         visionCorrect.setSetpoint(0.0);
     }
     
@@ -55,7 +56,7 @@ public class Drivebase extends TorqueSubsystem
            
             if(!driverInput.getAutoTargeting())
             {
-                mixChannels(driverInput.driveController.getThrottle(), driverInput.driveController.getWheel());
+                mixChannels(driverInput.driveController.getThrottle(), driverInput.driveController.getTwist());
             }
             else
             {
@@ -78,6 +79,11 @@ public class Drivebase extends TorqueSubsystem
                rightDriveSpeed *= 0.4;
            }
         }
+    }
+    public void mixTurn(double t)
+    {
+        leftDriveSpeed = t;
+        rightDriveSpeed = -t;
     }
     
     public void setToRobot()
