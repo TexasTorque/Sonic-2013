@@ -15,7 +15,7 @@ public class Drivebase extends TorqueSubsystem
     
     private SimPID encoderPID;
     private SimPID gyroPID;
-    private TorquePIDThread visionCorrect;
+    private TorquePID visionCorrect;
     
     private Climber climber;
     
@@ -43,7 +43,7 @@ public class Drivebase extends TorqueSubsystem
         
         shiftState = Constants.LOW_GEAR;
         
-        visionCorrect = new TorquePIDThread();
+        visionCorrect = new TorquePID();
         visionCorrect.setSetpoint(0.0);
     }
     
@@ -65,8 +65,8 @@ public class Drivebase extends TorqueSubsystem
                 {
                     az -= 360; //Angle correction Expanded: az = -(360 - az)
                 }
-                visionCorrect.setCurrentPosition(az);
-                mixTurn(visionCorrect.getOutput());
+                double output = visionCorrect.calculate(az);
+                mixTurn(output);
             }
            
            shiftState = driverInput.shiftHighGear();
@@ -83,7 +83,7 @@ public class Drivebase extends TorqueSubsystem
     
     public void setPIDConstants(double p, double i, double d)
     {
-        visionCorrect.setPIDConstants(p, i, d);
+        visionCorrect.setPIDGains(p, i, d);
     }
     
     public void mixTurn(double t)
@@ -181,5 +181,16 @@ public class Drivebase extends TorqueSubsystem
         gyroPID.setDoneRange(r);
         gyroPID.resetErrorSum();
         gyroPID.resetPreviousVal();
+        
+        p = params.getAsDouble("V_TurnP", 0.0);
+        i = params.getAsDouble("V_TurnI", 0.0);
+        d = params.getAsDouble("V_TurnD", 0.0);
+        e = params.getAsDouble("V_TurnEpsilon", 0.0);
+        r = params.getAsDouble("V_TurnDoneRange", 0.0);
+        
+        visionCorrect.setPIDGains(p, i, d);
+        visionCorrect.setEpsilon(e);
+        visionCorrect.setDoneRange(r);
+        visionCorrect.reset();
     }
 }

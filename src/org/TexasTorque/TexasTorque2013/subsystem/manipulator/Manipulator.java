@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 
@@ -13,6 +14,9 @@ public class Manipulator extends TorqueSubsystem
     private Magazine magazine;
     private Tilt tilt;
     private Climber climber;
+    
+    private double tempAngle;
+    private int visionWait;
     
     public static Manipulator getInstance()
     {
@@ -82,6 +86,7 @@ public class Manipulator extends TorqueSubsystem
                 shooter.stopShooter();
                 magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
                 tilt.setTiltAngle(0.0);
+                tempAngle = 0.0;
                 if(elevator.atDesiredPosition())
                 {
                     tilt.setBackFeed(Constants.BACK_FEED_DOWN);
@@ -322,6 +327,40 @@ public class Manipulator extends TorqueSubsystem
             }
         }
     }
+    
+    public void shootVision()
+    {
+        visionWait = (visionWait + 1) % 5;
+        
+        intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
+        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
+        
+        if(tempAngle == 0.0)
+        {
+            tempAngle = Tilt.lowAngle;
+        }
+        
+        if(SmartDashboard.getBoolean("Enable Vision") && SmartDashboard.getBoolean("found",false) && visionWait == 0)
+        {
+            double currentAngle = sensorInput.getTiltAngle();
+            double elevation = SmartDashboard.getNumber("elevation", 0.0);
+            double additive = Tilt.shootLowAdditive; //Additive could be a function of Distance?
+            
+            tempAngle = currentAngle + elevation + additive;
+        }
+        
+        tilt.setTiltAngle(tempAngle);
+        
+        setLightsToChecks();
+        
+        if(driverInput.fireFrisbee())
+        {
+            magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+        }
+    }
+    
     
     public void shootLow()
     {
