@@ -80,6 +80,12 @@ public class Drivebase extends TorqueSubsystem
            }
         }
     }
+    
+    public void setPIDConstants(double p, double i, double d)
+    {
+        visionCorrect.setPIDConstants(p, i, d);
+    }
+    
     public void mixTurn(double t)
     {
         leftDriveSpeed = t;
