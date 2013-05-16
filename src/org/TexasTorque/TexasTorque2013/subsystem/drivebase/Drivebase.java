@@ -52,22 +52,20 @@ public class Drivebase extends TorqueSubsystem
         if(dashboardManager.getDS().isOperatorControl())
         {
            
-            mixChannels(driverInput.getThrottle(), driverInput.getTurn());
-           
-            if(!driverInput.getAutoTargeting())
-            {
-                mixChannels(driverInput.driveController.getThrottle(), driverInput.driveController.getTwist());
-            }
-            else
-            {
-                double az = SmartDashboard.getNumber("azimuth",0.0);
-                if(az>180)
-                {
-                    az -= 360; //Angle correction Expanded: az = -(360 - az)
-                }
-                double output = visionCorrect.calculate(az);
-                mixTurn(output);
-            }
+            //if(!driverInput.getAutoTargeting()) Uncomment for vision lock left right
+            //{
+                mixChannels(driverInput.getThrottle(), driverInput.getTurn());
+            //}
+            //else
+            //{
+            //    double az = SmartDashboard.getNumber("azimuth",0.0);
+            //    if(az>180)
+            //    {
+            //        az -= 360; //Angle correction Expanded: az = -(360 - az)
+            //    }
+            //    double output = visionCorrect.calculate(az);
+            //    mixTurn(output);
+            //}
            
            shiftState = driverInput.shiftHighGear();
            
