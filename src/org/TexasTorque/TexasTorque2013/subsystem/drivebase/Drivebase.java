@@ -1,9 +1,11 @@
 package org.TexasTorque.TexasTorque2013.subsystem.drivebase;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Climber;
 import org.TexasTorque.TorqueLib.controlLoop.SimPID;
+import org.TexasTorque.TorqueLib.controlLoop.TorquePID;
 import org.TexasTorque.TorqueLib.util.TorqueUtil;
 
 public class Drivebase extends TorqueSubsystem
@@ -12,6 +14,7 @@ public class Drivebase extends TorqueSubsystem
     
     private SimPID encoderPID;
     private SimPID gyroPID;
+    private TorquePID visionCorrect;
     
     private Climber climber;
     
@@ -38,13 +41,33 @@ public class Drivebase extends TorqueSubsystem
         rightDriveSpeed = Constants.MOTOR_STOPPED;
         
         shiftState = Constants.LOW_GEAR;
+        
+        visionCorrect = new TorquePID();
+        visionCorrect.setSetpoint(0.0);
     }
     
     public void run()
     {
         if(dashboardManager.getDS().isOperatorControl())
         {
-           mixChannels(driverInput.getThrottle(), driverInput.getTurn());
+           
+            mixChannels(driverInput.getThrottle(), driverInput.getTurn());
+           
+            if(!driverInput.getAutoTargeting())
+            {
+                mixChannels(driverInput.driveController.getThrottle(), driverInput.driveController.getWheel());
+            }
+            else
+            {
+                double az = SmartDashboard.getNumber("azimuth",0.0);
+                if(az>180)
+                {
+                    az -= 360; //Angle correction Expanded: az = -(360 - az)
+                }
+                visionCorrect.setCurrentPosition(az);
+                mixTurn(visionCorrect.getOutput());
+            }
+           
            shiftState = driverInput.shiftHighGear();
            
            if(climber.isHanging())

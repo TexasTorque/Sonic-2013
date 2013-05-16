@@ -147,6 +147,11 @@ public class DriverInput
         return operatorController.getLeftDPAD();
     }
     
+    public synchronized boolean getAutoTargeting()
+    {
+        return false; // Need to know what control to put it on.
+    }
+    
     public synchronized boolean passiveHang()
     {
         return operatorController.getRightStickClick();
