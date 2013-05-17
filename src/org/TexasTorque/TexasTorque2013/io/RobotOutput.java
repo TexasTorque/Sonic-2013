@@ -21,7 +21,6 @@ public class RobotOutput
     private Compressor compressor;
     private Solenoid driveShifter;
     private Solenoid firingPin;
-    private Solenoid backFeed;
     private Solenoid gate;
     private DoubleSolenoid frisbeeLifter;
     private DoubleSolenoid passiveClimber;
@@ -52,7 +51,6 @@ public class RobotOutput
         compressor = new Compressor(Ports.SIDECAR_ONE, Ports.PRESSURE_SWITCH_PORT, Ports.SIDECAR_ONE, Ports.COMPRESSOR_RELAY_PORT);
         driveShifter = new Solenoid(Ports.DRIVE_SHIFTER_PORT);
         firingPin = new Solenoid(Ports.LOADER_SOLENOID_PORT);
-        backFeed = new Solenoid(Ports.BACK_FEED_PORT);
         gate = new Solenoid(Ports.GATE_SOLENOID_PORT);
         frisbeeLifter = new DoubleSolenoid(Ports.FRISBEE_LIFTER_SOLENOID_A_PORT, Ports.FRISBEE_LIFTER_SOLENOID_B_PORT);
         passiveClimber = new DoubleSolenoid(Ports.PASSIVE_CLIMBER_A_PORT, Ports.PASSIVE_CLIMBER_B_PORT);
@@ -150,11 +148,6 @@ public class RobotOutput
         {
             passiveClimber.set(DoubleSolenoid.Value.kReverse);
         }
-    }
-    
-    public void setBackFeed(boolean extended)
-    {
-        backFeed.set(extended);
     }
     
     public void setGate(boolean retract)

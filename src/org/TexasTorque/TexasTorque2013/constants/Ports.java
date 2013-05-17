@@ -33,7 +33,6 @@ public class Ports
     public final static int LOADER_SOLENOID_PORT = 5;
     public final static int DRIVE_SHIFTER_PORT = 6;
     public final static int GATE_SOLENOID_PORT = 7;
-    public final static int BACK_FEED_PORT = 8;
     
     //----- Digital Inputs -----
         //----- Sidecar 1 -----

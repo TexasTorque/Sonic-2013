@@ -82,10 +82,6 @@ public class Manipulator extends TorqueSubsystem
                 shooter.stopShooter();
                 magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
                 tilt.setTiltAngle(0.0);
-                if(elevator.atDesiredPosition())
-                {
-                    tilt.setBackFeed(Constants.BACK_FEED_DOWN);
-                }
                 
                 setLightsNormal();
             }
@@ -361,7 +357,6 @@ public class Manipulator extends TorqueSubsystem
         shooter.stopShooter();
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         setLightsNormal();
-        tilt.setBackFeed(Constants.BACK_FEED_OUT);
         elevator.setDesiredPosition(Elevator.elevatorFeedPosition);
         
         if(sensorInput.getElevatorEncoder() > 100)
@@ -430,7 +425,6 @@ public class Manipulator extends TorqueSubsystem
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         tilt.setTiltAngle(0.0);
         setLightsNormal();
-        tilt.setBackFeed(Constants.BACK_FEED_DOWN);
         
         elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
     }
