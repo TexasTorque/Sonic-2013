@@ -46,7 +46,9 @@ public class Motor
             {
                 speed *= -1;
             }
+            
             speed = LimitSpeed((float)speed, (float)1.0);
+            
             if(jaguar == null && talon == null)
             {
                 if(vic888)
@@ -84,6 +86,9 @@ public class Motor
         return limit;
     }
     
+    /*
+     * Poof's Victor 884 linearization method.
+     */
     static float LinearizeVictor(double goal_speed)
     {
         double deadband_value = 0.082;
