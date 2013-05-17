@@ -2,10 +2,9 @@ package org.TexasTorque.TexasTorque2013.autonomous.drive;
 
 import edu.wpi.first.wpilibj.Timer;
 import org.TexasTorque.TexasTorque2013.autonomous.AutonomousCommand;
-import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 import org.TexasTorque.TorqueLib.controlLoop.TorquePID;
 
-public class AutonomousDriveStraight2 extends AutonomousCommand
+public class AutonomousDriveStraightHigh extends AutonomousCommand
 {
     private double driveDistance;
     private double timeoutSecs;
@@ -19,7 +18,7 @@ public class AutonomousDriveStraight2 extends AutonomousCommand
     
     private Timer timeoutTimer;
     
-    public AutonomousDriveStraight2(double distance, double speed, boolean zeroAngle, double timeout)
+    public AutonomousDriveStraightHigh(double distance, double speed, boolean zeroAngle, double timeout)
     {
         super();
         

@@ -1,7 +1,7 @@
 package org.TexasTorque.TexasTorque2013.autonomous;
 
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStop;
-import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraight2;
+import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraightHigh;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraightLow;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftHigh;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftLow;
@@ -231,7 +231,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousShiftHigh());
         autoBuilder.addCommand(new AutonomousSpinShooter());
-        autoBuilder.addCommand(new AutonomousDriveStraight2(-(driveDistance + 3), 1.0, true, timeout));
+        autoBuilder.addCommand(new AutonomousDriveStraightHigh(-(driveDistance + 3), 1.0, true, timeout));
         autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousWait(0.125));
         autoBuilder.addCommand(new AutonomousCustomTilt(secondShotAngle));
@@ -288,11 +288,11 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousWait(0.25));
         autoBuilder.addCommand(new AutonomousStopShooter());
         autoBuilder.addCommand(new AutonomousTiltParallel());
-        autoBuilder.addCommand(new AutonomousDriveStraight2(distanceToCenter, distanceToCenterSpeed, false, 2.0));
+        autoBuilder.addCommand(new AutonomousDriveStraightHigh(distanceToCenter, distanceToCenterSpeed, false, 2.0));
         autoBuilder.addCommand(new AutonomousTiltDone(genericTimeout));
         autoBuilder.addCommand(new AutonomousMagazineLoad());
         autoBuilder.addCommand(new AutonomousTurn(firstTurnAngle, 2.0, 0.5));
-        autoBuilder.addCommand(new AutonomousDriveStraight2(straddleDistance, straddleSpeed, false, 3.5));
+        autoBuilder.addCommand(new AutonomousDriveStraightHigh(straddleDistance, straddleSpeed, false, 3.5));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousSpinShooter());
         autoBuilder.addCommand(new AutonomousTurn(secondTurnAngle, 2.5, 0.5));
@@ -352,11 +352,11 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousWait(0.25));
         autoBuilder.addCommand(new AutonomousStopShooter());
         autoBuilder.addCommand(new AutonomousTiltParallel());
-        autoBuilder.addCommand(new AutonomousDriveStraight2(distanceToCenter, distanceToCenterSpeed, false, 2.0));
+        autoBuilder.addCommand(new AutonomousDriveStraightHigh(distanceToCenter, distanceToCenterSpeed, false, 2.0));
         autoBuilder.addCommand(new AutonomousTiltDone(genericTimeout));
         autoBuilder.addCommand(new AutonomousMagazineLoad());
         autoBuilder.addCommand(new AutonomousTurn(firstTurnAngle, 2.0, 3.0));
-        autoBuilder.addCommand(new AutonomousDriveStraight2(straddleDistance, straddleSpeed, false, 3.0));
+        autoBuilder.addCommand(new AutonomousDriveStraightHigh(straddleDistance, straddleSpeed, false, 3.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousOuttake());
         autoBuilder.addCommand(new AutonomousMagazineStop());
@@ -392,7 +392,7 @@ public class AutonomousManager
         autoBuilder.addAutonomousDelay(autoDelay);
         autoBuilder.addCommand(new AutonomousShiftHigh());
         autoBuilder.addVariableFireSequence(4, sideTiltAngle, Elevator.elevatorBottomPosition, 1.0);
-        autoBuilder.addCommand(new AutonomousDriveStraight2(distance, speed, false, 3.0));
+        autoBuilder.addCommand(new AutonomousDriveStraightHigh(distance, speed, false, 3.0));
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
     }
@@ -431,11 +431,11 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousStopShooter());
         autoBuilder.addCommand(new AutonomousTiltParallel());
         //autoBuilder.addCommand(new AutonomousTurn(firstTurnAngle, 2.0));
-        autoBuilder.addCommand(new AutonomousDriveStraight2(distanceToCenter, distanceToCenterSpeed, false, 2.0));
+        autoBuilder.addCommand(new AutonomousDriveStraightHigh(distanceToCenter, distanceToCenterSpeed, false, 2.0));
         autoBuilder.addCommand(new AutonomousTiltDone(genericTimeout));
         autoBuilder.addCommand(new AutonomousMagazineLoad());
         //autoBuilder.addCommand(new AutonomousTurn(secondTurnAngle, 2.0));
-        autoBuilder.addCommand(new AutonomousDriveStraight2(straddleDistance, straddleSpeed, false, 3.0));
+        autoBuilder.addCommand(new AutonomousDriveStraightHigh(straddleDistance, straddleSpeed, false, 3.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousOuttake());
         autoBuilder.addCommand(new AutonomousMagazineStop());
@@ -507,7 +507,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousTiltParallel());
         autoBuilder.addCommand(new AutonomousTiltDone(genericTimeout));
         autoBuilder.addCommand(new AutonomousMagazineLoad());
-        autoBuilder.addCommand(new AutonomousDriveStraight2(driveDistance, driveSpeed, true, timeout));
+        autoBuilder.addCommand(new AutonomousDriveStraightHigh(driveDistance, driveSpeed, true, timeout));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousWait(0.375));
         autoBuilder.addCommand(new AutonomousMagazineStop());
@@ -515,7 +515,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousOuttake());
         autoBuilder.addCommand(new AutonomousCustomTilt(secondShotAngle));
         autoBuilder.addCommand(new AutonomousSpinShooter());
-        autoBuilder.addCommand(new AutonomousDriveStraight2(-(driveDistance + 3), 1.0, true, timeout));
+        autoBuilder.addCommand(new AutonomousDriveStraightHigh(-(driveDistance + 3), 1.0, true, timeout));
         
         numFires = 4;
         for(int i = 0; i < numFires; i++)
@@ -533,7 +533,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousTiltDone(1.0));
         autoBuilder.addCommand(new AutonomousMagazineLoad());
         //autoBuilder.addCommand(new AutonomousTurn(turnAngle, 2.0));
-        autoBuilder.addCommand(new AutonomousDriveStraight2(reverseDistance, 1.0, false, 2.0));
+        autoBuilder.addCommand(new AutonomousDriveStraightHigh(reverseDistance, 1.0, false, 2.0));
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
