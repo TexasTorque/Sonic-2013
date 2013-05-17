@@ -242,6 +242,7 @@ public class Manipulator extends TorqueSubsystem
             magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         }
         
+        //----- Manual Elevator Controls -----
         if(driverInput.elevatorTopOverride())
         {
             robotOutput.setElevatorMotors(-1 * driverInput.getElevatorJoystick());
@@ -492,9 +493,7 @@ public class Manipulator extends TorqueSubsystem
     }
     
     private void setLightsToChecks()
-    {
-        double currentAlliance = dashboardManager.getDS().getAlliance().value;
-        
+    {   
         if(elevator.atDesiredPosition() && shooter.isSpunUp() && tilt.isLocked())
         {
             setLightsLocked();
@@ -504,19 +503,9 @@ public class Manipulator extends TorqueSubsystem
             setLightsTracking();
         }
         
-        if(currentAlliance == Constants.RED_ALLIANCE)
+        if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD)
         {
-            if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD)
-            {
-                robotOutput.setLightsState(Constants.YELLOW_RED_ALLIANCE);
-            }
-        }
-        else if(currentAlliance == Constants.BLUE_ALLIANCE)
-        {
-            if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD)
-            {
-                robotOutput.setLightsState(Constants.YELLOW_BLUE_ALLIANCE);
-            }
+            robotOutput.setLightsState(Constants.YELLOW_RED_ALLIANCE);
         }
     }
 }

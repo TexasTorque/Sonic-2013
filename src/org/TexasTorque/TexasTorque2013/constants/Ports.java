@@ -36,9 +36,9 @@ public class Ports
     
     //----- Digital Inputs -----
         //----- Sidecar 1 -----
-        public final static int PRESSURE_SWITCH_PORT = 13;
         public final static int RIGHT_DRIVE_ENCODER_A_PORT = 1;
         public final static int RIGHT_DRIVE_ENCODER_B_PORT = 2;
+        public final static int PRESSURE_SWITCH_PORT = 13;
         //----- Sidecar 2 -----
         public final static int LEFT_DRIVE_ENCODER_A_PORT = 1;
         public final static int LEFT_DRIVE_ENCODER_B_PORT = 2;
