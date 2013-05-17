@@ -103,14 +103,12 @@ public class Magazine extends TorqueSubsystem
     private void calcReadyState()
     {
         magazineRaised = !fireOverride;
-        //magazineRaised = true;
         triggerBack = true;
     }
     
     private void calcShootingState()
     {
         magazineRaised = !fireOverride;
-        //magazineRaised = true;
         triggerBack = false;
         if(timeHasElapsed(deltaTimeForward))
         {
@@ -121,7 +119,6 @@ public class Magazine extends TorqueSubsystem
     private void calcResettingState()
     {
         magazineRaised = !fireOverride;
-        //magazineRaised = true;
         triggerBack = true;
         if(timeHasElapsed(deltaTimeReverse))
         {
@@ -153,7 +150,7 @@ public class Magazine extends TorqueSubsystem
     
     public String getKeyNames()
     {
-        String names = "MagazinePosition,MagazineTriggerPosition,CurrentMagazineState,DesiredMagazineState,";
+        String names = "MagazinePosition,MagazineTriggerPosition,CurrentMagazineState,DesiredMagazineState,FireOverride,";
         
         return names;
     }
@@ -164,6 +161,7 @@ public class Magazine extends TorqueSubsystem
         data += triggerBack + ",";
         data += magazineState + ",";
         data += desiredState + ",";
+        data += fireOverride + ",";
         
         return data;
     }
