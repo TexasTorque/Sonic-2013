@@ -4,13 +4,13 @@ import edu.wpi.first.wpilibj.Timer;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TorqueLib.controlLoop.FeedforwardPIV;
-import org.TexasTorque.TorqueLib.controlLoop.TrajectorySmoother;
+import org.TexasTorque.TorqueLib.controlLoop.TrapezoidalProfile;
 
 public class Elevator extends TorqueSubsystem
 {
     private static Elevator instance;
     
-    public TrajectorySmoother trajectory;
+    public TrapezoidalProfile trajectory;
     private FeedforwardPIV feedForward;
     
     private double previousTime;
@@ -157,6 +157,6 @@ public class Elevator extends TorqueSubsystem
     
     private void loadNewTrajectory()
     {
-        trajectory = new TrajectorySmoother(maxElevatorAcceleration, maxElevatorVelocity);
+        trajectory = new TrapezoidalProfile(maxElevatorAcceleration, maxElevatorVelocity);
     }
 }

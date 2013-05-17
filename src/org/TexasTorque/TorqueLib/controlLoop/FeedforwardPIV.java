@@ -1,6 +1,5 @@
 package org.TexasTorque.TorqueLib.controlLoop;
 
-
 import edu.wpi.first.wpilibj.util.BoundaryException;
 
 /**
@@ -8,6 +7,9 @@ import edu.wpi.first.wpilibj.util.BoundaryException;
  *
  * Does all computation synchronously (i.e. the calculate() function must be
  * called by the user from his own thread)
+ * 
+ * Note: edited from original version from 341... onTarget() will only work if
+ *  using this class with TMP.
  */
 public class FeedforwardPIV
 {
@@ -69,7 +71,7 @@ public class FeedforwardPIV
      * Read the input, calculate the output accordingly, and write to the output.
      * This should be called at a constant rate by the user (ex. in a timed thread)
      */
-    public synchronized double calculate(TrajectorySmoother trajectory, double currentPosition, double currentVelocity, double dt)
+    public synchronized double calculate(TrapezoidalProfile trajectory, double currentPosition, double currentVelocity, double dt)
     {
         return calculate(trajectory.getPosition(), trajectory.getVelocity(), trajectory.getAcceleration(), currentPosition, currentVelocity, dt);
     }
