@@ -27,7 +27,6 @@ public class Tilt extends TorqueSubsystem
     public static double closeAngle;
     public static double feederStationAngle;
     public static double autonomousLowAngle;
-    public static double shootLowAdditive;
     public static double madtownAngle;
     
     public static Tilt getInstance()
@@ -154,7 +153,6 @@ public class Tilt extends TorqueSubsystem
         closeAngle = params.getAsDouble("T_ShootCloseAngle", 0.0);
         feederStationAngle = params.getAsDouble("T_FeederStationAngle", 0.0);
         autonomousLowAngle = params.getAsDouble("A_RearLowAngle", lowAngle);
-        shootLowAdditive = params.getAsDouble("T_ShootLowAdditive", 0.0);
         madtownAngle = params.getAsDouble("T_MadtownAngle", lowAngle);
         
         tiltThreshold = params.getAsDouble("T_TiltMotorAdditive", 0.15);

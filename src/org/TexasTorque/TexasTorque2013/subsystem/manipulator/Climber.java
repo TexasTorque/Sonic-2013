@@ -12,6 +12,7 @@ public class Climber extends TorqueSubsystem
     private TorqueToggle passiveClimberToggle;
     
     private boolean passiveClimberState;
+    private boolean buttonPressed;
     
     public static Climber getInstance()
     {
@@ -25,20 +26,23 @@ public class Climber extends TorqueSubsystem
         passiveClimberToggle = new TorqueToggle();
         
         passiveClimberState = Constants.PASSIVE_HANG_DOWN;
+        buttonPressed = false;
     }
     
     public void run()
     {
-        boolean buttonPressed = driverInput.passiveHang();
-        
         passiveClimberToggle.calc(buttonPressed);
-        
         passiveClimberState = passiveClimberToggle.get();
     }
     
     public void setToRobot()
     {
         robotOutput.setPassiveClimber(passiveClimberState);
+    }
+    
+    public void setClimbMode(boolean isPressed)
+    {
+        buttonPressed = isPressed;
     }
     
     public boolean isHanging()

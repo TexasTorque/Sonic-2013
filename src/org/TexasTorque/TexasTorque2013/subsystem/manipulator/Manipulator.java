@@ -93,6 +93,9 @@ public class Manipulator extends TorqueSubsystem
             
             magazine.setFireOverride(false);
             
+            boolean climbPressed = driverInput.passiveHang();
+            climber.setClimbMode(climbPressed);
+            
             intake.run();
             shooter.run();
             elevator.run();
@@ -264,6 +267,9 @@ public class Manipulator extends TorqueSubsystem
                 magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
             }
         }
+        
+        boolean climbPressed = driverInput.passiveHang();
+        climber.setClimbMode(climbPressed);
         
         intake.run();
         magazine.run();

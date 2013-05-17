@@ -25,7 +25,6 @@ public class Elevator extends TorqueSubsystem
     public static int elevatorTopPosition;
     public static int elevatorBottomPosition;
     public static int elevatorFeedPosition;
-    public static double elevatorOverrideSpeed;
     
     public static Elevator getInstance()
     {
@@ -119,14 +118,8 @@ public class Elevator extends TorqueSubsystem
         String data = elevatorMotorSpeed + ",";
         data += sensorInput.getElevatorEncoderVelocity() + ",";
         data += sensorInput.getElevatorEncoder() + ",";
-        if(trajectory != null)
-        {
-            data += trajectory.getVelocity() + ",";
-        }
-        else
-        {
-            data += "Trajectory is null,";
-        }
+        data += (trajectory != null) ? (trajectory.getVelocity() + ",") : ("Trajectory is null,");
+        
         return data;
     }
     
@@ -135,8 +128,6 @@ public class Elevator extends TorqueSubsystem
         elevatorTopPosition = params.getAsInt("E_ElevatorTopPosition", Constants.DEFAULT_ELEVATOR_TOP_POSITION);
         elevatorBottomPosition = params.getAsInt("E_ElevatorBottomPosition", Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION);
         elevatorFeedPosition = params.getAsInt("E_ElevatorFeedPosition", Constants.DEFAULT_ELEVATOR_FEED_POSITION);
-        
-        elevatorOverrideSpeed = params.getAsDouble("E_ElevatorOverrideSpeed", 0.6);
         
         maxElevatorVelocity = params.getAsDouble("E_ElevatorMaxVelocity", 0.0);
         maxElevatorAcceleration = params.getAsDouble("E_ElevatorMaxAcceleration", 0.0);
