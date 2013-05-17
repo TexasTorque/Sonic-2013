@@ -83,15 +83,6 @@ public class Tilt extends TorqueSubsystem
         robotOutput.setTiltMotor(tiltMotorSpeed);
         robotOutput.setBackFeed(backFeedState);
         robotOutput.setGate(gateState);
-        
-        if(gateState)
-        {
-            robotOutput.setGateDegree(sideAngle);
-        }
-        else
-        {
-            robotOutput.setGateDegree(0.0);
-        }
     }
     
     public void tiltAdjustments(boolean increment, boolean decrement)

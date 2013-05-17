@@ -3,8 +3,6 @@ package org.TexasTorque.TexasTorque2013.io;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import java.util.Vector;
@@ -40,7 +38,6 @@ public class RobotOutput
     private Motor intakeMotor;
     private Motor elevatorMotorLeft;
     private Motor elevatorMotorRight;
-    private Servo gateServo;
     
     public RobotOutput()
     {   
@@ -72,7 +69,6 @@ public class RobotOutput
         intakeMotor = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.INTAKE_MOTOR_PORT), false, true);
         elevatorMotorLeft = new Motor(new Victor(Ports.SIDECAR_ONE, Ports.ELEVATOR_MOTOR_PORT_LEFT), false, true);
         elevatorMotorRight = new Motor(new Victor(Ports.SIDECAR_TWO, Ports.ELEVATOR_MOTOR_PORT_RIGHT), true, true);
-        gateServo = new Servo(Ports.SIDECAR_ONE, Ports.GATE_SERVO_PORT);
         //----- Misc Misc -----
         compressor.start();
     }
@@ -164,10 +160,5 @@ public class RobotOutput
     public void setGate(boolean retract)
     {
         gate.set(retract);
-    }
-    
-    public void setGateDegree(double degree)
-    {
-        gateServo.setAngle(degree);
     }
 }
