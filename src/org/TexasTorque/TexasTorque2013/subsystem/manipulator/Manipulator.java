@@ -17,6 +17,7 @@ public class Manipulator extends TorqueSubsystem
     
     private double tempAngle;
     private int visionWait;
+    private int visionCycleDelay;
     
     public static Manipulator getInstance()
     {
@@ -160,6 +161,7 @@ public class Manipulator extends TorqueSubsystem
         intake.loadParameters();
         tilt.loadParameters();
         climber.loadParameters();
+        visionCycleDelay = params.getAsInt("V_CycleDelay", 5);
     }
     
     private void calcOverrides()
@@ -336,7 +338,7 @@ public class Manipulator extends TorqueSubsystem
     
     public void shootVision()
     {
-        visionWait = (visionWait + 1) % 5;
+        visionWait = (visionWait + 1) % visionCycleDelay;
         
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
