@@ -1,6 +1,6 @@
 package org.TexasTorque.TorqueLib.controlLoop;
 
-public class TrajectorySmoother
+public class TrapezoidalProfile
 {
     double m_currentAccel;
     double m_currentVel;
@@ -19,7 +19,7 @@ public class TrajectorySmoother
         public double endTime;
     }
 
-    public TrajectorySmoother(double maxAccel, double maxSpeed)
+    public TrapezoidalProfile(double maxAccel, double maxSpeed)
     {
         m_maxAccel = maxAccel;
         m_maxSpeed = maxSpeed;

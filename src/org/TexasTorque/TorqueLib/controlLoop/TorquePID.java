@@ -1,7 +1,5 @@
 package org.TexasTorque.TorqueLib.controlLoop;
 
-// Based off of SimPID but with the adition of FeedForwards functionality.
-
 public class TorquePID
 {
     private double kFF;

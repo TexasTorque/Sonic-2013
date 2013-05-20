@@ -13,7 +13,6 @@ public class Tilt extends TorqueSubsystem
     
     private double desiredTiltAngle;
     private double tiltMotorSpeed;
-    private boolean backFeedState;
     private boolean gateState;
     
     private double tiltThreshold;
@@ -28,8 +27,8 @@ public class Tilt extends TorqueSubsystem
     public static double closeAngle;
     public static double feederStationAngle;
     public static double autonomousLowAngle;
-    public static double shootLowAdditive;
     public static double madtownAngle;
+    public static double visionAdditive;
     
     public static Tilt getInstance()
     {
@@ -44,7 +43,6 @@ public class Tilt extends TorqueSubsystem
         
         desiredTiltAngle = 0.0;
         tiltMotorSpeed = Constants.MOTOR_STOPPED;
-        backFeedState = Constants.BACK_FEED_DOWN;
         gateState = Constants.GATE_EXTENDED;
         
         tiltThreshold = 0.0;
@@ -81,17 +79,7 @@ public class Tilt extends TorqueSubsystem
     public void setToRobot()
     {
         robotOutput.setTiltMotor(tiltMotorSpeed);
-        robotOutput.setBackFeed(backFeedState);
         robotOutput.setGate(gateState);
-        
-        if(gateState)
-        {
-            robotOutput.setGateDegree(sideAngle);
-        }
-        else
-        {
-            robotOutput.setGateDegree(0.0);
-        }
     }
     
     public void tiltAdjustments(boolean increment, boolean decrement)
@@ -133,10 +121,6 @@ public class Tilt extends TorqueSubsystem
             tiltPID.setSetpoint(desiredTiltAngle);
         }
     }
-    public void setBackFeed(boolean desiredState)
-    {
-        backFeedState = desiredState;
-    }
     
     public boolean isLocked()
     {
@@ -170,8 +154,8 @@ public class Tilt extends TorqueSubsystem
         closeAngle = params.getAsDouble("T_ShootCloseAngle", 0.0);
         feederStationAngle = params.getAsDouble("T_FeederStationAngle", 0.0);
         autonomousLowAngle = params.getAsDouble("A_RearLowAngle", lowAngle);
-        shootLowAdditive = params.getAsDouble("T_ShootLowAdditive", 0.0);
         madtownAngle = params.getAsDouble("T_MadtownAngle", lowAngle);
+        visionAdditive = params.getAsDouble("T_VisionAdditive", 0.0);
         
         tiltThreshold = params.getAsDouble("T_TiltMotorAdditive", 0.15);
         

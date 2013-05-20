@@ -4,17 +4,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TexasTorque2013.subsystem.manipulator.Climber;
-import org.TexasTorque.TorqueLib.controlLoop.SimPID;
 import org.TexasTorque.TorqueLib.controlLoop.TorquePID;
-import org.TexasTorque.TorqueLib.controlLoop.TorquePIDThread;
 import org.TexasTorque.TorqueLib.util.TorqueUtil;
 
 public class Drivebase extends TorqueSubsystem
 {   
     private static Drivebase instance;
     
-    private SimPID encoderPID;
-    private SimPID gyroPID;
     private TorquePID visionCorrect;
     
     private Climber climber;
@@ -32,9 +28,6 @@ public class Drivebase extends TorqueSubsystem
     private Drivebase()
     {
         super();
-        
-        encoderPID = new SimPID();
-        gyroPID = new SimPID();
         
         climber = Climber.getInstance();
         
@@ -156,35 +149,11 @@ public class Drivebase extends TorqueSubsystem
     
     public void loadParameters()
     {   
-        double p = params.getAsDouble("D_DriveEncoderP", 0.0);
-        double i = params.getAsDouble("D_DriveEncoderI", 0.0);
-        double d = params.getAsDouble("D_DriveEncoderD", 0.0);
-        double e = params.getAsDouble("D_DriveEncoderEpsilon", 0.0);
-        double r = params.getAsDouble("D_DriveEncoderDoneRange", 0.0);
-        
-        encoderPID.setConstants(p, i, d);
-        encoderPID.setErrorEpsilon(e);
-        encoderPID.setDoneRange(r);
-        encoderPID.resetErrorSum();
-        encoderPID.resetPreviousVal();
-        
-        p = params.getAsDouble("D_DriveGyroP", 0.0);
-        i = params.getAsDouble("D_DriveGyroI", 0.0);
-        d = params.getAsDouble("D_DriveGyroD", 0.0);
-        e = params.getAsDouble("D_DriveGyroEpsilon", 0.0);
-        r = params.getAsDouble("D_DriveGyroDoneRange", 0.0);
-        
-        gyroPID.setConstants(p, i, d);
-        gyroPID.setErrorEpsilon(e);
-        gyroPID.setDoneRange(r);
-        gyroPID.resetErrorSum();
-        gyroPID.resetPreviousVal();
-        
-        p = params.getAsDouble("V_TurnP", 0.0);
-        i = params.getAsDouble("V_TurnI", 0.0);
-        d = params.getAsDouble("V_TurnD", 0.0);
-        e = params.getAsDouble("V_TurnEpsilon", 0.0);
-        r = params.getAsDouble("V_TurnDoneRange", 0.0);
+        double p = params.getAsDouble("V_TurnP", 0.0);
+        double i = params.getAsDouble("V_TurnI", 0.0);
+        double d = params.getAsDouble("V_TurnD", 0.0);
+        double e = params.getAsDouble("V_TurnEpsilon", 0.0);
+        double r = params.getAsDouble("V_TurnDoneRange", 0.0);
         
         visionCorrect.setPIDGains(p, i, d);
         visionCorrect.setEpsilon(e);

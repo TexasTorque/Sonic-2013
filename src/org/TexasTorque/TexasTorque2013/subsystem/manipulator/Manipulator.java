@@ -91,11 +91,6 @@ public class Manipulator extends TorqueSubsystem
                 magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
                 tilt.setTiltAngle(0.0);
                 tempAngle = 0.0;
-                if(elevator.atDesiredPosition())
-                {
-                    tilt.setBackFeed(Constants.BACK_FEED_DOWN);
-                }
-                
                 setLightsNormal();
             }
             
@@ -105,6 +100,9 @@ public class Manipulator extends TorqueSubsystem
             tilt.tiltAdjustments(incrementAngle, decrementAngle);
             
             magazine.setFireOverride(false);
+            
+            boolean climbPressed = driverInput.passiveHang();
+            climber.setClimbMode(climbPressed);
             
             intake.run();
             shooter.run();
@@ -252,6 +250,7 @@ public class Manipulator extends TorqueSubsystem
             magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         }
         
+        //----- Manual Elevator Controls -----
         if(driverInput.elevatorTopOverride())
         {
             robotOutput.setElevatorMotors(-1 * driverInput.getElevatorJoystick());
@@ -277,6 +276,9 @@ public class Manipulator extends TorqueSubsystem
                 magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
             }
         }
+        
+        boolean climbPressed = driverInput.passiveHang();
+        climber.setClimbMode(climbPressed);
         
         intake.run();
         magazine.run();
@@ -350,7 +352,7 @@ public class Manipulator extends TorqueSubsystem
         {
             double currentAngle = sensorInput.getTiltAngle();
             double elevation = SmartDashboard.getNumber("elevation", 0.0);
-            double additive = Tilt.shootLowAdditive; //Additive could be a function of Distance?
+            double additive = Tilt.visionAdditive; //Additive could be a function of Distance?
             
             tempAngle = currentAngle + elevation + additive;
         }
@@ -404,7 +406,6 @@ public class Manipulator extends TorqueSubsystem
         shooter.stopShooter();
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         setLightsNormal();
-        tilt.setBackFeed(Constants.BACK_FEED_OUT);
         elevator.setDesiredPosition(Elevator.elevatorFeedPosition);
         
         if(sensorInput.getElevatorEncoder() > 100)
@@ -473,7 +474,6 @@ public class Manipulator extends TorqueSubsystem
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         tilt.setTiltAngle(0.0);
         setLightsNormal();
-        tilt.setBackFeed(Constants.BACK_FEED_DOWN);
         
         elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
     }
@@ -535,9 +535,7 @@ public class Manipulator extends TorqueSubsystem
     }
     
     private void setLightsToChecks()
-    {
-        double currentAlliance = dashboardManager.getDS().getAlliance().value;
-        
+    {   
         if(elevator.atDesiredPosition() && shooter.isSpunUp() && tilt.isLocked())
         {
             setLightsLocked();
@@ -547,19 +545,9 @@ public class Manipulator extends TorqueSubsystem
             setLightsTracking();
         }
         
-        if(currentAlliance == Constants.RED_ALLIANCE)
+        if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD)
         {
-            if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD)
-            {
-                robotOutput.setLightsState(Constants.YELLOW_RED_ALLIANCE);
-            }
-        }
-        else if(currentAlliance == Constants.BLUE_ALLIANCE)
-        {
-            if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD)
-            {
-                robotOutput.setLightsState(Constants.YELLOW_BLUE_ALLIANCE);
-            }
+            robotOutput.setLightsState(Constants.YELLOW_RED_ALLIANCE);
         }
     }
 }

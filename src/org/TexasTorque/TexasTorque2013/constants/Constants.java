@@ -29,8 +29,6 @@ public class Constants
     public final static int RIGHT_SEVEN_AUTO = 4;
     public final static int LEFT_SEVEN_AUTO = 5;
     public final static int RIGHT_THREE_DRIVE_AUTO = 6;
-    public final static int RIGHT_THREE_PRELOAD_AUTO = 7;
-    public final static int GOD_AUTO = 8;
     
     //----- Drivebase -----
     public final static double DEFAULT_HIGH_SENSITIVITY = 0.7;
@@ -38,21 +36,21 @@ public class Constants
     public final static boolean LOW_GEAR = false;
     
     //----- Gyro -----
-    public static double GYRO_SENSITIVITY = 0.014; //0.0136;
+    public static double GYRO_SENSITIVITY = 0.014;
     
-    //----- Shooter -----
+    //----- Tilt -----
     public final static double DEFAULT_STANDARD_TILT_POSITION = 5.0;
     public final static double POTENTIOMETER_LOW_VOLTAGE = 0.34;
     public final static double POTENTIOMETER_HIGH_VOLTAGE = 6.578;
+    public final static boolean GATE_EXTENDED = false;
+    public final static boolean GATE_RETRACTED = true;
+    
+    //----- Shooter -----
     public final static double DEFAULT_FRONT_SHOOTER_RATE = 4800.0;
     public final static double DEFAULT_REAR_SHOOTER_RATE = 4800.0;
     public final static double FULL_FIELD_FRONT_RATE = 4800.0;
     public final static double FULL_FIELD_REAR_RATE = 4800.0;
     public final static double SHOOTER_STOPPED_RATE = 0.0;
-    public final static boolean BACK_FEED_DOWN = false;
-    public final static boolean BACK_FEED_OUT = true;
-    public final static boolean GATE_EXTENDED = false;
-    public final static boolean GATE_RETRACTED = true;
     
     //----- Elevator -----
     public final static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;

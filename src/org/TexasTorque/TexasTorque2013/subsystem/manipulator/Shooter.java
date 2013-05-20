@@ -54,6 +54,7 @@ public class Shooter extends TorqueSubsystem
         {
             frontShooterMotorSpeed = Constants.MOTOR_STOPPED;
         }
+        
         if(desiredRearShooterRate == Constants.SHOOTER_STOPPED_RATE)
         {
             rearShooterMotorSpeed = Constants.MOTOR_STOPPED;
