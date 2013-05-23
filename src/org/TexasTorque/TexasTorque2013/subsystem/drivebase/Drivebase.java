@@ -57,6 +57,15 @@ public class Drivebase extends TorqueSubsystem
             //        az -= 360; //Angle correction Expanded: az = -(360 - az)
             //    }
             //    double output = visionCorrect.calculate(az);
+                //Should use the same style as verticle tracking, pulling every V_CycleDelay, 5 cycles and then adjusting via the gyro
+            /*if visionCycle == 0
+             * double az = SmartDashboard.getNumber()
+             * 
+             * 
+             * 
+             * 
+             * 
+             */
             //    mixTurn(output);
             //}
            
@@ -159,5 +168,6 @@ public class Drivebase extends TorqueSubsystem
         visionCorrect.setEpsilon(e);
         visionCorrect.setDoneRange(r);
         visionCorrect.reset();
+        
     }
 }

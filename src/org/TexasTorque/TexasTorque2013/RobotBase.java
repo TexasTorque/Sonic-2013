@@ -253,8 +253,6 @@ public class RobotBase extends IterativeRobot implements Runnable
         params.load();
         manipulator.loadParameters();
         drivebase.loadParameters();
-        drivebase.setPIDConstants(SmartDashboard.getNumber("VisionP"), SmartDashboard.getNumber("VisionI"), SmartDashboard.getNumber("VisionD"));
-        SmartDashboard.getNumber("azimuth");
     }
     
     public void initLogging()

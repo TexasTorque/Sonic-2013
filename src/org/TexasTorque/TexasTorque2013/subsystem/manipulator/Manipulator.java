@@ -18,6 +18,8 @@ public class Manipulator extends TorqueSubsystem
     private double tempAngle;
     private int visionWait;
     private int visionCycleDelay;
+    private int initialDelay;
+    private int maxInitialDelay;
     
     public static Manipulator getInstance()
     {
@@ -92,6 +94,7 @@ public class Manipulator extends TorqueSubsystem
                 magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
                 tilt.setTiltAngle(0.0);
                 tempAngle = 0.0;
+                initialDelay = maxInitialDelay;
                 setLightsNormal();
             }
             
@@ -162,6 +165,7 @@ public class Manipulator extends TorqueSubsystem
         tilt.loadParameters();
         climber.loadParameters();
         visionCycleDelay = params.getAsInt("V_CycleDelay", 5);
+        maxInitialDelay = params.getAsInt("V_InitialDelay", 80);
     }
     
     private void calcOverrides()
@@ -339,7 +343,10 @@ public class Manipulator extends TorqueSubsystem
     public void shootVision()
     {
         visionWait = (visionWait + 1) % visionCycleDelay;
-        
+        if(initialDelay > 0)
+        {
+            initialDelay--;
+        }
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
@@ -350,13 +357,20 @@ public class Manipulator extends TorqueSubsystem
             tempAngle = Tilt.lowAngle;
         }
         
-        if(SmartDashboard.getBoolean("Enable Vision") && SmartDashboard.getBoolean("found",false) && visionWait == 0)
+        if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && initialDelay == 0)
         {
             double currentAngle = sensorInput.getTiltAngle();
             double elevation = SmartDashboard.getNumber("elevation", 0.0);
+            if(elevation > 180)
+            {
+                elevation -= 360;// elevation = -(360 - elevation);
+            }
             double additive = Tilt.visionAdditive; //Additive could be a function of Distance?
             
-            tempAngle = currentAngle + elevation + additive;
+            double funcAdditive = (currentAngle * Tilt.visionAdditiveConst) + 16;
+            
+            
+            tempAngle = currentAngle + elevation + funcAdditive;
         }
         
         tilt.setTiltAngle(tempAngle);

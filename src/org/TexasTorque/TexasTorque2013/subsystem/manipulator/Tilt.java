@@ -29,6 +29,7 @@ public class Tilt extends TorqueSubsystem
     public static double autonomousLowAngle;
     public static double madtownAngle;
     public static double visionAdditive;
+    public static double visionAdditiveConst;
     
     public static Tilt getInstance()
     {
@@ -156,6 +157,7 @@ public class Tilt extends TorqueSubsystem
         autonomousLowAngle = params.getAsDouble("A_RearLowAngle", lowAngle);
         madtownAngle = params.getAsDouble("T_MadtownAngle", lowAngle);
         visionAdditive = params.getAsDouble("T_VisionAdditive", 0.0);
+        visionAdditiveConst = params.getAsDouble("T_VisionAdditiveConstant", 0.0);
         
         tiltThreshold = params.getAsDouble("T_TiltMotorAdditive", 0.15);
         
