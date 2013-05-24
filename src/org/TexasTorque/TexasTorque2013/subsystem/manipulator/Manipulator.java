@@ -367,10 +367,13 @@ public class Manipulator extends TorqueSubsystem
             }
             double additive = Tilt.visionAdditive; //Additive could be a function of Distance?
             
-            double funcAdditive = (currentAngle * Tilt.visionAdditiveConst) + 16;
+            //double preFunctionAngle = currentAngle + elevation;
+            //double funcAdditive = func(preFunctionAngle);
+            
+            //double funcAdditive = (currentAngle * Tilt.visionAdditiveConst) + 16;
             
             
-            tempAngle = currentAngle + elevation + funcAdditive;
+            tempAngle = currentAngle + elevation + additive;
         }
         
         tilt.setTiltAngle(tempAngle);
