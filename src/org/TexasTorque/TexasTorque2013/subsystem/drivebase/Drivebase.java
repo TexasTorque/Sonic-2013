@@ -12,6 +12,12 @@ public class Drivebase extends TorqueSubsystem
     private static Drivebase instance;
     
     private TorquePID visionCorrect;
+    private int visionWait;
+    private int visionCycleDelay;
+    private int visionInitialDelay;
+    private int tempInitialDelay;
+    private boolean visionEnable;
+    
     
     private Climber climber;
     
@@ -45,29 +51,30 @@ public class Drivebase extends TorqueSubsystem
         if(dashboardManager.getDS().isOperatorControl())
         {
            
-            //if(!driverInput.getAutoTargeting()) Uncomment for vision lock left right
-            //{
+            if(!driverInput.getAutoTargeting() || driverInput.hasInput())// Uncomment for vision lock left right
+            {
                 mixChannels(driverInput.getThrottle(), driverInput.getTurn());
-            //}
-            //else
-            //{
-            //    double az = SmartDashboard.getNumber("azimuth",0.0);
-            //    if(az>180)
-            //    {
-            //        az -= 360; //Angle correction Expanded: az = -(360 - az)
-            //    }
-            //    double output = visionCorrect.calculate(az);
+                tempInitialDelay = visionInitialDelay;
+            }
+            else
+            {
+                if(tempInitialDelay > 0)
+                {
+                    tempInitialDelay --;
+                }
+                visionWait = (visionWait + 1) % visionCycleDelay;
+                if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && tempInitialDelay == 0)
+                {
+                double az = SmartDashboard.getNumber("azimuth",0.0);
+                if(az>180)
+                {
+                    az -= 360; //Angle correction Expanded: az = -(360 - az)
+                }
+                double output = visionCorrect.calculate(az);
                 //Should use the same style as verticle tracking, pulling every V_CycleDelay, 5 cycles and then adjusting via the gyro
-            /*if visionCycle == 0
-             * double az = SmartDashboard.getNumber()
-             * 
-             * 
-             * 
-             * 
-             * 
-             */
-            //    mixTurn(output);
-            //}
+                mixTurn(output);
+                }
+            }
            
            shiftState = driverInput.shiftHighGear();
            
@@ -88,8 +95,8 @@ public class Drivebase extends TorqueSubsystem
     
     public void mixTurn(double t)
     {
-        leftDriveSpeed = t;
-        rightDriveSpeed = -t;
+        leftDriveSpeed = -t;
+        rightDriveSpeed = t;
     }
     
     public void setToRobot()
@@ -158,6 +165,10 @@ public class Drivebase extends TorqueSubsystem
     
     public void loadParameters()
     {   
+        visionInitialDelay = params.getAsInt("V_InitialDelay", 70);
+        visionCycleDelay = params.getAsInt("V_CycleDelay", 5);
+        visionEnable = params.getAsBoolean("V_Horizontal", false);
+        
         double p = params.getAsDouble("V_TurnP", 0.0);
         double i = params.getAsDouble("V_TurnI", 0.0);
         double d = params.getAsDouble("V_TurnD", 0.0);

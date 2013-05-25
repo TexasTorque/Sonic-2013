@@ -365,15 +365,18 @@ public class Manipulator extends TorqueSubsystem
             {
                 elevation -= 360;// elevation = -(360 - elevation);
             }
-            double additive = Tilt.visionAdditive; //Additive could be a function of Distance?
+            //double additive = Tilt.visionAdditive; //Additive could be a function of Distance?
             
             //double preFunctionAngle = currentAngle + elevation;
-            //double funcAdditive = func(preFunctionAngle);
+            //double funcAdditive = .3467* preFunctionAngle + -13.25;
             
-            //double funcAdditive = (currentAngle * Tilt.visionAdditiveConst) + 16;
+            //double funcAdditive = (currentAngle * Tilt.visionAdditiveConst) + Tilt.visionAdditiveB;
+            double funcAdditive = (currentAngle * currentAngle * currentAngle * Tilt.visionAdditiveThird);
+            funcAdditive += (currentAngle * currentAngle * Tilt.visionAdditiveSecond);
+            funcAdditive += (currentAngle * Tilt.visionAdditiveFirst);
+            funcAdditive += Tilt.visionAdditive;
             
-            
-            tempAngle = currentAngle + elevation + additive;
+            tempAngle = currentAngle + elevation + funcAdditive;
         }
         
         tilt.setTiltAngle(tempAngle);

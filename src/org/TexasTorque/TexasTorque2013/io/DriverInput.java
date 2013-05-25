@@ -85,6 +85,11 @@ public class DriverInput
         return driveController.getTopLeftBumper();
     }
     
+    public synchronized boolean hasInput()
+    {
+        return (Math.abs(getThrottle())>.07 || Math.abs(getTurn())>.07);
+    }
+    
 //---------- Manipulator ----------    
     
     public synchronized boolean runIntake()
