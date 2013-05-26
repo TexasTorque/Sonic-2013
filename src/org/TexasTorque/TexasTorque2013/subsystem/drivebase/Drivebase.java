@@ -51,7 +51,7 @@ public class Drivebase extends TorqueSubsystem
         if(dashboardManager.getDS().isOperatorControl())
         {
            
-            if(!driverInput.getAutoTargeting() || driverInput.hasInput())// Uncomment for vision lock left right
+            if(!visionEnable || !driverInput.getAutoTargeting() || driverInput.hasInput())// Uncomment for vision lock left right
             {
                 mixChannels(driverInput.getThrottle(), driverInput.getTurn());
                 tempInitialDelay = visionInitialDelay;
@@ -61,6 +61,7 @@ public class Drivebase extends TorqueSubsystem
                 if(tempInitialDelay > 0)
                 {
                     tempInitialDelay --;
+                    visionCorrect.setSetpoint(sensorInput.getGyroAngle());
                 }
                 visionWait = (visionWait + 1) % visionCycleDelay;
                 if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && tempInitialDelay == 0)
@@ -70,10 +71,14 @@ public class Drivebase extends TorqueSubsystem
                 {
                     az -= 360; //Angle correction Expanded: az = -(360 - az)
                 }
-                double output = visionCorrect.calculate(az);
+                calcAngleCorrection(az);
+                
+                //double output = visionCorrect.calculate(az);
                 //Should use the same style as verticle tracking, pulling every V_CycleDelay, 5 cycles and then adjusting via the gyro
-                mixTurn(output);
+                //mixTurn(output);
                 }
+                double output = calcAngleCorrection();
+                mixTurn(output);
             }
            
            shiftState = driverInput.shiftHighGear();
@@ -91,6 +96,16 @@ public class Drivebase extends TorqueSubsystem
     public void setPIDConstants(double p, double i, double d)
     {
         visionCorrect.setPIDGains(p, i, d);
+    }
+    
+    private void calcAngleCorrection(double azimuth)
+    {
+        double desiredAngle = sensorInput.getGyroAngle() + azimuth;//first check is to flip negative
+        visionCorrect.setSetpoint(desiredAngle);
+    }
+    private double calcAngleCorrection()
+    {
+        return visionCorrect.calculate(sensorInput.getGyroAngle());
     }
     
     public void mixTurn(double t)
