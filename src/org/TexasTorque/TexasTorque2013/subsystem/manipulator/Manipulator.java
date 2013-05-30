@@ -3,11 +3,13 @@ package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
+import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
 
 public class Manipulator extends TorqueSubsystem
 {   
     private static Manipulator instance;
     
+    private Drivebase drivebase;
     private Shooter shooter;
     private Elevator elevator;
     private Intake intake;
@@ -16,6 +18,7 @@ public class Manipulator extends TorqueSubsystem
     private Climber climber;
     
     private double tempAngle;
+    private double pastElevation;
     private int visionWait;
     private int visionCycleDelay;
     private int initialDelay;
@@ -36,6 +39,7 @@ public class Manipulator extends TorqueSubsystem
         magazine = Magazine.getInstance();
         tilt = Tilt.getInstance();
         climber = Climber.getInstance();
+        drivebase = Drivebase.getInstance();
     }
     
     public void run()
@@ -355,31 +359,44 @@ public class Manipulator extends TorqueSubsystem
         if(tempAngle == 0.0)
         {
             tempAngle = Tilt.lowAngle;
+            tilt.setTiltAngle(tempAngle);
         }
-        
-        if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && initialDelay == 0)
+        else if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && initialDelay == 0)
         {
             double currentAngle = sensorInput.getTiltAngle();
+            double distance = SmartDashboard.getNumber("range", 100.0);
+            if(distance < 0)
+            {
+                distance = 100.0;
+            }
             double elevation = SmartDashboard.getNumber("elevation", 0.0);
+            
             if(elevation > 180)
             {
                 elevation -= 360;// elevation = -(360 - elevation);
             }
+            
+            if (pastElevation != elevation)
+            {
             //double additive = Tilt.visionAdditive; //Additive could be a function of Distance?
             
             //double preFunctionAngle = currentAngle + elevation;
             //double funcAdditive = .3467* preFunctionAngle + -13.25;
             
             //double funcAdditive = (currentAngle * Tilt.visionAdditiveConst) + Tilt.visionAdditiveB;
-            double funcAdditive = (currentAngle * currentAngle * currentAngle * Tilt.visionAdditiveThird);
-            funcAdditive += (currentAngle * currentAngle * Tilt.visionAdditiveSecond);
-            funcAdditive += (currentAngle * Tilt.visionAdditiveFirst);
+            double funcAdditive = (distance * distance * distance * distance * distance * Tilt.visionAdditiveFifth);
+            funcAdditive += (distance * distance * distance * distance * Tilt.visionAdditiveFourth);
+            funcAdditive += (distance * distance * distance * Tilt.visionAdditiveThird);
+            funcAdditive += (distance * distance * Tilt.visionAdditiveSecond);
+            funcAdditive += (distance * Tilt.visionAdditiveFirst);
             funcAdditive += Tilt.visionAdditive;
             
             tempAngle = currentAngle + elevation + funcAdditive;
+            tilt.setTiltAngle(tempAngle);
+            
+            pastElevation = elevation;
+            }
         }
-        
-        tilt.setTiltAngle(tempAngle);
         
         setLightsToChecks();
         
@@ -558,7 +575,7 @@ public class Manipulator extends TorqueSubsystem
     
     private void setLightsToChecks()
     {   
-        if(elevator.atDesiredPosition() && shooter.isSpunUp() && tilt.isLocked())
+        if(elevator.atDesiredPosition() && shooter.isSpunUp() && tilt.isLocked() && drivebase.isLocked())
         {
             setLightsLocked();
         }

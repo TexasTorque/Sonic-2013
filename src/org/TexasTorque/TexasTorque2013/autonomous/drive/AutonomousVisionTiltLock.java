@@ -93,10 +93,11 @@ public class AutonomousVisionTiltLock extends AutonomousCommand
             {
                az -= 360; //Angle correction Expanded: az = -(360 - az)
             }
-            visionCorrect.setSetpoint(sensorInput.getGyroAngle() + az);
+            drivebase.calcAngleCorrection(az);
+            //visionCorrect.setSetpoint(sensorInput.getGyroAngle() + az);
             //drivebase.mixTurn(output);
         }
-        double output = visionCorrect.calculate(sensorInput.getGyroAngle());
+        double output = drivebase.calcAngleCorrection();
         drivebase.mixTurn(output);
         
         if(timeoutTimer.get() > timeOut)

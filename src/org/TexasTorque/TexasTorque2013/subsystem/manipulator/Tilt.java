@@ -34,6 +34,8 @@ public class Tilt extends TorqueSubsystem
     public static double visionAdditiveThird;
     public static double visionAdditiveSecond;
     public static double visionAdditiveFirst;
+    public static double visionAdditiveFourth;
+    public static double visionAdditiveFifth;
     
     public static Tilt getInstance()
     {
@@ -166,6 +168,8 @@ public class Tilt extends TorqueSubsystem
         visionAdditiveFirst = params.getAsDouble("T_VisionAdditiveFirst", 0.0);
         visionAdditiveSecond = params.getAsDouble("T_VisionAdditiveSecond", 0.0);
         visionAdditiveThird = params.getAsDouble("T_VisionAdditiveThird", 0.0);
+        visionAdditiveFourth = params.getAsDouble("T_VisionAdditiveFourth", 0.0);
+        visionAdditiveFifth = params.getAsDouble("T_VisionAdditiveFifth", 0.0);
         
         tiltThreshold = params.getAsDouble("T_TiltMotorAdditive", 0.15);
         

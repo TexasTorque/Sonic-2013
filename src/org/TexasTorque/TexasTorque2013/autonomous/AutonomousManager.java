@@ -267,7 +267,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousSpinShooter());
-        autoBuilder.addCommand(new AutonomousVisionTilt(3.0));
+        autoBuilder.addCommand(new AutonomousVisionTilt(5.0));
         autoBuilder.addCommand(new AutonomousWait(0.5));
         
         int numFires = 4;
@@ -291,7 +291,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousDriveStraightHigh(-(driveDistance + 3), 1.0, true, timeout));
         autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousWait(0.125));
-        autoBuilder.addCommand(new AutonomousVisionTilt(3.0));
+        autoBuilder.addCommand(new AutonomousVisionTilt(5.0));
         autoBuilder.addCommand(new AutonomousWait(0.75));
         autoBuilder.addCommand(new AutonomousOuttake());
         

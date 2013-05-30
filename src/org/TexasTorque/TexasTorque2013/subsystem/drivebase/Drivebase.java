@@ -16,8 +16,9 @@ public class Drivebase extends TorqueSubsystem
     private int visionCycleDelay;
     private int visionInitialDelay;
     private int tempInitialDelay;
+    private double turnAdditive;
     private boolean visionEnable;
-    
+    private double pastAzimuth;
     
     private Climber climber;
     
@@ -71,8 +72,11 @@ public class Drivebase extends TorqueSubsystem
                 {
                     az -= 360; //Angle correction Expanded: az = -(360 - az)
                 }
-                calcAngleCorrection(az);
-                
+                if(pastAzimuth != az)
+                {
+                    calcAngleCorrection(az);
+                    pastAzimuth = az;
+                }
                 //double output = visionCorrect.calculate(az);
                 //Should use the same style as verticle tracking, pulling every V_CycleDelay, 5 cycles and then adjusting via the gyro
                 //mixTurn(output);
@@ -98,14 +102,26 @@ public class Drivebase extends TorqueSubsystem
         visionCorrect.setPIDGains(p, i, d);
     }
     
-    private void calcAngleCorrection(double azimuth)
+    public void calcAngleCorrection(double azimuth)
     {
-        double desiredAngle = sensorInput.getGyroAngle() + azimuth;//first check is to flip negative
+        azimuth = -1 * azimuth;
+        double desiredAngle = sensorInput.getGyroAngle() + azimuth + turnAdditive;//first check is to flip negative
         visionCorrect.setSetpoint(desiredAngle);
     }
-    private double calcAngleCorrection()
+    public double calcAngleCorrection()
     {
         return visionCorrect.calculate(sensorInput.getGyroAngle());
+    }
+    public boolean isLocked()
+    {
+        if(!visionEnable || !driverInput.getAutoTargeting() || driverInput.hasInput())
+        {
+            return true;
+        }
+        else
+        {
+            return visionCorrect.isDone();
+        }
     }
     
     public void mixTurn(double t)
@@ -183,6 +199,7 @@ public class Drivebase extends TorqueSubsystem
         visionInitialDelay = params.getAsInt("V_InitialDelay", 70);
         visionCycleDelay = params.getAsInt("V_CycleDelay", 5);
         visionEnable = params.getAsBoolean("V_Horizontal", false);
+        turnAdditive = params.getAsDouble("V_TurnAdditive", 0.0);
         
         double p = params.getAsDouble("V_TurnP", 0.0);
         double i = params.getAsDouble("V_TurnI", 0.0);
