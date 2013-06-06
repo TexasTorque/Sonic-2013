@@ -384,15 +384,21 @@ public class Manipulator extends TorqueSubsystem
             //double funcAdditive = .3467* preFunctionAngle + -13.25;
             
             //double funcAdditive = (currentAngle * Tilt.visionAdditiveConst) + Tilt.visionAdditiveB;
-            double funcAdditive = (distance * distance * distance * distance * distance * Tilt.visionAdditiveFifth);
+            
+            /*double funcAdditive = (distance * distance * distance * distance * distance * Tilt.visionAdditiveFifth);
             funcAdditive += (distance * distance * distance * distance * Tilt.visionAdditiveFourth);
             funcAdditive += (distance * distance * distance * Tilt.visionAdditiveThird);
             funcAdditive += (distance * distance * Tilt.visionAdditiveSecond);
             funcAdditive += (distance * Tilt.visionAdditiveFirst);
-            funcAdditive += Tilt.visionAdditive;
-            
-            tempAngle = currentAngle + elevation + funcAdditive;
-            tilt.setTiltAngle(tempAngle);
+            funcAdditive += Tilt.visionAdditive;*/
+                
+            //double funcAdditive = Tilt.visionTanA / (Math.tan(Tilt.visionTanB * distance * Math.PI / 180 + Tilt.visionTanC)) + Tilt.visionTanD;
+            //double funcAdditive = 0;
+                
+            //tempAngle = currentAngle + elevation + funcAdditive;
+       
+                tempAngle = SmartDashboard.getNumber("setpoint", tempAngle);
+                tilt.setTiltAngle(tempAngle);
             
             pastElevation = elevation;
             }
@@ -584,9 +590,10 @@ public class Manipulator extends TorqueSubsystem
             setLightsTracking();
         }
         
-        if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD)
+        if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD || SmartDashboard.getBoolean("found", false))
         {
             robotOutput.setLightsState(Constants.YELLOW_RED_ALLIANCE);
         }
+       
     }
 }

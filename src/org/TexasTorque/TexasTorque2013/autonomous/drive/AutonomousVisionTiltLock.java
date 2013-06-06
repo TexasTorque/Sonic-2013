@@ -13,6 +13,7 @@ public class AutonomousVisionTiltLock extends AutonomousCommand
 {   
     private boolean firstCycle;
     private double timeOut;
+    private double timeIn;
     private Timer timeoutTimer;
     
     private double lastTempTiltAngle;
@@ -22,7 +23,7 @@ public class AutonomousVisionTiltLock extends AutonomousCommand
     private int visionCycleDelay;
     private TorquePID visionCorrect;
     
-    public AutonomousVisionTiltLock(double timeOut)
+    public AutonomousVisionTiltLock(double timeOut, double timeIn)
     {
         super();
         visionCycleDelay = params.getAsInt("V_CycleDelay", 4);
@@ -43,6 +44,7 @@ public class AutonomousVisionTiltLock extends AutonomousCommand
         visionWait = 0;
         tempTiltAngle = 0.0;
         this.timeOut = timeOut;
+        this.timeIn = timeIn;
         timeoutTimer = new Timer();
         firstCycle = true;
     }
@@ -55,7 +57,10 @@ public class AutonomousVisionTiltLock extends AutonomousCommand
     {
         if(firstCycle)
         {
+            firstCycle = !firstCycle;
             timeoutTimer.start();
+            tempTiltAngle = Tilt.lowAngle;
+            tilt.setTiltAngle(tempTiltAngle);
         }
         
         visionWait = (visionWait + 1) % visionCycleDelay;
@@ -64,27 +69,17 @@ public class AutonomousVisionTiltLock extends AutonomousCommand
             initialDelay--;
         }
         
-        if(tempTiltAngle == 0.0)
-        {
-            tempTiltAngle = Tilt.lowAngle;
-        }
-        
         if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && initialDelay == 0)
         {
             // ---- Tilt -----
-            double currentTiltAngle = sensorInput.getTiltAngle();
             double elevation = SmartDashboard.getNumber("elevation", 0.0);
             if(elevation > 180)
             {
                 elevation -= 360;// elevation = -(360 - elevation);
             }
-            double funcAdditive = (currentTiltAngle * currentTiltAngle * currentTiltAngle * Tilt.visionAdditiveThird);
-            funcAdditive += (currentTiltAngle * currentTiltAngle * Tilt.visionAdditiveSecond);
-            funcAdditive += (currentTiltAngle * Tilt.visionAdditiveFirst);
-            funcAdditive += Tilt.visionAdditive;
             
             lastTempTiltAngle = tempTiltAngle;
-            tempTiltAngle = currentTiltAngle + elevation + funcAdditive;
+            tempTiltAngle = SmartDashboard.getNumber("setpoint", lastTempTiltAngle);
             tilt.setTiltAngle(tempTiltAngle);
             
             // ----- Drive -----
@@ -94,20 +89,19 @@ public class AutonomousVisionTiltLock extends AutonomousCommand
                az -= 360; //Angle correction Expanded: az = -(360 - az)
             }
             drivebase.calcAngleCorrection(az);
-            //visionCorrect.setSetpoint(sensorInput.getGyroAngle() + az);
-            //drivebase.mixTurn(output);
         }
         double output = drivebase.calcAngleCorrection();
         drivebase.mixTurn(output);
         
         if(timeoutTimer.get() > timeOut)
         {
+            System.err.println("Vision Lock timed out");
             return true;
         }
         
-        boolean tiltDone = (Math.abs(lastTempTiltAngle - tempTiltAngle) < .2);
-        boolean driveDone = visionCorrect.isDone();
+        boolean tiltDone = tilt.isLocked();
+        //boolean driveDone = visionCorrect.isDone();
         
-        return tiltDone && driveDone;        
+        return (tiltDone && timeoutTimer.get() > timeIn);// && driveDone;        
     }
 }

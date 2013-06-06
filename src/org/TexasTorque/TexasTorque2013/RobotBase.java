@@ -159,6 +159,7 @@ public class RobotBase extends IterativeRobot implements Runnable
         autoManager.runAutonomous();
     }
     
+    
 //---------------------------------------------------------------------------------------------------------------------------------   
 
     public void teleopInit()
@@ -205,6 +206,7 @@ public class RobotBase extends IterativeRobot implements Runnable
         SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
         SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
         SmartDashboard.putNumber("TiltVoltage", sensorInput.getTiltVoltage());
+        SmartDashboard.putNumber("TiltSetpoint", tilt.getSetpoint());
         SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());
         SmartDashboard.putNumber("PressureVoltage", sensorInput.getPSI());
         SmartDashboard.putNumber("NumCycles", numCycles);
@@ -230,11 +232,22 @@ public class RobotBase extends IterativeRobot implements Runnable
         }
         dashboardManager.updateLCD();
         
-        //SmartDashboard.putNumber("NumCycles", numCycles);
+        SmartDashboard.putNumber("ElevatorPosition", sensorInput.getElevatorEncoder());
+        SmartDashboard.putNumber("LeftDrive", sensorInput.getLeftDriveEncoder());
+        SmartDashboard.putNumber("RightDrive", sensorInput.getRightDriveEncoder());
+        SmartDashboard.putNumber("FrontRate", sensorInput.getFrontShooterRate());
+        SmartDashboard.putNumber("RearRate", sensorInput.getRearShooterRate());
+        SmartDashboard.putNumber("TiltAngle", sensorInput.getTiltAngle());
+        SmartDashboard.putNumber("TiltVoltage", sensorInput.getTiltVoltage());
+        SmartDashboard.putNumber("TiltSetpoint", tilt.getSetpoint());
+        SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());
+        SmartDashboard.putNumber("PressureVoltage", sensorInput.getPSI());
+        SmartDashboard.putNumber("NumCycles", numCycles);
     }
     
     public void disabledContinuous()
     {
+        
     }
     
 //---------------------------------------------------------------------------------------------------------------------------------    

@@ -1,5 +1,6 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
 import org.TexasTorque.TorqueLib.controlLoop.TorquePID;
@@ -36,6 +37,10 @@ public class Tilt extends TorqueSubsystem
     public static double visionAdditiveFirst;
     public static double visionAdditiveFourth;
     public static double visionAdditiveFifth;
+    public static double visionTanA;
+    public static double visionTanB;
+    public static double visionTanC;
+    public static double visionTanD;
     
     public static Tilt getInstance()
     {
@@ -143,6 +148,11 @@ public class Tilt extends TorqueSubsystem
         return names;
     }
     
+    public double getSetpoint()
+    {
+        return tiltPID.getSetpoint();
+    }
+    
     public String logData()
     {
         String data = desiredTiltAngle + ",";
@@ -163,13 +173,17 @@ public class Tilt extends TorqueSubsystem
         autonomousLowAngle = params.getAsDouble("A_RearLowAngle", lowAngle);
         madtownAngle = params.getAsDouble("T_MadtownAngle", lowAngle);
         visionAdditive = params.getAsDouble("T_VisionAdditive", 0.0);
-        visionAdditiveConst = params.getAsDouble("T_VisionAdditiveConstant", 0.0);
-        visionAdditiveB = params.getAsDouble("T_VisionAdditiveB", 0.0);
         visionAdditiveFirst = params.getAsDouble("T_VisionAdditiveFirst", 0.0);
         visionAdditiveSecond = params.getAsDouble("T_VisionAdditiveSecond", 0.0);
         visionAdditiveThird = params.getAsDouble("T_VisionAdditiveThird", 0.0);
         visionAdditiveFourth = params.getAsDouble("T_VisionAdditiveFourth", 0.0);
         visionAdditiveFifth = params.getAsDouble("T_VisionAdditiveFifth", 0.0);
+        SmartDashboard.putNumber("T_VisionAdditive", visionAdditive);
+        SmartDashboard.putNumber("T_VisionAdditiveFirst", visionAdditiveFirst);
+        SmartDashboard.putNumber("T_VisionAdditiveSecond", visionAdditiveSecond);
+        SmartDashboard.putNumber("T_VisionAdditiveThird", visionAdditiveThird);
+        SmartDashboard.putNumber("T_VisionAdditiveFourth", visionAdditiveFourth);
+        SmartDashboard.putNumber("T_VisionAdditiveFifth", visionAdditiveFifth);
         
         tiltThreshold = params.getAsDouble("T_TiltMotorAdditive", 0.15);
         

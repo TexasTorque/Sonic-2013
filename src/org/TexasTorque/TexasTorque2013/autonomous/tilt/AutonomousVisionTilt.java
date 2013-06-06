@@ -56,24 +56,19 @@ public class AutonomousVisionTilt extends AutonomousCommand
         
         if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && initialDelay == 0)
         {
-            double currentAngle = sensorInput.getTiltAngle();
             double elevation = SmartDashboard.getNumber("elevation", 0.0);
             if(elevation > 180)
             {
                 elevation -= 360;// elevation = -(360 - elevation);
             }
-            double funcAdditive = (currentAngle * currentAngle * currentAngle * Tilt.visionAdditiveThird);
-            funcAdditive += (currentAngle * currentAngle * Tilt.visionAdditiveSecond);
-            funcAdditive += (currentAngle * Tilt.visionAdditiveFirst);
-            funcAdditive += Tilt.visionAdditive;
-            
             lastTempAngle = tempAngle;
-            tempAngle = currentAngle + elevation + funcAdditive;
+            tempAngle = SmartDashboard.getNumber("setpoint", lastTempAngle);
         }
         tilt.setTiltAngle(tempAngle);
         
         if(timeoutTimer.get() > timeOut)
         {
+            System.err.println("Vision tracking timed out");
             return true;
         }
         if (Math.abs(lastTempAngle - tempAngle) < .2)

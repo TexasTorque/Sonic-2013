@@ -124,6 +124,9 @@ public class AutonomousManager
             case Constants.VISION_LOCK_AUTO:
                 visionLockAuto();
                 break;
+            case Constants.VISION_SHORT_AUTO:
+                visionShortAuto();
+                break;
             default:
                 doNothingAuto();
                 break;
@@ -317,6 +320,7 @@ public class AutonomousManager
         double driveDistance = params.getAsDouble("A_MiddleSevenDistance", 100);
         double timeout = params.getAsDouble("A_MiddleSevenTimeout", 5.0);
         double genericTimeout = 0.25;
+        double timeIn = 0.7;
         
         autoBuilder.clearCommands();
         autoBuilder.addAutonomousDelay(autoDelay);
@@ -325,13 +329,12 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousIntake());
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousSpinShooter());
-        autoBuilder.addCommand(new AutonomousVisionTiltLock(3.0));
+        autoBuilder.addCommand(new AutonomousVisionTiltLock(3.0, timeIn));
         autoBuilder.addCommand(new AutonomousWait(0.5));
         
         int numFires = 4;
         for(int i = 0; i < numFires; i++)
         {
-            autoBuilder.addCommand(new AutonomousTiltDone(genericTimeout));
             autoBuilder.addCommand(new AutonomousShooterDone(genericTimeout));
             autoBuilder.addCommand(new AutonomousMagazineDone(magazine.deltaTimeForward + magazine.deltaTimeReverse));
             autoBuilder.addCommand(new AutonomousFireOnce());
@@ -349,14 +352,72 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousDriveStraightHigh(-(driveDistance + 3), 1.0, true, timeout));
         autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousWait(0.125));
-        autoBuilder.addCommand(new AutonomousVisionTiltLock(3.0));
+        autoBuilder.addCommand(new AutonomousVisionTiltLock(3.0, timeIn));
         autoBuilder.addCommand(new AutonomousWait(0.75));
         autoBuilder.addCommand(new AutonomousOuttake());
         
         numFires = 4;
         for(int i = 0; i < numFires; i++)
         {
-            autoBuilder.addCommand(new AutonomousTiltDone(genericTimeout));
+            autoBuilder.addCommand(new AutonomousShooterDone(genericTimeout));
+            autoBuilder.addCommand(new AutonomousMagazineDone(magazine.deltaTimeForward + magazine.deltaTimeReverse));
+            autoBuilder.addCommand(new AutonomousFireOnce());
+        }
+        
+        autoBuilder.addCommand(new AutonomousWait(0.25));
+        autoBuilder.addCommand(new AutonomousStopShooter());
+        autoBuilder.addCommand(new AutonomousTiltParallel());
+        autoBuilder.addCommand(new AutonomousDriveStop());
+        autoBuilder.addCommand(new AutonomousStopAll());
+        autoBuilder.addCommand(new AutonomousStop());
+    }
+    
+    public void visionShortAuto()
+    {
+        double driveSpeed = params.getAsDouble("A_MiddleSevenSpeed", 0.5);
+        double driveDistance = params.getAsDouble("A_MiddleSevenDistance", 100);
+        double driveBackDistance = driveDistance / 2;
+        double timeout = params.getAsDouble("A_MiddleSevenTimeout", 5.0);
+        double genericTimeout = 0.25;
+        double timeIn = 0.7;
+        
+        autoBuilder.clearCommands();
+        autoBuilder.addAutonomousDelay(autoDelay);
+        autoBuilder.addCommand(new AutonomousResetGyro());
+        autoBuilder.addCommand(new AutonomousShiftLow());
+        autoBuilder.addCommand(new AutonomousIntake());
+        autoBuilder.addCommand(new AutonomousDriveStop());
+        autoBuilder.addCommand(new AutonomousSpinShooter());
+        autoBuilder.addCommand(new AutonomousVisionTiltLock(3.0, timeIn));
+        autoBuilder.addCommand(new AutonomousWait(0.5));
+        
+        int numFires = 4;
+        for(int i = 0; i < numFires; i++)
+        {
+            autoBuilder.addCommand(new AutonomousShooterDone(genericTimeout));
+            autoBuilder.addCommand(new AutonomousMagazineDone(magazine.deltaTimeForward + magazine.deltaTimeReverse));
+            autoBuilder.addCommand(new AutonomousFireOnce());
+        }
+        
+        autoBuilder.addCommand(new AutonomousWait(0.25));
+        autoBuilder.addCommand(new AutonomousStopShooter());
+        autoBuilder.addCommand(new AutonomousTiltParallel());
+        autoBuilder.addCommand(new AutonomousTiltDone(1.0));
+        autoBuilder.addCommand(new AutonomousMagazineLoad());
+        autoBuilder.addCommand(new AutonomousDriveStraightLow(driveDistance, driveSpeed, true, timeout));
+        autoBuilder.addCommand(new AutonomousDriveStop());
+        autoBuilder.addCommand(new AutonomousShiftHigh());
+        autoBuilder.addCommand(new AutonomousSpinShooter());
+        autoBuilder.addCommand(new AutonomousDriveStraightHigh(-driveBackDistance, 1.0, true, timeout/2));
+        autoBuilder.addCommand(new AutonomousMagazineStop());
+        autoBuilder.addCommand(new AutonomousWait(0.125));
+        autoBuilder.addCommand(new AutonomousVisionTiltLock(1.2, timeIn));
+        autoBuilder.addCommand(new AutonomousWait(0.75));
+        autoBuilder.addCommand(new AutonomousOuttake());
+        
+        numFires = 4;
+        for(int i = 0; i < numFires; i++)
+        {
             autoBuilder.addCommand(new AutonomousShooterDone(genericTimeout));
             autoBuilder.addCommand(new AutonomousMagazineDone(magazine.deltaTimeForward + magazine.deltaTimeReverse));
             autoBuilder.addCommand(new AutonomousFireOnce());
