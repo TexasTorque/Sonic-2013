@@ -581,7 +581,7 @@ public class Manipulator extends TorqueSubsystem
     
     private void setLightsToChecks()
     {   
-        if(elevator.atDesiredPosition() && shooter.isSpunUp() && tilt.isLocked() && drivebase.isLocked())
+        if(elevator.atDesiredPosition() && shooter.isSpunUp() && tilt.isLocked())
         {
             setLightsLocked();
         }
@@ -590,7 +590,7 @@ public class Manipulator extends TorqueSubsystem
             setLightsTracking();
         }
         
-        if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD || SmartDashboard.getBoolean("found", false))
+        if(sensorInput.getPSI() < Constants.PRESSURE_THRESHOLD)
         {
             robotOutput.setLightsState(Constants.YELLOW_RED_ALLIANCE);
         }

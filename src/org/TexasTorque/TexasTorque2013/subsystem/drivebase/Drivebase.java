@@ -26,6 +26,7 @@ public class Drivebase extends TorqueSubsystem
     private double rightDriveSpeed;
     
     private boolean shiftState;
+    private boolean firstCycle;
     
     public static Drivebase getInstance()
     {
@@ -59,6 +60,7 @@ public class Drivebase extends TorqueSubsystem
             }
             else
             {
+                
                 if(tempInitialDelay > 0)
                 {
                     tempInitialDelay --;
