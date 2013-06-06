@@ -90,6 +90,10 @@ public class AutonomousVisionTiltLock extends AutonomousCommand
             }
             drivebase.calcAngleCorrection(az);
         }
+        else
+        {
+            drivebase.calcAngleCorrection(params.getAsDouble("V_TurnAdditive", 0.0));
+        }
         double output = drivebase.calcAngleCorrection();
         drivebase.mixTurn(output);
         

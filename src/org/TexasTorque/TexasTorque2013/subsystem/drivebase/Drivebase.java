@@ -83,6 +83,10 @@ public class Drivebase extends TorqueSubsystem
                 //Should use the same style as verticle tracking, pulling every V_CycleDelay, 5 cycles and then adjusting via the gyro
                 //mixTurn(output);
                 }
+                else
+                {
+                    calcAngleCorrection(turnAdditive);
+                }
                 double output = calcAngleCorrection();
                 mixTurn(output);
             }
