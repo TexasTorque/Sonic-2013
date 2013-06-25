@@ -43,7 +43,7 @@ public class Constants
     
     //----- Tilt -----
     public final static double DEFAULT_STANDARD_TILT_POSITION = 5.0;
-    public final static double POTENTIOMETER_LOW_VOLTAGE = 0.34;
+    public final static double POTENTIOMETER_LOW_VOLTAGE = 0.27;
     public final static double POTENTIOMETER_HIGH_VOLTAGE = 6.578;
     public final static boolean GATE_EXTENDED = false;
     public final static boolean GATE_RETRACTED = true;
