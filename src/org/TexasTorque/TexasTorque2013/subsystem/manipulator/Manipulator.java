@@ -358,7 +358,7 @@ public class Manipulator extends TorqueSubsystem
         
         if(tempAngle == 0.0)
         {
-            tempAngle = Tilt.lowAngle;
+            tempAngle = Tilt.lowAngle + Tilt.visionInitialAdditive;
             tilt.setTiltAngle(tempAngle);
         }
         else if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && initialDelay == 0)

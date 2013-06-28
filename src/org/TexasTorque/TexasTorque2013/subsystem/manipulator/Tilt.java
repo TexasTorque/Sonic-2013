@@ -30,6 +30,7 @@ public class Tilt extends TorqueSubsystem
     public static double autonomousLowAngle;
     public static double madtownAngle;
     public static double visionAdditive;
+    public static double visionInitialAdditive;
     public static double visionAdditiveConst;
     public static double visionAdditiveB;
     public static double visionAdditiveThird;
@@ -184,6 +185,7 @@ public class Tilt extends TorqueSubsystem
         SmartDashboard.putNumber("T_VisionAdditiveThird", visionAdditiveThird);
         SmartDashboard.putNumber("T_VisionAdditiveFourth", visionAdditiveFourth);
         SmartDashboard.putNumber("T_VisionAdditiveFifth", visionAdditiveFifth);
+        visionInitialAdditive = params.getAsDouble("T_VisionInitialAdditive", 0.0);
         
         tiltThreshold = params.getAsDouble("T_TiltMotorAdditive", 0.15);
         
