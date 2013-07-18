@@ -18,6 +18,7 @@ public class AutonomousVisionTiltLock extends AutonomousCommand
     
     private double lastTempTiltAngle;
     private double tempTiltAngle;
+    private double defaultAngle;
     private int visionWait;
     private int initialDelay;
     private int visionCycleDelay;
@@ -45,6 +46,34 @@ public class AutonomousVisionTiltLock extends AutonomousCommand
         tempTiltAngle = 0.0;
         this.timeOut = timeOut;
         this.timeIn = timeIn;
+        this.defaultAngle = Tilt.lowAngle;
+        timeoutTimer = new Timer();
+        firstCycle = true;
+    }
+    
+    public AutonomousVisionTiltLock(double timeOut, double timeIn, double defaultAngle)
+    {
+        super();
+        visionCycleDelay = params.getAsInt("V_CycleDelay", 4);
+        initialDelay = params.getAsInt("V_InitialDelay", 50);
+        
+        visionCorrect = new TorquePID();
+        visionCorrect.setSetpoint(0.0);
+        double p = params.getAsDouble("V_TurnP", 0.0);
+        double i = params.getAsDouble("V_TurnI", 0.0);
+        double d = params.getAsDouble("V_TurnD", 0.0);
+        double e = params.getAsDouble("V_TurnEpsilon", 0.0);
+        double r = params.getAsDouble("V_TurnDoneRange", 0.0);
+        visionCorrect.setPIDGains(p, i, d);
+        visionCorrect.setEpsilon(e);
+        visionCorrect.setDoneRange(r);
+        visionCorrect.reset();
+        
+        visionWait = 0;
+        tempTiltAngle = 0.0;
+        this.timeOut = timeOut;
+        this.timeIn = timeIn;
+        this.defaultAngle = defaultAngle;
         timeoutTimer = new Timer();
         firstCycle = true;
     }
@@ -59,7 +88,7 @@ public class AutonomousVisionTiltLock extends AutonomousCommand
         {
             firstCycle = !firstCycle;
             timeoutTimer.start();
-            tempTiltAngle = Tilt.lowAngle;
+            tempTiltAngle = defaultAngle;
             tilt.setTiltAngle(tempTiltAngle);
         }
         
