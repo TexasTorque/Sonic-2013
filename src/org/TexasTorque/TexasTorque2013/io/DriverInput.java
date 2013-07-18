@@ -114,12 +114,12 @@ public class DriverInput
     
     public synchronized boolean shootSide()
     {
-        return false;//return operatorController.getBottomActionButton();
+        return operatorController.getLeftActionButton();
     }
     
     public synchronized boolean shootLow()
     {
-        return operatorController.getLeftActionButton();
+        return false; //operatorController.getLeftActionButton();
     }
     
     public synchronized boolean shootFar()

@@ -12,6 +12,7 @@ public class AutonomousVisionTilt extends AutonomousCommand
 {   
     private boolean firstCycle;
     private double timeOut;
+    private double timeIn;
     private Timer timeoutTimer;
     
     private double lastTempAngle;
@@ -20,7 +21,7 @@ public class AutonomousVisionTilt extends AutonomousCommand
     private int initialDelay;
     private int visionCycleDelay;
     
-    public AutonomousVisionTilt(double timeOut)
+    public AutonomousVisionTilt(double timeOut, double timeIn)
     {
         super();
         visionCycleDelay = params.getAsInt("V_CycleDelay", 4);
@@ -28,6 +29,7 @@ public class AutonomousVisionTilt extends AutonomousCommand
         visionWait = 0;
         tempAngle = 0.0;
         this.timeOut = timeOut;
+        this.timeIn = timeIn;
         timeoutTimer = new Timer();
         firstCycle = true;
     }
@@ -66,15 +68,21 @@ public class AutonomousVisionTilt extends AutonomousCommand
         }
         tilt.setTiltAngle(tempAngle);
         
+        if(timeoutTimer.get() < timeIn)
+        {
+            return false;
+        }
+        
         if(timeoutTimer.get() > timeOut)
         {
             System.err.println("Vision tracking timed out");
             return true;
         }
-        if (Math.abs(lastTempAngle - tempAngle) < .2)
+        if (Math.abs(lastTempAngle - tempAngle) < .1)
         {
             return true;
         }
+        
         return false;        
     }
 }
