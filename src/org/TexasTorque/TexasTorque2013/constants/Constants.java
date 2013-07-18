@@ -32,6 +32,8 @@ public class Constants
     public final static int VISION_AUTO = 9;
     public final static int VISION_LOCK_AUTO = 10;
     public final static int VISION_SHORT_AUTO = 11;
+    public final static int VISION_CENTER_LEFT_AUTO = 12;
+    public final static int VISION_CENTER_RIGHT_AUTO = 13;
     
     //----- Drivebase -----
     public final static double DEFAULT_HIGH_SENSITIVITY = 0.7;
