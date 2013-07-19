@@ -86,7 +86,7 @@ public class AutonomousVisionTiltLock extends AutonomousCommand
     {
         if(firstCycle)
         {
-            firstCycle = !firstCycle;
+            firstCycle = false;
             timeoutTimer.start();
             tempTiltAngle = defaultAngle;
             tilt.setTiltAngle(tempTiltAngle);

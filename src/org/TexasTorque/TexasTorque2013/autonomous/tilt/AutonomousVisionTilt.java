@@ -20,6 +20,7 @@ public class AutonomousVisionTilt extends AutonomousCommand
     private int visionWait;
     private int initialDelay;
     private int visionCycleDelay;
+    private double defaultAngle;
     
     public AutonomousVisionTilt(double timeOut, double timeIn)
     {
@@ -32,6 +33,22 @@ public class AutonomousVisionTilt extends AutonomousCommand
         this.timeIn = timeIn;
         timeoutTimer = new Timer();
         firstCycle = true;
+        defaultAngle = Tilt.lowAngle;
+    }
+    
+    public AutonomousVisionTilt(double timeOut, double timeIn, double defaultAngle)
+    {
+        super();
+        visionCycleDelay = params.getAsInt("V_CycleDelay", 4);
+        initialDelay = params.getAsInt("V_InitialDelay", 50);
+        visionWait = 0;
+        tempAngle = 0.0;
+        this.timeOut = timeOut;
+        this.timeIn = timeIn;
+        timeoutTimer = new Timer();
+        firstCycle = true;
+        defaultAngle = Tilt.lowAngle;
+        this.defaultAngle = defaultAngle;
     }
     
     public void reset()
@@ -42,18 +59,16 @@ public class AutonomousVisionTilt extends AutonomousCommand
     {
         if(firstCycle)
         {
+            firstCycle = false;
             timeoutTimer.start();
+            tempAngle = defaultAngle;
+            tilt.setTiltAngle(tempAngle);
         }
         
         visionWait = (visionWait + 1) % visionCycleDelay;
         if(initialDelay > 0)
         {
             initialDelay--;
-        }
-        
-        if(tempAngle == 0.0)
-        {
-            tempAngle = Tilt.lowAngle;
         }
         
         if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && initialDelay == 0)
@@ -65,12 +80,7 @@ public class AutonomousVisionTilt extends AutonomousCommand
             }
             lastTempAngle = tempAngle;
             tempAngle = SmartDashboard.getNumber("setpoint", lastTempAngle);
-        }
-        tilt.setTiltAngle(tempAngle);
-        
-        if(timeoutTimer.get() < timeIn)
-        {
-            return false;
+            tilt.setTiltAngle(tempAngle);
         }
         
         if(timeoutTimer.get() > timeOut)
@@ -78,11 +88,12 @@ public class AutonomousVisionTilt extends AutonomousCommand
             System.err.println("Vision tracking timed out");
             return true;
         }
-        if (Math.abs(lastTempAngle - tempAngle) < .1)
+        
+        if(timeoutTimer.get() < timeIn)
         {
-            return true;
+            return false;
         }
         
-        return false;        
+        return tilt.isLocked();
     }
 }
