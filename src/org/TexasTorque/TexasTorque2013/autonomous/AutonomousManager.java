@@ -2,6 +2,7 @@ package org.TexasTorque.TexasTorque2013.autonomous;
 
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStop;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraightHigh;
+import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraightHighLoose;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousDriveStraightLow;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftHigh;
 import org.TexasTorque.TexasTorque2013.autonomous.drive.AutonomousShiftLow;
@@ -415,7 +416,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousShiftHigh());
         autoBuilder.addCommand(new AutonomousSpinShooter());
-        autoBuilder.addCommand(new AutonomousDriveStraightHigh(-driveBackDistance, 1.0, true, timeout/2));
+        autoBuilder.addCommand(new AutonomousDriveStraightHighLoose(-driveBackDistance, 1.0, true, timeout/2));
         autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousWait(0.125));
         autoBuilder.addCommand(new AutonomousVisionTiltLock(1.2, timeIn));
