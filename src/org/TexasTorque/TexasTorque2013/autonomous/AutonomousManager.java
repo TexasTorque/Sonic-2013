@@ -383,7 +383,7 @@ public class AutonomousManager
     {
         double driveSpeed = params.getAsDouble("A_MiddleSevenSpeed", 0.5);
         double driveDistance = params.getAsDouble("A_MiddleSevenDistance", 100);
-        double driveBackDistance = driveDistance / 2;
+        double driveBackDistance = driveDistance * 2 / 3;
         double timeout = params.getAsDouble("A_MiddleSevenTimeout", 5.0);
         double genericTimeout = 0.25;
         double timeIn = 0.7;
