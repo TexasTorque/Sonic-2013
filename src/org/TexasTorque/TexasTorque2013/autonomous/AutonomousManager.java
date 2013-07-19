@@ -239,6 +239,7 @@ public class AutonomousManager
         autoBuilder.addCommand(new AutonomousShiftHigh());
         autoBuilder.addCommand(new AutonomousSpinShooter());
         autoBuilder.addCommand(new AutonomousDriveStraightHigh(-(driveDistance + 3), 1.0, true, timeout));
+        autoBuilder.addCommand(new AutonomousDriveStop());
         autoBuilder.addCommand(new AutonomousMagazineStop());
         autoBuilder.addCommand(new AutonomousWait(0.125));
         autoBuilder.addCommand(new AutonomousCustomTilt(secondShotAngle));
@@ -382,7 +383,7 @@ public class AutonomousManager
     {
         double driveSpeed = params.getAsDouble("A_MiddleSevenSpeed", 0.5);
         double driveDistance = params.getAsDouble("A_MiddleSevenDistance", 100);
-        double driveBackDistance = driveDistance * 2 / 3;
+        double driveBackDistance = driveDistance / 2;
         double timeout = params.getAsDouble("A_MiddleSevenTimeout", 5.0);
         double genericTimeout = 0.25;
         double timeIn = 0.7;
@@ -702,7 +703,7 @@ public class AutonomousManager
         autoBuilder.addAutonomousDelay(autoDelay);
         autoBuilder.addCommand(new AutonomousShiftHigh());
         autoBuilder.addVariableFireSequence(4, sideTiltAngle, Elevator.elevatorBottomPosition, 1.0);
-        autoBuilder.addCommand(new AutonomousDriveStraightHigh(distance, speed, false, 3.0));
+        autoBuilder.addCommand(new AutonomousDriveStraightHigh(distance, speed, false, 10.0));
         autoBuilder.addCommand(new AutonomousStopAll());
         autoBuilder.addCommand(new AutonomousStop());
     }
