@@ -119,7 +119,7 @@ public class DriverInput
     
     public synchronized boolean shootLow()
     {
-        return false; //operatorController.getLeftActionButton();
+        return operatorController.getBottomActionButton();
     }
     
     public synchronized boolean shootFar()
@@ -154,7 +154,7 @@ public class DriverInput
     
     public synchronized boolean getAutoTargeting()
     {
-        return operatorController.getBottomActionButton(); // Need to know what control to put it on.
+        return false; //operatorController.getBottomActionButton(); // Need to know what control to put it on.
     }
     
     public synchronized boolean passiveHang()
