@@ -19,6 +19,12 @@ public class Manipulator extends TorqueSubsystem
     
     private double tempAngle;
     private double pastElevation;
+    
+    private boolean visionSearchFound;
+    private boolean decrementVisionSearch;
+    private double visionSearchCurrentAngle;
+    private double visionSearchIncrement;
+    
     private int visionWait;
     private int visionCycleDelay;
     private int initialDelay;
@@ -97,8 +103,12 @@ public class Manipulator extends TorqueSubsystem
                 shooter.stopShooter();
                 magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
                 tilt.setTiltAngle(0.0);
+                
                 tempAngle = 0.0;
                 initialDelay = maxInitialDelay;
+                visionSearchCurrentAngle = 0.0;
+                visionSearchFound = false;
+                
                 setLightsNormal();
             }
             
@@ -170,6 +180,7 @@ public class Manipulator extends TorqueSubsystem
         climber.loadParameters();
         visionCycleDelay = params.getAsInt("V_CycleDelay", 5);
         maxInitialDelay = params.getAsInt("V_InitialDelay", 80);
+        visionSearchIncrement = params.getAsDouble("V_SearchIncrment", .01);
     }
     
     private void calcOverrides()
@@ -351,17 +362,23 @@ public class Manipulator extends TorqueSubsystem
         {
             initialDelay--;
         }
+            
+        
+        
+        
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
         
-        if(tempAngle == 0.0)
+        //if(tempAngle == 0.0)
+        //{
+        //    tempAngle = Tilt.lowAngle + Tilt.visionInitialAdditive;
+        //    tilt.setTiltAngle(tempAngle);
+        //}
+        if(visionSearchFound)
         {
-            tempAngle = Tilt.lowAngle + Tilt.visionInitialAdditive;
-            tilt.setTiltAngle(tempAngle);
-        }
-        else if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && initialDelay == 0)
+        if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && initialDelay == 0)
         {
             double currentAngle = sensorInput.getTiltAngle();
             double distance = SmartDashboard.getNumber("range", 100.0);
@@ -402,6 +419,35 @@ public class Manipulator extends TorqueSubsystem
             
             pastElevation = elevation;
             }
+        }
+        }//if visionSearchFound
+        else
+        {
+            if(SmartDashboard.getBoolean("found", false))
+            {
+                visionSearchFound = true;
+                tempAngle = SmartDashboard.getNumber("setpoint", tempAngle);
+                tilt.setTiltAngle(tempAngle);
+                pastElevation = SmartDashboard.getNumber("elevation", 0.0);
+            }
+            else
+            {
+                if(visionSearchCurrentAngle >= Tilt.maxAngle)
+                {
+                    decrementVisionSearch = true;
+                    visionSearchCurrentAngle = Tilt.maxAngle;
+                }
+                if(visionSearchCurrentAngle <= 10.0)
+                {
+                    decrementVisionSearch = false;
+                    visionSearchCurrentAngle = 10.0;
+                }
+                
+                visionSearchCurrentAngle += (decrementVisionSearch) ? -visionSearchIncrement : visionSearchIncrement;
+                tempAngle = visionSearchCurrentAngle;
+                tilt.setTiltAngle(tempAngle);
+            }
+            
         }
         
         setLightsToChecks();
