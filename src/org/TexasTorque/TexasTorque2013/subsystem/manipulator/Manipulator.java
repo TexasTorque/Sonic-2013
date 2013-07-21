@@ -362,65 +362,31 @@ public class Manipulator extends TorqueSubsystem
         {
             initialDelay--;
         }
-            
-        
-        
         
         intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
         magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
         elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
         shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
         
-        //if(tempAngle == 0.0)
-        //{
-        //    tempAngle = Tilt.lowAngle + Tilt.visionInitialAdditive;
-        //    tilt.setTiltAngle(tempAngle);
-        //}
         if(visionSearchFound)
         {
-        if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && initialDelay == 0)
-        {
-            double currentAngle = sensorInput.getTiltAngle();
-            double distance = SmartDashboard.getNumber("range", 100.0);
-            if(distance < 0)
+            if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && initialDelay == 0)
             {
-                distance = 100.0;
-            }
-            double elevation = SmartDashboard.getNumber("elevation", 0.0);
-            
-            if(elevation > 180)
-            {
-                elevation -= 360;// elevation = -(360 - elevation);
-            }
-            
-            if (pastElevation != elevation)
-            {
-            //double additive = Tilt.visionAdditive; //Additive could be a function of Distance?
-            
-            //double preFunctionAngle = currentAngle + elevation;
-            //double funcAdditive = .3467* preFunctionAngle + -13.25;
-            
-            //double funcAdditive = (currentAngle * Tilt.visionAdditiveConst) + Tilt.visionAdditiveB;
-            
-            /*double funcAdditive = (distance * distance * distance * distance * distance * Tilt.visionAdditiveFifth);
-            funcAdditive += (distance * distance * distance * distance * Tilt.visionAdditiveFourth);
-            funcAdditive += (distance * distance * distance * Tilt.visionAdditiveThird);
-            funcAdditive += (distance * distance * Tilt.visionAdditiveSecond);
-            funcAdditive += (distance * Tilt.visionAdditiveFirst);
-            funcAdditive += Tilt.visionAdditive;*/
-                
-            //double funcAdditive = Tilt.visionTanA / (Math.tan(Tilt.visionTanB * distance * Math.PI / 180 + Tilt.visionTanC)) + Tilt.visionTanD;
-            //double funcAdditive = 0;
-                
-            //tempAngle = currentAngle + elevation + funcAdditive;
-       
-                tempAngle = SmartDashboard.getNumber("setpoint", tempAngle);
-                tilt.setTiltAngle(tempAngle);
-            
-            pastElevation = elevation;
+                double elevation = SmartDashboard.getNumber("elevation", 0.0);
+
+                if(elevation > 180)
+                {
+                    elevation -= 360;// elevation = -(360 - elevation);
+                }
+
+                if (pastElevation != elevation)
+                {
+                    tempAngle = SmartDashboard.getNumber("setpoint", tempAngle);
+                    tilt.setTiltAngle(tempAngle);
+                    pastElevation = elevation;
+                }
             }
         }
-        }//if visionSearchFound
         else
         {
             if(SmartDashboard.getBoolean("found", false))
@@ -447,7 +413,6 @@ public class Manipulator extends TorqueSubsystem
                 tempAngle = visionSearchCurrentAngle;
                 tilt.setTiltAngle(tempAngle);
             }
-            
         }
         
         setLightsToChecks();
