@@ -31,17 +31,11 @@ public class Tilt extends TorqueSubsystem
     public static double madtownAngle;
     public static double visionAdditive;
     public static double visionInitialAdditive;
-    //public static double visionAdditiveConst;
-    //public static double visionAdditiveB;
     public static double visionAdditiveThird;
     public static double visionAdditiveSecond;
     public static double visionAdditiveFirst;
     public static double visionAdditiveFourth;
     public static double visionAdditiveFifth;
-    //public static double visionTanA;
-    //public static double visionTanB;
-    //public static double visionTanC;
-    //public static double visionTanD;
     public static double maxAngle;
     
     public static Tilt getInstance()

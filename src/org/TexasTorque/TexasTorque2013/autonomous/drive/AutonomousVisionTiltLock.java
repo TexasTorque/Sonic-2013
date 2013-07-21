@@ -133,7 +133,6 @@ public class AutonomousVisionTiltLock extends AutonomousCommand
         }
         
         boolean tiltDone = tilt.isLocked();
-        //boolean driveDone = visionCorrect.isDone();
         
         return (tiltDone && timeoutTimer.get() > timeIn);// && driveDone;        
     }

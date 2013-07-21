@@ -129,10 +129,10 @@ public class AutonomousManager
                 visionShortAuto();
                 break;
             case Constants.VISION_CENTER_LEFT_AUTO:
-                leftCenterAuto();
+                leftCenterVisionAuto();
                 break;
             case Constants.VISION_CENTER_RIGHT_AUTO:
-                rightCenterAuto();
+                rightCenterVisionAuto();
                 break;
             default:
                 doNothingAuto();
