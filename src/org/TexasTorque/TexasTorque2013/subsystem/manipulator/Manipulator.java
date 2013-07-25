@@ -180,7 +180,7 @@ public class Manipulator extends TorqueSubsystem
         climber.loadParameters();
         visionCycleDelay = params.getAsInt("V_CycleDelay", 5);
         maxInitialDelay = params.getAsInt("V_InitialDelay", 80);
-        visionSearchIncrement = params.getAsDouble("V_SearchIncrment", .01);
+        visionSearchIncrement = params.getAsDouble("V_SearchIncrement", .01);
     }
     
     private void calcOverrides()
@@ -283,6 +283,20 @@ public class Manipulator extends TorqueSubsystem
         else
         {
             robotOutput.setElevatorMotors(Constants.MOTOR_STOPPED);
+        }
+        
+        //----- Manual Tilt Controls -----
+        if(driverInput.tiltDownOverride())
+        {
+            robotOutput.setTiltMotor(-1 * driverInput.getTiltOverride());
+        }
+        else if(driverInput.tiltUpOverride())
+        {
+            robotOutput.setTiltMotor(-1 * driverInput.getTiltOverride());
+        }
+        else
+        {
+            robotOutput.setTiltMotor(Constants.MOTOR_STOPPED);
         }
         
         if(driverInput.getMadtownUnjam())

@@ -119,7 +119,7 @@ public class DriverInput
     
     public synchronized boolean shootLow()
     {
-        return operatorController.getBottomActionButton();
+        return false; //operatorController.getBottomActionButton();
     }
     
     public synchronized boolean shootFar()
@@ -154,7 +154,7 @@ public class DriverInput
     
     public synchronized boolean getAutoTargeting()
     {
-        return false; //operatorController.getBottomActionButton(); // Need to know what control to put it on.
+        return operatorController.getBottomActionButton(); // Need to know what control to put it on.
     }
     
     public synchronized boolean passiveHang()
@@ -190,12 +190,17 @@ public class DriverInput
     
     public synchronized boolean tiltUpOverride()
     {
-        return (operatorController.getRightYAxis() < -0.5);
+        return (operatorController.getRightYAxis() < -0.3);
     }
     
     public synchronized boolean tiltDownOverride()
     {
-        return (operatorController.getRightYAxis() > 0.5);
+        return (operatorController.getRightYAxis() > 0.3);
+    }
+    
+    public synchronized double getTiltOverride()
+    {
+        return (operatorController.getRightYAxis());    
     }
     
     public synchronized boolean shootLowOverride()

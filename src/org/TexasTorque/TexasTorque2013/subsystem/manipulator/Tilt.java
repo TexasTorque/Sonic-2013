@@ -162,10 +162,10 @@ public class Tilt extends TorqueSubsystem
     {
         lowAngle = params.getAsDouble("T_ShootLowAngle", 0.0);
         highAngle = params.getAsDouble("T_ShootHighAngle", 0.0);
-        maxAngle = params.getAsDouble("T_MaxAngle", highAngle);
         sideAngle = params.getAsDouble("T_ShootSideAngle", 0.0);
         farAngle = params.getAsDouble("T_ShootFarAngle", 0.0);
         closeAngle = params.getAsDouble("T_ShootCloseAngle", 0.0);
+        maxAngle = params.getAsDouble("T_MaxAngle", closeAngle);
         feederStationAngle = params.getAsDouble("T_FeederStationAngle", 0.0);
         autonomousLowAngle = params.getAsDouble("A_RearLowAngle", lowAngle);
         madtownAngle = params.getAsDouble("T_MadtownAngle", lowAngle);
