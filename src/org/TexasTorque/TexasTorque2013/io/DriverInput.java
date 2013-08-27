@@ -85,6 +85,11 @@ public class DriverInput
         return driveController.getTopLeftBumper();
     }
     
+    public synchronized boolean hasInput()
+    {
+        return (Math.abs(getThrottle())>.07 || Math.abs(getTurn())>.07);
+    }
+    
 //---------- Manipulator ----------    
     
     public synchronized boolean runIntake()
@@ -109,12 +114,12 @@ public class DriverInput
     
     public synchronized boolean shootSide()
     {
-        return operatorController.getBottomActionButton();
+        return operatorController.getLeftActionButton();
     }
     
     public synchronized boolean shootLow()
     {
-        return operatorController.getLeftActionButton();
+        return false; //operatorController.getBottomActionButton();
     }
     
     public synchronized boolean shootFar()
@@ -145,6 +150,11 @@ public class DriverInput
     public synchronized boolean decrementAngle()
     {
         return operatorController.getLeftDPAD();
+    }
+    
+    public synchronized boolean getAutoTargeting()
+    {
+        return operatorController.getBottomActionButton(); // Need to know what control to put it on.
     }
     
     public synchronized boolean passiveHang()
@@ -180,12 +190,17 @@ public class DriverInput
     
     public synchronized boolean tiltUpOverride()
     {
-        return (operatorController.getRightYAxis() < -0.5);
+        return (operatorController.getRightYAxis() < -0.3);
     }
     
     public synchronized boolean tiltDownOverride()
     {
-        return (operatorController.getRightYAxis() > 0.5);
+        return (operatorController.getRightYAxis() > 0.3);
+    }
+    
+    public synchronized double getTiltOverride()
+    {
+        return (operatorController.getRightYAxis());    
     }
     
     public synchronized boolean shootLowOverride()

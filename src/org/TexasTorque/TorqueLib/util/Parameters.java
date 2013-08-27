@@ -12,6 +12,7 @@ public class Parameters
 {
     private static Parameters teleopInstance;
     private static Parameters autonInstance;
+    private static Parameters visionInstance;
     private Watchdog watchdog;
     private Hashtable map;
     private String fileName;
@@ -28,12 +29,24 @@ public class Parameters
     {
         return (autonInstance == null) ? autonInstance = new Parameters("autonParams.txt") : autonInstance;
     }
+    
+    public synchronized static Parameters getVisionInstance()
+    {
+        return (visionInstance == null) ? visionInstance = new Parameters("params.txt", "C:/Users/Texas Torque/Desktop/Params/") : visionInstance;
+    }
   
     public Parameters(String fileNm)
     {
         watchdog = Watchdog.getInstance();
         map = new Hashtable();
         filePath = "file:///ni-rt/startup/";
+        fileName = fileNm;
+    }
+    public Parameters(String fileNm, String path)
+    {
+        watchdog = Watchdog.getInstance();
+        map = new Hashtable();
+        filePath = path;
         fileName = fileNm;
     }
     

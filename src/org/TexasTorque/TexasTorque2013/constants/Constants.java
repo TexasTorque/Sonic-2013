@@ -29,7 +29,15 @@ public class Constants
     public final static int RIGHT_SEVEN_AUTO = 4;
     public final static int LEFT_SEVEN_AUTO = 5;
     public final static int RIGHT_THREE_DRIVE_AUTO = 6;
+<<<<<<< HEAD
     public final static int DEMO_AUTO = 7;
+=======
+    public final static int VISION_AUTO = 9;
+    public final static int VISION_LOCK_AUTO = 10;
+    public final static int VISION_SHORT_AUTO = 11;
+    public final static int VISION_CENTER_LEFT_AUTO = 12;
+    public final static int VISION_CENTER_RIGHT_AUTO = 13;
+>>>>>>> 0936c705fce72025fd66343de4ab0bf6ff356e6d
     
     //----- Drivebase -----
     public final static double DEFAULT_HIGH_SENSITIVITY = 0.7;
@@ -41,7 +49,7 @@ public class Constants
     
     //----- Tilt -----
     public final static double DEFAULT_STANDARD_TILT_POSITION = 5.0;
-    public final static double POTENTIOMETER_LOW_VOLTAGE = 0.34;
+    public final static double POTENTIOMETER_LOW_VOLTAGE = 0.27;
     public final static double POTENTIOMETER_HIGH_VOLTAGE = 6.578;
     public final static boolean GATE_EXTENDED = false;
     public final static boolean GATE_RETRACTED = true;

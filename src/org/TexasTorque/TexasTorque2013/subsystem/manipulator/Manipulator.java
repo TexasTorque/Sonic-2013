@@ -1,18 +1,34 @@
 package org.TexasTorque.TexasTorque2013.subsystem.manipulator;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.TexasTorque.TexasTorque2013.TorqueSubsystem;
 import org.TexasTorque.TexasTorque2013.constants.Constants;
+import org.TexasTorque.TexasTorque2013.subsystem.drivebase.Drivebase;
 
 public class Manipulator extends TorqueSubsystem
 {   
     private static Manipulator instance;
     
+    private Drivebase drivebase;
     private Shooter shooter;
     private Elevator elevator;
     private Intake intake;
     private Magazine magazine;
     private Tilt tilt;
     private Climber climber;
+    
+    private double tempAngle;
+    private double pastElevation;
+    
+    private boolean visionSearchFound;
+    private boolean decrementVisionSearch;
+    private double visionSearchCurrentAngle;
+    private double visionSearchIncrement;
+    
+    private int visionWait;
+    private int visionCycleDelay;
+    private int initialDelay;
+    private int maxInitialDelay;
     
     public static Manipulator getInstance()
     {
@@ -29,6 +45,7 @@ public class Manipulator extends TorqueSubsystem
         magazine = Magazine.getInstance();
         tilt = Tilt.getInstance();
         climber = Climber.getInstance();
+        drivebase = Drivebase.getInstance();
     }
     
     public void run()
@@ -76,12 +93,21 @@ public class Manipulator extends TorqueSubsystem
             {
                 feedFromSlot();
             }
+            else if(driverInput.getAutoTargeting())
+            {
+                shootVision();
+            }
             else
             {
                 intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
                 shooter.stopShooter();
                 magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
                 tilt.setTiltAngle(0.0);
+                
+                tempAngle = 0.0;
+                initialDelay = maxInitialDelay;
+                visionSearchCurrentAngle = 0.0;
+                visionSearchFound = false;
                 
                 setLightsNormal();
             }
@@ -152,6 +178,9 @@ public class Manipulator extends TorqueSubsystem
         intake.loadParameters();
         tilt.loadParameters();
         climber.loadParameters();
+        visionCycleDelay = params.getAsInt("V_CycleDelay", 5);
+        maxInitialDelay = params.getAsInt("V_InitialDelay", 80);
+        visionSearchIncrement = params.getAsDouble("V_SearchIncrement", .01);
     }
     
     private void calcOverrides()
@@ -256,6 +285,20 @@ public class Manipulator extends TorqueSubsystem
             robotOutput.setElevatorMotors(Constants.MOTOR_STOPPED);
         }
         
+        //----- Manual Tilt Controls -----
+        if(driverInput.tiltDownOverride())
+        {
+            robotOutput.setTiltMotor(-1 * driverInput.getTiltOverride());
+        }
+        else if(driverInput.tiltUpOverride())
+        {
+            robotOutput.setTiltMotor(-1 * driverInput.getTiltOverride());
+        }
+        else
+        {
+            robotOutput.setTiltMotor(Constants.MOTOR_STOPPED);
+        }
+        
         if(driverInput.getMadtownUnjam())
         {
             tilt.setTiltAngle(Tilt.madtownAngle);
@@ -325,6 +368,75 @@ public class Manipulator extends TorqueSubsystem
             }
         }
     }
+    
+    public void shootVision()
+    {
+        visionWait = (visionWait + 1) % visionCycleDelay;
+        if(initialDelay > 0)
+        {
+            initialDelay--;
+        }
+        
+        intake.setIntakeSpeed(Constants.MOTOR_STOPPED);
+        magazine.setDesiredState(Constants.MAGAZINE_READY_STATE);
+        elevator.setDesiredPosition(Elevator.elevatorBottomPosition);
+        shooter.setShooterRates(Shooter.frontShooterRate, Shooter.rearShooterRate);
+        
+        if(visionSearchFound)
+        {
+            if(SmartDashboard.getBoolean("found",false) && visionWait == 0 && initialDelay == 0)
+            {
+                double elevation = SmartDashboard.getNumber("elevation", 0.0);
+
+                if(elevation > 180)
+                {
+                    elevation -= 360;// elevation = -(360 - elevation);
+                }
+
+                if (pastElevation != elevation)
+                {
+                    tempAngle = SmartDashboard.getNumber("setpoint", tempAngle);
+                    tilt.setTiltAngle(tempAngle);
+                    pastElevation = elevation;
+                }
+            }
+        }
+        else
+        {
+            if(SmartDashboard.getBoolean("found", false))
+            {
+                visionSearchFound = true;
+                tempAngle = SmartDashboard.getNumber("setpoint", tempAngle);
+                tilt.setTiltAngle(tempAngle);
+                pastElevation = SmartDashboard.getNumber("elevation", 0.0);
+            }
+            else
+            {
+                if(visionSearchCurrentAngle >= Tilt.maxAngle)
+                {
+                    decrementVisionSearch = true;
+                    visionSearchCurrentAngle = Tilt.maxAngle;
+                }
+                if(visionSearchCurrentAngle <= 10.0)
+                {
+                    decrementVisionSearch = false;
+                    visionSearchCurrentAngle = 10.0;
+                }
+                
+                visionSearchCurrentAngle += (decrementVisionSearch) ? -visionSearchIncrement : visionSearchIncrement;
+                tempAngle = visionSearchCurrentAngle;
+                tilt.setTiltAngle(tempAngle);
+            }
+        }
+        
+        setLightsToChecks();
+        
+        if(driverInput.fireFrisbee())
+        {
+            magazine.setDesiredState(Constants.MAGAZINE_SHOOTING_STATE);
+        }
+    }
+    
     
     public void shootLow()
     {
@@ -507,5 +619,6 @@ public class Manipulator extends TorqueSubsystem
         {
             robotOutput.setLightsState(Constants.YELLOW_RED_ALLIANCE);
         }
+       
     }
 }
