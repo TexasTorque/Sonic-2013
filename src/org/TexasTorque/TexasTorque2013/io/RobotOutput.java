@@ -40,6 +40,7 @@ public class RobotOutput
     
     public RobotOutput()
     {   
+        System.out.println("NEW ROBOT OUTPUT");
         
         lightsVector = new Vector();
         lightsVector.addElement(new DigitalOutput(Ports.SIDECAR_TWO, Ports.LIGHTS_A_PORT));
@@ -70,7 +71,7 @@ public class RobotOutput
         //----- Misc Misc -----
         compressor.start();
     }
- 
+    
     public synchronized static RobotOutput getInstance()
     {
         return (instance == null) ? instance = new RobotOutput() : instance;

@@ -6,7 +6,7 @@ public class Constants
     public final static double SPEED_AXIS_DEADBAND = 0.07;
     public final static double TURN_AXIS_DEADBAND = 0.07;
     
-    public final static boolean DEFAULT_FIRST_CONTROLLER_TYPE = true;
+    public final static boolean DEFAULT_FIRST_CONTROLLER_TYPE = false;
     public final static boolean DEFAULT_SECOND_CONTROLLER_TYPE = false;
     
     //----- Light States -----

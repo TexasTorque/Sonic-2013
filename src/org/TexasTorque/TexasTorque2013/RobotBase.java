@@ -183,6 +183,7 @@ public class RobotBase extends IterativeRobot implements Runnable
 
     public void teleopPeriodic()
     {
+        SmartDashboard.putNumber("frontShooterRate", sensorInput.getFrontShooterRate());
         watchdog.feed();
         robotOutput.runLights();
         
@@ -210,6 +211,7 @@ public class RobotBase extends IterativeRobot implements Runnable
         SmartDashboard.putNumber("GyroAngle", sensorInput.getGyroAngle());
         SmartDashboard.putNumber("PressureVoltage", sensorInput.getPSI());
         SmartDashboard.putNumber("NumCycles", numCycles);
+        SmartDashboard.putString("TiltPot", tilt.getKeyNames());
     }
     
 //---------------------------------------------------------------------------------------------------------------------------------
