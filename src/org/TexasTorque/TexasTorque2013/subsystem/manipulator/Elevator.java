@@ -26,6 +26,10 @@ public class Elevator extends TorqueSubsystem
     public static int elevatorBottomPosition;
     public static int elevatorFeedPosition;
     
+    private double error;
+    private double velocity;
+    private double dt;
+    
     public static Elevator getInstance()
     {
         return (instance == null) ? instance = new Elevator() : instance;
@@ -37,19 +41,20 @@ public class Elevator extends TorqueSubsystem
         
         feedForward = new FeedforwardPIV();
         
-        loadNewTrajectory();
-        
         previousTime = Timer.getFPGATimestamp();
         
         desiredPosition = Constants.DEFAULT_ELEVATOR_BOTTOM_POSITION;
         elevatorMotorSpeed = Constants.MOTOR_STOPPED;
         elevatorEpsilon = 0;
+
+        loadParameters();
+        loadNewTrajectory();
     }
     
     public void run()
     {   
         double currentTime = Timer.getFPGATimestamp();
-        double dt = currentTime - previousTime;
+        dt = currentTime - previousTime;
         previousTime = currentTime;
         
         int encoderPosition = sensorInput.getElevatorEncoder();
@@ -59,10 +64,10 @@ public class Elevator extends TorqueSubsystem
             encoderPosition = 0;
         }
         
-        double error = desiredPosition - encoderPosition;
-        double velocity = sensorInput.getElevatorEncoderVelocity();
+        error = desiredPosition - encoderPosition;
+        velocity = sensorInput.getElevatorEncoderVelocity();
         
-        trajectory.update(error, velocity , 0.0, dt);
+        trajectory.update(error, velocity, dt);
         
         elevatorMotorSpeed = feedForward.calculate(trajectory, error, velocity, dt);
         
@@ -143,11 +148,12 @@ public class Elevator extends TorqueSubsystem
         
         elevatorEpsilon = e;
         
+        trajectory = new TrapezoidalProfile(maxElevatorVelocity, maxElevatorAcceleration);
         loadNewTrajectory();
     }
     
     private void loadNewTrajectory()
     {
-        trajectory = new TrapezoidalProfile(maxElevatorAcceleration, maxElevatorVelocity);
+        trajectory.generateAccelerationProfile(error, velocity, 0.0);
     }
 }
