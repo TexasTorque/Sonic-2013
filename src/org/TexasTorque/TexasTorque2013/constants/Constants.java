@@ -60,7 +60,7 @@ public class Constants
     
     //----- Elevator -----
     public final static int DEFAULT_ELEVATOR_BOTTOM_POSITION = 0;
-    public final static int DEFAULT_ELEVATOR_TOP_POSITION = 750;
+    public final static int DEFAULT_ELEVATOR_TOP_POSITION = 700;
     public final static int DEFAULT_ELEVATOR_FEED_POSITION = 400;
     public final static int DEFAULT_ELEVATOR_MIDDLE_POSTION = 150;
     
