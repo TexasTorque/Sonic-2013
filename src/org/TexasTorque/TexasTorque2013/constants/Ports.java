@@ -45,8 +45,8 @@ public class Ports
         public final static int LEFT_DRIVE_ENCODER_B_PORT = 6;
         public final static int ELEVATOR_ENCODER_A_PORT = 1;
         public final static int ELEVATOR_ENCODER_B_PORT = 2;
-        public final static int FRONT_SHOOTER_COUNTER_PORT = 3;
-        public final static int REAR_SHOOTER_COUNTER_PORT = 8;
+        public final static int FRONT_SHOOTER_COUNTER_PORT = 8;
+        public final static int REAR_SHOOTER_COUNTER_PORT = 3;
         public final static int LIGHTS_A_PORT = 11;
         public final static int LIGHTS_B_PORT = 12;
         public final static int LIGHTS_C_PORT = 13;
